@@ -11,17 +11,17 @@ tf.flags.DEFINE_boolean('experiment_mode', False, 'Experiment mode is equivalent
 
 tf.flags.DEFINE_string('base_path', '', 'The base path for codes and data.')
 # Note: all the following relative addresses should be relative to the base_path.
-tf.flags.DEFINE_string('dict_file_name', 'data/robust04-stats.txt', 'Relative address to the collection stats file.')
+tf.flags.DEFINE_string('dict_file_name', 'data/allen_vocab_lower_10/tokens.txt', 'Relative address to the collection stats file.')
 tf.flags.DEFINE_string('pre_trained_embedding_file_name', 'data/vectors.6B.100d.txt',
                        'Relative address to the pre-trained embedding file. default dim: 100.')
 
 tf.flags.DEFINE_string('log_path', 'tf-log/', 'TensorFlow logging directory.')
 tf.flags.DEFINE_string('model_path', 'model/', 'TensorFlow model directory.')
 tf.flags.DEFINE_string('result_path', 'results/', 'TensorFlow model directory.')
-tf.flags.DEFINE_string('run_name', '', 'A name for the run.')
+tf.flags.DEFINE_string('run_name', 'example-run', 'A name for the run.')
 
-tf.flags.DEFINE_integer('batch_size', 512, 'Batch size for training. default: 512.')
-tf.flags.DEFINE_integer('num_train_steps', 100000, 'Number of steps for training. default: 100000.')
+tf.flags.DEFINE_integer('batch_size', 10, 'Batch size for training. default: 512.')
+tf.flags.DEFINE_integer('num_train_steps', 10, 'Number of steps for training. default: 100000.')
 tf.flags.DEFINE_integer('num_valid_steps', 1000, 'Number of steps for training. default: 1000.')
 tf.flags.DEFINE_integer('emb_dim', 100, 'Embedding dimensionality for words. default: 100.')
 tf.flags.DEFINE_float('learning_rate', 0.0001, 'Learning rate for Adam Optimizer. default: 0.0001.')
@@ -39,7 +39,7 @@ tf.flags.DEFINE_integer('validate_every_n_steps', 10000,
 tf.flags.DEFINE_integer('save_snapshot_every_n_steps', 10000, 'Save the model every n steps. default: 10000.')
 
 tf.flags.DEFINE_integer('max_q_len', 10, 'Maximum query length. default: 10.')
-tf.flags.DEFINE_integer('max_doc_len', 1000, 'Maximum document length. default: 1000.')
+tf.flags.DEFINE_integer('max_doc_len', 128, 'Maximum document length. default: 1000.')
 tf.flags.DEFINE_integer('dict_min_freq', 20, 'minimum collection frequency of terms for dictionary. default: 20')
 
 FLAGS = tf.flags.FLAGS

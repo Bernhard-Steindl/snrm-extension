@@ -18,25 +18,22 @@ class Dictionary(object):
         self.id_to_term = ['UNKNOWN']
         self.term_to_id = {'UNKNOWN': 0}
 
-    def load_from_galago_dump(self, file_name, min_freq):
+    def load_from_galago_dump(self, file_name):
         """
         loading vocabulary terms from the output of Galago's 'dump_term_stats' function. For more information, visit
         https://sourceforge.net/p/lemur/wiki/Galago%20Functions/.
 
         Args:
             file_name: The file address of the Galago's dump output.
-            min_freq: Minimum term frequency for each valid term. Other terms are assumed to be 'UNKNOWN'.
         """
         id = 1
         with open(file_name) as f:
             for line in f:
-                term, freq, doc_freq = line.split('\t')
-                freq = int(freq)
-                if freq >= min_freq:
+                    term = line.rstrip('\n')
                     self.id_to_term.append(term)
                     self.term_to_id[term] = id
                     id += 1
-        print(str(id) + ' terms have been loaded to the dictionary with the minimum frequency of ' + str(min_freq))
+        print(str(id) + ' terms have been loaded to the dictionary')
 
     def size(self):
         return len(self.id_to_term)
@@ -49,4 +46,4 @@ class Dictionary(object):
 # just for test
 if __name__ == '__main__':
     dictionary = Dictionary()
-    dictionary.load_from_galago_dump('data/robust04-stats.txt', 20)
+    dictionary.load_from_galago_dump('data/allen_vocab_lower_10/tokens.txt')

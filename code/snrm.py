@@ -152,12 +152,12 @@ class SNRM(object):
                 biases_name (list): a list of str containing layer names for bias parameters.
         """
         weights = {}
-        weights_name = ['w' + str(i) for i in xrange(1, len(layer_sizes) - 1)] + ['w_out']
+        weights_name = ['w' + str(i) for i in range(1, len(layer_sizes) - 1)] + ['w_out']
 
         biases = {}
-        biases_name = ['b' + str(i) for i in xrange(1, len(layer_sizes) - 1)] + ['b_out']
+        biases_name = ['b' + str(i) for i in range(1, len(layer_sizes) - 1)] + ['b_out']
 
-        for i in xrange(len(layer_sizes) - 1):
+        for i in range(len(layer_sizes) - 1):
             with tf.name_scope(weights_name[i]):
                 weights[weights_name[i]] = \
                     tf.Variable(tf.random_normal([1, 5 if i==0 else 1, layer_sizes[i], layer_sizes[i + 1]],
@@ -185,7 +185,7 @@ class SNRM(object):
         else:
             term_to_id, id_to_term, we_matrix = util.load_word_embeddings(pre_trained_embedding_file_name, dim)
             init_matrix = np.random.random((dictionary.size(), dim))
-            for i in xrange(dictionary.size()):
+            for i in range(dictionary.size()):
                 if dictionary.id_to_term[i] in term_to_id:
                     tid = term_to_id[dictionary.id_to_term[i]]
                     init_matrix[i] = we_matrix[tid]
@@ -228,7 +228,7 @@ class SNRM(object):
         """
 
         layers = [input_layer]
-        for i in xrange(len(weights)):
+        for i in range(len(weights)):
             with tf.name_scope('layer_' + str(i + 1)):
                 # we did not use the biases.
                 layers.append(tf.nn.conv2d(layers[i],

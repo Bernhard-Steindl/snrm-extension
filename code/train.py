@@ -12,7 +12,11 @@ from dictionary import Dictionary
 from params import FLAGS
 from snrm import SNRM
 
-FORMAT = '%(asctime)-15s %(message)s'
+from nltk.tokenize import word_tokenize
+import nltk
+nltk.download('punkt') # Resource punkt not found. Please use the NLTK Downloader to obtain the resource
+
+FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
 logging.basicConfig(format=FORMAT, level=logging.DEBUG)
 
 # layer_size is a list containing the size of each layer. It can be set through the 'hiddein_x' arguments.
@@ -25,11 +29,12 @@ for i in [FLAGS.hidden_1, FLAGS.hidden_2, FLAGS.hidden_3, FLAGS.hidden_4, FLAGS.
 # Dictionary is a class containing terms and their IDs. The implemented class just load the terms from a Galago dump
 # file. If you are not using Galago, you have to implement your own reader. See the 'dictionary.py' file.
 dictionary = Dictionary()
-dictionary.load_from_galago_dump(FLAGS.base_path + FLAGS.dict_file_name, FLAGS.dict_min_freq)
+dictionary.load_from_galago_dump(FLAGS.base_path + FLAGS.dict_file_name)
 
 # The SNRM model.
 snrm = SNRM(dictionary=dictionary,
-            pre_trained_embedding_file_name=FLAGS.base_path + FLAGS.pre_trained_embedding_file_name,
+            # pre_trained_embedding_file_name=FLAGS.base_path + FLAGS.pre_trained_embedding_file_name,
+            pre_trained_embedding_file_name=None,
             batch_size=FLAGS.batch_size,
             max_q_len=FLAGS.max_q_len,
             max_doc_len=FLAGS.max_doc_len,
@@ -56,12 +61,54 @@ def generate_batch(batch_size, mode='train'):
             batch_label (list): a 2D list of float within the range of [0, 1] with size (batch_size * 1).
              Label shows the probability of doc1 being more relevant than doc2. This can simply be 0 or 1.
     """
-    raise Exception('the generate_batch method is not implemented.')
+
+   # logging.info('args: batch_size={}, mode={}'.format(batch_size, mode))
+
 
     batch_query = []
     batch_doc1 = []
     batch_doc2 = []
     batch_label = []
+
+    num_lines = 0
+    with open('data/training_data/triples.train.tsv', 'r') as f:
+        for line in f:
+            num_lines = num_lines + 1
+            if num_lines > batch_size:
+                break
+            line_components = line.rstrip('\n').split('\t')
+            query = line_components[0]
+            positive_passage = line_components[1]
+            negative_passage = line_components[2]
+           # logging.info('query={}, pos_passage={}, neg_passage={}'.format(query, positive_passage, negative_passage))
+            query_terms = word_tokenize(query)
+            pos_passage_terms = word_tokenize(positive_passage)
+            neg_passage_terms = word_tokenize(negative_passage)
+            query_term_ids = [ (dictionary.term_to_id[t] if t in dictionary.term_to_id 
+                    else dictionary.term_to_id['UNKNOWN']) 
+                    for t in query_terms]
+            pos_passage_term_ids = [ (dictionary.term_to_id[t] if t in dictionary.term_to_id 
+                    else dictionary.term_to_id['UNKNOWN']) 
+                    for t in pos_passage_terms]
+            neg_passage_term_ids = [ (dictionary.term_to_id[t] if t in dictionary.term_to_id 
+                    else dictionary.term_to_id['UNKNOWN']) 
+                    for t in neg_passage_terms]
+
+            query_term_ids.extend([0] * (FLAGS.max_q_len - len(query_term_ids)))
+            query_term_ids = query_term_ids[:FLAGS.max_q_len]
+            pos_passage_term_ids.extend([0] * (FLAGS.max_doc_len - len(pos_passage_term_ids)))
+            pos_passage_term_ids = pos_passage_term_ids[:FLAGS.max_doc_len]
+            neg_passage_term_ids.extend([0] * (FLAGS.max_doc_len - len(neg_passage_term_ids)))
+            neg_passage_term_ids = neg_passage_term_ids[:FLAGS.max_doc_len]
+
+            # logging.debug('query_term_ids={}'.format(repr(query_term_ids)))
+            # logging.debug('pos_passage_term_ids={}'.format(repr(pos_passage_term_ids)))
+            # logging.debug('neg_passage_term_ids={}'.format(repr(neg_passage_term_ids)))
+
+            batch_query.append(query_term_ids)
+            batch_doc1.append(pos_passage_term_ids)
+            batch_doc2.append(neg_passage_term_ids)
+            batch_label.append(1) # doc1 is better match for query than doc2
 
     return batch_query, batch_doc1, batch_doc2, batch_label
 
@@ -84,7 +131,8 @@ with tf.Session(graph=snrm.graph) as session:
     if not FLAGS.experiment_mode:
         num_steps = FLAGS.num_train_steps
         average_loss = 0
-        for step in xrange(num_steps):
+        for step in range(num_steps):
+            logging.info('training step {} of {}'.format(step, num_steps))
             query, doc1, doc2, labels = generate_batch(FLAGS.batch_size, 'train')
             labels = np.array(labels)
             labels = np.concatenate(
@@ -102,7 +150,7 @@ with tf.Session(graph=snrm.graph) as session:
             if step % FLAGS.validate_every_n_steps == 0:
                 valid_loss = 0.
                 valid_id = 0
-                for valid_step in xrange(FLAGS.num_valid_steps):
+                for valid_step in range(FLAGS.num_valid_steps):
                     query, doc1, doc2, labels = generate_batch(FLAGS.batch_size, 'valid')
                     labels = np.array(labels)
                     labels = np.concatenate(
