@@ -43,7 +43,9 @@ class SNRM(object):
             learning_rate (float): the learning rate for the adam optimizer.
         """
         self.dictionary = dictionary
-        self.pre_trained_embedding_file_name = pre_trained_embedding_file_name
+        # TODO should embedding file be None?
+        self.pre_trained_embedding_file_name = None
+        # self.pre_trained_embedding_file_name = pre_trained_embedding_file_name
         self.batch_size = batch_size
         self.max_q_len = max_q_len
         self.max_doc_len = max_doc_len

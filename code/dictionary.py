@@ -3,6 +3,7 @@ A dictionary class that contains vocabulary terms and their IDs.
 
 Authors: Hamed Zamani (zamani@cs.umass.edu)
 """
+from params import FLAGS
 
 class Dictionary(object):
     """
@@ -46,4 +47,4 @@ class Dictionary(object):
 # just for test
 if __name__ == '__main__':
     dictionary = Dictionary()
-    dictionary.load_from_galago_dump('data/allen_vocab_lower_10/tokens.txt')
+    dictionary.load_from_galago_dump(FLAGS.base_path + FLAGS.dict_file_name)

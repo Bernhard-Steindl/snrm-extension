@@ -14,7 +14,7 @@ from snrm import SNRM
 
 from nltk.tokenize import word_tokenize
 import nltk
-nltk.download('punkt') # Resource punkt not found. Please use the NLTK Downloader to obtain the resource
+nltk.download('punkt')  # Resource punkt not found. Please use the NLTK Downloader to obtain the resource
 
 FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
 logging.basicConfig(format=FORMAT, level=logging.DEBUG)
@@ -33,6 +33,7 @@ dictionary.load_from_galago_dump(FLAGS.base_path + FLAGS.dict_file_name)
 
 # The SNRM model.
 snrm = SNRM(dictionary=dictionary,
+            # TODO should pre_trained_embedding_file_name be None?
             # pre_trained_embedding_file_name=FLAGS.base_path + FLAGS.pre_trained_embedding_file_name,
             pre_trained_embedding_file_name=None,
             batch_size=FLAGS.batch_size,
@@ -62,7 +63,7 @@ def generate_batch(batch_size, mode='train'):
              Label shows the probability of doc1 being more relevant than doc2. This can simply be 0 or 1.
     """
 
-   # logging.info('args: batch_size={}, mode={}'.format(batch_size, mode))
+    # logging.info('args: batch_size={}, mode={}'.format(batch_size, mode))
 
 
     batch_query = []
@@ -80,19 +81,19 @@ def generate_batch(batch_size, mode='train'):
             query = line_components[0]
             positive_passage = line_components[1]
             negative_passage = line_components[2]
-           # logging.info('query={}, pos_passage={}, neg_passage={}'.format(query, positive_passage, negative_passage))
+            # logging.info('query={}, pos_passage={}, neg_passage={}'.format(query, positive_passage, negative_passage))
             query_terms = word_tokenize(query)
             pos_passage_terms = word_tokenize(positive_passage)
             neg_passage_terms = word_tokenize(negative_passage)
-            query_term_ids = [ (dictionary.term_to_id[t] if t in dictionary.term_to_id 
-                    else dictionary.term_to_id['UNKNOWN']) 
-                    for t in query_terms]
-            pos_passage_term_ids = [ (dictionary.term_to_id[t] if t in dictionary.term_to_id 
-                    else dictionary.term_to_id['UNKNOWN']) 
-                    for t in pos_passage_terms]
-            neg_passage_term_ids = [ (dictionary.term_to_id[t] if t in dictionary.term_to_id 
-                    else dictionary.term_to_id['UNKNOWN']) 
-                    for t in neg_passage_terms]
+            query_term_ids = [(dictionary.term_to_id[t] if t in dictionary.term_to_id
+                               else dictionary.term_to_id['UNKNOWN'])
+                              for t in query_terms]
+            pos_passage_term_ids = [(dictionary.term_to_id[t] if t in dictionary.term_to_id
+                                     else dictionary.term_to_id['UNKNOWN'])
+                                    for t in pos_passage_terms]
+            neg_passage_term_ids = [(dictionary.term_to_id[t] if t in dictionary.term_to_id
+                                     else dictionary.term_to_id['UNKNOWN'])
+                                    for t in neg_passage_terms]
 
             query_term_ids.extend([0] * (FLAGS.max_q_len - len(query_term_ids)))
             query_term_ids = query_term_ids[:FLAGS.max_q_len]
@@ -108,7 +109,7 @@ def generate_batch(batch_size, mode='train'):
             batch_query.append(query_term_ids)
             batch_doc1.append(pos_passage_term_ids)
             batch_doc2.append(neg_passage_term_ids)
-            batch_label.append(1) # doc1 is better match for query than doc2
+            batch_label.append(1)  # doc1 is better match for query than doc2
 
     return batch_query, batch_doc1, batch_doc2, batch_label
 
@@ -136,7 +137,7 @@ with tf.Session(graph=snrm.graph) as session:
             query, doc1, doc2, labels = generate_batch(FLAGS.batch_size, 'train')
             labels = np.array(labels)
             labels = np.concatenate(
-                [labels.reshape(FLAGS.batch_size, 1), 1.-labels.reshape(FLAGS.batch_size, 1)], axis=1)
+                [labels.reshape(FLAGS.batch_size, 1), 1. - labels.reshape(FLAGS.batch_size, 1)], axis=1)
             feed_dict = {snrm.query_pl: query,
                          snrm.doc1_pl: doc1,
                          snrm.doc2_pl: doc2,
