@@ -12,10 +12,10 @@ from inverted_index import InMemoryInvertedIndex
 from params import FLAGS
 from snrm import SNRM
 
-FORMAT = '%(asctime)-15s %(message)s'
+FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
 logging.basicConfig(format=FORMAT, level=logging.DEBUG)
 
-# layer_size is a list containing the size of each layer. It can be set through the 'hiddein_x' arguments.
+# layer_size is a list containing the size of each layer. It can be set through the 'hidden_x' arguments.
 layer_size = [FLAGS.emb_dim]
 for i in [FLAGS.hidden_1, FLAGS.hidden_2, FLAGS.hidden_3, FLAGS.hidden_4, FLAGS.hidden_5]:
     if i <= 0:
@@ -25,7 +25,7 @@ for i in [FLAGS.hidden_1, FLAGS.hidden_2, FLAGS.hidden_3, FLAGS.hidden_4, FLAGS.
 # Dictionary is a class containing terms and their IDs. The implemented class just load the terms from a Galago dump
 # file. If you are not using Galago, you have to implement your own reader. See the 'dictionary.py' file.
 dictionary = Dictionary()
-dictionary.load_from_galago_dump(FLAGS.base_path + FLAGS.dict_file_name, FLAGS.dict_min_freq)
+dictionary.load_from_galago_dump(FLAGS.base_path + FLAGS.dict_file_name)
 
 # The SNRM model.
 snrm = SNRM(dictionary=dictionary,
@@ -55,7 +55,8 @@ with tf.Session(graph=snrm.graph) as session:
     result = dict()
     for qid in queries:
         logging.info('processing query #' + qid + ': ' + queries[qid])
-        q_term_ids = dictionary.get_emb_list(queries[qid], delimiter=' ')
+        q_term_ids = dictionary.get_term_id_list(queries[qid]);
+
         query_repr = session.run(snrm.query_representation, feed_dict={snrm.test_query_pl: [q_term_ids]})
         retrieval_scores = dict()
 

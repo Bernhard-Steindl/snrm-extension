@@ -12,10 +12,6 @@ from inverted_index import InMemoryInvertedIndex
 from params import FLAGS
 from snrm import SNRM
 
-from nltk.tokenize import word_tokenize
-import nltk
-nltk.download('punkt')  # Resource punkt not found. Please use the NLTK Downloader to obtain the resource
-
 FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
 logging.basicConfig(format=FORMAT, level=logging.DEBUG)
 
@@ -71,11 +67,7 @@ def generate_batch(batch_size):
             passage_text = line_components[1]
             # logging.debug('passage_id={}, \t passage={}'.format(passage_id, passage_text))
 
-            passage_terms = word_tokenize(passage_text)
-            # logging.debug('passage_id={}, \t passage_terms len={}'.format(passage_id, len(passage_terms)))
-            passage_term_ids = [(dictionary.term_to_id[t] if t in dictionary.term_to_id
-                                 else dictionary.term_to_id['UNKNOWN'])
-                                for t in passage_terms]
+            passage_term_ids = dictionary.get_term_id_list(passage_text)
             passage_term_ids.extend([0] * (FLAGS.max_doc_len - len(passage_term_ids)))
             passage_term_ids = passage_term_ids[:FLAGS.max_doc_len]
 

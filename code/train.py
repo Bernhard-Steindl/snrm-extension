@@ -12,10 +12,6 @@ from dictionary import Dictionary
 from params import FLAGS
 from snrm import SNRM
 
-from nltk.tokenize import word_tokenize
-import nltk
-nltk.download('punkt')  # Resource punkt not found. Please use the NLTK Downloader to obtain the resource
-
 FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
 logging.basicConfig(format=FORMAT, level=logging.DEBUG)
 
@@ -82,18 +78,10 @@ def generate_batch(batch_size, mode='train'):
             positive_passage = line_components[1]
             negative_passage = line_components[2]
             # logging.info('query={}, pos_passage={}, neg_passage={}'.format(query, positive_passage, negative_passage))
-            query_terms = word_tokenize(query)
-            pos_passage_terms = word_tokenize(positive_passage)
-            neg_passage_terms = word_tokenize(negative_passage)
-            query_term_ids = [(dictionary.term_to_id[t] if t in dictionary.term_to_id
-                               else dictionary.term_to_id['UNKNOWN'])
-                              for t in query_terms]
-            pos_passage_term_ids = [(dictionary.term_to_id[t] if t in dictionary.term_to_id
-                                     else dictionary.term_to_id['UNKNOWN'])
-                                    for t in pos_passage_terms]
-            neg_passage_term_ids = [(dictionary.term_to_id[t] if t in dictionary.term_to_id
-                                     else dictionary.term_to_id['UNKNOWN'])
-                                    for t in neg_passage_terms]
+
+            query_term_ids = dictionary.get_term_id_list(query)
+            pos_passage_term_ids = dictionary.get_term_id_list(positive_passage)
+            neg_passage_term_ids = dictionary.get_term_id_list(negative_passage)
 
             query_term_ids.extend([0] * (FLAGS.max_q_len - len(query_term_ids)))
             query_term_ids = query_term_ids[:FLAGS.max_q_len]

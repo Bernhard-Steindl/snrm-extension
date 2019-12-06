@@ -5,6 +5,15 @@ Authors: Hamed Zamani (zamani@cs.umass.edu)
 """
 from params import FLAGS
 
+import logging
+
+from nltk.tokenize import word_tokenize
+import nltk
+nltk.download('punkt')  # Resource punkt not found. Please use the NLTK Downloader to obtain the resource
+
+FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
+logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+
 class Dictionary(object):
     """
     This class contains a list of vocabulary terms and their mappings to term ids. The ids are zero indexed. The index
@@ -30,10 +39,10 @@ class Dictionary(object):
         id = 1
         with open(file_name) as f:
             for line in f:
-                    term = line.rstrip('\n')
-                    self.id_to_term.append(term)
-                    self.term_to_id[term] = id
-                    id += 1
+                term = line.rstrip('\n')
+                self.id_to_term.append(term)
+                self.term_to_id[term] = id
+                id += 1
         print(str(id) + ' terms have been loaded to the dictionary')
 
     def size(self):
@@ -43,6 +52,20 @@ class Dictionary(object):
         words = str.strip().split(delimiter)
         return [(self.term_to_id[w] if w in self.term_to_id else self.term_to_id['UNKNOWN']) for w in words]
 
+    def get_term_id_list(self, text):
+        """
+        Returns a list of term ids from the tokenized text;
+
+        NLTK will be used for word tokenization
+        :param text: query or document text as string
+        :return: list of term ids (int) for each token in text
+        """
+        text_tokens = word_tokenize(text)
+        term_ids = [(self.term_to_id[t] if t in self.term_to_id
+                     else self.term_to_id['UNKNOWN'])
+                    for t in text_tokens]
+        # logging.debug('text_tokens={}, \t term_ids={}'.format(repr(text_tokens), repr(term_ids)))
+        return term_ids
 
 # just for test
 if __name__ == '__main__':
