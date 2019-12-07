@@ -86,6 +86,7 @@ with tf.Session(graph=snrm.graph) as session:
     snrm.saver.restore(session, FLAGS.base_path + FLAGS.model_path + FLAGS.run_name)  # restore all variables
     logging.info('Load model from {:s}'.format(FLAGS.base_path + FLAGS.model_path + FLAGS.run_name))
 
+    # TODO use for what?
     docs = []
     doc_names = []
     col_file = open(FLAGS.base_path + FLAGS.model_path + 'learned_robust.txt', 'wb')

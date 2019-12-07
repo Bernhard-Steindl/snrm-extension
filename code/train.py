@@ -162,6 +162,9 @@ with tf.Session(graph=snrm.graph) as session:
 
     else:
         print('Experiment Mode is ON!')
+        # TODO is this experimentation not the same as if we would call index_construction.py and retrieval.py sequentially?
+        # TODO is here anything to do necessarily?
+        #
         # inference should be done. You should implement it. It's easy. Please refer to the paper. You should just
         # construct the inverted index from the learned representations. Then the query should fed to the network and
         # the documents that contain the "query latent terms" should be scored and ranked. If you have any question,

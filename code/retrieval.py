@@ -6,6 +6,7 @@ Authors: Hamed Zamani (zamani@cs.umass.edu)
 
 import logging
 import tensorflow as tf
+import pickle as pkl
 
 from dictionary import Dictionary
 from inverted_index import InMemoryInvertedIndex
@@ -56,6 +57,8 @@ with tf.Session(graph=snrm.graph) as session:
     for qid in queries:
         logging.info('processing query #' + qid + ': ' + queries[qid])
         q_term_ids = dictionary.get_term_id_list(queries[qid]);
+        q_term_ids.extend([0] * (FLAGS.max_q_len - len(q_term_ids)))
+        q_term_ids = q_term_ids[:FLAGS.max_q_len]
 
         query_repr = session.run(snrm.query_representation, feed_dict={snrm.test_query_pl: [q_term_ids]})
         retrieval_scores = dict()
@@ -68,4 +71,4 @@ with tf.Session(graph=snrm.graph) as session:
                     retrieval_scores[did] += query_repr[0][i] * weight
 
         result[qid] = sorted(retrieval_scores.items(), key=lambda x: x[1])
-    pkl.dump(result, open(FLAGS.base_path + FLAGS.result_path + FLAGS.run_name + '-test-queries.pkl', 'rb'))
+    pkl.dump(result, open(FLAGS.base_path + FLAGS.result_path + FLAGS.run_name + '-test-queries.pkl', 'wb'))
