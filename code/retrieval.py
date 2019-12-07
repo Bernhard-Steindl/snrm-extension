@@ -7,6 +7,7 @@ Authors: Hamed Zamani (zamani@cs.umass.edu)
 import logging
 import tensorflow as tf
 import pickle as pkl
+import time
 
 from dictionary import Dictionary
 from inverted_index import InMemoryInvertedIndex
@@ -40,6 +41,39 @@ snrm = SNRM(dictionary=dictionary,
             regularization_term=FLAGS.regularization_term,
             learning_rate=FLAGS.learning_rate)
 
+def get_retrieval_queries():
+    """
+    Returns 
+    TODO doc
+    """
+    # TODO which qrel file and which query file should we use?
+    # queries.validation.tsv
+    # queries.dev.small.tsv
+    queries = dict()
+    with open('data/evaluation/queries.dev.small.tsv') as f:
+        for line in f:
+            line_components = line.rstrip('\n').split('\t')
+            qid = line_components[0]
+            query_text = line_components[1]
+            queries[qid] = query_text
+    return queries
+
+def write_retrieval_result_in_candidate_file(retrieval_result): 
+    """
+    Returns 
+    TODO doc
+    p_path_to_candidate_file (str): path to candidate file.
+        Candidate file should contain lines in the following format:
+            QUERYID\tPASSAGEID1\tRank
+
+    python msmarco_eval.py <path-to-qrels-file> <path-to-evaluation-candidate-file> 
+    """
+    current_timestamp_str = time.strftime("%Y-%m-%d_%H%M%S")
+    candidate_file_name = 'results/evaluation_candidate_' + current_timestamp_str
+    with open(candidate_file_name, 'w') as f:
+        for qid in retrieval_result.keys():
+            for rank, (doc_id, retrieval_score) in enumerate(retrieval_result[qid]):
+                f.write('{}\t{}\t{}\n'.format(qid, doc_id, rank+1))
 
 inverted_index = InMemoryInvertedIndex(layer_size[-1])
 inverted_index.load(FLAGS.base_path + FLAGS.model_path + FLAGS.run_name + '-inverted-index.pkl')
@@ -51,8 +85,8 @@ with tf.Session(graph=snrm.graph) as session:
     snrm.saver.restore(session, FLAGS.base_path + FLAGS.model_path + FLAGS.run_name)  # restore all variables
     logging.info('Load model from {:s}'.format(FLAGS.base_path + FLAGS.model_path + FLAGS.run_name))
 
-    queries = {'Q1': 'this is a sample query',
-               'Q2': 'another query for retrieval'}
+    queries = get_retrieval_queries()
+
     result = dict()
     for qid in queries:
         logging.info('processing query #' + qid + ': ' + queries[qid])
@@ -71,4 +105,10 @@ with tf.Session(graph=snrm.graph) as session:
                     retrieval_scores[did] += query_repr[0][i] * weight
 
         result[qid] = sorted(retrieval_scores.items(), key=lambda x: x[1])
+    
+    write_retrieval_result_in_candidate_file(result)
     pkl.dump(result, open(FLAGS.base_path + FLAGS.result_path + FLAGS.run_name + '-test-queries.pkl', 'wb'))
+
+
+
+
