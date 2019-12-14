@@ -22,7 +22,7 @@ tf.flags.DEFINE_string('dict_file_name', 'data/allen_vocab_lower_10/tokens.txt',
 tf.flags.DEFINE_string('pre_trained_embedding_file_name', 'data/embeddings/glove.6B.100d.txt',
                        'Relative address to the pre-trained embedding file. default dim: 100.')
 
-tf.flags.DEFINE_string('training_data_triples_file', 'data/training_data/triples.train.tsv', 
+tf.flags.DEFINE_string('training_data_triples_file', 'data/training_data/triples.train.small.tsv', 
     'training data with format of query\tpositive_passage\tnegative_passage')
 
 # TODO define validation_data_triples
