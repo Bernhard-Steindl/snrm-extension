@@ -8,9 +8,14 @@ Authors: Hamed Zamani (zamani@cs.umass.edu)
 
 import numpy as np
 import tensorflow as tf
+from params import FLAGS
 
 import util
 
+import logging
+
+FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
+logging.basicConfig(format=FORMAT, level=logging.DEBUG)
 
 class SNRM(object):
     """
@@ -44,8 +49,10 @@ class SNRM(object):
         """
         self.dictionary = dictionary
         # TODO should embedding file be None?
-        self.pre_trained_embedding_file_name = None
-        # self.pre_trained_embedding_file_name = pre_trained_embedding_file_name
+        
+        # self.pre_trained_embedding_file_name = None
+        self.pre_trained_embedding_file_name = FLAGS.pre_trained_embedding_file_name
+
         self.batch_size = batch_size
         self.max_q_len = max_q_len
         self.max_doc_len = max_doc_len
@@ -73,6 +80,8 @@ class SNRM(object):
             embeddings = tf.concat([
                 self.get_embedding_params(self.dictionary, self.emb_dim, self.pre_trained_embedding_file_name),
                 tf.constant(np.zeros([1, self.emb_dim]), dtype=tf.float32)], 0)
+
+            logging.info('obtained embeddings')
 
             # getting the embedding vectors for the query and the documents.
             emb_layer_q = self.get_embedding_layer_output(embeddings, self.emb_dim, 'emb_layer_query',

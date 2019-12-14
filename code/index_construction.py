@@ -56,7 +56,7 @@ def generate_batch(batch_size):
     batch_doc = []
 
     num_lines = 0
-    with open('data/document_collection/collection.tsv') as f:
+    with open(FLAGS.base_path + FLAGS.document_collection_file) as f:
         for line in f:
             num_lines = num_lines + 1
             if num_lines > batch_size:
@@ -89,8 +89,8 @@ with tf.Session(graph=snrm.graph) as session:
     # TODO use for what?
     docs = []
     doc_names = []
-    col_file = open(FLAGS.base_path + FLAGS.model_path + 'learned_robust.txt', 'wb')
-    doc_len_file = open(FLAGS.base_path + FLAGS.model_path + 'learned_robust_doc_len.txt', 'wb')
+    # col_file = open(FLAGS.base_path + FLAGS.model_path + 'learned_robust.txt', 'wb')
+    # doc_len_file = open(FLAGS.base_path + FLAGS.model_path + 'learned_robust_doc_len.txt', 'wb')
 
     # TODO why is here this loop? infinite loop?
     # TODO should batch_size here be the document collection size or a subset?

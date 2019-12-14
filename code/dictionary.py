@@ -43,7 +43,7 @@ class Dictionary(object):
                 self.id_to_term.append(term)
                 self.term_to_id[term] = id
                 id += 1
-        print(str(id) + ' terms have been loaded to the dictionary')
+        logging.info(str(id) + ' terms have been loaded to the dictionary')
 
     def size(self):
         return len(self.id_to_term)

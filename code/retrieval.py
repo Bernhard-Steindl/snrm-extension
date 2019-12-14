@@ -50,7 +50,7 @@ def get_retrieval_queries():
     # queries.validation.tsv
     # queries.dev.small.tsv
     queries = dict()
-    with open('data/evaluation/queries.dev.small.tsv') as f:
+    with open(FLAGS.base_path + FLAGS.evaluation_query_file) as f:
         for line in f:
             line_components = line.rstrip('\n').split('\t')
             qid = line_components[0]
@@ -67,13 +67,17 @@ def write_retrieval_result_in_candidate_file(retrieval_result):
             QUERYID\tPASSAGEID1\tRank
 
     python msmarco_eval.py <path-to-qrels-file> <path-to-evaluation-candidate-file> 
+    TODO adjust for TREC format
+    ./evaluation-tools/trec_eval/trec_eval /Users/bernhardsteindl/Development/python_workspace/bachelorarbeit/snrm-extension/data/evaluation/qrels.dev.small.tsv /Users/bernhardsteindl/Downloads/evaluation_candidate_2019-12-08_221238.txt
+
     """
     current_timestamp_str = time.strftime("%Y-%m-%d_%H%M%S")
-    candidate_file_name = 'results/evaluation_candidate_' + current_timestamp_str
+    candidate_file_name = FLAGS.base_path + FLAGS.evaluation_result_candidate_file_prefix + current_timestamp_str
     with open(candidate_file_name, 'w') as f:
         for qid in retrieval_result.keys():
             for rank, (doc_id, retrieval_score) in enumerate(retrieval_result[qid]):
-                f.write('{}\t{}\t{}\n'.format(qid, doc_id, rank+1))
+                logging.debug('qid={}\t\tdoc_id={}\tscore={}\trank={}'.format(qid,doc_id,retrieval_score, rank+1))
+                f.write('{0}\tQ0\t{1}\t{2}\t{3}\n'.format(qid, doc_id, rank+1, FLAGS.run_name))
 
 inverted_index = InMemoryInvertedIndex(layer_size[-1])
 inverted_index.load(FLAGS.base_path + FLAGS.model_path + FLAGS.run_name + '-inverted-index.pkl')
@@ -89,7 +93,7 @@ with tf.Session(graph=snrm.graph) as session:
 
     result = dict()
     for qid in queries:
-        logging.info('processing query #' + qid + ': ' + queries[qid])
+        # logging.info('processing query #' + qid + ': ' + queries[qid])
         q_term_ids = dictionary.get_term_id_list(queries[qid]);
         q_term_ids.extend([0] * (FLAGS.max_q_len - len(q_term_ids)))
         q_term_ids = q_term_ids[:FLAGS.max_q_len]
@@ -104,7 +108,7 @@ with tf.Session(graph=snrm.graph) as session:
                         retrieval_scores[did] = 0.
                     retrieval_scores[did] += query_repr[0][i] * weight
 
-        result[qid] = sorted(retrieval_scores.items(), key=lambda x: x[1])
+        result[qid] = sorted(retrieval_scores.items(), key=lambda x: x[1], reverse=True)
     
     write_retrieval_result_in_candidate_file(result)
     pkl.dump(result, open(FLAGS.base_path + FLAGS.result_path + FLAGS.run_name + '-test-queries.pkl', 'wb'))

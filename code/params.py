@@ -6,6 +6,11 @@ Authors: Hamed Zamani (zamani@cs.umass.edu)
 
 import random
 import tensorflow as tf
+import sys
+import logging
+
+FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
+logging.basicConfig(format=FORMAT, level=logging.DEBUG)
 
 # TODO is an experiment_mode necessary? see train.py
 tf.flags.DEFINE_boolean('experiment_mode', False, 'Experiment mode is equivalent to testing a pre-trained model.')
@@ -14,19 +19,35 @@ tf.flags.DEFINE_boolean('experiment_mode', False, 'Experiment mode is equivalent
 tf.flags.DEFINE_string('dict_file_name', 'data/allen_vocab_lower_10/tokens.txt', 'Relative address to the collection stats file.')
 
 # TODO where can we get an embedding file? do we need one?
-tf.flags.DEFINE_string('pre_trained_embedding_file_name', 'data/vectors.6B.100d.txt',
+tf.flags.DEFINE_string('pre_trained_embedding_file_name', 'data/embeddings/glove.6B.100d.txt',
                        'Relative address to the pre-trained embedding file. default dim: 100.')
+
+tf.flags.DEFINE_string('training_data_triples_file', 'data/training_data/triples.train.tsv', 
+    'training data with format of query\tpositive_passage\tnegative_passage')
+
+# TODO define validation_data_triples
+tf.flags.DEFINE_string('validation_data_triples_file', '', 
+    'validation data with format of query\tpositive_passage\tnegative_passage')
+
+tf.flags.DEFINE_string('evaluation_query_file', 'data/evaluation/queries.dev.small.tsv', 
+    'queries with format of query_id\tquery_text')
+
+tf.flags.DEFINE_string('evaluation_result_candidate_file_prefix', 'results/evaluation_candidate_', 
+    'file prefix to the retrieval evaluation candidate file used for evaluation with qrels')
+
+tf.flags.DEFINE_string('document_collection_file', 'data/document_collection/collection.tsv', 
+    'file path to document collection with format doc_id\tpositive_passage\tnegative_passage')
 
 # paths on file system
 tf.flags.DEFINE_string('base_path', '', 'The base path for codes and data.')
 tf.flags.DEFINE_string('log_path', 'tf-log/', 'TensorFlow logging directory.')
 tf.flags.DEFINE_string('model_path', 'model/', 'TensorFlow model directory.')
 tf.flags.DEFINE_string('result_path', 'results/', 'TensorFlow model directory.')
-tf.flags.DEFINE_string('run_name', 'example-run', 'A name for the run.')
+tf.flags.DEFINE_string('run_name', 'snrm-extension-example-run', 'A name for the run.')
 
 # TODO which parameter values should we set here?
-tf.flags.DEFINE_integer('batch_size', 10, 'Batch size for training. default: 512.')
-tf.flags.DEFINE_integer('num_train_steps', 10, 'Number of steps for training. default: 100000.')
+tf.flags.DEFINE_integer('batch_size', 128, 'Batch size for training. default: 512.')
+tf.flags.DEFINE_integer('num_train_steps', 10000, 'Number of steps for training. default: 100000.')
 tf.flags.DEFINE_integer('num_valid_steps', 1000, 'Number of steps for training. default: 1000.')
 tf.flags.DEFINE_integer('emb_dim', 100, 'Embedding dimensionality for words. default: 100.')
 tf.flags.DEFINE_float('learning_rate', 0.0001, 'Learning rate for Adam Optimizer. default: 0.0001.')
@@ -34,14 +55,14 @@ tf.flags.DEFINE_float('dropout_parameter', 1.0, 'Dropout parameter. default: 1.0
 tf.flags.DEFINE_float('regularization_term', 0.0001, 'Dropout parameter. default: 0.0001 (it is not a good value).')
 
 # TODO how to define hidden layer size?
-tf.flags.DEFINE_integer('hidden_1', 4, 'Size of the first hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_2', 4, 'Size of the second hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_3', 4, 'Size of the third hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_4', 4, 'Size of the third hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_5', 4, 'Size of the third hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_1', 80, 'Size of the first hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_2', 500, 'Size of the second hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_3', 5000, 'Size of the third hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_4', -1, 'Size of the third hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_5', -1, 'Size of the third hidden layer. Should be positive. default: -1.')
 
 # TODO determine values for these settings
-tf.flags.DEFINE_integer('validate_every_n_steps', 10000,
+tf.flags.DEFINE_integer('validate_every_n_steps', 20000,
                         'Print the average loss value on the validation set at every n steps. default: 10000.')
 tf.flags.DEFINE_integer('save_snapshot_every_n_steps', 10000, 'Save the model every n steps. default: 10000.')
 
@@ -60,6 +81,10 @@ FLAGS = tf.flags.FLAGS
 FLAGS._parse_flags()
 for attr, value in sorted(FLAGS.__flags.items()):
     print("{}={}".format(attr.upper(), value))
+print("")
+
+print("Running with TensorFlow version: {}\n".format(tf.__version__))
+print("Python System information: {}\n".format(sys.version))
 print("")
 
 if FLAGS.run_name == '':

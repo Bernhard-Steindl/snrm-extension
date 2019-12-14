@@ -61,14 +61,14 @@ def generate_batch(batch_size, mode='train'):
 
     # logging.info('args: batch_size={}, mode={}'.format(batch_size, mode))
 
-
+    # TODO handle mode = 'valid'
     batch_query = []
     batch_doc1 = []
     batch_doc2 = []
     batch_label = []
 
     num_lines = 0
-    with open('data/training_data/triples.train.tsv', 'r') as f:
+    with open(FLAGS.base_path + FLAGS.training_data_triples_file, 'r') as f:
         for line in f:
             num_lines = num_lines + 1
             if num_lines > batch_size:
@@ -114,7 +114,7 @@ with tf.Session(graph=snrm.graph) as session:
     if ckpt and ckpt.model_checkpoint_path:
         logging.info(ckpt.model_checkpoint_path)
         snrm.saver.restore(session, ckpt.model_checkpoint_path)  # restore all variables
-        logging.info('Load model from {:s}'.format(ckpt.model_checkpoint_path))
+        logging.info('Load model from model_checkpoint_path {:s}'.format(ckpt.model_checkpoint_path))
 
     # training
     if not FLAGS.experiment_mode:
@@ -136,6 +136,7 @@ with tf.Session(graph=snrm.graph) as session:
 
             writer.add_summary(summary, step)
 
+            # TODO this block
             if step % FLAGS.validate_every_n_steps == 0:
                 valid_loss = 0.
                 valid_id = 0
