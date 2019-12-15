@@ -52,8 +52,8 @@ def load_candidate_from_stream(f):
         try:
             l = l.strip().split('\t')
             qid = int(l[0])
-            pid = int(l[1])
-            rank = int(l[2])
+            pid = int(l[2])
+            rank = int(l[3])
             if qid in qid_to_ranked_candidate_passages:
                 pass    
             else:
