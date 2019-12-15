@@ -42,7 +42,8 @@ snrm = SNRM(dictionary=dictionary,
             learning_rate=FLAGS.learning_rate)
 
 
-def generate_batch(batch_size, mode='train'):
+
+def generate_batch(batch_size, mode='train', last_file_position = -1):
     """
         Generating pairwise training or validation data for each batch. This function should be implemented.
         Note: For unknown terms term ID should be set to zero. Please use the dictionary size for padding. In other
@@ -61,18 +62,28 @@ def generate_batch(batch_size, mode='train'):
 
     # logging.info('args: batch_size={}, mode={}'.format(batch_size, mode))
 
+    # TODO  what is meant with 'Please use the dictionary size for padding. In other words, padding value should be |V|+1, where |V| is the vocabulary size.'
+
     # TODO handle mode = 'valid'
     batch_query = []
     batch_doc1 = []
     batch_doc2 = []
     batch_label = []
 
-    num_lines = 0
-    with open(FLAGS.base_path + FLAGS.training_data_triples_file, 'r') as f:
-        for line in f:
-            num_lines = num_lines + 1
-            if num_lines > batch_size:
-                break
+    num_lines_per_batch = batch_size
+
+    with open(FLAGS.base_path + FLAGS.training_data_triples_file, 'r') as file:
+        if last_file_position == -1:
+            file.tell()
+        else:
+            file.seek(last_file_position)
+        
+        for relative_line_num in range(num_lines_per_batch):
+            line = file.readline()
+            # logging.debug('relative_line_num={}\n{}'.format(relative_line_num, line))
+            if line == '':
+                raise ValueError('Failed to generate batch, because file does not have enough lines left.')
+            
             line_components = line.rstrip('\n').split('\t')
             query = line_components[0]
             positive_passage = line_components[1]
@@ -98,8 +109,9 @@ def generate_batch(batch_size, mode='train'):
             batch_doc1.append(pos_passage_term_ids)
             batch_doc2.append(neg_passage_term_ids)
             batch_label.append(1)  # doc1 is better match for query than doc2
+        last_file_position = file.tell()
 
-    return batch_query, batch_doc1, batch_doc2, batch_label
+    return batch_query, batch_doc1, batch_doc2, batch_label, last_file_position
 
 
 writer = tf.summary.FileWriter(FLAGS.base_path + FLAGS.log_path + FLAGS.run_name, graph=snrm.graph)
@@ -120,9 +132,12 @@ with tf.Session(graph=snrm.graph) as session:
     if not FLAGS.experiment_mode:
         num_steps = FLAGS.num_train_steps
         average_loss = 0
+        last_file_position_training = -1
+        last_file_position_validation = -1
+
         for step in range(num_steps):
-            logging.info('training step {} of {}'.format(step, num_steps))
-            query, doc1, doc2, labels = generate_batch(FLAGS.batch_size, 'train')
+            logging.info('training step {} of {}'.format(step+1, num_steps))
+            query, doc1, doc2, labels, last_file_position_training = generate_batch(FLAGS.batch_size, 'train', last_file_position_training)
             labels = np.array(labels)
             labels = np.concatenate(
                 [labels.reshape(FLAGS.batch_size, 1), 1. - labels.reshape(FLAGS.batch_size, 1)], axis=1)
@@ -141,7 +156,7 @@ with tf.Session(graph=snrm.graph) as session:
                 valid_loss = 0.
                 valid_id = 0
                 for valid_step in range(FLAGS.num_valid_steps):
-                    query, doc1, doc2, labels = generate_batch(FLAGS.batch_size, 'valid')
+                    query, doc1, doc2, labels, last_file_position_validation = generate_batch(FLAGS.batch_size, 'valid', last_file_position_validation)
                     labels = np.array(labels)
                     labels = np.concatenate(
                         [labels.reshape(FLAGS.batch_size, 1), 1. - labels.reshape(FLAGS.batch_size, 1)], axis=1)

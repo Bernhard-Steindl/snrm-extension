@@ -94,7 +94,7 @@ with tf.Session(graph=snrm.graph) as session:
     result = dict()
     for qid in queries:
         # logging.info('processing query #' + qid + ': ' + queries[qid])
-        q_term_ids = dictionary.get_term_id_list(queries[qid]);
+        q_term_ids = dictionary.get_term_id_list(queries[qid])
         q_term_ids.extend([0] * (FLAGS.max_q_len - len(q_term_ids)))
         q_term_ids = q_term_ids[:FLAGS.max_q_len]
 
