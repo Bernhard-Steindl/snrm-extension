@@ -136,8 +136,8 @@ with tf.Session(graph=snrm.graph) as session:
 
             writer.add_summary(summary, step)
 
-            # TODO this block
-            if step % FLAGS.validate_every_n_steps == 0:
+            # TODO this block, remove condition 'and step > 0'
+            if step % FLAGS.validate_every_n_steps == 0 and step > 0:
                 valid_loss = 0.
                 valid_id = 0
                 for valid_step in range(FLAGS.num_valid_steps):

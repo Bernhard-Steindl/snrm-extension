@@ -76,8 +76,8 @@ def write_retrieval_result_in_candidate_file(retrieval_result):
     with open(candidate_file_name, 'w') as f:
         for qid in retrieval_result.keys():
             for rank, (doc_id, retrieval_score) in enumerate(retrieval_result[qid]):
-                logging.debug('qid={}\t\tdoc_id={}\tscore={}\trank={}'.format(qid,doc_id,retrieval_score, rank+1))
-                f.write('{0}\tQ0\t{1}\t{2}\t{3}\n'.format(qid, doc_id, rank+1, FLAGS.run_name))
+                # logging.debug('qid={}\t\tdoc_id={}\tscore={}\trank={}'.format(qid,doc_id,retrieval_score, rank+1))
+                f.write('{0}\tQ0\t{1}\t{2}\t{3}\t{4}\n'.format(qid, doc_id, rank+1, retrieval_score, FLAGS.run_name))
 
 inverted_index = InMemoryInvertedIndex(layer_size[-1])
 inverted_index.load(FLAGS.base_path + FLAGS.model_path + FLAGS.run_name + '-inverted-index.pkl')

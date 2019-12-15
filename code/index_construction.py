@@ -56,7 +56,7 @@ def generate_batch(batch_size):
     batch_doc = []
 
     num_lines = 0
-    with open(FLAGS.base_path + FLAGS.document_collection_file) as f:
+    with open(FLAGS.base_path + FLAGS.document_collection_file, 'r') as f:
         for line in f:
             num_lines = num_lines + 1
             if num_lines > batch_size:

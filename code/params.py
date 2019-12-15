@@ -46,8 +46,8 @@ tf.flags.DEFINE_string('result_path', 'results/', 'TensorFlow model directory.')
 tf.flags.DEFINE_string('run_name', 'snrm-extension-example-run', 'A name for the run.')
 
 # TODO which parameter values should we set here?
-tf.flags.DEFINE_integer('batch_size', 128, 'Batch size for training. default: 512.')
-tf.flags.DEFINE_integer('num_train_steps', 10000, 'Number of steps for training. default: 100000.')
+tf.flags.DEFINE_integer('batch_size', 64, 'Batch size for training. default: 512.')
+tf.flags.DEFINE_integer('num_train_steps', 1000, 'Number of steps for training. default: 100000.')
 tf.flags.DEFINE_integer('num_valid_steps', 1000, 'Number of steps for training. default: 1000.')
 tf.flags.DEFINE_integer('emb_dim', 100, 'Embedding dimensionality for words. default: 100.')
 tf.flags.DEFINE_float('learning_rate', 0.0001, 'Learning rate for Adam Optimizer. default: 0.0001.')
@@ -56,8 +56,8 @@ tf.flags.DEFINE_float('regularization_term', 0.0001, 'Dropout parameter. default
 
 # TODO how to define hidden layer size?
 tf.flags.DEFINE_integer('hidden_1', 80, 'Size of the first hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_2', 500, 'Size of the second hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_3', 5000, 'Size of the third hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_2', 1000, 'Size of the second hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_3', -1, 'Size of the third hidden layer. Should be positive. default: -1.')
 tf.flags.DEFINE_integer('hidden_4', -1, 'Size of the third hidden layer. Should be positive. default: -1.')
 tf.flags.DEFINE_integer('hidden_5', -1, 'Size of the third hidden layer. Should be positive. default: -1.')
 
