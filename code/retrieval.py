@@ -101,12 +101,17 @@ with tf.Session(graph=snrm.graph) as session:
         query_repr = session.run(snrm.query_representation, feed_dict={snrm.test_query_pl: [q_term_ids]})
         retrieval_scores = dict()
 
-        for i in range(len(query_repr[0])):
-            if query_repr[0][i] > 0.:
+        query_repr_v = query_repr[0]
+        
+        for i in range(len(query_repr_v)):
+            if query_repr_v[i] > 0.:
+                if not i in inverted_index.index:
+                    # TODO log or write something
+                    continue # no document is in this latent term dimension
                 for (did, weight) in inverted_index.index[i]:
                     if did not in retrieval_scores:
                         retrieval_scores[did] = 0.
-                    retrieval_scores[did] += query_repr[0][i] * weight
+                    retrieval_scores[did] += query_repr_v[i] * weight
 
         result[qid] = sorted(retrieval_scores.items(), key=lambda x: x[1], reverse=True)
     
