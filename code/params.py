@@ -49,6 +49,10 @@ tf.flags.DEFINE_string('run_name', 'snrm-extension-example-run', 'A name for the
 tf.flags.DEFINE_integer('batch_size', 64, 'Batch size for training. default: 512.')
 tf.flags.DEFINE_integer('num_train_steps', 1000, 'Number of steps for training. default: 100000.')
 tf.flags.DEFINE_integer('num_valid_steps', 1000, 'Number of steps for training. default: 1000.')
+
+tf.flags.DEFINE_integer('batch_size_documents', 500, 'Batch size of documents from the document collection for creating document representations at inverted index creation phase. default: 32.')
+tf.flags.DEFINE_integer('num_document_batches', 300, 'Number of batches of size `document_collection_batch_size` for creating document representations at inverted index creation phase. default: 276306.')
+
 tf.flags.DEFINE_integer('emb_dim', 100, 'Embedding dimensionality for words. default: 100.')
 tf.flags.DEFINE_float('learning_rate', 0.0001, 'Learning rate for Adam Optimizer. default: 0.0001.')
 tf.flags.DEFINE_float('dropout_parameter', 1.0, 'Dropout parameter. default: 1.0 (no dropout).')

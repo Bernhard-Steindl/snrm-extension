@@ -40,7 +40,7 @@ snrm = SNRM(dictionary=dictionary,
             learning_rate=FLAGS.learning_rate)
 
 
-def generate_batch(batch_size):
+def generate_batch(batch_size, last_file_position = -1):
     """
         Generating a batch of documents from the collection for making the inverted index. This function should iterate
         over all the documents (each once) to learn an inverted index.
@@ -50,17 +50,27 @@ def generate_batch(batch_size):
         Returns:
             batch_doc_id (list): a list of str containing document IDs.
             batch_doc (list): a 2D list of int containing document term IDs with size (batch_size * FLAGS.max_doc_len).
+
+        # TODO documentation 
     """
     # raise Exception('the generate_batch method is not implemented.')
     batch_doc_id = []
     batch_doc = []
 
-    num_lines = 0
-    with open(FLAGS.base_path + FLAGS.document_collection_file, 'r') as f:
-        for line in f:
-            num_lines = num_lines + 1
-            if num_lines > batch_size:
-                break
+    num_lines_per_batch = batch_size
+
+    with open(FLAGS.base_path + FLAGS.document_collection_file, 'r') as file:
+        if last_file_position == -1:
+            file.tell()
+        else:
+            file.seek(last_file_position)
+
+        for relative_line_num in range(num_lines_per_batch):
+            line = file.readline()
+            logging.debug('relative_line_num={}\n{}'.format(relative_line_num, line))
+            if line == '':
+                raise ValueError('Failed to generate batch, because file does not have enough lines left.')
+
             line_components = line.rstrip('\n').split('\t')
             # tsv: pid, passage
             passage_id = line_components[0]
@@ -75,7 +85,8 @@ def generate_batch(batch_size):
             batch_doc.append(passage_term_ids)
             # logging.debug('passage_id={}, \t passage_term_ids len={}'.format(passage_id, len(passage_term_ids)))
             # logging.debug('passage_id={}, \t passage_term_ids={}'.format(passage_id, repr(passage_term_ids)))
-    return batch_doc_id, batch_doc
+        last_file_position = file.tell()
+    return batch_doc_id, batch_doc, last_file_position
 
 
 inverted_index = InMemoryInvertedIndex(layer_size[-1])
@@ -103,9 +114,17 @@ with tf.Session(graph=snrm.graph) as session:
     #     #     except Exception as ex:
     #     #         break
 
-    doc_ids, docs = generate_batch(FLAGS.batch_size)
-    doc_repr = session.run(snrm.doc_representation, feed_dict={snrm.doc_pl: docs})
-    inverted_index.add(doc_ids, doc_repr)
+
+    last_doc_collection_file_position = -1
+
+    for batch_num in range(FLAGS.num_document_batches):
+        logging.debug('generating document representation batch_num={} \t num_document_batches={}'.format(batch_num+1, FLAGS.num_document_batches))
+        try:
+            doc_ids, docs, last_doc_collection_file_position = generate_batch(FLAGS.batch_size_documents, last_doc_collection_file_position)
+            doc_repr = session.run(snrm.doc_representation, feed_dict={snrm.doc_pl: docs})
+            inverted_index.add(doc_ids, doc_repr)
+        except Exception as ex:
+            break
 
     # for i in range(len(doc_ids)):
     #  logging.debug('adds doc_repr to index\tdoc_id={},\tdoc_repr=\n{}'.format(str(doc_ids[i]), repr(doc_repr[i])))

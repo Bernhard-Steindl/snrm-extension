@@ -70,6 +70,9 @@ def generate_batch(batch_size, mode='train', last_file_position = -1):
     batch_doc2 = []
     batch_label = []
 
+    # TODO padding value 0 -> |V| + 1
+    # TODO ersten 1000 zeilen aus train tuples für validation nutzen
+
     num_lines_per_batch = batch_size
 
     with open(FLAGS.base_path + FLAGS.training_data_triples_file, 'r') as file:
