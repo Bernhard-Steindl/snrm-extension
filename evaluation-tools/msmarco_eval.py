@@ -8,7 +8,6 @@ Last Modified : 1/21/2019
 Authors : Daniel Campos <dacamp@microsoft.com>, Rutger van Haasteren <ruvanh@microsoft.com>
 """
 import sys
-import statistics
 
 from collections import Counter
 
