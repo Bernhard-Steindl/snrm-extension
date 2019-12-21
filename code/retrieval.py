@@ -98,6 +98,7 @@ with tf.Session(graph=snrm.graph) as session:
         q_term_ids.extend([0] * (FLAGS.max_q_len - len(q_term_ids)))
         q_term_ids = q_term_ids[:FLAGS.max_q_len]
 
+        # logging.debug('retrieving document scores for query qid={}'.format(qid))
         query_repr = session.run(snrm.query_representation, feed_dict={snrm.test_query_pl: [q_term_ids]})
         retrieval_scores = dict()
 
@@ -106,6 +107,7 @@ with tf.Session(graph=snrm.graph) as session:
         for i in range(len(query_repr_v)):
             if query_repr_v[i] > 0.:
                 if not i in inverted_index.index:
+                    # logging.debug('A latent term dimension (dim={}) of a query (qid={}) has no assigned documents in index'.format(i, qid))
                     # TODO log or write something
                     continue # no document is in this latent term dimension
                 for (did, weight) in inverted_index.index[i]:

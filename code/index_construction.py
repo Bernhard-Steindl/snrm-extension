@@ -67,7 +67,7 @@ def generate_batch(batch_size, last_file_position = -1):
 
         for relative_line_num in range(num_lines_per_batch):
             line = file.readline()
-            logging.debug('relative_line_num={}\n{}'.format(relative_line_num, line))
+            # logging.debug('relative_line_num={}\n{}'.format(relative_line_num, line))
             if line == '':
                 raise ValueError('Failed to generate batch, because file does not have enough lines left.')
 
@@ -118,7 +118,7 @@ with tf.Session(graph=snrm.graph) as session:
     last_doc_collection_file_position = -1
 
     for batch_num in range(FLAGS.num_document_batches):
-        logging.debug('generating document representation batch_num={} \t num_document_batches={}'.format(batch_num+1, FLAGS.num_document_batches))
+        # logging.debug('generating document representation batch_num={} \t num_document_batches={}'.format(batch_num+1, FLAGS.num_document_batches))
         try:
             doc_ids, docs, last_doc_collection_file_position = generate_batch(FLAGS.batch_size_documents, last_doc_collection_file_position)
             doc_repr = session.run(snrm.doc_representation, feed_dict={snrm.doc_pl: docs})
