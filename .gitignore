@@ -1,2 +1,7 @@
 code/__pycache__
 tf-log
+results/evaluation_candidate_*
+results/retrieval_results_presentation_*
+results/analyze_qrel_*
+data/embeddings/glove.42B.300d.txt
+data/embeddings/glove.6B.100d.txt

@@ -38,7 +38,7 @@ tf.flags.DEFINE_string('evaluation_result_candidate_file_prefix', 'results/evalu
 tf.flags.DEFINE_string('document_collection_file', 'data/document_collection/collection.tsv', 
     'file path to document collection with format doc_id\tpositive_passage\tnegative_passage')
 
-tf.flags.DEFINE_string('num_retrieval_documents_per_query', '100', 
+tf.flags.DEFINE_integer('num_retrieval_documents_per_query', 100, 
     'number of retrieved documents that should be considered for evaluation for a query')
 
 # paths on file system
@@ -55,6 +55,8 @@ tf.flags.DEFINE_integer('num_valid_steps', 1000, 'Number of steps for training. 
 
 tf.flags.DEFINE_integer('batch_size_documents', 500, 'Batch size of documents from the document collection for creating document representations at inverted index creation phase. default: 32.')
 tf.flags.DEFINE_integer('num_document_batches', 300, 'Number of batches of size `document_collection_batch_size` for creating document representations at inverted index creation phase. default: 276306.')
+
+tf.flags.DEFINE_integer('num_evaluation_queries', 10, 'Number of queries to be used for retrieval from evaluation_query_file. default: 6000.')
 
 tf.flags.DEFINE_integer('emb_dim', 100, 'Embedding dimensionality for words. default: 100.')
 tf.flags.DEFINE_float('learning_rate', 0.0001, 'Learning rate for Adam Optimizer. default: 0.0001.')

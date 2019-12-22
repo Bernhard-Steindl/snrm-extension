@@ -74,7 +74,7 @@ with tf.Session(graph=snrm.graph) as session:
     num_queries_processed = 0
 
     current_timestamp_str = time.strftime("%Y-%m-%d_%H%M%S")
-    candidate_file_name = FLAGS.base_path + FLAGS.evaluation_result_candidate_file_prefix + current_timestamp_str
+    candidate_file_name = FLAGS.base_path + FLAGS.evaluation_result_candidate_file_prefix + current_timestamp_str + '.txt'
     max_retrieval_docs = int(FLAGS.num_retrieval_documents_per_query) # we are only interested in the top k document for a query
 
     with open(candidate_file_name, 'w') as evaluationCandidateFile:
@@ -111,6 +111,9 @@ with tf.Session(graph=snrm.graph) as session:
                 evaluationCandidateFile.write('{0}\tQ0\t{1}\t{2}\t{3}\t{4}\n'.format(qid, doc_id, rank+1, retrieval_score, FLAGS.run_name))
 
             num_queries_processed += 1
+            if num_queries_processed == int(FLAGS.num_evaluation_queries):
+                logging.info('stopping retrieval after processing {} queries of {} '.format(num_queries_processed, num_queries))
+                break
 
 
 

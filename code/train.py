@@ -74,6 +74,9 @@ def generate_batch(batch_size, mode='train', last_file_position = -1):
     # TODO ersten 1000 zeilen aus train tuples für validation nutzen
 
     num_lines_per_batch = batch_size
+    
+    padding_value = len(dictionary.id_to_term) # dictionary size |V| inclusive term 'UNKNOWN'
+    # logging.info('using padding_value={}'.format(padding_value))
 
     with open(FLAGS.base_path + FLAGS.training_data_triples_file, 'r') as file:
         if last_file_position == -1:
@@ -97,11 +100,11 @@ def generate_batch(batch_size, mode='train', last_file_position = -1):
             pos_passage_term_ids = dictionary.get_term_id_list(positive_passage)
             neg_passage_term_ids = dictionary.get_term_id_list(negative_passage)
 
-            query_term_ids.extend([0] * (FLAGS.max_q_len - len(query_term_ids)))
+            query_term_ids.extend([padding_value] * (FLAGS.max_q_len - len(query_term_ids)))
             query_term_ids = query_term_ids[:FLAGS.max_q_len]
-            pos_passage_term_ids.extend([0] * (FLAGS.max_doc_len - len(pos_passage_term_ids)))
+            pos_passage_term_ids.extend([padding_value] * (FLAGS.max_doc_len - len(pos_passage_term_ids)))
             pos_passage_term_ids = pos_passage_term_ids[:FLAGS.max_doc_len]
-            neg_passage_term_ids.extend([0] * (FLAGS.max_doc_len - len(neg_passage_term_ids)))
+            neg_passage_term_ids.extend([padding_value] * (FLAGS.max_doc_len - len(neg_passage_term_ids)))
             neg_passage_term_ids = neg_passage_term_ids[:FLAGS.max_doc_len]
 
             # logging.debug('query_term_ids={}'.format(repr(query_term_ids)))
@@ -139,7 +142,8 @@ with tf.Session(graph=snrm.graph) as session:
         last_file_position_validation = -1
 
         for step in range(num_steps):
-            logging.info('training step {} of {}'.format(step+1, num_steps))
+            if step % 50 == 0:
+                logging.info('training step {} of {}'.format(step+1, num_steps))
             query, doc1, doc2, labels, last_file_position_training = generate_batch(FLAGS.batch_size, 'train', last_file_position_training)
             labels = np.array(labels)
             labels = np.concatenate(
