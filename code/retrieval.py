@@ -58,26 +58,6 @@ def get_retrieval_queries():
             queries[qid] = query_text
     return queries
 
-def write_retrieval_result_in_candidate_file(retrieval_result): 
-    """
-    Returns 
-    TODO doc
-    p_path_to_candidate_file (str): path to candidate file.
-        Candidate file should contain lines in the following format:
-            QUERYID\tPASSAGEID1\tRank
-
-    python msmarco_eval.py <path-to-qrels-file> <path-to-evaluation-candidate-file> 
-    TODO adjust for TREC format
-    ./evaluation-tools/trec_eval/trec_eval /Users/bernhardsteindl/Development/python_workspace/bachelorarbeit/snrm-extension/data/evaluation/qrels.dev.small.tsv /Users/bernhardsteindl/Downloads/evaluation_candidate_2019-12-08_221238.txt
-
-    """
-    current_timestamp_str = time.strftime("%Y-%m-%d_%H%M%S")
-    candidate_file_name = FLAGS.base_path + FLAGS.evaluation_result_candidate_file_prefix + current_timestamp_str
-    with open(candidate_file_name, 'w') as f:
-        for qid in retrieval_result.keys():
-            for rank, (doc_id, retrieval_score) in enumerate(retrieval_result[qid]):
-                # logging.debug('qid={}\t\tdoc_id={}\tscore={}\trank={}'.format(qid,doc_id,retrieval_score, rank+1))
-                f.write('{0}\tQ0\t{1}\t{2}\t{3}\t{4}\n'.format(qid, doc_id, rank+1, retrieval_score, FLAGS.run_name))
 
 inverted_index = InMemoryInvertedIndex(layer_size[-1])
 inverted_index.load(FLAGS.base_path + FLAGS.model_path + FLAGS.run_name + '-inverted-index.pkl')
@@ -90,35 +70,47 @@ with tf.Session(graph=snrm.graph) as session:
     logging.info('Load model from {:s}'.format(FLAGS.base_path + FLAGS.model_path + FLAGS.run_name))
 
     queries = get_retrieval_queries()
+    num_queries = len(queries.keys())
+    num_queries_processed = 0
 
-    result = dict()
-    for qid in queries:
-        # logging.info('processing query #' + qid + ': ' + queries[qid])
-        q_term_ids = dictionary.get_term_id_list(queries[qid])
-        q_term_ids.extend([0] * (FLAGS.max_q_len - len(q_term_ids)))
-        q_term_ids = q_term_ids[:FLAGS.max_q_len]
+    current_timestamp_str = time.strftime("%Y-%m-%d_%H%M%S")
+    candidate_file_name = FLAGS.base_path + FLAGS.evaluation_result_candidate_file_prefix + current_timestamp_str
+    max_retrieval_docs = int(FLAGS.num_retrieval_documents_per_query) # we are only interested in the top k document for a query
 
-        # logging.debug('retrieving document scores for query qid={}'.format(qid))
-        query_repr = session.run(snrm.query_representation, feed_dict={snrm.test_query_pl: [q_term_ids]})
-        retrieval_scores = dict()
+    with open(candidate_file_name, 'w') as evaluationCandidateFile:
+        logging.info('created and writing evaluation candidate file {}'.format(candidate_file_name))
+        for qid in queries:
+            if num_queries_processed % 100 == 0:
+                logging.debug('processed {} queries of {} '.format(num_queries_processed+1, num_queries))
+            q_term_ids = dictionary.get_term_id_list(queries[qid])
+            q_term_ids.extend([0] * (FLAGS.max_q_len - len(q_term_ids)))
+            q_term_ids = q_term_ids[:FLAGS.max_q_len]
 
-        query_repr_v = query_repr[0]
-        
-        for i in range(len(query_repr_v)):
-            if query_repr_v[i] > 0.:
-                if not i in inverted_index.index:
-                    # logging.debug('A latent term dimension (dim={}) of a query (qid={}) has no assigned documents in index'.format(i, qid))
-                    # TODO log or write something
-                    continue # no document is in this latent term dimension
-                for (did, weight) in inverted_index.index[i]:
-                    if did not in retrieval_scores:
-                        retrieval_scores[did] = 0.
-                    retrieval_scores[did] += query_repr_v[i] * weight
+            # logging.debug('retrieving document scores for query qid={}'.format(qid))
+            query_repr = session.run(snrm.query_representation, feed_dict={snrm.test_query_pl: [q_term_ids]})
+            retrieval_scores = dict()
+            query_repr_v = query_repr[0]
 
-        result[qid] = sorted(retrieval_scores.items(), key=lambda x: x[1], reverse=True)
-    
-    write_retrieval_result_in_candidate_file(result)
-    pkl.dump(result, open(FLAGS.base_path + FLAGS.result_path + FLAGS.run_name + '-test-queries.pkl', 'wb'))
+            for i in range(len(query_repr_v)):
+                if query_repr_v[i] > 0.:
+                    if not i in inverted_index.index:
+                        # logging.debug('A latent term dimension (dim={}) of a query (qid={}) has no assigned documents in index'.format(i, qid))
+                        # TODO log or write something
+                        continue # no document is in this latent term dimension
+                    for (did, weight) in inverted_index.index[i]:
+                        if did not in retrieval_scores:
+                            retrieval_scores[did] = 0.
+                        retrieval_scores[did] += query_repr_v[i] * weight
+
+            retrieval_result_for_qid = sorted(retrieval_scores.items(), key=lambda x: x[1], reverse=True)
+            retrieval_result_for_qid = retrieval_result_for_qid[:max_retrieval_docs]
+
+            # writing retrieval result to candidate file
+            for rank, (doc_id, retrieval_score) in enumerate(retrieval_result_for_qid):
+                # logging.debug('qid={}\t\tdoc_id={}\tscore={}\trank={}'.format(qid,doc_id,retrieval_score, rank+1))
+                evaluationCandidateFile.write('{0}\tQ0\t{1}\t{2}\t{3}\t{4}\n'.format(qid, doc_id, rank+1, retrieval_score, FLAGS.run_name))
+
+            num_queries_processed += 1
 
 
 

@@ -38,6 +38,9 @@ tf.flags.DEFINE_string('evaluation_result_candidate_file_prefix', 'results/evalu
 tf.flags.DEFINE_string('document_collection_file', 'data/document_collection/collection.tsv', 
     'file path to document collection with format doc_id\tpositive_passage\tnegative_passage')
 
+tf.flags.DEFINE_string('num_retrieval_documents_per_query', '100', 
+    'number of retrieved documents that should be considered for evaluation for a query')
+
 # paths on file system
 tf.flags.DEFINE_string('base_path', '', 'The base path for codes and data.')
 tf.flags.DEFINE_string('log_path', 'tf-log/', 'TensorFlow logging directory.')
