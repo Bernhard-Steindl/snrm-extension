@@ -105,6 +105,9 @@ with tf.Session(graph=snrm.graph) as session:
             retrieval_result_for_qid = sorted(retrieval_scores.items(), key=lambda x: x[1], reverse=True)
             retrieval_result_for_qid = retrieval_result_for_qid[:max_retrieval_docs]
 
+            if len(retrieval_result_for_qid) == 0:
+                logging.warn('Could not retrieve any relevant document for query qid={}'.format(qid))
+
             # writing retrieval result to candidate file
             for rank, (doc_id, retrieval_score) in enumerate(retrieval_result_for_qid):
                 # logging.debug('qid={}\t\tdoc_id={}\tscore={}\trank={}'.format(qid,doc_id,retrieval_score, rank+1))
