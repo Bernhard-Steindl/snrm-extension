@@ -10,7 +10,7 @@ import pickle as pkl
 import time
 
 from dictionary import Dictionary
-from inverted_index import InMemoryInvertedIndex
+from inverted_index import MemMappedInvertedIndex
 from params import FLAGS
 from snrm import SNRM
 
@@ -59,8 +59,8 @@ def get_retrieval_queries():
     return queries
 
 
-inverted_index = InMemoryInvertedIndex(layer_size[-1])
-inverted_index.load(FLAGS.base_path + FLAGS.model_path + FLAGS.run_name + '-inverted-index.pkl')
+inverted_index = MemMappedInvertedIndex(layer_size[-1])
+inverted_index.load()
 
 with tf.Session(graph=snrm.graph) as session:
     session.run(snrm.init)
@@ -97,10 +97,12 @@ with tf.Session(graph=snrm.graph) as session:
                         # logging.debug('A latent term dimension (dim={}) of a query (qid={}) has no assigned documents in index'.format(i, qid))
                         # TODO log or write something
                         continue # no document is in this latent term dimension
-                    for (did, weight) in inverted_index.index[i]:
-                        if did not in retrieval_scores:
-                            retrieval_scores[did] = 0.
-                        retrieval_scores[did] += query_repr_v[i] * weight
+                    for doc_id in inverted_index.index[i]: # for every doc in the current latent term dimension
+                        if doc_id not in retrieval_scores:
+                            retrieval_scores[doc_id] = 0.
+                        doc_representation_v = inverted_index.get_doc_representation(doc_id)
+                        weight = doc_representation_v[i]
+                        retrieval_scores[doc_id] += query_repr_v[i] * weight
 
             retrieval_result_for_qid = sorted(retrieval_scores.items(), key=lambda x: x[1], reverse=True)
             retrieval_result_for_qid = retrieval_result_for_qid[:max_retrieval_docs]

@@ -8,7 +8,7 @@ import logging
 import tensorflow as tf
 
 from dictionary import Dictionary
-from inverted_index import InMemoryInvertedIndex
+from inverted_index import MemMappedInvertedIndex
 from params import FLAGS
 from snrm import SNRM
 
@@ -88,8 +88,9 @@ def generate_batch(batch_size, last_file_position = -1):
         last_file_position = file.tell()
     return batch_doc_id, batch_doc, last_file_position
 
+inverted_index = MemMappedInvertedIndex(layer_size[-1])
+inverted_index.create()
 
-inverted_index = InMemoryInvertedIndex(layer_size[-1])
 with tf.Session(graph=snrm.graph) as session:
     session.run(snrm.init)
     print('Initialized')
@@ -118,15 +119,17 @@ with tf.Session(graph=snrm.graph) as session:
     last_doc_collection_file_position = -1
 
     for batch_num in range(FLAGS.num_document_batches):
-        # logging.debug('generating document representation batch_num={} \t num_document_batches={}'.format(batch_num+1, FLAGS.num_document_batches))
+        if batch_num % 50 == 0:
+            logging.debug('generating document representation batch_num={} \t num_document_batches={}'.format(batch_num+1, FLAGS.num_document_batches))
         try:
             doc_ids, docs, last_doc_collection_file_position = generate_batch(FLAGS.batch_size_documents, last_doc_collection_file_position)
             doc_repr = session.run(snrm.doc_representation, feed_dict={snrm.doc_pl: docs})
             inverted_index.add(doc_ids, doc_repr)
         except Exception as ex:
+            print(ex)
             break
 
     # for i in range(len(doc_ids)):
     #  logging.debug('adds doc_repr to index\tdoc_id={},\tdoc_repr=\n{}'.format(str(doc_ids[i]), repr(doc_repr[i])))
 
-    inverted_index.store(FLAGS.base_path + FLAGS.model_path + FLAGS.run_name + '-inverted-index.pkl')
+    inverted_index.store()

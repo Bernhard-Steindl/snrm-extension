@@ -46,7 +46,8 @@ tf.flags.DEFINE_string('base_path', '', 'The base path for codes and data.')
 tf.flags.DEFINE_string('log_path', 'tf-log/', 'TensorFlow logging directory.')
 tf.flags.DEFINE_string('model_path', 'model/', 'TensorFlow model directory.')
 tf.flags.DEFINE_string('result_path', 'results/', 'TensorFlow model directory.')
-tf.flags.DEFINE_string('run_name', 'snrm-extension-example-run', 'A name for the run.')
+tf.flags.DEFINE_string('index_path', 'index/', 'Directory of index construction artefacts.')
+tf.flags.DEFINE_string('run_name', 'snrm-extension-example-run-local-1', 'A name for the run.')
 
 # TODO which parameter values should we set here?
 tf.flags.DEFINE_integer('batch_size', 64, 'Batch size for training. default: 512.')
