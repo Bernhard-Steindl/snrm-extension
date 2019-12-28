@@ -16,7 +16,7 @@ logging.basicConfig(format=FORMAT, level=logging.DEBUG)
 tf.flags.DEFINE_boolean('experiment_mode', False, 'Experiment mode is equivalent to testing a pre-trained model.')
 
 # Note: all the following relative addresses should be relative to the base_path.
-tf.flags.DEFINE_string('dict_file_name', 'data/allen_vocab_lower_10/tokens.txt', 'Relative address to the collection stats file.')
+tf.flags.DEFINE_string('dict_file_name', 'data/tokens/tokens_lowered_2019-12-28_001150_min_10.txt', 'Relative address to the collection stats file.')
 
 # TODO where can we get an embedding file? do we need one?
 tf.flags.DEFINE_string('pre_trained_embedding_file_name', 'data/embeddings/glove.6B.100d.txt',

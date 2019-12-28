@@ -6,6 +6,7 @@ Authors: Hamed Zamani (zamani@cs.umass.edu)
 from params import FLAGS
 
 import logging
+import numpy as np
 
 from nltk.tokenize import word_tokenize
 import nltk
@@ -60,11 +61,22 @@ class Dictionary(object):
         :param text: query or document text as string
         :return: list of term ids (int) for each token in text
         """
-        text_tokens = word_tokenize(text)
+        text_tokens = word_tokenize(text.lower())
+        
         term_ids = [(self.term_to_id[t] if t in self.term_to_id
                      else self.term_to_id['UNKNOWN'])
                     for t in text_tokens]
         # logging.debug('text_tokens={}, \t term_ids={}'.format(repr(text_tokens), repr(term_ids)))
+
+        # unknown_terms = set([t for t in text_tokens if t not in self.term_to_id])
+        # logging.debug('unknown terms: {}'.format(repr(unknown_terms)))
+
+        # num_non_zero =  np.count_nonzero(term_ids)
+        # num_zero = len(text_tokens) - num_non_zero
+        # ratio_known_tokens = num_non_zero / len(text_tokens)
+        # logging.debug('word_tokenization of "{}" / len(text_tokens)={} / len(term_ids)={} / len(term_ids_without_unknown)={} / ratio_known_tokens={}'
+        #    .format(text, str(len(text_tokens)), str(len(term_ids)), str(num_non_zero), str(ratio_known_tokens)))
+        # logging.debug('ratio_known_tokens={}'.format(str( round(ratio_known_tokens, 4))))
         return term_ids
 
 # just for test
