@@ -75,7 +75,7 @@ def generate_batch(batch_size, mode='train', last_file_position = -1):
 
     num_lines_per_batch = batch_size
     
-    padding_value = len(dictionary.id_to_term) # dictionary size |V| inclusive term 'UNKNOWN'
+    padding_value = dictionary.size() # dictionary size |V| inclusive term 'UNKNOWN'
     # logging.info('using padding_value={}'.format(padding_value))
 
     with open(FLAGS.base_path + FLAGS.training_data_triples_file, 'r') as file:
@@ -160,6 +160,7 @@ with tf.Session(graph=snrm.graph) as session:
 
             # TODO this block, remove condition 'and step > 0'
             if step % FLAGS.validate_every_n_steps == 0 and step > 0:
+                logging.info('Validating model at step {}'.format(step))
                 valid_loss = 0.
                 valid_id = 0
                 for valid_step in range(FLAGS.num_valid_steps):
@@ -174,14 +175,14 @@ with tf.Session(graph=snrm.graph) as session:
                     loss_val = session.run(snrm.loss, feed_dict=feed_dict)
                     valid_loss += loss_val
                 valid_loss /= FLAGS.num_valid_steps
-                print('Average loss on validation set at step ', step, ': ', valid_loss)
+                logging.info('Average loss on validation set at step {}: {}'.format(str(step), str(valid_loss)))
 
             if step > 0 and step % FLAGS.save_snapshot_every_n_steps == 0:
                 save_path = snrm.saver.save(session, FLAGS.base_path + FLAGS.model_path + FLAGS.run_name + str(step))
-                print('Model saved in file: %s' % save_path)
+                logging.info('Model saved in file: %s' % save_path)
 
         save_path = snrm.saver.save(session, FLAGS.base_path + FLAGS.model_path + FLAGS.run_name)
-        print('Model saved in file: %s' % save_path)
+        logging.info('Model saved in file: %s' % save_path)
 
     else:
         print('Experiment Mode is ON!')

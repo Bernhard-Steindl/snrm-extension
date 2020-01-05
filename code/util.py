@@ -7,7 +7,7 @@ Authors: Hamed Zamani (zamani@cs.umass.edu)
 import math
 
 
-def load_word_embeddings(file_name, dim, normalize=True):
+def load_word_embeddings(file_name, dim, normalize=True, term_dictionary=dict()):
     term_ids = {}
     we_matrix = []  # a term_num * dim matrix for word embeddings
     term_ids['NULL'] = 0
@@ -17,8 +17,11 @@ def load_word_embeddings(file_name, dim, normalize=True):
     with open(file_name) as FileObj:
         for line in FileObj:
             line = line.split()
-            term_ids[line[0].strip()] = term_num
-            term_by_id.append(line[0].strip())
+            term_name = line[0].strip()
+            if not term_name in term_dictionary:
+                continue
+            term_ids[term_name] = term_num
+            term_by_id.append(term_name)
             norm = 1
             if normalize is True:
                 norm = math.sqrt(sum(float(i) * float(i) for i in line[1: dim + 1]))

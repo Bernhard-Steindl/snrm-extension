@@ -4,9 +4,13 @@ The inverted index class. This file only contain a simple in-memory inverted ind
 Authors: Hamed Zamani (zamani@cs.umass.edu)
 """
 
+import logging
 import pickle as pkl
 import numpy as np
 from params import FLAGS
+
+FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
+logging.basicConfig(format=FORMAT, level=logging.DEBUG)
 
 class MemMappedInvertedIndex(object):
 
@@ -50,6 +54,7 @@ class MemMappedInvertedIndex(object):
         pkl.dump(self.index, open(self._filename_latent_term_index, 'wb'))
         del self.index
         pkl.dump(self._doc_id_to_memmap_idx, open(self._filename_doc_keymapping_index, 'wb'))
+        logging.info('Stored inverted index with {} documents in total'.format(str(len(self._doc_id_to_memmap_idx))))
         del self._doc_id_to_memmap_idx
 
     def load(self):

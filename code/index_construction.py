@@ -131,5 +131,7 @@ with tf.Session(graph=snrm.graph) as session:
 
     # for i in range(len(doc_ids)):
     #  logging.debug('adds doc_repr to index\tdoc_id={},\tdoc_repr=\n{}'.format(str(doc_ids[i]), repr(doc_repr[i])))
-
+try:
     inverted_index.store()
+except Exception as ex:
+    print(ex)

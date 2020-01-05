@@ -142,6 +142,25 @@ class SNRM(object):
             tf.summary.scalar('l0-docs', l0_regularization_docs)
             tf.summary.scalar('l0-query', l0_regularization_query)
 
+            tf.summary.scalar('mean-repr_q', tf.reduce_mean(self.q_repr))
+            tf.summary.scalar('mean-repr_d1', tf.reduce_mean(self.d1_repr))
+            tf.summary.scalar('mean-repr_d2', tf.reduce_mean(self.d2_repr))
+
+            tf.summary.scalar('mean-input_q', tf.reduce_mean(self.query_pl))
+            tf.summary.scalar('mean-input_d1', tf.reduce_mean(self.doc1_pl))
+            tf.summary.scalar('mean-input_d2', tf.reduce_mean(self.doc2_pl))
+
+            tf.summary.scalar('mean-logits_d1', tf.reduce_mean(logits_d1))
+            tf.summary.scalar('mean-logits_d2', tf.reduce_mean(logits_d2))
+
+            tf.summary.scalar('ratio_num_zero_elements_q_repr_batch', 1 - (tf.cast(tf.count_nonzero(self.q_repr), tf.float32) / tf.cast(np.prod(self.q_repr.shape), tf.float32)))
+            tf.summary.scalar('ratio_num_zero_elements_d1_repr_batch', 1 - (tf.cast(tf.count_nonzero(self.d1_repr), tf.float32) / tf.cast(np.prod(self.d1_repr.shape), tf.float32)))
+            tf.summary.scalar('ratio_num_zero_elements_d2_repr_batch', 1 - (tf.cast(tf.count_nonzero(self.d2_repr), tf.float32) / tf.cast(np.prod(self.d2_repr.shape), tf.float32)))
+            
+            tf.summary.scalar('ratio_num_non_zero_elements_q_repr_batch', (tf.cast(tf.count_nonzero(self.q_repr), tf.float32) / tf.cast(np.prod(self.q_repr.shape), tf.float32)))
+            tf.summary.scalar('ratio_num_non_zero_elements_d1_repr_batch', (tf.cast(tf.count_nonzero(self.d1_repr), tf.float32) / tf.cast(np.prod(self.d1_repr.shape), tf.float32)))
+            tf.summary.scalar('ratio_num_non_zero_elements_d2_repr_batch', (tf.cast(tf.count_nonzero(self.d2_repr), tf.float32) / tf.cast(np.prod(self.d2_repr.shape), tf.float32)))
+        
             self.summary_op = tf.summary.merge_all()
 
             # Add variable initializer.
@@ -194,12 +213,21 @@ class SNRM(object):
         if pre_trained_embedding_file_name is None:
             return tf.Variable(tf.random_uniform([dictionary.size(), dim], -1.0, 1.0))
         else:
-            term_to_id, id_to_term, we_matrix = util.load_word_embeddings(pre_trained_embedding_file_name, dim)
+            term_to_id, id_to_term, we_matrix = util.load_word_embeddings(pre_trained_embedding_file_name, dim, True, dictionary.term_to_id)
             init_matrix = np.random.random((dictionary.size(), dim))
+
+            unknown_terms_in_embedding = 0
+
             for i in range(dictionary.size()):
                 if dictionary.id_to_term[i] in term_to_id:
                     tid = term_to_id[dictionary.id_to_term[i]]
                     init_matrix[i] = we_matrix[tid]
+                else:
+                    unknown_terms_in_embedding += 1
+
+            logging.debug('found {} unkonwn terms from dictionary that are missing in embedding \n'
+                .format(str(unknown_terms_in_embedding)))
+
             return tf.get_variable('embeddings', shape=[dictionary.size(), dim],
                                    trainable=True,
                                    initializer=tf.constant_initializer(init_matrix))
