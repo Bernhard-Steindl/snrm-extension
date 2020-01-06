@@ -35,18 +35,21 @@ class MemMappedInvertedIndex(object):
 
     def add(self, doc_ids, doc_repr):
         for i in range(len(doc_ids)): # for each document indexed via i
-            for j in range(len(doc_repr[i])): # for each doc_repr dimension for doc i
-                if doc_repr[i][j] > 0.:
-                    current_doc_id = doc_ids[i]
+            should_add_doc_to_index = False
+            current_doc_id = doc_ids[i]
+            current_doc_repr = doc_repr[i]
+
+            for j in range(len(current_doc_repr)): # for each doc_repr dimension for doc i
+                if current_doc_repr[j] > 0.:
+                    should_add_doc_to_index = True
                     if j not in self.index:
                         self.index[j] = []
-                    
-                    if not current_doc_id in self._doc_id_to_memmap_idx:
-                        memmap_index_for_doc = self._next_sequence_val()
-                        self._doc_id_to_memmap_idx[current_doc_id] = memmap_index_for_doc
-                        self._doc_repr_memmap[memmap_index_for_doc] = doc_repr[i]
-
                     self.index[j].append(current_doc_id)
+
+            if (should_add_doc_to_index == True) and (current_doc_id not in self._doc_id_to_memmap_idx):
+                memmap_index_for_doc = self._next_sequence_val()
+                self._doc_id_to_memmap_idx[current_doc_id] = memmap_index_for_doc
+                self._doc_repr_memmap[memmap_index_for_doc] = current_doc_repr
 
     def store(self):
         del self._doc_repr_memmap # Deletion of memory mapped index flushes memory changes to disk before removing the object 
