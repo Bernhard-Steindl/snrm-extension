@@ -19,14 +19,14 @@ tf.flags.DEFINE_boolean('experiment_mode', False, 'Experiment mode is equivalent
 tf.flags.DEFINE_string('dict_file_name', 'data/tokens/tokens_lowered_2019-12-28_001150_min_10.txt', 'Relative address to the collection stats file.')
 
 # TODO where can we get an embedding file? do we need one?
-tf.flags.DEFINE_string('pre_trained_embedding_file_name', 'data/embeddings/glove.6B.100d.txt',
+tf.flags.DEFINE_string('pre_trained_embedding_file_name', 'data/embeddings/glove.42B.300d.txt',
                        'Relative address to the pre-trained embedding file. default dim: 100.')
 
 tf.flags.DEFINE_string('training_data_triples_file', 'data/training_data/triples.train.small.tsv', 
     'training data with format of query\tpositive_passage\tnegative_passage')
 
 # TODO define validation_data_triples
-tf.flags.DEFINE_string('validation_data_triples_file', '', 
+tf.flags.DEFINE_string('validation_data_triples_file', 'data/training_data/triples.train_last_100000_for_validation.tsv', 
     'validation data with format of query\tpositive_passage\tnegative_passage')
 
 tf.flags.DEFINE_string('evaluation_query_file', 'data/evaluation/queries.dev.small.tsv', 
@@ -50,35 +50,35 @@ tf.flags.DEFINE_string('index_path', 'index/', 'Directory of index construction 
 tf.flags.DEFINE_string('run_name', 'snrm-extension-example-run-local-1', 'A name for the run.')
 
 # TODO which parameter values should we set here?
-tf.flags.DEFINE_integer('batch_size', 64, 'Batch size for training. default: 512.')
-tf.flags.DEFINE_integer('num_train_steps', 1000, 'Number of steps for training. default: 100000.')
-tf.flags.DEFINE_integer('num_valid_steps', 1000, 'Number of steps for training. default: 1000.')
+tf.flags.DEFINE_integer('batch_size', 32, 'Batch size for training. default: 512.')
+tf.flags.DEFINE_integer('num_train_steps', 50000, 'Number of steps for training. default: 100000.')
+tf.flags.DEFINE_integer('num_valid_steps', 1000, 'Number of steps for validation. default: 1000.')
 
 tf.flags.DEFINE_integer('batch_size_documents', 500, 'Batch size of documents from the document collection for creating document representations at inverted index creation phase. default: 32.')
 tf.flags.DEFINE_integer('num_document_batches', 300, 'Number of batches of size `document_collection_batch_size` for creating document representations at inverted index creation phase. default: 276306.')
 
 tf.flags.DEFINE_integer('num_evaluation_queries', 10, 'Number of queries to be used for retrieval from evaluation_query_file. default: 6000.')
 
-tf.flags.DEFINE_integer('emb_dim', 100, 'Embedding dimensionality for words. default: 100.')
+tf.flags.DEFINE_integer('emb_dim', 300, 'Embedding dimensionality for words. default: 100.')
 tf.flags.DEFINE_float('learning_rate', 0.0001, 'Learning rate for Adam Optimizer. default: 0.0001.')
 tf.flags.DEFINE_float('dropout_parameter', 1.0, 'Dropout parameter. default: 1.0 (no dropout).')
 tf.flags.DEFINE_float('regularization_term', 0.0001, 'Dropout parameter. default: 0.0001 (it is not a good value).')
 
 # TODO how to define hidden layer size?
-tf.flags.DEFINE_integer('hidden_1', 80, 'Size of the first hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_2', 1000, 'Size of the second hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_3', -1, 'Size of the third hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_4', -1, 'Size of the third hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_1', 100, 'Size of the first hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_2', 100, 'Size of the second hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_3', 300, 'Size of the third hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_4', 5000, 'Size of the third hidden layer. Should be positive. default: -1.')
 tf.flags.DEFINE_integer('hidden_5', -1, 'Size of the third hidden layer. Should be positive. default: -1.')
 
 # TODO determine values for these settings
-tf.flags.DEFINE_integer('validate_every_n_steps', 20000,
+tf.flags.DEFINE_integer('validate_every_n_steps', 10000,
                         'Print the average loss value on the validation set at every n steps. default: 10000.')
 tf.flags.DEFINE_integer('save_snapshot_every_n_steps', 10000, 'Save the model every n steps. default: 10000.')
 
 # TODO set reasonable values
 tf.flags.DEFINE_integer('max_q_len', 10, 'Maximum query length. default: 10.')
-tf.flags.DEFINE_integer('max_doc_len', 128, 'Maximum document length. default: 1000.')
+tf.flags.DEFINE_integer('max_doc_len', 103, 'Maximum document length. default: 1000.')
 
 # TODO min_freq of term occurence in document collection to be added to term dictionary; 
 #      might not be needed because we use AllenNLP vocabulary (either allen_voab_lower_10 or allen_vocab_lower_5)? 

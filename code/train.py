@@ -7,6 +7,7 @@ Authors: Hamed Zamani (zamani@cs.umass.edu)
 import logging
 import numpy as np
 import tensorflow as tf
+import os
 
 from dictionary import Dictionary
 from params import FLAGS
@@ -78,7 +79,11 @@ def generate_batch(batch_size, mode='train', last_file_position = -1):
     padding_value = dictionary.size() # dictionary size |V| inclusive term 'UNKNOWN'
     # logging.info('using padding_value={}'.format(padding_value))
 
-    with open(FLAGS.base_path + FLAGS.training_data_triples_file, 'r') as file:
+    dataset_filepath = FLAGS.base_path + FLAGS.training_data_triples_file # for training
+    if mode == 'valid':
+        dataset_filepath = FLAGS.base_path + FLAGS.validation_data_triples_file
+
+    with open(dataset_filepath, 'r') as file:
         if last_file_position == -1:
             file.tell()
         else:
@@ -120,7 +125,10 @@ def generate_batch(batch_size, mode='train', last_file_position = -1):
     return batch_query, batch_doc1, batch_doc2, batch_label, last_file_position
 
 
-writer = tf.summary.FileWriter(FLAGS.base_path + FLAGS.log_path + FLAGS.run_name, graph=snrm.graph)
+base_path_tensorboard_logdir = FLAGS.base_path + FLAGS.log_path + FLAGS.run_name
+
+writer = tf.summary.FileWriter(os.path.join(base_path_tensorboard_logdir, FLAGS.run_name + '_train'), graph=snrm.graph)
+writer_validation = tf.summary.FileWriter(os.path.join(base_path_tensorboard_logdir, FLAGS.run_name + '_valid'))
 
 # Launch the graph
 with tf.Session(graph=snrm.graph) as session:
@@ -142,7 +150,7 @@ with tf.Session(graph=snrm.graph) as session:
         last_file_position_validation = -1
 
         for step in range(num_steps):
-            if step % 50 == 0:
+            if step % 1000 == 0:
                 logging.info('training step {} of {}'.format(step+1, num_steps))
             query, doc1, doc2, labels, last_file_position_training = generate_batch(FLAGS.batch_size, 'train', last_file_position_training)
             labels = np.array(labels)
@@ -160,7 +168,7 @@ with tf.Session(graph=snrm.graph) as session:
 
             # TODO this block, remove condition 'and step > 0'
             if step % FLAGS.validate_every_n_steps == 0 and step > 0:
-                logging.info('Validating model at step {}'.format(step))
+                logging.info('Validating model at step {} – with {} validation steps'.format(str(step), str(FLAGS.num_valid_steps)))
                 valid_loss = 0.
                 valid_id = 0
                 for valid_step in range(FLAGS.num_valid_steps):
@@ -172,7 +180,9 @@ with tf.Session(graph=snrm.graph) as session:
                                  snrm.doc1_pl: doc1,
                                  snrm.doc2_pl: doc2,
                                  snrm.labels_pl: labels}
-                    loss_val = session.run(snrm.loss, feed_dict=feed_dict)
+                    loss_val, summary = session.run([snrm.loss, snrm.summary_op], feed_dict=feed_dict)
+                    tensorboard_valid_step = step + valid_step
+                    writer_validation.add_summary(summary, tensorboard_valid_step)
                     valid_loss += loss_val
                 valid_loss /= FLAGS.num_valid_steps
                 logging.info('Average loss on validation set at step {}: {}'.format(str(step), str(valid_loss)))
@@ -183,7 +193,8 @@ with tf.Session(graph=snrm.graph) as session:
 
         save_path = snrm.saver.save(session, FLAGS.base_path + FLAGS.model_path + FLAGS.run_name)
         logging.info('Model saved in file: %s' % save_path)
-
+        writer.close()
+        writer_validation.close()
     else:
         print('Experiment Mode is ON!')
         # TODO is this experimentation not the same as if we would call index_construction.py and retrieval.py sequentially?
