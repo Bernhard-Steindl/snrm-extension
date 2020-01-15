@@ -3,17 +3,23 @@ A dictionary class that contains vocabulary terms and their IDs.
 
 Authors: Hamed Zamani (zamani@cs.umass.edu)
 """
-from params import FLAGS
 
 import logging
+FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
+logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+
+from params import FLAGS
 import numpy as np
 
 from nltk.tokenize import word_tokenize
 import nltk
 nltk.download('punkt')  # Resource punkt not found. Please use the NLTK Downloader to obtain the resource
 
-FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
-logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+from nltk.corpus import stopwords
+nltk.download('stopwords') # Resource stopwords not found. Please use the NLTK Downloader to obtain the resource
+stop_words = set(stopwords.words('english'))
+# TODO should we exclude punctuation symbols
+stop_words.update(['.', ',', '"', "'", '?', '!', ':', ';', '(', ')', '[', ']', '{', '}']) # remove it if you need punctuation 
 
 class Dictionary(object):
     """
@@ -64,8 +70,9 @@ class Dictionary(object):
         text_tokens = word_tokenize(text.lower())
         
         term_ids = [(self.term_to_id[t] if t in self.term_to_id
-                     else self.term_to_id['UNKNOWN'])
-                    for t in text_tokens]
+                else self.term_to_id['UNKNOWN'])
+            for t in text_tokens if t not in stop_words]
+
         # logging.debug('text_tokens={}, \t term_ids={}'.format(repr(text_tokens), repr(term_ids)))
 
         # unknown_terms = set([t for t in text_tokens if t not in self.term_to_id])

@@ -29,13 +29,13 @@ tf.flags.DEFINE_string('training_data_triples_file', 'data/training_data/triples
 tf.flags.DEFINE_string('validation_data_triples_file', 'data/training_data/triples.train_last_100000_for_validation.tsv', 
     'validation data with format of query\tpositive_passage\tnegative_passage')
 
-tf.flags.DEFINE_string('evaluation_query_file', 'data/evaluation/queries.dev.small.tsv', 
+tf.flags.DEFINE_string('evaluation_query_file', 'data/evaluation/queries.air-subset.tsv',
     'queries with format of query_id\tquery_text')
 
 tf.flags.DEFINE_string('evaluation_result_candidate_file_prefix', 'results/evaluation_candidate_', 
     'file prefix to the retrieval evaluation candidate file used for evaluation with qrels')
 
-tf.flags.DEFINE_string('document_collection_file', 'data/document_collection/collection.tsv', 
+tf.flags.DEFINE_string('document_collection_file', 'data/document_collection/collection.air-subset.tsv',
     'file path to document collection with format doc_id\tpositive_passage\tnegative_passage')
 
 tf.flags.DEFINE_integer('num_retrieval_documents_per_query', 100, 
@@ -51,30 +51,30 @@ tf.flags.DEFINE_string('run_name', 'snrm-extension-example-run-local-1', 'A name
 
 # TODO which parameter values should we set here?
 tf.flags.DEFINE_integer('batch_size', 32, 'Batch size for training. default: 512.')
-tf.flags.DEFINE_integer('num_train_steps', 50000, 'Number of steps for training. default: 100000.')
+tf.flags.DEFINE_integer('num_train_steps', 40000, 'Number of steps for training. default: 100000.')
 tf.flags.DEFINE_integer('num_valid_steps', 1000, 'Number of steps for validation. default: 1000.')
 
-tf.flags.DEFINE_integer('batch_size_documents', 500, 'Batch size of documents from the document collection for creating document representations at inverted index creation phase. default: 32.')
-tf.flags.DEFINE_integer('num_document_batches', 300, 'Number of batches of size `document_collection_batch_size` for creating document representations at inverted index creation phase. default: 276306.')
+tf.flags.DEFINE_integer('batch_size_documents', 32, 'Batch size of documents from the document collection for creating document representations at inverted index creation phase. default: 32.')
+tf.flags.DEFINE_integer('num_document_batches', 18000, 'Number of batches of size `document_collection_batch_size` for creating document representations at inverted index creation phase. default: 276306.')
 
-tf.flags.DEFINE_integer('num_evaluation_queries', 10, 'Number of queries to be used for retrieval from evaluation_query_file. default: 6000.')
+tf.flags.DEFINE_integer('num_evaluation_queries', 1000, 'Number of queries to be used for retrieval from evaluation_query_file. default: 6000.')
 
 tf.flags.DEFINE_integer('emb_dim', 300, 'Embedding dimensionality for words. default: 100.')
 tf.flags.DEFINE_float('learning_rate', 0.0001, 'Learning rate for Adam Optimizer. default: 0.0001.')
-tf.flags.DEFINE_float('dropout_parameter', 1.0, 'Dropout parameter. default: 1.0 (no dropout).')
-tf.flags.DEFINE_float('regularization_term', 0.0001, 'Dropout parameter. default: 0.0001 (it is not a good value).')
+tf.flags.DEFINE_float('dropout_parameter', 0.8, 'Dropout parameter. default: 1.0 (no dropout).')
+tf.flags.DEFINE_float('regularization_term', 0.000005, 'Lambda from loss function equation. The hyper-parameter Lambda controls the sparsity of the learned representations. default: 0.0001 (it is not a good value).')
 
 # TODO how to define hidden layer size?
-tf.flags.DEFINE_integer('hidden_1', 100, 'Size of the first hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_2', 100, 'Size of the second hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_3', 300, 'Size of the third hidden layer. Should be positive. default: -1.')
-tf.flags.DEFINE_integer('hidden_4', 5000, 'Size of the third hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_1', 50, 'Size of the first hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_2', 50, 'Size of the second hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_3', 5000, 'Size of the third hidden layer. Should be positive. default: -1.')
+tf.flags.DEFINE_integer('hidden_4', -1, 'Size of the third hidden layer. Should be positive. default: -1.')
 tf.flags.DEFINE_integer('hidden_5', -1, 'Size of the third hidden layer. Should be positive. default: -1.')
 
 # TODO determine values for these settings
-tf.flags.DEFINE_integer('validate_every_n_steps', 10000,
+tf.flags.DEFINE_integer('validate_every_n_steps', 5000,
                         'Print the average loss value on the validation set at every n steps. default: 10000.')
-tf.flags.DEFINE_integer('save_snapshot_every_n_steps', 10000, 'Save the model every n steps. default: 10000.')
+tf.flags.DEFINE_integer('save_snapshot_every_n_steps', 30000, 'Save the model every n steps. default: 10000.')
 
 # TODO set reasonable values
 tf.flags.DEFINE_integer('max_q_len', 10, 'Maximum query length. default: 10.')

@@ -52,13 +52,17 @@ class MemMappedInvertedIndex(object):
                 self._doc_repr_memmap[memmap_index_for_doc] = current_doc_repr
 
     def store(self):
+        logging.debug('found {} documents in index'.format(str(self.count_documents())))
         del self._doc_repr_memmap # Deletion of memory mapped index flushes memory changes to disk before removing the object 
-        
-        pkl.dump(self.index, open(self._filename_latent_term_index, 'wb'))
-        del self.index
         pkl.dump(self._doc_id_to_memmap_idx, open(self._filename_doc_keymapping_index, 'wb'))
-        logging.info('Stored inverted index with {} documents in total'.format(str(len(self._doc_id_to_memmap_idx))))
-        del self._doc_id_to_memmap_idx
+        self._doc_id_to_memmap_idx
+        self._doc_id_to_memmap_idx.clear()
+
+        pkl.dump(self.index, open(self._filename_latent_term_index, 'wb'))
+        self.index.clear()
+        del self.index
+        logging.info('Stored inverted index')
+        
 
     def load(self):
         self.index = pkl.load(open(self._filename_latent_term_index, 'rb'))
@@ -69,6 +73,9 @@ class MemMappedInvertedIndex(object):
         memmmap_doc_repr_index = self._doc_id_to_memmap_idx[doc_id]
         doc_representation_v = self._doc_repr_memmap[memmmap_doc_repr_index]
         return doc_representation_v
+
+    def count_documents(self):
+        return len(self._doc_id_to_memmap_idx)
 
     def _next_sequence_val(self):
         next_value = self._sequence_value

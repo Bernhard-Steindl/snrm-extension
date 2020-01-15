@@ -229,7 +229,7 @@ class SNRM(object):
                 .format(str(unknown_terms_in_embedding)))
 
             return tf.get_variable('embeddings', shape=[dictionary.size(), dim],
-                                   trainable=True,
+                                   trainable=False,
                                    initializer=tf.constant_initializer(init_matrix))
 
     def get_embedding_layer_output(self, embeddings, dim, layer_name, input, n_terms):
@@ -248,6 +248,7 @@ class SNRM(object):
             with tf.name_scope(layer_name):
                 emb = tf.nn.embedding_lookup(embeddings, tf.reshape(input, [-1]))
                 emb = tf.reshape(emb, [-1, 1, n_terms, dim])
+        logging.info('emb shape name={}: {}'.format(layer_name, repr(emb.get_shape().as_list())))
         return emb
 
     def network(self, input_layer, weights, weights_name, biases, biases_name):

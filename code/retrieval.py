@@ -5,17 +5,20 @@ Authors: Hamed Zamani (zamani@cs.umass.edu)
 """
 
 import logging
+FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
+logging.basicConfig(format=FORMAT, level=logging.DEBUG, filemode='a', filename='results/retrieval.log')
+
 import tensorflow as tf
 import pickle as pkl
 import time
+import numpy as np
 
 from dictionary import Dictionary
 from inverted_index import MemMappedInvertedIndex
 from params import FLAGS
 from snrm import SNRM
 
-FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
-logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+
 
 # layer_size is a list containing the size of each layer. It can be set through the 'hidden_x' arguments.
 layer_size = [FLAGS.emb_dim]
@@ -80,8 +83,9 @@ with tf.Session(graph=snrm.graph) as session:
     with open(candidate_file_name, 'w') as evaluationCandidateFile:
         logging.info('created and writing evaluation candidate file {}'.format(candidate_file_name))
         for qid in queries:
-            if num_queries_processed % 100 == 0:
-                logging.debug('processed {} queries of {} '.format(num_queries_processed+1, num_queries))
+            # if num_queries_processed % 100 == 0:
+                # logging.debug('processing {} queries of {} '.format(num_queries_processed+1, num_queries))
+            logging.debug('processing {} queries of {} '.format(num_queries_processed+1, num_queries))
             q_term_ids = dictionary.get_term_id_list(queries[qid])
             q_term_ids.extend([0] * (FLAGS.max_q_len - len(q_term_ids)))
             q_term_ids = q_term_ids[:FLAGS.max_q_len]
@@ -91,18 +95,31 @@ with tf.Session(graph=snrm.graph) as session:
             retrieval_scores = dict()
             query_repr_v = query_repr[0]
 
+
+            non_zero_elements = np.count_nonzero(query_repr_v)
+            num_elements = len(query_repr_v)
+            ratio_non_zero = (non_zero_elements / num_elements)
+            logging.debug('non_zero elements in query_repr = {}, total size = {}'.format(str(non_zero_elements), str(num_elements)))
+            logging.debug('generated query_repr with ratio_non_zero_elements={}'.format(str(ratio_non_zero)))
+
+            sum_docs_processed = 0
             for i in range(len(query_repr_v)):
                 if query_repr_v[i] > 0.:
                     if not i in inverted_index.index:
                         # logging.debug('A latent term dimension (dim={}) of a query (qid={}) has no assigned documents in index'.format(i, qid))
                         # TODO log or write something
                         continue # no document is in this latent term dimension
+                    logging.debug('found {} docs in latent term dimension {}'.format(str(len(inverted_index.index[i])),str(i)))
                     for doc_id in inverted_index.index[i]: # for every doc in the current latent term dimension
+                        sum_docs_processed += 1
                         if doc_id not in retrieval_scores:
                             retrieval_scores[doc_id] = 0.
                         doc_representation_v = inverted_index.get_doc_representation(doc_id)
                         weight = doc_representation_v[i]
                         retrieval_scores[doc_id] += query_repr_v[i] * weight
+            mean_docs_processed = round(sum_docs_processed / len(query_repr_v), 3)
+            #logging.debug('processed avg. {} non-distinct docs for query per dimension (whole: {})'.format(str(mean_docs_processed), str(sum_docs_processed)))
+            logging.debug('obtained a score for {} distinct docs'.format(str(len(retrieval_scores))))
 
             retrieval_result_for_qid = sorted(retrieval_scores.items(), key=lambda x: x[1], reverse=True)
             retrieval_result_for_qid = retrieval_result_for_qid[:max_retrieval_docs]
@@ -114,6 +131,8 @@ with tf.Session(graph=snrm.graph) as session:
             for rank, (doc_id, retrieval_score) in enumerate(retrieval_result_for_qid):
                 # logging.debug('qid={}\t\tdoc_id={}\tscore={}\trank={}'.format(qid,doc_id,retrieval_score, rank+1))
                 evaluationCandidateFile.write('{0}\tQ0\t{1}\t{2}\t{3}\t{4}\n'.format(qid, doc_id, rank+1, retrieval_score, FLAGS.run_name))
+                if rank <= 10:
+                    logging.debug('{0}\tQ0\t{1}\t{2}\t{3}\t{4}\n'.format(qid, doc_id, rank+1, retrieval_score, FLAGS.run_name))
 
             num_queries_processed += 1
             if num_queries_processed == int(FLAGS.num_evaluation_queries):

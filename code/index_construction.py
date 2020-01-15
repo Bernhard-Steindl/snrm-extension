@@ -5,15 +5,18 @@ Authors: Hamed Zamani (zamani@cs.umass.edu)
 """
 
 import logging
+FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
+logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+
 import tensorflow as tf
+import numpy as np
 
 from dictionary import Dictionary
 from inverted_index import MemMappedInvertedIndex
 from params import FLAGS
 from snrm import SNRM
 
-FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
-logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+
 
 # layer_size is a list containing the size of each layer. It can be set through the 'hiddein_x' arguments.
 layer_size = [FLAGS.emb_dim]
@@ -119,12 +122,20 @@ with tf.Session(graph=snrm.graph) as session:
     last_doc_collection_file_position = -1
 
     for batch_num in range(FLAGS.num_document_batches):
-        if batch_num % 50 == 0:
-            logging.debug('generating document representation batch_num={} \t num_document_batches={}'.format(batch_num+1, FLAGS.num_document_batches))
         try:
             doc_ids, docs, last_doc_collection_file_position = generate_batch(FLAGS.batch_size_documents, last_doc_collection_file_position)
             doc_repr = session.run(snrm.doc_representation, feed_dict={snrm.doc_pl: docs})
             inverted_index.add(doc_ids, doc_repr)
+
+            if batch_num % 100 == 0:
+                logging.debug('generating document representation batch_num={} \t num_document_batches={}'.format(batch_num+1, FLAGS.num_document_batches))
+                logging.debug('index now holds {} documents '.format(str(inverted_index.count_documents())))
+                non_zero_elements = np.count_nonzero(doc_repr)
+                num_elements = np.size(doc_repr)
+                ratio_non_zero = (non_zero_elements / num_elements)
+                logging.debug('non_zero elements in batch = {}, total size = {}'.format(str(non_zero_elements), str(num_elements)))
+                logging.debug('generated doc_repr with \tratio_non_zero_elements={}'.format(str(ratio_non_zero)))
+                logging.debug('try adding doc_ids = {}'.format(repr(doc_ids)))
         except Exception as ex:
             print(ex)
             break
