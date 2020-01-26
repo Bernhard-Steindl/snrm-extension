@@ -1,0 +1,1567 @@
+BASE_PATH=
+BATCH_SIZE=32
+BATCH_SIZE_DOCUMENTS=32
+DICT_FILE_NAME=data/tokens/tokens_lowered_2019-12-28_001150_min_10.txt
+DICT_MIN_FREQ=20
+DOCUMENT_COLLECTION_FILE=data/document_collection/collection.air-subset.tsv
+DROPOUT_PARAMETER=1.0
+EMB_DIM=300
+EVALUATION_QUERY_FILE=data/evaluation/queries.air-subset.tsv
+EVALUATION_RESULT_CANDIDATE_FILE_PREFIX=results/evaluation_candidate_
+EXPERIMENT_MODE=False
+HIDDEN_1=50
+HIDDEN_2=50
+HIDDEN_3=5000
+HIDDEN_4=-1
+HIDDEN_5=-1
+INDEX_PATH=index/
+LEARNING_RATE=5e-05
+LOG_PATH=tf-log/
+MAX_DOC_LEN=103
+MAX_Q_LEN=10
+MODEL_PATH=model/
+NUM_DOCUMENT_BATCHES=11000
+NUM_EVALUATION_QUERIES=1000
+NUM_RETRIEVAL_DOCUMENTS_PER_QUERY=100
+NUM_TRAIN_STEPS=70000
+NUM_VALID_STEPS=1000
+PRE_TRAINED_EMBEDDING_FILE_NAME=data/embeddings/glove.42B.300d.txt
+REGULARIZATION_TERM=0.0
+RESULT_PATH=results/
+RUN_NAME=snrm-extension-example-run-22-colab
+SAVE_SNAPSHOT_EVERY_N_STEPS=10000
+TRAINING_DATA_TRIPLES_FILE=data/training_data/triples.train.small.tsv
+VALIDATE_EVERY_N_STEPS=5000
+VALIDATION_DATA_TRIPLES_FILE=data/training_data/triples.valid.tsv
+
+Running with TensorFlow version: 1.4.0
+
+Python System information: 3.6.9 |Anaconda, Inc.| (default, Jul 30 2019, 19:07:31)
+[GCC 7.3.0]
+
+
+
+2020-01-24 10:11:51,194 INFO       dictionary.py load_from_galago_dump 359918 terms have been loaded to the dictionary
+2020-01-24 10:13:33,873 DEBUG      snrm.py    get_embedding_params found 86875 unkonwn terms from dictionary that are missing in embedding
+
+2020-01-24 10:13:39,191 INFO       snrm.py    __init__        obtained embeddings
+2020-01-24 10:13:39,196 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_query: [32, 1, 10, 300]
+2020-01-24 10:13:39,199 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc1: [32, 1, 103, 300]
+2020-01-24 10:13:39,202 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc2: [32, 1, 103, 300]
+2020-01-24 10:13:39,235 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc: [None, 1, 103, 300]
+2020-01-24 10:13:39,242 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_test_query: [None, 1, 10, 300]
+2020-01-24 10:13:47,084 INFO       tf_logging.py info            Restoring parameters from model/snrm-extension-example-run-22-colab50000
+2020-01-24 10:13:48,116 INFO       index_construction.py <module>        Load model from model/snrm-extension-example-run-22-colab50000
+2020-01-24 10:13:48,900 DEBUG      index_construction.py <module>        generating document representation batch_num=1 	 num_document_batches=11000
+2020-01-24 10:13:48,900 DEBUG      index_construction.py <module>        index now holds 5 documents
+2020-01-24 10:13:48,901 DEBUG      index_construction.py <module>        non_zero elements in batch = 249, total size = 160000
+2020-01-24 10:13:48,901 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00155625
+2020-01-24 10:14:33,658 DEBUG      index_construction.py <module>        generating document representation batch_num=101 	 num_document_batches=11000
+2020-01-24 10:14:33,658 DEBUG      index_construction.py <module>        index now holds 420 documents
+2020-01-24 10:14:33,659 DEBUG      index_construction.py <module>        non_zero elements in batch = 1330, total size = 160000
+2020-01-24 10:14:33,659 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0083125
+2020-01-24 10:15:18,278 DEBUG      index_construction.py <module>        generating document representation batch_num=201 	 num_document_batches=11000
+2020-01-24 10:15:18,279 DEBUG      index_construction.py <module>        index now holds 837 documents
+2020-01-24 10:15:18,279 DEBUG      index_construction.py <module>        non_zero elements in batch = 17, total size = 160000
+2020-01-24 10:15:18,279 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00010625
+2020-01-24 10:16:02,169 DEBUG      index_construction.py <module>        generating document representation batch_num=301 	 num_document_batches=11000
+2020-01-24 10:16:02,171 DEBUG      index_construction.py <module>        index now holds 1195 documents
+2020-01-24 10:16:02,172 DEBUG      index_construction.py <module>        non_zero elements in batch = 7, total size = 160000
+2020-01-24 10:16:02,172 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=4.375e-05
+2020-01-24 10:16:46,316 DEBUG      index_construction.py <module>        generating document representation batch_num=401 	 num_document_batches=11000
+2020-01-24 10:16:46,316 DEBUG      index_construction.py <module>        index now holds 1630 documents
+2020-01-24 10:16:46,316 DEBUG      index_construction.py <module>        non_zero elements in batch = 3067, total size = 160000
+2020-01-24 10:16:46,316 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01916875
+2020-01-24 10:17:30,561 DEBUG      index_construction.py <module>        generating document representation batch_num=501 	 num_document_batches=11000
+2020-01-24 10:17:30,561 DEBUG      index_construction.py <module>        index now holds 2021 documents
+2020-01-24 10:17:30,562 DEBUG      index_construction.py <module>        non_zero elements in batch = 154, total size = 160000
+2020-01-24 10:17:30,562 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0009625
+2020-01-24 10:18:14,953 DEBUG      index_construction.py <module>        generating document representation batch_num=601 	 num_document_batches=11000
+2020-01-24 10:18:14,953 DEBUG      index_construction.py <module>        index now holds 2447 documents
+2020-01-24 10:18:14,954 DEBUG      index_construction.py <module>        non_zero elements in batch = 12, total size = 160000
+2020-01-24 10:18:14,954 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=7.5e-05
+2020-01-24 10:18:59,071 DEBUG      index_construction.py <module>        generating document representation batch_num=701 	 num_document_batches=11000
+2020-01-24 10:18:59,071 DEBUG      index_construction.py <module>        index now holds 2880 documents
+2020-01-24 10:18:59,072 DEBUG      index_construction.py <module>        non_zero elements in batch = 212, total size = 160000
+2020-01-24 10:18:59,072 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.001325
+2020-01-24 10:19:44,530 DEBUG      index_construction.py <module>        generating document representation batch_num=801 	 num_document_batches=11000
+2020-01-24 10:19:44,530 DEBUG      index_construction.py <module>        index now holds 3278 documents
+2020-01-24 10:19:44,531 DEBUG      index_construction.py <module>        non_zero elements in batch = 67, total size = 160000
+2020-01-24 10:19:44,531 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00041875
+2020-01-24 10:20:29,854 DEBUG      index_construction.py <module>        generating document representation batch_num=901 	 num_document_batches=11000
+2020-01-24 10:20:29,855 DEBUG      index_construction.py <module>        index now holds 3670 documents
+2020-01-24 10:20:29,855 DEBUG      index_construction.py <module>        non_zero elements in batch = 178, total size = 160000
+2020-01-24 10:20:29,855 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0011125
+2020-01-24 10:21:14,572 DEBUG      index_construction.py <module>        generating document representation batch_num=1001 	 num_document_batches=11000
+2020-01-24 10:21:14,574 DEBUG      index_construction.py <module>        index now holds 4045 documents
+2020-01-24 10:21:14,575 DEBUG      index_construction.py <module>        non_zero elements in batch = 95, total size = 160000
+2020-01-24 10:21:14,575 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00059375
+2020-01-24 10:21:59,346 DEBUG      index_construction.py <module>        generating document representation batch_num=1101 	 num_document_batches=11000
+2020-01-24 10:21:59,346 DEBUG      index_construction.py <module>        index now holds 4480 documents
+2020-01-24 10:21:59,346 DEBUG      index_construction.py <module>        non_zero elements in batch = 6474, total size = 160000
+2020-01-24 10:21:59,346 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0404625
+2020-01-24 10:22:43,906 DEBUG      index_construction.py <module>        generating document representation batch_num=1201 	 num_document_batches=11000
+2020-01-24 10:22:43,906 DEBUG      index_construction.py <module>        index now holds 4836 documents
+2020-01-24 10:22:43,907 DEBUG      index_construction.py <module>        non_zero elements in batch = 50, total size = 160000
+2020-01-24 10:22:43,907 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0003125
+2020-01-24 10:23:28,566 DEBUG      index_construction.py <module>        generating document representation batch_num=1301 	 num_document_batches=11000
+2020-01-24 10:23:28,567 DEBUG      index_construction.py <module>        index now holds 5234 documents
+2020-01-24 10:23:28,567 DEBUG      index_construction.py <module>        non_zero elements in batch = 2156, total size = 160000
+2020-01-24 10:23:28,567 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.013475
+2020-01-24 10:24:13,220 DEBUG      index_construction.py <module>        generating document representation batch_num=1401 	 num_document_batches=11000
+2020-01-24 10:24:13,220 DEBUG      index_construction.py <module>        index now holds 5606 documents
+2020-01-24 10:24:13,221 DEBUG      index_construction.py <module>        non_zero elements in batch = 1, total size = 160000
+2020-01-24 10:24:13,221 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-06
+2020-01-24 10:24:57,762 DEBUG      index_construction.py <module>        generating document representation batch_num=1501 	 num_document_batches=11000
+2020-01-24 10:24:57,762 DEBUG      index_construction.py <module>        index now holds 6050 documents
+2020-01-24 10:24:57,763 DEBUG      index_construction.py <module>        non_zero elements in batch = 930, total size = 160000
+2020-01-24 10:24:57,763 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0058125
+2020-01-24 10:25:42,149 DEBUG      index_construction.py <module>        generating document representation batch_num=1601 	 num_document_batches=11000
+2020-01-24 10:25:42,149 DEBUG      index_construction.py <module>        index now holds 6478 documents
+2020-01-24 10:25:42,150 DEBUG      index_construction.py <module>        non_zero elements in batch = 38, total size = 160000
+2020-01-24 10:25:42,150 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0002375
+2020-01-24 10:26:27,233 DEBUG      index_construction.py <module>        generating document representation batch_num=1701 	 num_document_batches=11000
+2020-01-24 10:26:27,236 DEBUG      index_construction.py <module>        index now holds 6860 documents
+2020-01-24 10:26:27,236 DEBUG      index_construction.py <module>        non_zero elements in batch = 7, total size = 160000
+2020-01-24 10:26:27,236 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=4.375e-05
+2020-01-24 10:27:11,298 DEBUG      index_construction.py <module>        generating document representation batch_num=1801 	 num_document_batches=11000
+2020-01-24 10:27:11,298 DEBUG      index_construction.py <module>        index now holds 7270 documents
+2020-01-24 10:27:11,299 DEBUG      index_construction.py <module>        non_zero elements in batch = 10, total size = 160000
+2020-01-24 10:27:11,299 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-05
+2020-01-24 10:27:55,664 DEBUG      index_construction.py <module>        generating document representation batch_num=1901 	 num_document_batches=11000
+2020-01-24 10:27:55,665 DEBUG      index_construction.py <module>        index now holds 7657 documents
+2020-01-24 10:27:55,665 DEBUG      index_construction.py <module>        non_zero elements in batch = 595, total size = 160000
+2020-01-24 10:27:55,665 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00371875
+2020-01-24 10:28:39,651 DEBUG      index_construction.py <module>        generating document representation batch_num=2001 	 num_document_batches=11000
+2020-01-24 10:28:39,651 DEBUG      index_construction.py <module>        index now holds 8047 documents
+2020-01-24 10:28:39,652 DEBUG      index_construction.py <module>        non_zero elements in batch = 122, total size = 160000
+2020-01-24 10:28:39,652 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0007625
+2020-01-24 10:29:24,538 DEBUG      index_construction.py <module>        generating document representation batch_num=2101 	 num_document_batches=11000
+2020-01-24 10:29:24,538 DEBUG      index_construction.py <module>        index now holds 8402 documents
+2020-01-24 10:29:24,539 DEBUG      index_construction.py <module>        non_zero elements in batch = 3122, total size = 160000
+2020-01-24 10:29:24,539 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0195125
+2020-01-24 10:30:09,424 DEBUG      index_construction.py <module>        generating document representation batch_num=2201 	 num_document_batches=11000
+2020-01-24 10:30:09,424 DEBUG      index_construction.py <module>        index now holds 8819 documents
+2020-01-24 10:30:09,424 DEBUG      index_construction.py <module>        non_zero elements in batch = 50, total size = 160000
+2020-01-24 10:30:09,424 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0003125
+2020-01-24 10:30:54,348 DEBUG      index_construction.py <module>        generating document representation batch_num=2301 	 num_document_batches=11000
+2020-01-24 10:30:54,348 DEBUG      index_construction.py <module>        index now holds 9204 documents
+2020-01-24 10:30:54,348 DEBUG      index_construction.py <module>        non_zero elements in batch = 44, total size = 160000
+2020-01-24 10:30:54,348 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000275
+2020-01-24 10:31:39,166 DEBUG      index_construction.py <module>        generating document representation batch_num=2401 	 num_document_batches=11000
+2020-01-24 10:31:39,166 DEBUG      index_construction.py <module>        index now holds 9582 documents
+2020-01-24 10:31:39,167 DEBUG      index_construction.py <module>        non_zero elements in batch = 28, total size = 160000
+2020-01-24 10:31:39,167 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000175
+2020-01-24 10:32:23,913 DEBUG      index_construction.py <module>        generating document representation batch_num=2501 	 num_document_batches=11000
+2020-01-24 10:32:23,913 DEBUG      index_construction.py <module>        index now holds 9996 documents
+2020-01-24 10:32:23,914 DEBUG      index_construction.py <module>        non_zero elements in batch = 1785, total size = 160000
+2020-01-24 10:32:23,914 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01115625
+2020-01-24 10:33:09,162 DEBUG      index_construction.py <module>        generating document representation batch_num=2601 	 num_document_batches=11000
+2020-01-24 10:33:09,162 DEBUG      index_construction.py <module>        index now holds 10409 documents
+2020-01-24 10:33:09,163 DEBUG      index_construction.py <module>        non_zero elements in batch = 1725, total size = 160000
+2020-01-24 10:33:09,164 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01078125
+2020-01-24 10:33:54,234 DEBUG      index_construction.py <module>        generating document representation batch_num=2701 	 num_document_batches=11000
+2020-01-24 10:33:54,235 DEBUG      index_construction.py <module>        index now holds 10779 documents
+2020-01-24 10:33:54,235 DEBUG      index_construction.py <module>        non_zero elements in batch = 5400, total size = 160000
+2020-01-24 10:33:54,235 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.03375
+2020-01-24 10:34:39,294 DEBUG      index_construction.py <module>        generating document representation batch_num=2801 	 num_document_batches=11000
+2020-01-24 10:34:39,294 DEBUG      index_construction.py <module>        index now holds 11198 documents
+2020-01-24 10:34:39,294 DEBUG      index_construction.py <module>        non_zero elements in batch = 92, total size = 160000
+2020-01-24 10:34:39,294 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000575
+2020-01-24 10:35:24,653 DEBUG      index_construction.py <module>        generating document representation batch_num=2901 	 num_document_batches=11000
+2020-01-24 10:35:24,653 DEBUG      index_construction.py <module>        index now holds 11567 documents
+2020-01-24 10:35:24,653 DEBUG      index_construction.py <module>        non_zero elements in batch = 795, total size = 160000
+2020-01-24 10:35:24,653 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00496875
+2020-01-24 10:36:09,660 DEBUG      index_construction.py <module>        generating document representation batch_num=3001 	 num_document_batches=11000
+2020-01-24 10:36:09,661 DEBUG      index_construction.py <module>        index now holds 11921 documents
+2020-01-24 10:36:09,661 DEBUG      index_construction.py <module>        non_zero elements in batch = 93, total size = 160000
+2020-01-24 10:36:09,661 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00058125
+2020-01-24 10:36:54,757 DEBUG      index_construction.py <module>        generating document representation batch_num=3101 	 num_document_batches=11000
+2020-01-24 10:36:54,760 DEBUG      index_construction.py <module>        index now holds 12315 documents
+2020-01-24 10:36:54,761 DEBUG      index_construction.py <module>        non_zero elements in batch = 588, total size = 160000
+2020-01-24 10:36:54,761 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.003675
+2020-01-24 10:37:40,299 DEBUG      index_construction.py <module>        generating document representation batch_num=3201 	 num_document_batches=11000
+2020-01-24 10:37:40,299 DEBUG      index_construction.py <module>        index now holds 12697 documents
+2020-01-24 10:37:40,300 DEBUG      index_construction.py <module>        non_zero elements in batch = 954, total size = 160000
+2020-01-24 10:37:40,300 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0059625
+2020-01-24 10:38:26,556 DEBUG      index_construction.py <module>        generating document representation batch_num=3301 	 num_document_batches=11000
+2020-01-24 10:38:26,556 DEBUG      index_construction.py <module>        index now holds 13055 documents
+2020-01-24 10:38:26,556 DEBUG      index_construction.py <module>        non_zero elements in batch = 89, total size = 160000
+2020-01-24 10:38:26,556 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00055625
+2020-01-24 10:39:12,801 DEBUG      index_construction.py <module>        generating document representation batch_num=3401 	 num_document_batches=11000
+2020-01-24 10:39:12,801 DEBUG      index_construction.py <module>        index now holds 13472 documents
+2020-01-24 10:39:12,801 DEBUG      index_construction.py <module>        non_zero elements in batch = 93, total size = 160000
+2020-01-24 10:39:12,802 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00058125
+2020-01-24 10:39:58,649 DEBUG      index_construction.py <module>        generating document representation batch_num=3501 	 num_document_batches=11000
+2020-01-24 10:39:58,650 DEBUG      index_construction.py <module>        index now holds 13887 documents
+2020-01-24 10:39:58,650 DEBUG      index_construction.py <module>        non_zero elements in batch = 4, total size = 160000
+2020-01-24 10:39:58,650 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=2.5e-05
+2020-01-24 10:40:44,496 DEBUG      index_construction.py <module>        generating document representation batch_num=3601 	 num_document_batches=11000
+2020-01-24 10:40:44,496 DEBUG      index_construction.py <module>        index now holds 14338 documents
+2020-01-24 10:40:44,497 DEBUG      index_construction.py <module>        non_zero elements in batch = 599, total size = 160000
+2020-01-24 10:40:44,497 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00374375
+2020-01-24 10:41:30,305 DEBUG      index_construction.py <module>        generating document representation batch_num=3701 	 num_document_batches=11000
+2020-01-24 10:41:30,306 DEBUG      index_construction.py <module>        index now holds 14755 documents
+2020-01-24 10:41:30,306 DEBUG      index_construction.py <module>        non_zero elements in batch = 123, total size = 160000
+2020-01-24 10:41:30,306 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00076875
+2020-01-24 10:42:16,255 DEBUG      index_construction.py <module>        generating document representation batch_num=3801 	 num_document_batches=11000
+2020-01-24 10:42:16,257 DEBUG      index_construction.py <module>        index now holds 15159 documents
+2020-01-24 10:42:16,257 DEBUG      index_construction.py <module>        non_zero elements in batch = 330, total size = 160000
+2020-01-24 10:42:16,257 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0020625
+2020-01-24 10:43:02,107 DEBUG      index_construction.py <module>        generating document representation batch_num=3901 	 num_document_batches=11000
+2020-01-24 10:43:02,108 DEBUG      index_construction.py <module>        index now holds 15548 documents
+2020-01-24 10:43:02,108 DEBUG      index_construction.py <module>        non_zero elements in batch = 20, total size = 160000
+2020-01-24 10:43:02,108 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000125
+2020-01-24 10:43:47,863 DEBUG      index_construction.py <module>        generating document representation batch_num=4001 	 num_document_batches=11000
+2020-01-24 10:43:47,863 DEBUG      index_construction.py <module>        index now holds 15959 documents
+2020-01-24 10:43:47,864 DEBUG      index_construction.py <module>        non_zero elements in batch = 504, total size = 160000
+2020-01-24 10:43:47,864 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00315
+2020-01-24 10:44:33,700 DEBUG      index_construction.py <module>        generating document representation batch_num=4101 	 num_document_batches=11000
+2020-01-24 10:44:33,700 DEBUG      index_construction.py <module>        index now holds 16351 documents
+2020-01-24 10:44:33,700 DEBUG      index_construction.py <module>        non_zero elements in batch = 83, total size = 160000
+2020-01-24 10:44:33,700 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00051875
+2020-01-24 10:45:19,718 DEBUG      index_construction.py <module>        generating document representation batch_num=4201 	 num_document_batches=11000
+2020-01-24 10:45:19,718 DEBUG      index_construction.py <module>        index now holds 16790 documents
+2020-01-24 10:45:19,719 DEBUG      index_construction.py <module>        non_zero elements in batch = 2445, total size = 160000
+2020-01-24 10:45:19,719 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01528125
+2020-01-24 10:46:05,472 DEBUG      index_construction.py <module>        generating document representation batch_num=4301 	 num_document_batches=11000
+2020-01-24 10:46:05,472 DEBUG      index_construction.py <module>        index now holds 17197 documents
+2020-01-24 10:46:05,473 DEBUG      index_construction.py <module>        non_zero elements in batch = 2056, total size = 160000
+2020-01-24 10:46:05,473 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01285
+2020-01-24 10:46:51,125 DEBUG      index_construction.py <module>        generating document representation batch_num=4401 	 num_document_batches=11000
+2020-01-24 10:46:51,127 DEBUG      index_construction.py <module>        index now holds 17633 documents
+2020-01-24 10:46:51,127 DEBUG      index_construction.py <module>        non_zero elements in batch = 12, total size = 160000
+2020-01-24 10:46:51,127 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=7.5e-05
+2020-01-24 10:47:37,151 DEBUG      index_construction.py <module>        generating document representation batch_num=4501 	 num_document_batches=11000
+2020-01-24 10:47:37,151 DEBUG      index_construction.py <module>        index now holds 18019 documents
+2020-01-24 10:47:37,151 DEBUG      index_construction.py <module>        non_zero elements in batch = 479, total size = 160000
+2020-01-24 10:47:37,152 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00299375
+2020-01-24 10:48:22,971 DEBUG      index_construction.py <module>        generating document representation batch_num=4601 	 num_document_batches=11000
+2020-01-24 10:48:22,971 DEBUG      index_construction.py <module>        index now holds 18406 documents
+2020-01-24 10:48:22,972 DEBUG      index_construction.py <module>        non_zero elements in batch = 28, total size = 160000
+2020-01-24 10:48:22,972 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000175
+2020-01-24 10:49:08,541 DEBUG      index_construction.py <module>        generating document representation batch_num=4701 	 num_document_batches=11000
+2020-01-24 10:49:08,541 DEBUG      index_construction.py <module>        index now holds 18817 documents
+2020-01-24 10:49:08,542 DEBUG      index_construction.py <module>        non_zero elements in batch = 11447, total size = 160000
+2020-01-24 10:49:08,542 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.07154375
+2020-01-24 10:49:54,325 DEBUG      index_construction.py <module>        generating document representation batch_num=4801 	 num_document_batches=11000
+2020-01-24 10:49:54,325 DEBUG      index_construction.py <module>        index now holds 19223 documents
+2020-01-24 10:49:54,326 DEBUG      index_construction.py <module>        non_zero elements in batch = 112, total size = 160000
+2020-01-24 10:49:54,326 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0007
+2020-01-24 10:50:40,014 DEBUG      index_construction.py <module>        generating document representation batch_num=4901 	 num_document_batches=11000
+2020-01-24 10:50:40,014 DEBUG      index_construction.py <module>        index now holds 19628 documents
+2020-01-24 10:50:40,014 DEBUG      index_construction.py <module>        non_zero elements in batch = 105, total size = 160000
+2020-01-24 10:50:40,014 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00065625
+2020-01-24 10:51:25,935 DEBUG      index_construction.py <module>        generating document representation batch_num=5001 	 num_document_batches=11000
+2020-01-24 10:51:25,936 DEBUG      index_construction.py <module>        index now holds 20028 documents
+2020-01-24 10:51:25,936 DEBUG      index_construction.py <module>        non_zero elements in batch = 630, total size = 160000
+2020-01-24 10:51:25,936 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0039375
+2020-01-24 10:52:11,638 DEBUG      index_construction.py <module>        generating document representation batch_num=5101 	 num_document_batches=11000
+2020-01-24 10:52:11,640 DEBUG      index_construction.py <module>        index now holds 20450 documents
+2020-01-24 10:52:11,640 DEBUG      index_construction.py <module>        non_zero elements in batch = 98, total size = 160000
+2020-01-24 10:52:11,640 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0006125
+2020-01-24 10:52:57,203 DEBUG      index_construction.py <module>        generating document representation batch_num=5201 	 num_document_batches=11000
+2020-01-24 10:52:57,204 DEBUG      index_construction.py <module>        index now holds 20849 documents
+2020-01-24 10:52:57,204 DEBUG      index_construction.py <module>        non_zero elements in batch = 0, total size = 160000
+2020-01-24 10:52:57,204 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0
+2020-01-24 10:53:42,935 DEBUG      index_construction.py <module>        generating document representation batch_num=5301 	 num_document_batches=11000
+2020-01-24 10:53:42,935 DEBUG      index_construction.py <module>        index now holds 21228 documents
+2020-01-24 10:53:42,936 DEBUG      index_construction.py <module>        non_zero elements in batch = 10, total size = 160000
+2020-01-24 10:53:42,936 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-05
+2020-01-24 10:54:29,124 DEBUG      index_construction.py <module>        generating document representation batch_num=5401 	 num_document_batches=11000
+2020-01-24 10:54:29,125 DEBUG      index_construction.py <module>        index now holds 21629 documents
+2020-01-24 10:54:29,125 DEBUG      index_construction.py <module>        non_zero elements in batch = 86, total size = 160000
+2020-01-24 10:54:29,125 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0005375
+2020-01-24 10:55:14,966 DEBUG      index_construction.py <module>        generating document representation batch_num=5501 	 num_document_batches=11000
+2020-01-24 10:55:14,967 DEBUG      index_construction.py <module>        index now holds 22041 documents
+2020-01-24 10:55:14,967 DEBUG      index_construction.py <module>        non_zero elements in batch = 65, total size = 160000
+2020-01-24 10:55:14,967 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00040625
+2020-01-24 10:56:00,612 DEBUG      index_construction.py <module>        generating document representation batch_num=5601 	 num_document_batches=11000
+2020-01-24 10:56:00,613 DEBUG      index_construction.py <module>        index now holds 22448 documents
+2020-01-24 10:56:00,613 DEBUG      index_construction.py <module>        non_zero elements in batch = 20, total size = 160000
+2020-01-24 10:56:00,613 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000125
+2020-01-24 10:56:46,287 DEBUG      index_construction.py <module>        generating document representation batch_num=5701 	 num_document_batches=11000
+2020-01-24 10:56:46,287 DEBUG      index_construction.py <module>        index now holds 22893 documents
+2020-01-24 10:56:46,288 DEBUG      index_construction.py <module>        non_zero elements in batch = 12, total size = 160000
+2020-01-24 10:56:46,288 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=7.5e-05
+2020-01-24 10:57:31,883 DEBUG      index_construction.py <module>        generating document representation batch_num=5801 	 num_document_batches=11000
+2020-01-24 10:57:31,885 DEBUG      index_construction.py <module>        index now holds 23291 documents
+2020-01-24 10:57:31,886 DEBUG      index_construction.py <module>        non_zero elements in batch = 129, total size = 160000
+2020-01-24 10:57:31,886 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00080625
+2020-01-24 10:58:17,644 DEBUG      index_construction.py <module>        generating document representation batch_num=5901 	 num_document_batches=11000
+2020-01-24 10:58:17,644 DEBUG      index_construction.py <module>        index now holds 23687 documents
+2020-01-24 10:58:17,645 DEBUG      index_construction.py <module>        non_zero elements in batch = 552, total size = 160000
+2020-01-24 10:58:17,645 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00345
+2020-01-24 10:59:03,237 DEBUG      index_construction.py <module>        generating document representation batch_num=6001 	 num_document_batches=11000
+2020-01-24 10:59:03,237 DEBUG      index_construction.py <module>        index now holds 24052 documents
+2020-01-24 10:59:03,238 DEBUG      index_construction.py <module>        non_zero elements in batch = 76, total size = 160000
+2020-01-24 10:59:03,238 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000475
+2020-01-24 10:59:48,859 DEBUG      index_construction.py <module>        generating document representation batch_num=6101 	 num_document_batches=11000
+2020-01-24 10:59:48,859 DEBUG      index_construction.py <module>        index now holds 24471 documents
+2020-01-24 10:59:48,860 DEBUG      index_construction.py <module>        non_zero elements in batch = 3333, total size = 160000
+2020-01-24 10:59:48,860 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.02083125
+2020-01-24 11:00:34,617 DEBUG      index_construction.py <module>        generating document representation batch_num=6201 	 num_document_batches=11000
+2020-01-24 11:00:34,617 DEBUG      index_construction.py <module>        index now holds 24884 documents
+2020-01-24 11:00:34,618 DEBUG      index_construction.py <module>        non_zero elements in batch = 18, total size = 160000
+2020-01-24 11:00:34,618 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0001125
+2020-01-24 11:01:20,316 DEBUG      index_construction.py <module>        generating document representation batch_num=6301 	 num_document_batches=11000
+2020-01-24 11:01:20,316 DEBUG      index_construction.py <module>        index now holds 25276 documents
+2020-01-24 11:01:20,317 DEBUG      index_construction.py <module>        non_zero elements in batch = 1814, total size = 160000
+2020-01-24 11:01:20,317 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0113375
+2020-01-24 11:02:05,767 DEBUG      index_construction.py <module>        generating document representation batch_num=6401 	 num_document_batches=11000
+2020-01-24 11:02:05,767 DEBUG      index_construction.py <module>        index now holds 25693 documents
+2020-01-24 11:02:05,767 DEBUG      index_construction.py <module>        non_zero elements in batch = 538, total size = 160000
+2020-01-24 11:02:05,767 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0033625
+2020-01-24 11:02:51,489 DEBUG      index_construction.py <module>        generating document representation batch_num=6501 	 num_document_batches=11000
+2020-01-24 11:02:51,491 DEBUG      index_construction.py <module>        index now holds 26099 documents
+2020-01-24 11:02:51,492 DEBUG      index_construction.py <module>        non_zero elements in batch = 595, total size = 160000
+2020-01-24 11:02:51,492 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00371875
+2020-01-24 11:03:36,943 DEBUG      index_construction.py <module>        generating document representation batch_num=6601 	 num_document_batches=11000
+2020-01-24 11:03:36,943 DEBUG      index_construction.py <module>        index now holds 26532 documents
+2020-01-24 11:03:36,944 DEBUG      index_construction.py <module>        non_zero elements in batch = 843, total size = 160000
+2020-01-24 11:03:36,944 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00526875
+2020-01-24 11:04:22,731 DEBUG      index_construction.py <module>        generating document representation batch_num=6701 	 num_document_batches=11000
+2020-01-24 11:04:22,731 DEBUG      index_construction.py <module>        index now holds 26928 documents
+2020-01-24 11:04:22,731 DEBUG      index_construction.py <module>        non_zero elements in batch = 1691, total size = 160000
+2020-01-24 11:04:22,731 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01056875
+2020-01-24 11:05:08,623 DEBUG      index_construction.py <module>        generating document representation batch_num=6801 	 num_document_batches=11000
+2020-01-24 11:05:08,623 DEBUG      index_construction.py <module>        index now holds 27359 documents
+2020-01-24 11:05:08,624 DEBUG      index_construction.py <module>        non_zero elements in batch = 558, total size = 160000
+2020-01-24 11:05:08,624 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0034875
+2020-01-24 11:05:53,884 DEBUG      index_construction.py <module>        generating document representation batch_num=6901 	 num_document_batches=11000
+2020-01-24 11:05:53,884 DEBUG      index_construction.py <module>        index now holds 27815 documents
+2020-01-24 11:05:53,884 DEBUG      index_construction.py <module>        non_zero elements in batch = 3799, total size = 160000
+2020-01-24 11:05:53,884 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.02374375
+2020-01-24 11:06:40,004 DEBUG      index_construction.py <module>        generating document representation batch_num=7001 	 num_document_batches=11000
+2020-01-24 11:06:40,006 DEBUG      index_construction.py <module>        index now holds 28230 documents
+2020-01-24 11:06:40,007 DEBUG      index_construction.py <module>        non_zero elements in batch = 35, total size = 160000
+2020-01-24 11:06:40,007 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00021875
+2020-01-24 11:07:25,481 DEBUG      index_construction.py <module>        generating document representation batch_num=7101 	 num_document_batches=11000
+2020-01-24 11:07:25,481 DEBUG      index_construction.py <module>        index now holds 28662 documents
+2020-01-24 11:07:25,481 DEBUG      index_construction.py <module>        non_zero elements in batch = 42, total size = 160000
+2020-01-24 11:07:25,481 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0002625
+2020-01-24 11:08:11,277 DEBUG      index_construction.py <module>        generating document representation batch_num=7201 	 num_document_batches=11000
+2020-01-24 11:08:11,279 DEBUG      index_construction.py <module>        index now holds 29104 documents
+2020-01-24 11:08:11,280 DEBUG      index_construction.py <module>        non_zero elements in batch = 7, total size = 160000
+2020-01-24 11:08:11,280 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=4.375e-05
+2020-01-24 11:08:56,667 DEBUG      index_construction.py <module>        generating document representation batch_num=7301 	 num_document_batches=11000
+2020-01-24 11:08:56,668 DEBUG      index_construction.py <module>        index now holds 29570 documents
+2020-01-24 11:08:56,668 DEBUG      index_construction.py <module>        non_zero elements in batch = 93, total size = 160000
+2020-01-24 11:08:56,668 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00058125
+2020-01-24 11:09:41,930 DEBUG      index_construction.py <module>        generating document representation batch_num=7401 	 num_document_batches=11000
+2020-01-24 11:09:41,930 DEBUG      index_construction.py <module>        index now holds 29995 documents
+2020-01-24 11:09:41,931 DEBUG      index_construction.py <module>        non_zero elements in batch = 1, total size = 160000
+2020-01-24 11:09:41,931 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-06
+2020-01-24 11:10:26,930 DEBUG      index_construction.py <module>        generating document representation batch_num=7501 	 num_document_batches=11000
+2020-01-24 11:10:26,930 DEBUG      index_construction.py <module>        index now holds 30394 documents
+2020-01-24 11:10:26,930 DEBUG      index_construction.py <module>        non_zero elements in batch = 28, total size = 160000
+2020-01-24 11:10:26,930 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000175
+2020-01-24 11:11:11,985 DEBUG      index_construction.py <module>        generating document representation batch_num=7601 	 num_document_batches=11000
+2020-01-24 11:11:11,985 DEBUG      index_construction.py <module>        index now holds 30825 documents
+2020-01-24 11:11:11,985 DEBUG      index_construction.py <module>        non_zero elements in batch = 398, total size = 160000
+2020-01-24 11:11:11,985 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0024875
+2020-01-24 11:11:57,242 DEBUG      index_construction.py <module>        generating document representation batch_num=7701 	 num_document_batches=11000
+2020-01-24 11:11:57,242 DEBUG      index_construction.py <module>        index now holds 31322 documents
+2020-01-24 11:11:57,243 DEBUG      index_construction.py <module>        non_zero elements in batch = 177, total size = 160000
+2020-01-24 11:11:57,243 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00110625
+2020-01-24 11:12:42,743 DEBUG      index_construction.py <module>        generating document representation batch_num=7801 	 num_document_batches=11000
+2020-01-24 11:12:42,743 DEBUG      index_construction.py <module>        index now holds 31785 documents
+2020-01-24 11:12:42,744 DEBUG      index_construction.py <module>        non_zero elements in batch = 39, total size = 160000
+2020-01-24 11:12:42,744 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00024375
+2020-01-24 11:13:27,287 DEBUG      index_construction.py <module>        generating document representation batch_num=7901 	 num_document_batches=11000
+2020-01-24 11:13:27,289 DEBUG      index_construction.py <module>        index now holds 32253 documents
+2020-01-24 11:13:27,291 DEBUG      index_construction.py <module>        non_zero elements in batch = 35, total size = 160000
+2020-01-24 11:13:27,291 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00021875
+2020-01-24 11:14:12,343 DEBUG      index_construction.py <module>        generating document representation batch_num=8001 	 num_document_batches=11000
+2020-01-24 11:14:12,343 DEBUG      index_construction.py <module>        index now holds 32752 documents
+2020-01-24 11:14:12,344 DEBUG      index_construction.py <module>        non_zero elements in batch = 4, total size = 160000
+2020-01-24 11:14:12,344 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=2.5e-05
+2020-01-24 11:14:57,587 DEBUG      index_construction.py <module>        generating document representation batch_num=8101 	 num_document_batches=11000
+2020-01-24 11:14:57,587 DEBUG      index_construction.py <module>        index now holds 33203 documents
+2020-01-24 11:14:57,588 DEBUG      index_construction.py <module>        non_zero elements in batch = 179, total size = 160000
+2020-01-24 11:14:57,588 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00111875
+2020-01-24 11:15:43,806 DEBUG      index_construction.py <module>        generating document representation batch_num=8201 	 num_document_batches=11000
+2020-01-24 11:15:43,806 DEBUG      index_construction.py <module>        index now holds 33627 documents
+2020-01-24 11:15:43,807 DEBUG      index_construction.py <module>        non_zero elements in batch = 17, total size = 160000
+2020-01-24 11:15:43,807 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00010625
+2020-01-24 11:16:30,164 DEBUG      index_construction.py <module>        generating document representation batch_num=8301 	 num_document_batches=11000
+2020-01-24 11:16:30,164 DEBUG      index_construction.py <module>        index now holds 34093 documents
+2020-01-24 11:16:30,165 DEBUG      index_construction.py <module>        non_zero elements in batch = 1574, total size = 160000
+2020-01-24 11:16:30,165 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0098375
+2020-01-24 11:17:15,519 DEBUG      index_construction.py <module>        generating document representation batch_num=8401 	 num_document_batches=11000
+2020-01-24 11:17:15,519 DEBUG      index_construction.py <module>        index now holds 34555 documents
+2020-01-24 11:17:15,520 DEBUG      index_construction.py <module>        non_zero elements in batch = 2190, total size = 160000
+2020-01-24 11:17:15,520 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0136875
+2020-01-24 11:18:01,268 DEBUG      index_construction.py <module>        generating document representation batch_num=8501 	 num_document_batches=11000
+2020-01-24 11:18:01,268 DEBUG      index_construction.py <module>        index now holds 34975 documents
+2020-01-24 11:18:01,269 DEBUG      index_construction.py <module>        non_zero elements in batch = 53, total size = 160000
+2020-01-24 11:18:01,269 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00033125
+2020-01-24 11:18:46,646 DEBUG      index_construction.py <module>        generating document representation batch_num=8601 	 num_document_batches=11000
+2020-01-24 11:18:46,646 DEBUG      index_construction.py <module>        index now holds 35385 documents
+2020-01-24 11:18:46,646 DEBUG      index_construction.py <module>        non_zero elements in batch = 193, total size = 160000
+2020-01-24 11:18:46,646 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00120625
+2020-01-24 11:19:31,636 DEBUG      index_construction.py <module>        generating document representation batch_num=8701 	 num_document_batches=11000
+2020-01-24 11:19:31,636 DEBUG      index_construction.py <module>        index now holds 35809 documents
+2020-01-24 11:19:31,636 DEBUG      index_construction.py <module>        non_zero elements in batch = 122, total size = 160000
+2020-01-24 11:19:31,636 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0007625
+2020-01-24 11:20:16,625 DEBUG      index_construction.py <module>        generating document representation batch_num=8801 	 num_document_batches=11000
+2020-01-24 11:20:16,625 DEBUG      index_construction.py <module>        index now holds 36279 documents
+2020-01-24 11:20:16,625 DEBUG      index_construction.py <module>        non_zero elements in batch = 3104, total size = 160000
+2020-01-24 11:20:16,625 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0194
+2020-01-24 11:21:02,317 DEBUG      index_construction.py <module>        generating document representation batch_num=8901 	 num_document_batches=11000
+2020-01-24 11:21:02,318 DEBUG      index_construction.py <module>        index now holds 36679 documents
+2020-01-24 11:21:02,318 DEBUG      index_construction.py <module>        non_zero elements in batch = 149, total size = 160000
+2020-01-24 11:21:02,318 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00093125
+2020-01-24 11:21:47,531 DEBUG      index_construction.py <module>        generating document representation batch_num=9001 	 num_document_batches=11000
+2020-01-24 11:21:47,531 DEBUG      index_construction.py <module>        index now holds 37091 documents
+2020-01-24 11:21:47,531 DEBUG      index_construction.py <module>        non_zero elements in batch = 96, total size = 160000
+2020-01-24 11:21:47,531 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0006
+2020-01-24 11:22:32,772 DEBUG      index_construction.py <module>        generating document representation batch_num=9101 	 num_document_batches=11000
+2020-01-24 11:22:32,772 DEBUG      index_construction.py <module>        index now holds 37530 documents
+2020-01-24 11:22:32,772 DEBUG      index_construction.py <module>        non_zero elements in batch = 55, total size = 160000
+2020-01-24 11:22:32,772 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00034375
+2020-01-24 11:23:18,187 DEBUG      index_construction.py <module>        generating document representation batch_num=9201 	 num_document_batches=11000
+2020-01-24 11:23:18,189 DEBUG      index_construction.py <module>        index now holds 37939 documents
+2020-01-24 11:23:18,190 DEBUG      index_construction.py <module>        non_zero elements in batch = 23, total size = 160000
+2020-01-24 11:23:18,190 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00014375
+2020-01-24 11:24:03,499 DEBUG      index_construction.py <module>        generating document representation batch_num=9301 	 num_document_batches=11000
+2020-01-24 11:24:03,499 DEBUG      index_construction.py <module>        index now holds 38358 documents
+2020-01-24 11:24:03,500 DEBUG      index_construction.py <module>        non_zero elements in batch = 49, total size = 160000
+2020-01-24 11:24:03,500 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00030625
+2020-01-24 11:24:49,235 DEBUG      index_construction.py <module>        generating document representation batch_num=9401 	 num_document_batches=11000
+2020-01-24 11:24:49,235 DEBUG      index_construction.py <module>        index now holds 38856 documents
+2020-01-24 11:24:49,236 DEBUG      index_construction.py <module>        non_zero elements in batch = 5009, total size = 160000
+2020-01-24 11:24:49,236 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.03130625
+2020-01-24 11:25:34,710 DEBUG      index_construction.py <module>        generating document representation batch_num=9501 	 num_document_batches=11000
+2020-01-24 11:25:34,710 DEBUG      index_construction.py <module>        index now holds 39279 documents
+2020-01-24 11:25:34,710 DEBUG      index_construction.py <module>        non_zero elements in batch = 5, total size = 160000
+2020-01-24 11:25:34,711 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=3.125e-05
+2020-01-24 11:26:21,785 DEBUG      index_construction.py <module>        generating document representation batch_num=9601 	 num_document_batches=11000
+2020-01-24 11:26:21,787 DEBUG      index_construction.py <module>        index now holds 39705 documents
+2020-01-24 11:26:21,787 DEBUG      index_construction.py <module>        non_zero elements in batch = 267, total size = 160000
+2020-01-24 11:26:21,788 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00166875
+2020-01-24 11:27:08,247 DEBUG      index_construction.py <module>        generating document representation batch_num=9701 	 num_document_batches=11000
+2020-01-24 11:27:08,248 DEBUG      index_construction.py <module>        index now holds 40145 documents
+2020-01-24 11:27:08,248 DEBUG      index_construction.py <module>        non_zero elements in batch = 1740, total size = 160000
+2020-01-24 11:27:08,248 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.010875
+2020-01-24 11:27:54,894 DEBUG      index_construction.py <module>        generating document representation batch_num=9801 	 num_document_batches=11000
+2020-01-24 11:27:54,894 DEBUG      index_construction.py <module>        index now holds 40615 documents
+2020-01-24 11:27:54,895 DEBUG      index_construction.py <module>        non_zero elements in batch = 80, total size = 160000
+2020-01-24 11:27:54,895 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0005
+2020-01-24 11:28:43,246 DEBUG      index_construction.py <module>        generating document representation batch_num=9901 	 num_document_batches=11000
+2020-01-24 11:28:43,248 DEBUG      index_construction.py <module>        index now holds 41069 documents
+2020-01-24 11:28:43,248 DEBUG      index_construction.py <module>        non_zero elements in batch = 42, total size = 160000
+2020-01-24 11:28:43,249 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0002625
+2020-01-24 11:29:29,286 DEBUG      index_construction.py <module>        generating document representation batch_num=10001 	 num_document_batches=11000
+2020-01-24 11:29:29,286 DEBUG      index_construction.py <module>        index now holds 41490 documents
+2020-01-24 11:29:29,287 DEBUG      index_construction.py <module>        non_zero elements in batch = 344, total size = 160000
+2020-01-24 11:29:29,287 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00215
+2020-01-24 11:30:13,502 DEBUG      index_construction.py <module>        generating document representation batch_num=10101 	 num_document_batches=11000
+2020-01-24 11:30:13,502 DEBUG      index_construction.py <module>        index now holds 41915 documents
+2020-01-24 11:30:13,502 DEBUG      index_construction.py <module>        non_zero elements in batch = 154, total size = 160000
+2020-01-24 11:30:13,502 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0009625
+2020-01-24 11:30:58,555 DEBUG      index_construction.py <module>        generating document representation batch_num=10201 	 num_document_batches=11000
+2020-01-24 11:30:58,555 DEBUG      index_construction.py <module>        index now holds 42353 documents
+2020-01-24 11:30:58,556 DEBUG      index_construction.py <module>        non_zero elements in batch = 116, total size = 160000
+2020-01-24 11:30:58,556 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000725
+2020-01-24 11:31:42,839 DEBUG      index_construction.py <module>        generating document representation batch_num=10301 	 num_document_batches=11000
+2020-01-24 11:31:42,839 DEBUG      index_construction.py <module>        index now holds 42781 documents
+2020-01-24 11:31:42,840 DEBUG      index_construction.py <module>        non_zero elements in batch = 2172, total size = 160000
+2020-01-24 11:31:42,840 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.013575
+2020-01-24 11:32:31,601 DEBUG      index_construction.py <module>        generating document representation batch_num=10401 	 num_document_batches=11000
+2020-01-24 11:32:31,602 DEBUG      index_construction.py <module>        index now holds 43223 documents
+2020-01-24 11:32:31,602 DEBUG      index_construction.py <module>        non_zero elements in batch = 332, total size = 160000
+2020-01-24 11:32:31,602 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.002075
+2020-01-24 11:33:17,452 DEBUG      index_construction.py <module>        generating document representation batch_num=10501 	 num_document_batches=11000
+2020-01-24 11:33:17,453 DEBUG      index_construction.py <module>        index now holds 43669 documents
+2020-01-24 11:33:17,453 DEBUG      index_construction.py <module>        non_zero elements in batch = 3076, total size = 160000
+2020-01-24 11:33:17,453 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.019225
+2020-01-24 11:34:03,615 DEBUG      index_construction.py <module>        generating document representation batch_num=10601 	 num_document_batches=11000
+2020-01-24 11:34:03,617 DEBUG      index_construction.py <module>        index now holds 44109 documents
+2020-01-24 11:34:03,618 DEBUG      index_construction.py <module>        non_zero elements in batch = 36, total size = 160000
+2020-01-24 11:34:03,618 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000225
+2020-01-24 11:34:47,727 DEBUG      index_construction.py <module>        generating document representation batch_num=10701 	 num_document_batches=11000
+2020-01-24 11:34:47,727 DEBUG      index_construction.py <module>        index now holds 44526 documents
+2020-01-24 11:34:47,728 DEBUG      index_construction.py <module>        non_zero elements in batch = 87, total size = 160000
+2020-01-24 11:34:47,728 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00054375
+2020-01-24 11:35:32,436 DEBUG      index_construction.py <module>        generating document representation batch_num=10801 	 num_document_batches=11000
+2020-01-24 11:35:32,436 DEBUG      index_construction.py <module>        index now holds 44950 documents
+2020-01-24 11:35:32,436 DEBUG      index_construction.py <module>        non_zero elements in batch = 859, total size = 160000
+2020-01-24 11:35:32,437 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00536875
+2020-01-24 11:36:16,962 DEBUG      index_construction.py <module>        generating document representation batch_num=10901 	 num_document_batches=11000
+2020-01-24 11:36:16,962 DEBUG      index_construction.py <module>        index now holds 45396 documents
+2020-01-24 11:36:16,963 DEBUG      index_construction.py <module>        non_zero elements in batch = 197, total size = 160000
+2020-01-24 11:36:16,963 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00123125
+2020-01-24 11:37:01,019 DEBUG      inverted_index.py store           found 45814 documents in index
+2020-01-24 11:37:01,688 INFO       inverted_index.py store           Stored inverted index
+
+
+
+
+
+BASE_PATH=
+BATCH_SIZE=32
+BATCH_SIZE_DOCUMENTS=32
+DICT_FILE_NAME=data/tokens/tokens_lowered_2019-12-28_001150_min_10.txt
+DICT_MIN_FREQ=20
+DOCUMENT_COLLECTION_FILE=data/document_collection/collection.air-subset.tsv
+DROPOUT_PARAMETER=1.0
+EMB_DIM=300
+EVALUATION_QUERY_FILE=data/evaluation/queries.air-subset.tsv
+EVALUATION_RESULT_CANDIDATE_FILE_PREFIX=results/evaluation_candidate_
+EXPERIMENT_MODE=False
+HIDDEN_1=50
+HIDDEN_2=50
+HIDDEN_3=5000
+HIDDEN_4=-1
+HIDDEN_5=-1
+INDEX_PATH=index/
+LEARNING_RATE=5e-05
+LOG_PATH=tf-log/
+MAX_DOC_LEN=103
+MAX_Q_LEN=10
+MODEL_PATH=model/
+NUM_DOCUMENT_BATCHES=25218
+NUM_EVALUATION_QUERIES=1000
+NUM_RETRIEVAL_DOCUMENTS_PER_QUERY=100
+NUM_TRAIN_STEPS=70000
+NUM_VALID_STEPS=1000
+PRE_TRAINED_EMBEDDING_FILE_NAME=data/embeddings/glove.42B.300d.txt
+REGULARIZATION_TERM=0.0
+RESULT_PATH=results/
+RUN_NAME=snrm-extension-example-run-22-colab
+SAVE_SNAPSHOT_EVERY_N_STEPS=10000
+TRAINING_DATA_TRIPLES_FILE=data/training_data/triples.train.small.tsv
+VALIDATE_EVERY_N_STEPS=5000
+VALIDATION_DATA_TRIPLES_FILE=data/training_data/triples.valid.tsv
+
+Running with TensorFlow version: 1.4.0
+
+Python System information: 3.6.9 |Anaconda, Inc.| (default, Jul 30 2019, 19:07:31)
+[GCC 7.3.0]
+
+2020-01-24 13:33:37,679 INFO       dictionary.py load_from_galago_dump 359918 terms have been loaded to the dictionary
+2020-01-24 13:35:23,157 DEBUG      snrm.py    get_embedding_params found 86875 unkonwn terms from dictionary that are missing in embedding
+
+2020-01-24 13:35:27,402 INFO       snrm.py    __init__        obtained embeddings
+2020-01-24 13:35:27,408 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_query: [32, 1, 10, 300]
+2020-01-24 13:35:27,411 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc1: [32, 1, 103, 300]
+2020-01-24 13:35:27,413 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc2: [32, 1, 103, 300]
+2020-01-24 13:35:27,439 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc: [None, 1, 103, 300]
+2020-01-24 13:35:27,444 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_test_query: [None, 1, 10, 300]
+2020-01-24 13:35:34,998 INFO       tf_logging.py info            Restoring parameters from model/snrm-extension-example-run-22-colab60000
+2020-01-24 13:35:35,976 INFO       index_construction.py <module>        Load model from model/snrm-extension-example-run-22-colab60000
+2020-01-24 13:35:36,686 DEBUG      index_construction.py <module>        generating document representation batch_num=1 	 num_document_batches=25218
+2020-01-24 13:35:36,686 DEBUG      index_construction.py <module>        index now holds 3 documents
+2020-01-24 13:35:36,686 DEBUG      index_construction.py <module>        non_zero elements in batch = 166, total size = 160000
+2020-01-24 13:35:36,686 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0010375
+2020-01-24 13:36:19,693 DEBUG      index_construction.py <module>        generating document representation batch_num=101 	 num_document_batches=25218
+2020-01-24 13:36:19,693 DEBUG      index_construction.py <module>        index now holds 306 documents
+2020-01-24 13:36:19,694 DEBUG      index_construction.py <module>        non_zero elements in batch = 1177, total size = 160000
+2020-01-24 13:36:19,694 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00735625
+2020-01-24 13:37:01,970 DEBUG      index_construction.py <module>        generating document representation batch_num=201 	 num_document_batches=25218
+2020-01-24 13:37:01,970 DEBUG      index_construction.py <module>        index now holds 604 documents
+2020-01-24 13:37:01,970 DEBUG      index_construction.py <module>        non_zero elements in batch = 6, total size = 160000
+2020-01-24 13:37:01,970 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=3.75e-05
+2020-01-24 13:37:44,160 DEBUG      index_construction.py <module>        generating document representation batch_num=301 	 num_document_batches=25218
+2020-01-24 13:37:44,160 DEBUG      index_construction.py <module>        index now holds 861 documents
+2020-01-24 13:37:44,161 DEBUG      index_construction.py <module>        non_zero elements in batch = 1, total size = 160000
+2020-01-24 13:37:44,161 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-06
+2020-01-24 13:38:26,056 DEBUG      index_construction.py <module>        generating document representation batch_num=401 	 num_document_batches=25218
+2020-01-24 13:38:26,056 DEBUG      index_construction.py <module>        index now holds 1188 documents
+2020-01-24 13:38:26,057 DEBUG      index_construction.py <module>        non_zero elements in batch = 2871, total size = 160000
+2020-01-24 13:38:26,057 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01794375
+2020-01-24 13:39:08,196 DEBUG      index_construction.py <module>        generating document representation batch_num=501 	 num_document_batches=25218
+2020-01-24 13:39:08,197 DEBUG      index_construction.py <module>        index now holds 1487 documents
+2020-01-24 13:39:08,197 DEBUG      index_construction.py <module>        non_zero elements in batch = 68, total size = 160000
+2020-01-24 13:39:08,197 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000425
+2020-01-24 13:39:50,481 DEBUG      index_construction.py <module>        generating document representation batch_num=601 	 num_document_batches=25218
+2020-01-24 13:39:50,481 DEBUG      index_construction.py <module>        index now holds 1815 documents
+2020-01-24 13:39:50,482 DEBUG      index_construction.py <module>        non_zero elements in batch = 4, total size = 160000
+2020-01-24 13:39:50,482 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=2.5e-05
+2020-01-24 13:40:33,209 DEBUG      index_construction.py <module>        generating document representation batch_num=701 	 num_document_batches=25218
+2020-01-24 13:40:33,210 DEBUG      index_construction.py <module>        index now holds 2140 documents
+2020-01-24 13:40:33,210 DEBUG      index_construction.py <module>        non_zero elements in batch = 171, total size = 160000
+2020-01-24 13:40:33,210 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00106875
+2020-01-24 13:41:16,913 DEBUG      index_construction.py <module>        generating document representation batch_num=801 	 num_document_batches=25218
+2020-01-24 13:41:16,913 DEBUG      index_construction.py <module>        index now holds 2440 documents
+2020-01-24 13:41:16,913 DEBUG      index_construction.py <module>        non_zero elements in batch = 22, total size = 160000
+2020-01-24 13:41:16,913 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0001375
+2020-01-24 13:41:58,964 DEBUG      index_construction.py <module>        generating document representation batch_num=901 	 num_document_batches=25218
+2020-01-24 13:41:58,964 DEBUG      index_construction.py <module>        index now holds 2725 documents
+2020-01-24 13:41:58,964 DEBUG      index_construction.py <module>        non_zero elements in batch = 99, total size = 160000
+2020-01-24 13:41:58,964 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00061875
+2020-01-24 13:42:42,050 DEBUG      index_construction.py <module>        generating document representation batch_num=1001 	 num_document_batches=25218
+2020-01-24 13:42:42,050 DEBUG      index_construction.py <module>        index now holds 2987 documents
+2020-01-24 13:42:42,050 DEBUG      index_construction.py <module>        non_zero elements in batch = 57, total size = 160000
+2020-01-24 13:42:42,050 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00035625
+2020-01-24 13:43:25,028 DEBUG      index_construction.py <module>        generating document representation batch_num=1101 	 num_document_batches=25218
+2020-01-24 13:43:25,028 DEBUG      index_construction.py <module>        index now holds 3322 documents
+2020-01-24 13:43:25,029 DEBUG      index_construction.py <module>        non_zero elements in batch = 5991, total size = 160000
+2020-01-24 13:43:25,029 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.03744375
+2020-01-24 13:44:07,083 DEBUG      index_construction.py <module>        generating document representation batch_num=1201 	 num_document_batches=25218
+2020-01-24 13:44:07,083 DEBUG      index_construction.py <module>        index now holds 3591 documents
+2020-01-24 13:44:07,084 DEBUG      index_construction.py <module>        non_zero elements in batch = 18, total size = 160000
+2020-01-24 13:44:07,084 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0001125
+2020-01-24 13:44:50,690 DEBUG      index_construction.py <module>        generating document representation batch_num=1301 	 num_document_batches=25218
+2020-01-24 13:44:50,691 DEBUG      index_construction.py <module>        index now holds 3890 documents
+2020-01-24 13:44:50,691 DEBUG      index_construction.py <module>        non_zero elements in batch = 1628, total size = 160000
+2020-01-24 13:44:50,691 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.010175
+2020-01-24 13:45:32,722 DEBUG      index_construction.py <module>        generating document representation batch_num=1401 	 num_document_batches=25218
+2020-01-24 13:45:32,722 DEBUG      index_construction.py <module>        index now holds 4166 documents
+2020-01-24 13:45:32,722 DEBUG      index_construction.py <module>        non_zero elements in batch = 0, total size = 160000
+2020-01-24 13:45:32,722 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0
+2020-01-24 13:46:14,956 DEBUG      index_construction.py <module>        generating document representation batch_num=1501 	 num_document_batches=25218
+2020-01-24 13:46:14,956 DEBUG      index_construction.py <module>        index now holds 4504 documents
+2020-01-24 13:46:14,957 DEBUG      index_construction.py <module>        non_zero elements in batch = 616, total size = 160000
+2020-01-24 13:46:14,957 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00385
+2020-01-24 13:46:57,095 DEBUG      index_construction.py <module>        generating document representation batch_num=1601 	 num_document_batches=25218
+2020-01-24 13:46:57,095 DEBUG      index_construction.py <module>        index now holds 4827 documents
+2020-01-24 13:46:57,096 DEBUG      index_construction.py <module>        non_zero elements in batch = 16, total size = 160000
+2020-01-24 13:46:57,096 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0001
+2020-01-24 13:47:39,346 DEBUG      index_construction.py <module>        generating document representation batch_num=1701 	 num_document_batches=25218
+2020-01-24 13:47:39,346 DEBUG      index_construction.py <module>        index now holds 5111 documents
+2020-01-24 13:47:39,347 DEBUG      index_construction.py <module>        non_zero elements in batch = 2, total size = 160000
+2020-01-24 13:47:39,347 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=1.25e-05
+2020-01-24 13:48:21,229 DEBUG      index_construction.py <module>        generating document representation batch_num=1801 	 num_document_batches=25218
+2020-01-24 13:48:21,229 DEBUG      index_construction.py <module>        index now holds 5414 documents
+2020-01-24 13:48:21,229 DEBUG      index_construction.py <module>        non_zero elements in batch = 4, total size = 160000
+2020-01-24 13:48:21,230 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=2.5e-05
+2020-01-24 13:49:02,825 DEBUG      index_construction.py <module>        generating document representation batch_num=1901 	 num_document_batches=25218
+2020-01-24 13:49:02,825 DEBUG      index_construction.py <module>        index now holds 5714 documents
+2020-01-24 13:49:02,826 DEBUG      index_construction.py <module>        non_zero elements in batch = 340, total size = 160000
+2020-01-24 13:49:02,826 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.002125
+2020-01-24 13:49:44,637 DEBUG      index_construction.py <module>        generating document representation batch_num=2001 	 num_document_batches=25218
+2020-01-24 13:49:44,637 DEBUG      index_construction.py <module>        index now holds 5991 documents
+2020-01-24 13:49:44,638 DEBUG      index_construction.py <module>        non_zero elements in batch = 58, total size = 160000
+2020-01-24 13:49:44,638 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0003625
+2020-01-24 13:50:28,162 DEBUG      index_construction.py <module>        generating document representation batch_num=2101 	 num_document_batches=25218
+2020-01-24 13:50:28,162 DEBUG      index_construction.py <module>        index now holds 6258 documents
+2020-01-24 13:50:28,162 DEBUG      index_construction.py <module>        non_zero elements in batch = 2959, total size = 160000
+2020-01-24 13:50:28,162 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01849375
+2020-01-24 13:51:11,461 DEBUG      index_construction.py <module>        generating document representation batch_num=2201 	 num_document_batches=25218
+2020-01-24 13:51:11,461 DEBUG      index_construction.py <module>        index now holds 6584 documents
+2020-01-24 13:51:11,461 DEBUG      index_construction.py <module>        non_zero elements in batch = 18, total size = 160000
+2020-01-24 13:51:11,461 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0001125
+2020-01-24 13:51:54,750 DEBUG      index_construction.py <module>        generating document representation batch_num=2301 	 num_document_batches=25218
+2020-01-24 13:51:54,750 DEBUG      index_construction.py <module>        index now holds 6871 documents
+2020-01-24 13:51:54,751 DEBUG      index_construction.py <module>        non_zero elements in batch = 14, total size = 160000
+2020-01-24 13:51:54,751 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=8.75e-05
+2020-01-24 13:52:37,686 DEBUG      index_construction.py <module>        generating document representation batch_num=2401 	 num_document_batches=25218
+2020-01-24 13:52:37,687 DEBUG      index_construction.py <module>        index now holds 7136 documents
+2020-01-24 13:52:37,687 DEBUG      index_construction.py <module>        non_zero elements in batch = 8, total size = 160000
+2020-01-24 13:52:37,687 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=5e-05
+2020-01-24 13:53:20,722 DEBUG      index_construction.py <module>        generating document representation batch_num=2501 	 num_document_batches=25218
+2020-01-24 13:53:20,722 DEBUG      index_construction.py <module>        index now holds 7453 documents
+2020-01-24 13:53:20,723 DEBUG      index_construction.py <module>        non_zero elements in batch = 1232, total size = 160000
+2020-01-24 13:53:20,723 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0077
+2020-01-24 13:54:04,224 DEBUG      index_construction.py <module>        generating document representation batch_num=2601 	 num_document_batches=25218
+2020-01-24 13:54:04,224 DEBUG      index_construction.py <module>        index now holds 7757 documents
+2020-01-24 13:54:04,225 DEBUG      index_construction.py <module>        non_zero elements in batch = 1496, total size = 160000
+2020-01-24 13:54:04,225 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00935
+2020-01-24 13:54:46,597 DEBUG      index_construction.py <module>        generating document representation batch_num=2701 	 num_document_batches=25218
+2020-01-24 13:54:46,597 DEBUG      index_construction.py <module>        index now holds 8035 documents
+2020-01-24 13:54:46,598 DEBUG      index_construction.py <module>        non_zero elements in batch = 4807, total size = 160000
+2020-01-24 13:54:46,598 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.03004375
+2020-01-24 13:55:29,459 DEBUG      index_construction.py <module>        generating document representation batch_num=2801 	 num_document_batches=25218
+2020-01-24 13:55:29,459 DEBUG      index_construction.py <module>        index now holds 8349 documents
+2020-01-24 13:55:29,459 DEBUG      index_construction.py <module>        non_zero elements in batch = 54, total size = 160000
+2020-01-24 13:55:29,459 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0003375
+2020-01-24 13:56:11,843 DEBUG      index_construction.py <module>        generating document representation batch_num=2901 	 num_document_batches=25218
+2020-01-24 13:56:11,843 DEBUG      index_construction.py <module>        index now holds 8628 documents
+2020-01-24 13:56:11,843 DEBUG      index_construction.py <module>        non_zero elements in batch = 627, total size = 160000
+2020-01-24 13:56:11,844 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00391875
+2020-01-24 13:56:53,209 DEBUG      index_construction.py <module>        generating document representation batch_num=3001 	 num_document_batches=25218
+2020-01-24 13:56:53,209 DEBUG      index_construction.py <module>        index now holds 8891 documents
+2020-01-24 13:56:53,209 DEBUG      index_construction.py <module>        non_zero elements in batch = 49, total size = 160000
+2020-01-24 13:56:53,209 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00030625
+2020-01-24 13:57:34,709 DEBUG      index_construction.py <module>        generating document representation batch_num=3101 	 num_document_batches=25218
+2020-01-24 13:57:34,709 DEBUG      index_construction.py <module>        index now holds 9196 documents
+2020-01-24 13:57:34,710 DEBUG      index_construction.py <module>        non_zero elements in batch = 323, total size = 160000
+2020-01-24 13:57:34,710 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00201875
+2020-01-24 13:58:16,431 DEBUG      index_construction.py <module>        generating document representation batch_num=3201 	 num_document_batches=25218
+2020-01-24 13:58:16,432 DEBUG      index_construction.py <module>        index now holds 9471 documents
+2020-01-24 13:58:16,432 DEBUG      index_construction.py <module>        non_zero elements in batch = 666, total size = 160000
+2020-01-24 13:58:16,432 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0041625
+2020-01-24 13:58:57,483 DEBUG      index_construction.py <module>        generating document representation batch_num=3301 	 num_document_batches=25218
+2020-01-24 13:58:57,483 DEBUG      index_construction.py <module>        index now holds 9730 documents
+2020-01-24 13:58:57,483 DEBUG      index_construction.py <module>        non_zero elements in batch = 44, total size = 160000
+2020-01-24 13:58:57,483 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000275
+2020-01-24 13:59:40,444 DEBUG      index_construction.py <module>        generating document representation batch_num=3401 	 num_document_batches=25218
+2020-01-24 13:59:40,444 DEBUG      index_construction.py <module>        index now holds 10039 documents
+2020-01-24 13:59:40,445 DEBUG      index_construction.py <module>        non_zero elements in batch = 68, total size = 160000
+2020-01-24 13:59:40,445 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000425
+2020-01-24 14:00:23,717 DEBUG      index_construction.py <module>        generating document representation batch_num=3501 	 num_document_batches=25218
+2020-01-24 14:00:23,717 DEBUG      index_construction.py <module>        index now holds 10345 documents
+2020-01-24 14:00:23,717 DEBUG      index_construction.py <module>        non_zero elements in batch = 3, total size = 160000
+2020-01-24 14:00:23,718 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=1.875e-05
+2020-01-24 14:01:06,445 DEBUG      index_construction.py <module>        generating document representation batch_num=3601 	 num_document_batches=25218
+2020-01-24 14:01:06,445 DEBUG      index_construction.py <module>        index now holds 10664 documents
+2020-01-24 14:01:06,445 DEBUG      index_construction.py <module>        non_zero elements in batch = 498, total size = 160000
+2020-01-24 14:01:06,446 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0031125
+2020-01-24 14:01:50,117 DEBUG      index_construction.py <module>        generating document representation batch_num=3701 	 num_document_batches=25218
+2020-01-24 14:01:50,117 DEBUG      index_construction.py <module>        index now holds 10980 documents
+2020-01-24 14:01:50,118 DEBUG      index_construction.py <module>        non_zero elements in batch = 98, total size = 160000
+2020-01-24 14:01:50,118 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0006125
+2020-01-24 14:02:33,959 DEBUG      index_construction.py <module>        generating document representation batch_num=3801 	 num_document_batches=25218
+2020-01-24 14:02:33,959 DEBUG      index_construction.py <module>        index now holds 11294 documents
+2020-01-24 14:02:33,959 DEBUG      index_construction.py <module>        non_zero elements in batch = 233, total size = 160000
+2020-01-24 14:02:33,959 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00145625
+2020-01-24 14:03:16,685 DEBUG      index_construction.py <module>        generating document representation batch_num=3901 	 num_document_batches=25218
+2020-01-24 14:03:16,685 DEBUG      index_construction.py <module>        index now holds 11585 documents
+2020-01-24 14:03:16,685 DEBUG      index_construction.py <module>        non_zero elements in batch = 7, total size = 160000
+2020-01-24 14:03:16,685 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=4.375e-05
+2020-01-24 14:03:59,077 DEBUG      index_construction.py <module>        generating document representation batch_num=4001 	 num_document_batches=25218
+2020-01-24 14:03:59,078 DEBUG      index_construction.py <module>        index now holds 11912 documents
+2020-01-24 14:03:59,078 DEBUG      index_construction.py <module>        non_zero elements in batch = 242, total size = 160000
+2020-01-24 14:03:59,078 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0015125
+2020-01-24 14:04:41,469 DEBUG      index_construction.py <module>        generating document representation batch_num=4101 	 num_document_batches=25218
+2020-01-24 14:04:41,469 DEBUG      index_construction.py <module>        index now holds 12202 documents
+2020-01-24 14:04:41,470 DEBUG      index_construction.py <module>        non_zero elements in batch = 49, total size = 160000
+2020-01-24 14:04:41,470 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00030625
+2020-01-24 14:05:24,465 DEBUG      index_construction.py <module>        generating document representation batch_num=4201 	 num_document_batches=25218
+2020-01-24 14:05:24,465 DEBUG      index_construction.py <module>        index now holds 12528 documents
+2020-01-24 14:05:24,465 DEBUG      index_construction.py <module>        non_zero elements in batch = 2086, total size = 160000
+2020-01-24 14:05:24,466 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0130375
+2020-01-24 14:06:07,173 DEBUG      index_construction.py <module>        generating document representation batch_num=4301 	 num_document_batches=25218
+2020-01-24 14:06:07,174 DEBUG      index_construction.py <module>        index now holds 12828 documents
+2020-01-24 14:06:07,174 DEBUG      index_construction.py <module>        non_zero elements in batch = 2056, total size = 160000
+2020-01-24 14:06:07,174 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01285
+2020-01-24 14:06:51,953 DEBUG      index_construction.py <module>        generating document representation batch_num=4401 	 num_document_batches=25218
+2020-01-24 14:06:51,953 DEBUG      index_construction.py <module>        index now holds 13154 documents
+2020-01-24 14:06:51,954 DEBUG      index_construction.py <module>        non_zero elements in batch = 4, total size = 160000
+2020-01-24 14:06:51,954 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=2.5e-05
+2020-01-24 14:07:35,012 DEBUG      index_construction.py <module>        generating document representation batch_num=4501 	 num_document_batches=25218
+2020-01-24 14:07:35,012 DEBUG      index_construction.py <module>        index now holds 13440 documents
+2020-01-24 14:07:35,012 DEBUG      index_construction.py <module>        non_zero elements in batch = 267, total size = 160000
+2020-01-24 14:07:35,012 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00166875
+2020-01-24 14:08:17,629 DEBUG      index_construction.py <module>        generating document representation batch_num=4601 	 num_document_batches=25218
+2020-01-24 14:08:17,629 DEBUG      index_construction.py <module>        index now holds 13715 documents
+2020-01-24 14:08:17,630 DEBUG      index_construction.py <module>        non_zero elements in batch = 12, total size = 160000
+2020-01-24 14:08:17,630 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=7.5e-05
+2020-01-24 14:09:02,615 DEBUG      index_construction.py <module>        generating document representation batch_num=4701 	 num_document_batches=25218
+2020-01-24 14:09:02,615 DEBUG      index_construction.py <module>        index now holds 14024 documents
+2020-01-24 14:09:02,615 DEBUG      index_construction.py <module>        non_zero elements in batch = 11675, total size = 160000
+2020-01-24 14:09:02,615 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.07296875
+2020-01-24 14:09:46,174 DEBUG      index_construction.py <module>        generating document representation batch_num=4801 	 num_document_batches=25218
+2020-01-24 14:09:46,174 DEBUG      index_construction.py <module>        index now holds 14305 documents
+2020-01-24 14:09:46,175 DEBUG      index_construction.py <module>        non_zero elements in batch = 64, total size = 160000
+2020-01-24 14:09:46,175 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0004
+2020-01-24 14:10:30,229 DEBUG      index_construction.py <module>        generating document representation batch_num=4901 	 num_document_batches=25218
+2020-01-24 14:10:30,229 DEBUG      index_construction.py <module>        index now holds 14612 documents
+2020-01-24 14:10:30,229 DEBUG      index_construction.py <module>        non_zero elements in batch = 47, total size = 160000
+2020-01-24 14:10:30,229 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00029375
+2020-01-24 14:11:12,993 DEBUG      index_construction.py <module>        generating document representation batch_num=5001 	 num_document_batches=25218
+2020-01-24 14:11:12,993 DEBUG      index_construction.py <module>        index now holds 14924 documents
+2020-01-24 14:11:12,994 DEBUG      index_construction.py <module>        non_zero elements in batch = 439, total size = 160000
+2020-01-24 14:11:12,994 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00274375
+2020-01-24 14:11:56,586 DEBUG      index_construction.py <module>        generating document representation batch_num=5101 	 num_document_batches=25218
+2020-01-24 14:11:56,586 DEBUG      index_construction.py <module>        index now holds 15232 documents
+2020-01-24 14:11:56,587 DEBUG      index_construction.py <module>        non_zero elements in batch = 59, total size = 160000
+2020-01-24 14:11:56,587 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00036875
+2020-01-24 14:12:40,572 DEBUG      index_construction.py <module>        generating document representation batch_num=5201 	 num_document_batches=25218
+2020-01-24 14:12:40,572 DEBUG      index_construction.py <module>        index now holds 15543 documents
+2020-01-24 14:12:40,572 DEBUG      index_construction.py <module>        non_zero elements in batch = 0, total size = 160000
+2020-01-24 14:12:40,572 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0
+2020-01-24 14:13:24,483 DEBUG      index_construction.py <module>        generating document representation batch_num=5301 	 num_document_batches=25218
+2020-01-24 14:13:24,483 DEBUG      index_construction.py <module>        index now holds 15837 documents
+2020-01-24 14:13:24,484 DEBUG      index_construction.py <module>        non_zero elements in batch = 2, total size = 160000
+2020-01-24 14:13:24,484 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=1.25e-05
+2020-01-24 14:14:07,631 DEBUG      index_construction.py <module>        generating document representation batch_num=5401 	 num_document_batches=25218
+2020-01-24 14:14:07,631 DEBUG      index_construction.py <module>        index now holds 16127 documents
+2020-01-24 14:14:07,631 DEBUG      index_construction.py <module>        non_zero elements in batch = 41, total size = 160000
+2020-01-24 14:14:07,631 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00025625
+2020-01-24 14:14:51,008 DEBUG      index_construction.py <module>        generating document representation batch_num=5501 	 num_document_batches=25218
+2020-01-24 14:14:51,008 DEBUG      index_construction.py <module>        index now holds 16432 documents
+2020-01-24 14:14:51,009 DEBUG      index_construction.py <module>        non_zero elements in batch = 29, total size = 160000
+2020-01-24 14:14:51,009 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00018125
+2020-01-24 14:15:34,123 DEBUG      index_construction.py <module>        generating document representation batch_num=5601 	 num_document_batches=25218
+2020-01-24 14:15:34,123 DEBUG      index_construction.py <module>        index now holds 16730 documents
+2020-01-24 14:15:34,124 DEBUG      index_construction.py <module>        non_zero elements in batch = 10, total size = 160000
+2020-01-24 14:15:34,124 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-05
+2020-01-24 14:16:17,318 DEBUG      index_construction.py <module>        generating document representation batch_num=5701 	 num_document_batches=25218
+2020-01-24 14:16:17,318 DEBUG      index_construction.py <module>        index now holds 17071 documents
+2020-01-24 14:16:17,319 DEBUG      index_construction.py <module>        non_zero elements in batch = 6, total size = 160000
+2020-01-24 14:16:17,319 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=3.75e-05
+2020-01-24 14:17:00,574 DEBUG      index_construction.py <module>        generating document representation batch_num=5801 	 num_document_batches=25218
+2020-01-24 14:17:00,574 DEBUG      index_construction.py <module>        index now holds 17364 documents
+2020-01-24 14:17:00,575 DEBUG      index_construction.py <module>        non_zero elements in batch = 66, total size = 160000
+2020-01-24 14:17:00,575 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0004125
+2020-01-24 14:17:44,192 DEBUG      index_construction.py <module>        generating document representation batch_num=5901 	 num_document_batches=25218
+2020-01-24 14:17:44,194 DEBUG      index_construction.py <module>        index now holds 17655 documents
+2020-01-24 14:17:44,195 DEBUG      index_construction.py <module>        non_zero elements in batch = 411, total size = 160000
+2020-01-24 14:17:44,196 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00256875
+2020-01-24 14:18:27,767 DEBUG      index_construction.py <module>        generating document representation batch_num=6001 	 num_document_batches=25218
+2020-01-24 14:18:27,767 DEBUG      index_construction.py <module>        index now holds 17920 documents
+2020-01-24 14:18:27,768 DEBUG      index_construction.py <module>        non_zero elements in batch = 25, total size = 160000
+2020-01-24 14:18:27,768 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00015625
+2020-01-24 14:19:10,524 DEBUG      index_construction.py <module>        generating document representation batch_num=6101 	 num_document_batches=25218
+2020-01-24 14:19:10,524 DEBUG      index_construction.py <module>        index now holds 18234 documents
+2020-01-24 14:19:10,524 DEBUG      index_construction.py <module>        non_zero elements in batch = 3156, total size = 160000
+2020-01-24 14:19:10,525 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.019725
+2020-01-24 14:19:53,664 DEBUG      index_construction.py <module>        generating document representation batch_num=6201 	 num_document_batches=25218
+2020-01-24 14:19:53,664 DEBUG      index_construction.py <module>        index now holds 18549 documents
+2020-01-24 14:19:53,664 DEBUG      index_construction.py <module>        non_zero elements in batch = 3, total size = 160000
+2020-01-24 14:19:53,665 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=1.875e-05
+2020-01-24 14:20:39,041 DEBUG      index_construction.py <module>        generating document representation batch_num=6301 	 num_document_batches=25218
+2020-01-24 14:20:39,041 DEBUG      index_construction.py <module>        index now holds 18852 documents
+2020-01-24 14:20:39,041 DEBUG      index_construction.py <module>        non_zero elements in batch = 1563, total size = 160000
+2020-01-24 14:20:39,043 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00976875
+2020-01-24 14:21:26,171 DEBUG      index_construction.py <module>        generating document representation batch_num=6401 	 num_document_batches=25218
+2020-01-24 14:21:26,171 DEBUG      index_construction.py <module>        index now holds 19154 documents
+2020-01-24 14:21:26,171 DEBUG      index_construction.py <module>        non_zero elements in batch = 256, total size = 160000
+2020-01-24 14:21:26,172 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0016
+2020-01-24 14:22:09,339 DEBUG      index_construction.py <module>        generating document representation batch_num=6501 	 num_document_batches=25218
+2020-01-24 14:22:09,339 DEBUG      index_construction.py <module>        index now holds 19455 documents
+2020-01-24 14:22:09,340 DEBUG      index_construction.py <module>        non_zero elements in batch = 453, total size = 160000
+2020-01-24 14:22:09,340 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00283125
+2020-01-24 14:22:52,552 DEBUG      index_construction.py <module>        generating document representation batch_num=6601 	 num_document_batches=25218
+2020-01-24 14:22:52,552 DEBUG      index_construction.py <module>        index now holds 19779 documents
+2020-01-24 14:22:52,552 DEBUG      index_construction.py <module>        non_zero elements in batch = 494, total size = 160000
+2020-01-24 14:22:52,552 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0030875
+2020-01-24 14:23:34,674 DEBUG      index_construction.py <module>        generating document representation batch_num=6701 	 num_document_batches=25218
+2020-01-24 14:23:34,674 DEBUG      index_construction.py <module>        index now holds 20080 documents
+2020-01-24 14:23:34,674 DEBUG      index_construction.py <module>        non_zero elements in batch = 1266, total size = 160000
+2020-01-24 14:23:34,674 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0079125
+2020-01-24 14:24:18,366 DEBUG      index_construction.py <module>        generating document representation batch_num=6801 	 num_document_batches=25218
+2020-01-24 14:24:18,367 DEBUG      index_construction.py <module>        index now holds 20411 documents
+2020-01-24 14:24:18,367 DEBUG      index_construction.py <module>        non_zero elements in batch = 383, total size = 160000
+2020-01-24 14:24:18,367 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00239375
+2020-01-24 14:25:00,952 DEBUG      index_construction.py <module>        generating document representation batch_num=6901 	 num_document_batches=25218
+2020-01-24 14:25:00,952 DEBUG      index_construction.py <module>        index now holds 20747 documents
+2020-01-24 14:25:00,952 DEBUG      index_construction.py <module>        non_zero elements in batch = 3232, total size = 160000
+2020-01-24 14:25:00,952 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0202
+2020-01-24 14:25:44,001 DEBUG      index_construction.py <module>        generating document representation batch_num=7001 	 num_document_batches=25218
+2020-01-24 14:25:44,001 DEBUG      index_construction.py <module>        index now holds 21070 documents
+2020-01-24 14:25:44,001 DEBUG      index_construction.py <module>        non_zero elements in batch = 23, total size = 160000
+2020-01-24 14:25:44,002 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00014375
+2020-01-24 14:26:26,444 DEBUG      index_construction.py <module>        generating document representation batch_num=7101 	 num_document_batches=25218
+2020-01-24 14:26:26,444 DEBUG      index_construction.py <module>        index now holds 21402 documents
+2020-01-24 14:26:26,445 DEBUG      index_construction.py <module>        non_zero elements in batch = 14, total size = 160000
+2020-01-24 14:26:26,445 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=8.75e-05
+2020-01-24 14:27:08,810 DEBUG      index_construction.py <module>        generating document representation batch_num=7201 	 num_document_batches=25218
+2020-01-24 14:27:08,810 DEBUG      index_construction.py <module>        index now holds 21735 documents
+2020-01-24 14:27:08,811 DEBUG      index_construction.py <module>        non_zero elements in batch = 1, total size = 160000
+2020-01-24 14:27:08,811 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-06
+2020-01-24 14:27:52,377 DEBUG      index_construction.py <module>        generating document representation batch_num=7301 	 num_document_batches=25218
+2020-01-24 14:27:52,377 DEBUG      index_construction.py <module>        index now holds 22075 documents
+2020-01-24 14:27:52,378 DEBUG      index_construction.py <module>        non_zero elements in batch = 43, total size = 160000
+2020-01-24 14:27:52,378 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00026875
+2020-01-24 14:28:36,144 DEBUG      index_construction.py <module>        generating document representation batch_num=7401 	 num_document_batches=25218
+2020-01-24 14:28:36,145 DEBUG      index_construction.py <module>        index now holds 22379 documents
+2020-01-24 14:28:36,145 DEBUG      index_construction.py <module>        non_zero elements in batch = 0, total size = 160000
+2020-01-24 14:28:36,145 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0
+2020-01-24 14:29:20,463 DEBUG      index_construction.py <module>        generating document representation batch_num=7501 	 num_document_batches=25218
+2020-01-24 14:29:20,464 DEBUG      index_construction.py <module>        index now holds 22688 documents
+2020-01-24 14:29:20,464 DEBUG      index_construction.py <module>        non_zero elements in batch = 14, total size = 160000
+2020-01-24 14:29:20,464 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=8.75e-05
+2020-01-24 14:30:04,986 DEBUG      index_construction.py <module>        generating document representation batch_num=7601 	 num_document_batches=25218
+2020-01-24 14:30:04,987 DEBUG      index_construction.py <module>        index now holds 23001 documents
+2020-01-24 14:30:04,987 DEBUG      index_construction.py <module>        non_zero elements in batch = 305, total size = 160000
+2020-01-24 14:30:04,987 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00190625
+2020-01-24 14:30:47,923 DEBUG      index_construction.py <module>        generating document representation batch_num=7701 	 num_document_batches=25218
+2020-01-24 14:30:47,923 DEBUG      index_construction.py <module>        index now holds 23366 documents
+2020-01-24 14:30:47,923 DEBUG      index_construction.py <module>        non_zero elements in batch = 117, total size = 160000
+2020-01-24 14:30:47,923 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00073125
+2020-01-24 14:31:30,496 DEBUG      index_construction.py <module>        generating document representation batch_num=7801 	 num_document_batches=25218
+2020-01-24 14:31:30,496 DEBUG      index_construction.py <module>        index now holds 23729 documents
+2020-01-24 14:31:30,497 DEBUG      index_construction.py <module>        non_zero elements in batch = 19, total size = 160000
+2020-01-24 14:31:30,497 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00011875
+2020-01-24 14:32:13,121 DEBUG      index_construction.py <module>        generating document representation batch_num=7901 	 num_document_batches=25218
+2020-01-24 14:32:13,121 DEBUG      index_construction.py <module>        index now holds 24075 documents
+2020-01-24 14:32:13,122 DEBUG      index_construction.py <module>        non_zero elements in batch = 21, total size = 160000
+2020-01-24 14:32:13,122 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00013125
+2020-01-24 14:32:55,655 DEBUG      index_construction.py <module>        generating document representation batch_num=8001 	 num_document_batches=25218
+2020-01-24 14:32:55,656 DEBUG      index_construction.py <module>        index now holds 24479 documents
+2020-01-24 14:32:55,656 DEBUG      index_construction.py <module>        non_zero elements in batch = 2, total size = 160000
+2020-01-24 14:32:55,656 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=1.25e-05
+2020-01-24 14:33:37,986 DEBUG      index_construction.py <module>        generating document representation batch_num=8101 	 num_document_batches=25218
+2020-01-24 14:33:37,986 DEBUG      index_construction.py <module>        index now holds 24824 documents
+2020-01-24 14:33:37,987 DEBUG      index_construction.py <module>        non_zero elements in batch = 134, total size = 160000
+2020-01-24 14:33:37,987 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0008375
+2020-01-24 14:34:20,297 DEBUG      index_construction.py <module>        generating document representation batch_num=8201 	 num_document_batches=25218
+2020-01-24 14:34:20,298 DEBUG      index_construction.py <module>        index now holds 25127 documents
+2020-01-24 14:34:20,298 DEBUG      index_construction.py <module>        non_zero elements in batch = 10, total size = 160000
+2020-01-24 14:34:20,298 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-05
+2020-01-24 14:35:02,555 DEBUG      index_construction.py <module>        generating document representation batch_num=8301 	 num_document_batches=25218
+2020-01-24 14:35:02,555 DEBUG      index_construction.py <module>        index now holds 25479 documents
+2020-01-24 14:35:02,556 DEBUG      index_construction.py <module>        non_zero elements in batch = 1497, total size = 160000
+2020-01-24 14:35:02,556 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00935625
+2020-01-24 14:35:44,912 DEBUG      index_construction.py <module>        generating document representation batch_num=8401 	 num_document_batches=25218
+2020-01-24 14:35:44,912 DEBUG      index_construction.py <module>        index now holds 25839 documents
+2020-01-24 14:35:44,913 DEBUG      index_construction.py <module>        non_zero elements in batch = 1856, total size = 160000
+2020-01-24 14:35:44,913 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0116
+2020-01-24 14:36:26,962 DEBUG      index_construction.py <module>        generating document representation batch_num=8501 	 num_document_batches=25218
+2020-01-24 14:36:26,962 DEBUG      index_construction.py <module>        index now holds 26165 documents
+2020-01-24 14:36:26,962 DEBUG      index_construction.py <module>        non_zero elements in batch = 27, total size = 160000
+2020-01-24 14:36:26,962 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00016875
+2020-01-24 14:37:09,119 DEBUG      index_construction.py <module>        generating document representation batch_num=8601 	 num_document_batches=25218
+2020-01-24 14:37:09,119 DEBUG      index_construction.py <module>        index now holds 26463 documents
+2020-01-24 14:37:09,120 DEBUG      index_construction.py <module>        non_zero elements in batch = 138, total size = 160000
+2020-01-24 14:37:09,120 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0008625
+2020-01-24 14:37:51,282 DEBUG      index_construction.py <module>        generating document representation batch_num=8701 	 num_document_batches=25218
+2020-01-24 14:37:51,282 DEBUG      index_construction.py <module>        index now holds 26800 documents
+2020-01-24 14:37:51,282 DEBUG      index_construction.py <module>        non_zero elements in batch = 70, total size = 160000
+2020-01-24 14:37:51,282 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0004375
+2020-01-24 14:38:33,477 DEBUG      index_construction.py <module>        generating document representation batch_num=8801 	 num_document_batches=25218
+2020-01-24 14:38:33,477 DEBUG      index_construction.py <module>        index now holds 27162 documents
+2020-01-24 14:38:33,478 DEBUG      index_construction.py <module>        non_zero elements in batch = 2973, total size = 160000
+2020-01-24 14:38:33,478 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01858125
+2020-01-24 14:39:15,526 DEBUG      index_construction.py <module>        generating document representation batch_num=8901 	 num_document_batches=25218
+2020-01-24 14:39:15,526 DEBUG      index_construction.py <module>        index now holds 27447 documents
+2020-01-24 14:39:15,526 DEBUG      index_construction.py <module>        non_zero elements in batch = 108, total size = 160000
+2020-01-24 14:39:15,526 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000675
+2020-01-24 14:39:58,079 DEBUG      index_construction.py <module>        generating document representation batch_num=9001 	 num_document_batches=25218
+2020-01-24 14:39:58,079 DEBUG      index_construction.py <module>        index now holds 27756 documents
+2020-01-24 14:39:58,079 DEBUG      index_construction.py <module>        non_zero elements in batch = 50, total size = 160000
+2020-01-24 14:39:58,080 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0003125
+2020-01-24 14:40:40,551 DEBUG      index_construction.py <module>        generating document representation batch_num=9101 	 num_document_batches=25218
+2020-01-24 14:40:40,554 DEBUG      index_construction.py <module>        index now holds 28079 documents
+2020-01-24 14:40:40,554 DEBUG      index_construction.py <module>        non_zero elements in batch = 17, total size = 160000
+2020-01-24 14:40:40,556 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00010625
+2020-01-24 14:41:22,883 DEBUG      index_construction.py <module>        generating document representation batch_num=9201 	 num_document_batches=25218
+2020-01-24 14:41:22,883 DEBUG      index_construction.py <module>        index now holds 28398 documents
+2020-01-24 14:41:22,884 DEBUG      index_construction.py <module>        non_zero elements in batch = 6, total size = 160000
+2020-01-24 14:41:22,884 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=3.75e-05
+2020-01-24 14:42:05,164 DEBUG      index_construction.py <module>        generating document representation batch_num=9301 	 num_document_batches=25218
+2020-01-24 14:42:05,164 DEBUG      index_construction.py <module>        index now holds 28710 documents
+2020-01-24 14:42:05,165 DEBUG      index_construction.py <module>        non_zero elements in batch = 22, total size = 160000
+2020-01-24 14:42:05,165 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0001375
+2020-01-24 14:42:47,515 DEBUG      index_construction.py <module>        generating document representation batch_num=9401 	 num_document_batches=25218
+2020-01-24 14:42:47,515 DEBUG      index_construction.py <module>        index now holds 29086 documents
+2020-01-24 14:42:47,516 DEBUG      index_construction.py <module>        non_zero elements in batch = 4743, total size = 160000
+2020-01-24 14:42:47,516 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.02964375
+2020-01-24 14:43:30,066 DEBUG      index_construction.py <module>        generating document representation batch_num=9501 	 num_document_batches=25218
+2020-01-24 14:43:30,067 DEBUG      index_construction.py <module>        index now holds 29407 documents
+2020-01-24 14:43:30,067 DEBUG      index_construction.py <module>        non_zero elements in batch = 4, total size = 160000
+2020-01-24 14:43:30,067 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=2.5e-05
+2020-01-24 14:44:12,349 DEBUG      index_construction.py <module>        generating document representation batch_num=9601 	 num_document_batches=25218
+2020-01-24 14:44:12,349 DEBUG      index_construction.py <module>        index now holds 29736 documents
+2020-01-24 14:44:12,350 DEBUG      index_construction.py <module>        non_zero elements in batch = 181, total size = 160000
+2020-01-24 14:44:12,350 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00113125
+2020-01-24 14:44:54,847 DEBUG      index_construction.py <module>        generating document representation batch_num=9701 	 num_document_batches=25218
+2020-01-24 14:44:54,847 DEBUG      index_construction.py <module>        index now holds 30064 documents
+2020-01-24 14:44:54,848 DEBUG      index_construction.py <module>        non_zero elements in batch = 1088, total size = 160000
+2020-01-24 14:44:54,848 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0068
+2020-01-24 14:45:37,331 DEBUG      index_construction.py <module>        generating document representation batch_num=9801 	 num_document_batches=25218
+2020-01-24 14:45:37,331 DEBUG      index_construction.py <module>        index now holds 30427 documents
+2020-01-24 14:45:37,332 DEBUG      index_construction.py <module>        non_zero elements in batch = 46, total size = 160000
+2020-01-24 14:45:37,332 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0002875
+2020-01-24 14:46:20,181 DEBUG      index_construction.py <module>        generating document representation batch_num=9901 	 num_document_batches=25218
+2020-01-24 14:46:20,181 DEBUG      index_construction.py <module>        index now holds 30750 documents
+2020-01-24 14:46:20,182 DEBUG      index_construction.py <module>        non_zero elements in batch = 19, total size = 160000
+2020-01-24 14:46:20,182 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00011875
+2020-01-24 14:47:02,562 DEBUG      index_construction.py <module>        generating document representation batch_num=10001 	 num_document_batches=25218
+2020-01-24 14:47:02,562 DEBUG      index_construction.py <module>        index now holds 31067 documents
+2020-01-24 14:47:02,563 DEBUG      index_construction.py <module>        non_zero elements in batch = 167, total size = 160000
+2020-01-24 14:47:02,563 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00104375
+2020-01-24 14:47:44,806 DEBUG      index_construction.py <module>        generating document representation batch_num=10101 	 num_document_batches=25218
+2020-01-24 14:47:44,806 DEBUG      index_construction.py <module>        index now holds 31386 documents
+2020-01-24 14:47:44,806 DEBUG      index_construction.py <module>        non_zero elements in batch = 79, total size = 160000
+2020-01-24 14:47:44,806 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00049375
+2020-01-24 14:48:27,113 DEBUG      index_construction.py <module>        generating document representation batch_num=10201 	 num_document_batches=25218
+2020-01-24 14:48:27,113 DEBUG      index_construction.py <module>        index now holds 31709 documents
+2020-01-24 14:48:27,113 DEBUG      index_construction.py <module>        non_zero elements in batch = 49, total size = 160000
+2020-01-24 14:48:27,113 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00030625
+2020-01-24 14:49:09,321 DEBUG      index_construction.py <module>        generating document representation batch_num=10301 	 num_document_batches=25218
+2020-01-24 14:49:09,321 DEBUG      index_construction.py <module>        index now holds 32030 documents
+2020-01-24 14:49:09,322 DEBUG      index_construction.py <module>        non_zero elements in batch = 1985, total size = 160000
+2020-01-24 14:49:09,322 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01240625
+2020-01-24 14:49:52,109 DEBUG      index_construction.py <module>        generating document representation batch_num=10401 	 num_document_batches=25218
+2020-01-24 14:49:52,109 DEBUG      index_construction.py <module>        index now holds 32344 documents
+2020-01-24 14:49:52,109 DEBUG      index_construction.py <module>        non_zero elements in batch = 196, total size = 160000
+2020-01-24 14:49:52,110 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.001225
+2020-01-24 14:50:34,503 DEBUG      index_construction.py <module>        generating document representation batch_num=10501 	 num_document_batches=25218
+2020-01-24 14:50:34,503 DEBUG      index_construction.py <module>        index now holds 32697 documents
+2020-01-24 14:50:34,504 DEBUG      index_construction.py <module>        non_zero elements in batch = 2335, total size = 160000
+2020-01-24 14:50:34,504 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01459375
+2020-01-24 14:51:17,208 DEBUG      index_construction.py <module>        generating document representation batch_num=10601 	 num_document_batches=25218
+2020-01-24 14:51:17,208 DEBUG      index_construction.py <module>        index now holds 33029 documents
+2020-01-24 14:51:17,208 DEBUG      index_construction.py <module>        non_zero elements in batch = 17, total size = 160000
+2020-01-24 14:51:17,208 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00010625
+2020-01-24 14:51:59,806 DEBUG      index_construction.py <module>        generating document representation batch_num=10701 	 num_document_batches=25218
+2020-01-24 14:51:59,806 DEBUG      index_construction.py <module>        index now holds 33346 documents
+2020-01-24 14:51:59,806 DEBUG      index_construction.py <module>        non_zero elements in batch = 39, total size = 160000
+2020-01-24 14:51:59,806 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00024375
+2020-01-24 14:52:42,294 DEBUG      index_construction.py <module>        generating document representation batch_num=10801 	 num_document_batches=25218
+2020-01-24 14:52:42,295 DEBUG      index_construction.py <module>        index now holds 33648 documents
+2020-01-24 14:52:42,295 DEBUG      index_construction.py <module>        non_zero elements in batch = 707, total size = 160000
+2020-01-24 14:52:42,295 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00441875
+2020-01-24 14:53:24,897 DEBUG      index_construction.py <module>        generating document representation batch_num=10901 	 num_document_batches=25218
+2020-01-24 14:53:24,897 DEBUG      index_construction.py <module>        index now holds 33975 documents
+2020-01-24 14:53:24,898 DEBUG      index_construction.py <module>        non_zero elements in batch = 119, total size = 160000
+2020-01-24 14:53:24,898 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00074375
+2020-01-24 14:54:07,252 DEBUG      index_construction.py <module>        generating document representation batch_num=11001 	 num_document_batches=25218
+2020-01-24 14:54:07,252 DEBUG      index_construction.py <module>        index now holds 34302 documents
+2020-01-24 14:54:07,253 DEBUG      index_construction.py <module>        non_zero elements in batch = 21, total size = 160000
+2020-01-24 14:54:07,253 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00013125
+2020-01-24 14:54:49,790 DEBUG      index_construction.py <module>        generating document representation batch_num=11101 	 num_document_batches=25218
+2020-01-24 14:54:49,791 DEBUG      index_construction.py <module>        index now holds 34633 documents
+2020-01-24 14:54:49,791 DEBUG      index_construction.py <module>        non_zero elements in batch = 883, total size = 160000
+2020-01-24 14:54:49,791 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00551875
+2020-01-24 14:55:32,406 DEBUG      index_construction.py <module>        generating document representation batch_num=11201 	 num_document_batches=25218
+2020-01-24 14:55:32,406 DEBUG      index_construction.py <module>        index now holds 34954 documents
+2020-01-24 14:55:32,406 DEBUG      index_construction.py <module>        non_zero elements in batch = 4105, total size = 160000
+2020-01-24 14:55:32,407 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.02565625
+2020-01-24 14:56:15,575 DEBUG      index_construction.py <module>        generating document representation batch_num=11301 	 num_document_batches=25218
+2020-01-24 14:56:15,575 DEBUG      index_construction.py <module>        index now holds 35290 documents
+2020-01-24 14:56:15,575 DEBUG      index_construction.py <module>        non_zero elements in batch = 2, total size = 160000
+2020-01-24 14:56:15,575 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=1.25e-05
+2020-01-24 14:56:59,305 DEBUG      index_construction.py <module>        generating document representation batch_num=11401 	 num_document_batches=25218
+2020-01-24 14:56:59,305 DEBUG      index_construction.py <module>        index now holds 35606 documents
+2020-01-24 14:56:59,305 DEBUG      index_construction.py <module>        non_zero elements in batch = 194, total size = 160000
+2020-01-24 14:56:59,305 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0012125
+2020-01-24 14:57:43,083 DEBUG      index_construction.py <module>        generating document representation batch_num=11501 	 num_document_batches=25218
+2020-01-24 14:57:43,084 DEBUG      index_construction.py <module>        index now holds 35945 documents
+2020-01-24 14:57:43,084 DEBUG      index_construction.py <module>        non_zero elements in batch = 718, total size = 160000
+2020-01-24 14:57:43,084 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0044875
+2020-01-24 14:58:27,353 DEBUG      index_construction.py <module>        generating document representation batch_num=11601 	 num_document_batches=25218
+2020-01-24 14:58:27,353 DEBUG      index_construction.py <module>        index now holds 36260 documents
+2020-01-24 14:58:27,354 DEBUG      index_construction.py <module>        non_zero elements in batch = 22, total size = 160000
+2020-01-24 14:58:27,354 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0001375
+2020-01-24 14:59:12,411 DEBUG      index_construction.py <module>        generating document representation batch_num=11701 	 num_document_batches=25218
+2020-01-24 14:59:12,412 DEBUG      index_construction.py <module>        index now holds 36583 documents
+2020-01-24 14:59:12,412 DEBUG      index_construction.py <module>        non_zero elements in batch = 51, total size = 160000
+2020-01-24 14:59:12,412 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00031875
+2020-01-24 14:59:56,710 DEBUG      index_construction.py <module>        generating document representation batch_num=11801 	 num_document_batches=25218
+2020-01-24 14:59:56,710 DEBUG      index_construction.py <module>        index now holds 36910 documents
+2020-01-24 14:59:56,710 DEBUG      index_construction.py <module>        non_zero elements in batch = 1, total size = 160000
+2020-01-24 14:59:56,710 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-06
+2020-01-24 15:00:40,662 DEBUG      index_construction.py <module>        generating document representation batch_num=11901 	 num_document_batches=25218
+2020-01-24 15:00:40,664 DEBUG      index_construction.py <module>        index now holds 37234 documents
+2020-01-24 15:00:40,665 DEBUG      index_construction.py <module>        non_zero elements in batch = 521, total size = 160000
+2020-01-24 15:00:40,665 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00325625
+2020-01-24 15:01:24,171 DEBUG      index_construction.py <module>        generating document representation batch_num=12001 	 num_document_batches=25218
+2020-01-24 15:01:24,171 DEBUG      index_construction.py <module>        index now holds 37590 documents
+2020-01-24 15:01:24,171 DEBUG      index_construction.py <module>        non_zero elements in batch = 1047, total size = 160000
+2020-01-24 15:01:24,171 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00654375
+2020-01-24 15:02:07,256 DEBUG      index_construction.py <module>        generating document representation batch_num=12101 	 num_document_batches=25218
+2020-01-24 15:02:07,256 DEBUG      index_construction.py <module>        index now holds 37896 documents
+2020-01-24 15:02:07,257 DEBUG      index_construction.py <module>        non_zero elements in batch = 90, total size = 160000
+2020-01-24 15:02:07,257 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0005625
+2020-01-24 15:02:50,494 DEBUG      index_construction.py <module>        generating document representation batch_num=12201 	 num_document_batches=25218
+2020-01-24 15:02:50,494 DEBUG      index_construction.py <module>        index now holds 38204 documents
+2020-01-24 15:02:50,495 DEBUG      index_construction.py <module>        non_zero elements in batch = 9, total size = 160000
+2020-01-24 15:02:50,495 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=5.625e-05
+2020-01-24 15:03:33,951 DEBUG      index_construction.py <module>        generating document representation batch_num=12301 	 num_document_batches=25218
+2020-01-24 15:03:33,951 DEBUG      index_construction.py <module>        index now holds 38554 documents
+2020-01-24 15:03:33,951 DEBUG      index_construction.py <module>        non_zero elements in batch = 1696, total size = 160000
+2020-01-24 15:03:33,951 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0106
+2020-01-24 15:04:17,000 DEBUG      index_construction.py <module>        generating document representation batch_num=12401 	 num_document_batches=25218
+2020-01-24 15:04:17,000 DEBUG      index_construction.py <module>        index now holds 38868 documents
+2020-01-24 15:04:17,001 DEBUG      index_construction.py <module>        non_zero elements in batch = 5, total size = 160000
+2020-01-24 15:04:17,001 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=3.125e-05
+2020-01-24 15:04:59,913 DEBUG      index_construction.py <module>        generating document representation batch_num=12501 	 num_document_batches=25218
+2020-01-24 15:04:59,913 DEBUG      index_construction.py <module>        index now holds 39213 documents
+2020-01-24 15:04:59,913 DEBUG      index_construction.py <module>        non_zero elements in batch = 750, total size = 160000
+2020-01-24 15:04:59,914 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0046875
+2020-01-24 15:05:42,681 DEBUG      index_construction.py <module>        generating document representation batch_num=12601 	 num_document_batches=25218
+2020-01-24 15:05:42,682 DEBUG      index_construction.py <module>        index now holds 39566 documents
+2020-01-24 15:05:42,682 DEBUG      index_construction.py <module>        non_zero elements in batch = 73, total size = 160000
+2020-01-24 15:05:42,682 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00045625
+2020-01-24 15:06:25,417 DEBUG      index_construction.py <module>        generating document representation batch_num=12701 	 num_document_batches=25218
+2020-01-24 15:06:25,417 DEBUG      index_construction.py <module>        index now holds 39928 documents
+2020-01-24 15:06:25,418 DEBUG      index_construction.py <module>        non_zero elements in batch = 608, total size = 160000
+2020-01-24 15:06:25,418 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0038
+2020-01-24 15:07:08,265 DEBUG      index_construction.py <module>        generating document representation batch_num=12801 	 num_document_batches=25218
+2020-01-24 15:07:08,265 DEBUG      index_construction.py <module>        index now holds 40251 documents
+2020-01-24 15:07:08,266 DEBUG      index_construction.py <module>        non_zero elements in batch = 34, total size = 160000
+2020-01-24 15:07:08,266 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0002125
+2020-01-24 15:07:51,654 DEBUG      index_construction.py <module>        generating document representation batch_num=12901 	 num_document_batches=25218
+2020-01-24 15:07:51,654 DEBUG      index_construction.py <module>        index now holds 40596 documents
+2020-01-24 15:07:51,654 DEBUG      index_construction.py <module>        non_zero elements in batch = 1164, total size = 160000
+2020-01-24 15:07:51,654 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.007275
+2020-01-24 15:08:34,549 DEBUG      index_construction.py <module>        generating document representation batch_num=13001 	 num_document_batches=25218
+2020-01-24 15:08:34,549 DEBUG      index_construction.py <module>        index now holds 40903 documents
+2020-01-24 15:08:34,549 DEBUG      index_construction.py <module>        non_zero elements in batch = 2513, total size = 160000
+2020-01-24 15:08:34,549 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01570625
+2020-01-24 15:09:17,688 DEBUG      index_construction.py <module>        generating document representation batch_num=13101 	 num_document_batches=25218
+2020-01-24 15:09:17,688 DEBUG      index_construction.py <module>        index now holds 41241 documents
+2020-01-24 15:09:17,689 DEBUG      index_construction.py <module>        non_zero elements in batch = 6, total size = 160000
+2020-01-24 15:09:17,689 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=3.75e-05
+2020-01-24 15:10:00,590 DEBUG      index_construction.py <module>        generating document representation batch_num=13201 	 num_document_batches=25218
+2020-01-24 15:10:00,591 DEBUG      index_construction.py <module>        index now holds 41536 documents
+2020-01-24 15:10:00,591 DEBUG      index_construction.py <module>        non_zero elements in batch = 0, total size = 160000
+2020-01-24 15:10:00,591 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0
+2020-01-24 15:10:43,686 DEBUG      index_construction.py <module>        generating document representation batch_num=13301 	 num_document_batches=25218
+2020-01-24 15:10:43,687 DEBUG      index_construction.py <module>        index now holds 41872 documents
+2020-01-24 15:10:43,687 DEBUG      index_construction.py <module>        non_zero elements in batch = 80, total size = 160000
+2020-01-24 15:10:43,687 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0005
+2020-01-24 15:11:26,660 DEBUG      index_construction.py <module>        generating document representation batch_num=13401 	 num_document_batches=25218
+2020-01-24 15:11:26,660 DEBUG      index_construction.py <module>        index now holds 42178 documents
+2020-01-24 15:11:26,660 DEBUG      index_construction.py <module>        non_zero elements in batch = 1248, total size = 160000
+2020-01-24 15:11:26,660 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0078
+2020-01-24 15:12:09,723 DEBUG      index_construction.py <module>        generating document representation batch_num=13501 	 num_document_batches=25218
+2020-01-24 15:12:09,723 DEBUG      index_construction.py <module>        index now holds 42515 documents
+2020-01-24 15:12:09,724 DEBUG      index_construction.py <module>        non_zero elements in batch = 973, total size = 160000
+2020-01-24 15:12:09,724 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00608125
+2020-01-24 15:12:52,546 DEBUG      index_construction.py <module>        generating document representation batch_num=13601 	 num_document_batches=25218
+2020-01-24 15:12:52,547 DEBUG      index_construction.py <module>        index now holds 42802 documents
+2020-01-24 15:12:52,547 DEBUG      index_construction.py <module>        non_zero elements in batch = 45, total size = 160000
+2020-01-24 15:12:52,547 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00028125
+2020-01-24 15:13:35,584 DEBUG      index_construction.py <module>        generating document representation batch_num=13701 	 num_document_batches=25218
+2020-01-24 15:13:35,584 DEBUG      index_construction.py <module>        index now holds 43155 documents
+2020-01-24 15:13:35,585 DEBUG      index_construction.py <module>        non_zero elements in batch = 0, total size = 160000
+2020-01-24 15:13:35,585 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0
+2020-01-24 15:14:19,012 DEBUG      index_construction.py <module>        generating document representation batch_num=13801 	 num_document_batches=25218
+2020-01-24 15:14:19,012 DEBUG      index_construction.py <module>        index now holds 43475 documents
+2020-01-24 15:14:19,012 DEBUG      index_construction.py <module>        non_zero elements in batch = 955, total size = 160000
+2020-01-24 15:14:19,012 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00596875
+2020-01-24 15:15:02,364 DEBUG      index_construction.py <module>        generating document representation batch_num=13901 	 num_document_batches=25218
+2020-01-24 15:15:02,364 DEBUG      index_construction.py <module>        index now holds 43796 documents
+2020-01-24 15:15:02,364 DEBUG      index_construction.py <module>        non_zero elements in batch = 22, total size = 160000
+2020-01-24 15:15:02,364 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0001375
+2020-01-24 15:15:45,116 DEBUG      index_construction.py <module>        generating document representation batch_num=14001 	 num_document_batches=25218
+2020-01-24 15:15:45,116 DEBUG      index_construction.py <module>        index now holds 44122 documents
+2020-01-24 15:15:45,116 DEBUG      index_construction.py <module>        non_zero elements in batch = 8, total size = 160000
+2020-01-24 15:15:45,116 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=5e-05
+2020-01-24 15:16:28,089 DEBUG      index_construction.py <module>        generating document representation batch_num=14101 	 num_document_batches=25218
+2020-01-24 15:16:28,090 DEBUG      index_construction.py <module>        index now holds 44439 documents
+2020-01-24 15:16:28,090 DEBUG      index_construction.py <module>        non_zero elements in batch = 12, total size = 160000
+2020-01-24 15:16:28,090 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=7.5e-05
+2020-01-24 15:17:11,907 DEBUG      index_construction.py <module>        generating document representation batch_num=14201 	 num_document_batches=25218
+2020-01-24 15:17:11,907 DEBUG      index_construction.py <module>        index now holds 44763 documents
+2020-01-24 15:17:11,908 DEBUG      index_construction.py <module>        non_zero elements in batch = 88, total size = 160000
+2020-01-24 15:17:11,908 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00055
+2020-01-24 15:17:55,732 DEBUG      index_construction.py <module>        generating document representation batch_num=14301 	 num_document_batches=25218
+2020-01-24 15:17:55,732 DEBUG      index_construction.py <module>        index now holds 45096 documents
+2020-01-24 15:17:55,733 DEBUG      index_construction.py <module>        non_zero elements in batch = 1590, total size = 160000
+2020-01-24 15:17:55,733 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0099375
+2020-01-24 15:18:40,431 DEBUG      index_construction.py <module>        generating document representation batch_num=14401 	 num_document_batches=25218
+2020-01-24 15:18:40,431 DEBUG      index_construction.py <module>        index now holds 45431 documents
+2020-01-24 15:18:40,431 DEBUG      index_construction.py <module>        non_zero elements in batch = 6, total size = 160000
+2020-01-24 15:18:40,432 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=3.75e-05
+2020-01-24 15:19:24,697 DEBUG      index_construction.py <module>        generating document representation batch_num=14501 	 num_document_batches=25218
+2020-01-24 15:19:24,697 DEBUG      index_construction.py <module>        index now holds 45756 documents
+2020-01-24 15:19:24,698 DEBUG      index_construction.py <module>        non_zero elements in batch = 2, total size = 160000
+2020-01-24 15:19:24,698 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=1.25e-05
+2020-01-24 15:20:08,250 DEBUG      index_construction.py <module>        generating document representation batch_num=14601 	 num_document_batches=25218
+2020-01-24 15:20:08,250 DEBUG      index_construction.py <module>        index now holds 46080 documents
+2020-01-24 15:20:08,251 DEBUG      index_construction.py <module>        non_zero elements in batch = 0, total size = 160000
+2020-01-24 15:20:08,251 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0
+2020-01-24 15:20:52,591 DEBUG      index_construction.py <module>        generating document representation batch_num=14701 	 num_document_batches=25218
+2020-01-24 15:20:52,591 DEBUG      index_construction.py <module>        index now holds 46423 documents
+2020-01-24 15:20:52,592 DEBUG      index_construction.py <module>        non_zero elements in batch = 5138, total size = 160000
+2020-01-24 15:20:52,592 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0321125
+2020-01-24 15:21:37,051 DEBUG      index_construction.py <module>        generating document representation batch_num=14801 	 num_document_batches=25218
+2020-01-24 15:21:37,051 DEBUG      index_construction.py <module>        index now holds 46780 documents
+2020-01-24 15:21:37,052 DEBUG      index_construction.py <module>        non_zero elements in batch = 3884, total size = 160000
+2020-01-24 15:21:37,052 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.024275
+2020-01-24 15:22:26,455 DEBUG      index_construction.py <module>        generating document representation batch_num=14901 	 num_document_batches=25218
+2020-01-24 15:22:26,455 DEBUG      index_construction.py <module>        index now holds 47118 documents
+2020-01-24 15:22:26,456 DEBUG      index_construction.py <module>        non_zero elements in batch = 3831, total size = 160000
+2020-01-24 15:22:26,456 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.02394375
+2020-01-24 15:23:11,703 DEBUG      index_construction.py <module>        generating document representation batch_num=15001 	 num_document_batches=25218
+2020-01-24 15:23:11,704 DEBUG      index_construction.py <module>        index now holds 47421 documents
+2020-01-24 15:23:11,704 DEBUG      index_construction.py <module>        non_zero elements in batch = 28, total size = 160000
+2020-01-24 15:23:11,704 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000175
+2020-01-24 15:23:57,052 DEBUG      index_construction.py <module>        generating document representation batch_num=15101 	 num_document_batches=25218
+2020-01-24 15:23:57,052 DEBUG      index_construction.py <module>        index now holds 47741 documents
+2020-01-24 15:23:57,053 DEBUG      index_construction.py <module>        non_zero elements in batch = 203, total size = 160000
+2020-01-24 15:23:57,053 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00126875
+2020-01-24 15:24:41,064 DEBUG      index_construction.py <module>        generating document representation batch_num=15201 	 num_document_batches=25218
+2020-01-24 15:24:41,064 DEBUG      index_construction.py <module>        index now holds 48063 documents
+2020-01-24 15:24:41,065 DEBUG      index_construction.py <module>        non_zero elements in batch = 637, total size = 160000
+2020-01-24 15:24:41,065 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00398125
+2020-01-24 15:25:24,906 DEBUG      index_construction.py <module>        generating document representation batch_num=15301 	 num_document_batches=25218
+2020-01-24 15:25:24,906 DEBUG      index_construction.py <module>        index now holds 48399 documents
+2020-01-24 15:25:24,906 DEBUG      index_construction.py <module>        non_zero elements in batch = 81, total size = 160000
+2020-01-24 15:25:24,906 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00050625
+2020-01-24 15:26:08,341 DEBUG      index_construction.py <module>        generating document representation batch_num=15401 	 num_document_batches=25218
+2020-01-24 15:26:08,341 DEBUG      index_construction.py <module>        index now holds 48714 documents
+2020-01-24 15:26:08,342 DEBUG      index_construction.py <module>        non_zero elements in batch = 145, total size = 160000
+2020-01-24 15:26:08,342 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00090625
+2020-01-24 15:26:52,281 DEBUG      index_construction.py <module>        generating document representation batch_num=15501 	 num_document_batches=25218
+2020-01-24 15:26:52,281 DEBUG      index_construction.py <module>        index now holds 49028 documents
+2020-01-24 15:26:52,282 DEBUG      index_construction.py <module>        non_zero elements in batch = 660, total size = 160000
+2020-01-24 15:26:52,282 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.004125
+2020-01-24 15:27:35,797 DEBUG      index_construction.py <module>        generating document representation batch_num=15601 	 num_document_batches=25218
+2020-01-24 15:27:35,797 DEBUG      index_construction.py <module>        index now holds 49291 documents
+2020-01-24 15:27:35,798 DEBUG      index_construction.py <module>        non_zero elements in batch = 40, total size = 160000
+2020-01-24 15:27:35,798 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00025
+2020-01-24 15:28:19,635 DEBUG      index_construction.py <module>        generating document representation batch_num=15701 	 num_document_batches=25218
+2020-01-24 15:28:19,635 DEBUG      index_construction.py <module>        index now holds 49566 documents
+2020-01-24 15:28:19,636 DEBUG      index_construction.py <module>        non_zero elements in batch = 5259, total size = 160000
+2020-01-24 15:28:19,636 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.03286875
+2020-01-24 15:29:03,500 DEBUG      index_construction.py <module>        generating document representation batch_num=15801 	 num_document_batches=25218
+2020-01-24 15:29:03,500 DEBUG      index_construction.py <module>        index now holds 49853 documents
+2020-01-24 15:29:03,501 DEBUG      index_construction.py <module>        non_zero elements in batch = 559, total size = 160000
+2020-01-24 15:29:03,501 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00349375
+2020-01-24 15:29:47,225 DEBUG      index_construction.py <module>        generating document representation batch_num=15901 	 num_document_batches=25218
+2020-01-24 15:29:47,225 DEBUG      index_construction.py <module>        index now holds 50102 documents
+2020-01-24 15:29:47,226 DEBUG      index_construction.py <module>        non_zero elements in batch = 73, total size = 160000
+2020-01-24 15:29:47,226 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00045625
+2020-01-24 15:30:30,635 DEBUG      index_construction.py <module>        generating document representation batch_num=16001 	 num_document_batches=25218
+2020-01-24 15:30:30,635 DEBUG      index_construction.py <module>        index now holds 50371 documents
+2020-01-24 15:30:30,635 DEBUG      index_construction.py <module>        non_zero elements in batch = 2054, total size = 160000
+2020-01-24 15:30:30,635 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0128375
+2020-01-24 15:31:14,371 DEBUG      index_construction.py <module>        generating document representation batch_num=16101 	 num_document_batches=25218
+2020-01-24 15:31:14,372 DEBUG      index_construction.py <module>        index now holds 50625 documents
+2020-01-24 15:31:14,372 DEBUG      index_construction.py <module>        non_zero elements in batch = 1159, total size = 160000
+2020-01-24 15:31:14,372 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00724375
+2020-01-24 15:31:57,833 DEBUG      index_construction.py <module>        generating document representation batch_num=16201 	 num_document_batches=25218
+2020-01-24 15:31:57,833 DEBUG      index_construction.py <module>        index now holds 50894 documents
+2020-01-24 15:31:57,833 DEBUG      index_construction.py <module>        non_zero elements in batch = 19, total size = 160000
+2020-01-24 15:31:57,833 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00011875
+2020-01-24 15:32:41,210 DEBUG      index_construction.py <module>        generating document representation batch_num=16301 	 num_document_batches=25218
+2020-01-24 15:32:41,210 DEBUG      index_construction.py <module>        index now holds 51177 documents
+2020-01-24 15:32:41,211 DEBUG      index_construction.py <module>        non_zero elements in batch = 750, total size = 160000
+2020-01-24 15:32:41,211 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0046875
+2020-01-24 15:33:25,099 DEBUG      index_construction.py <module>        generating document representation batch_num=16401 	 num_document_batches=25218
+2020-01-24 15:33:25,099 DEBUG      index_construction.py <module>        index now holds 51434 documents
+2020-01-24 15:33:25,099 DEBUG      index_construction.py <module>        non_zero elements in batch = 5, total size = 160000
+2020-01-24 15:33:25,100 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=3.125e-05
+2020-01-24 15:34:09,071 DEBUG      index_construction.py <module>        generating document representation batch_num=16501 	 num_document_batches=25218
+2020-01-24 15:34:09,071 DEBUG      index_construction.py <module>        index now holds 51677 documents
+2020-01-24 15:34:09,071 DEBUG      index_construction.py <module>        non_zero elements in batch = 23, total size = 160000
+2020-01-24 15:34:09,071 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00014375
+2020-01-24 15:34:53,047 DEBUG      index_construction.py <module>        generating document representation batch_num=16601 	 num_document_batches=25218
+2020-01-24 15:34:53,047 DEBUG      index_construction.py <module>        index now holds 51937 documents
+2020-01-24 15:34:53,047 DEBUG      index_construction.py <module>        non_zero elements in batch = 1415, total size = 160000
+2020-01-24 15:34:53,047 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00884375
+2020-01-24 15:35:36,520 DEBUG      index_construction.py <module>        generating document representation batch_num=16701 	 num_document_batches=25218
+2020-01-24 15:35:36,520 DEBUG      index_construction.py <module>        index now holds 52157 documents
+2020-01-24 15:35:36,520 DEBUG      index_construction.py <module>        non_zero elements in batch = 11, total size = 160000
+2020-01-24 15:35:36,520 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.875e-05
+2020-01-24 15:36:20,719 DEBUG      index_construction.py <module>        generating document representation batch_num=16801 	 num_document_batches=25218
+2020-01-24 15:36:20,719 DEBUG      index_construction.py <module>        index now holds 52478 documents
+2020-01-24 15:36:20,720 DEBUG      index_construction.py <module>        non_zero elements in batch = 143, total size = 160000
+2020-01-24 15:36:20,720 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00089375
+2020-01-24 15:37:04,489 DEBUG      index_construction.py <module>        generating document representation batch_num=16901 	 num_document_batches=25218
+2020-01-24 15:37:04,489 DEBUG      index_construction.py <module>        index now holds 52811 documents
+2020-01-24 15:37:04,490 DEBUG      index_construction.py <module>        non_zero elements in batch = 2, total size = 160000
+2020-01-24 15:37:04,490 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=1.25e-05
+2020-01-24 15:37:48,458 DEBUG      index_construction.py <module>        generating document representation batch_num=17001 	 num_document_batches=25218
+2020-01-24 15:37:48,458 DEBUG      index_construction.py <module>        index now holds 53130 documents
+2020-01-24 15:37:48,459 DEBUG      index_construction.py <module>        non_zero elements in batch = 2796, total size = 160000
+2020-01-24 15:37:48,459 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.017475
+2020-01-24 15:38:32,067 DEBUG      index_construction.py <module>        generating document representation batch_num=17101 	 num_document_batches=25218
+2020-01-24 15:38:32,067 DEBUG      index_construction.py <module>        index now holds 53416 documents
+2020-01-24 15:38:32,068 DEBUG      index_construction.py <module>        non_zero elements in batch = 1, total size = 160000
+2020-01-24 15:38:32,068 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-06
+2020-01-24 15:39:15,960 DEBUG      index_construction.py <module>        generating document representation batch_num=17201 	 num_document_batches=25218
+2020-01-24 15:39:15,960 DEBUG      index_construction.py <module>        index now holds 53743 documents
+2020-01-24 15:39:15,961 DEBUG      index_construction.py <module>        non_zero elements in batch = 162, total size = 160000
+2020-01-24 15:39:15,961 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0010125
+2020-01-24 15:40:00,160 DEBUG      index_construction.py <module>        generating document representation batch_num=17301 	 num_document_batches=25218
+2020-01-24 15:40:00,160 DEBUG      index_construction.py <module>        index now holds 54101 documents
+2020-01-24 15:40:00,161 DEBUG      index_construction.py <module>        non_zero elements in batch = 21, total size = 160000
+2020-01-24 15:40:00,161 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00013125
+2020-01-24 15:40:43,934 DEBUG      index_construction.py <module>        generating document representation batch_num=17401 	 num_document_batches=25218
+2020-01-24 15:40:43,934 DEBUG      index_construction.py <module>        index now holds 54438 documents
+2020-01-24 15:40:43,935 DEBUG      index_construction.py <module>        non_zero elements in batch = 191, total size = 160000
+2020-01-24 15:40:43,935 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00119375
+2020-01-24 15:41:28,039 DEBUG      index_construction.py <module>        generating document representation batch_num=17501 	 num_document_batches=25218
+2020-01-24 15:41:28,040 DEBUG      index_construction.py <module>        index now holds 54758 documents
+2020-01-24 15:41:28,040 DEBUG      index_construction.py <module>        non_zero elements in batch = 10, total size = 160000
+2020-01-24 15:41:28,040 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-05
+2020-01-24 15:42:12,421 DEBUG      index_construction.py <module>        generating document representation batch_num=17601 	 num_document_batches=25218
+2020-01-24 15:42:12,421 DEBUG      index_construction.py <module>        index now holds 55110 documents
+2020-01-24 15:42:12,422 DEBUG      index_construction.py <module>        non_zero elements in batch = 194, total size = 160000
+2020-01-24 15:42:12,422 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0012125
+2020-01-24 15:42:56,839 DEBUG      index_construction.py <module>        generating document representation batch_num=17701 	 num_document_batches=25218
+2020-01-24 15:42:56,839 DEBUG      index_construction.py <module>        index now holds 55475 documents
+2020-01-24 15:42:56,840 DEBUG      index_construction.py <module>        non_zero elements in batch = 1348, total size = 160000
+2020-01-24 15:42:56,840 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.008425
+2020-01-24 15:43:41,118 DEBUG      index_construction.py <module>        generating document representation batch_num=17801 	 num_document_batches=25218
+2020-01-24 15:43:41,118 DEBUG      index_construction.py <module>        index now holds 55753 documents
+2020-01-24 15:43:41,119 DEBUG      index_construction.py <module>        non_zero elements in batch = 596, total size = 160000
+2020-01-24 15:43:41,119 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.003725
+2020-01-24 15:44:25,025 DEBUG      index_construction.py <module>        generating document representation batch_num=17901 	 num_document_batches=25218
+2020-01-24 15:44:25,025 DEBUG      index_construction.py <module>        index now holds 56101 documents
+2020-01-24 15:44:25,026 DEBUG      index_construction.py <module>        non_zero elements in batch = 2, total size = 160000
+2020-01-24 15:44:25,026 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=1.25e-05
+2020-01-24 15:45:08,741 DEBUG      index_construction.py <module>        generating document representation batch_num=18001 	 num_document_batches=25218
+2020-01-24 15:45:08,741 DEBUG      index_construction.py <module>        index now holds 56430 documents
+2020-01-24 15:45:08,741 DEBUG      index_construction.py <module>        non_zero elements in batch = 7, total size = 160000
+2020-01-24 15:45:08,741 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=4.375e-05
+2020-01-24 15:45:51,841 DEBUG      index_construction.py <module>        generating document representation batch_num=18101 	 num_document_batches=25218
+2020-01-24 15:45:51,841 DEBUG      index_construction.py <module>        index now holds 56693 documents
+2020-01-24 15:45:51,842 DEBUG      index_construction.py <module>        non_zero elements in batch = 29, total size = 160000
+2020-01-24 15:45:51,842 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00018125
+2020-01-24 15:46:34,760 DEBUG      index_construction.py <module>        generating document representation batch_num=18201 	 num_document_batches=25218
+2020-01-24 15:46:34,760 DEBUG      index_construction.py <module>        index now holds 56952 documents
+2020-01-24 15:46:34,761 DEBUG      index_construction.py <module>        non_zero elements in batch = 20, total size = 160000
+2020-01-24 15:46:34,761 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000125
+2020-01-24 15:47:18,674 DEBUG      index_construction.py <module>        generating document representation batch_num=18301 	 num_document_batches=25218
+2020-01-24 15:47:18,674 DEBUG      index_construction.py <module>        index now holds 57221 documents
+2020-01-24 15:47:18,674 DEBUG      index_construction.py <module>        non_zero elements in batch = 6, total size = 160000
+2020-01-24 15:47:18,674 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=3.75e-05
+2020-01-24 15:48:03,030 DEBUG      index_construction.py <module>        generating document representation batch_num=18401 	 num_document_batches=25218
+2020-01-24 15:48:03,030 DEBUG      index_construction.py <module>        index now holds 57460 documents
+2020-01-24 15:48:03,031 DEBUG      index_construction.py <module>        non_zero elements in batch = 0, total size = 160000
+2020-01-24 15:48:03,031 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0
+2020-01-24 15:48:46,362 DEBUG      index_construction.py <module>        generating document representation batch_num=18501 	 num_document_batches=25218
+2020-01-24 15:48:46,362 DEBUG      index_construction.py <module>        index now holds 57728 documents
+2020-01-24 15:48:46,363 DEBUG      index_construction.py <module>        non_zero elements in batch = 63, total size = 160000
+2020-01-24 15:48:46,363 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00039375
+2020-01-24 15:49:29,839 DEBUG      index_construction.py <module>        generating document representation batch_num=18601 	 num_document_batches=25218
+2020-01-24 15:49:29,839 DEBUG      index_construction.py <module>        index now holds 58010 documents
+2020-01-24 15:49:29,840 DEBUG      index_construction.py <module>        non_zero elements in batch = 10, total size = 160000
+2020-01-24 15:49:29,840 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-05
+2020-01-24 15:50:13,336 DEBUG      index_construction.py <module>        generating document representation batch_num=18701 	 num_document_batches=25218
+2020-01-24 15:50:13,336 DEBUG      index_construction.py <module>        index now holds 58275 documents
+2020-01-24 15:50:13,337 DEBUG      index_construction.py <module>        non_zero elements in batch = 37, total size = 160000
+2020-01-24 15:50:13,337 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00023125
+2020-01-24 15:50:56,897 DEBUG      index_construction.py <module>        generating document representation batch_num=18801 	 num_document_batches=25218
+2020-01-24 15:50:56,898 DEBUG      index_construction.py <module>        index now holds 58537 documents
+2020-01-24 15:50:56,898 DEBUG      index_construction.py <module>        non_zero elements in batch = 8, total size = 160000
+2020-01-24 15:50:56,898 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=5e-05
+2020-01-24 15:51:40,395 DEBUG      index_construction.py <module>        generating document representation batch_num=18901 	 num_document_batches=25218
+2020-01-24 15:51:40,395 DEBUG      index_construction.py <module>        index now holds 58801 documents
+2020-01-24 15:51:40,396 DEBUG      index_construction.py <module>        non_zero elements in batch = 31, total size = 160000
+2020-01-24 15:51:40,396 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00019375
+2020-01-24 15:52:23,369 DEBUG      index_construction.py <module>        generating document representation batch_num=19001 	 num_document_batches=25218
+2020-01-24 15:52:23,369 DEBUG      index_construction.py <module>        index now holds 59100 documents
+2020-01-24 15:52:23,369 DEBUG      index_construction.py <module>        non_zero elements in batch = 6, total size = 160000
+2020-01-24 15:52:23,369 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=3.75e-05
+2020-01-24 15:53:07,711 DEBUG      index_construction.py <module>        generating document representation batch_num=19101 	 num_document_batches=25218
+2020-01-24 15:53:07,711 DEBUG      index_construction.py <module>        index now holds 59388 documents
+2020-01-24 15:53:07,712 DEBUG      index_construction.py <module>        non_zero elements in batch = 3436, total size = 160000
+2020-01-24 15:53:07,712 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.021475
+2020-01-24 15:53:53,144 DEBUG      index_construction.py <module>        generating document representation batch_num=19201 	 num_document_batches=25218
+2020-01-24 15:53:53,144 DEBUG      index_construction.py <module>        index now holds 59683 documents
+2020-01-24 15:53:53,145 DEBUG      index_construction.py <module>        non_zero elements in batch = 1277, total size = 160000
+2020-01-24 15:53:53,145 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00798125
+2020-01-24 15:54:37,027 DEBUG      index_construction.py <module>        generating document representation batch_num=19301 	 num_document_batches=25218
+2020-01-24 15:54:37,027 DEBUG      index_construction.py <module>        index now holds 60027 documents
+2020-01-24 15:54:37,027 DEBUG      index_construction.py <module>        non_zero elements in batch = 1973, total size = 160000
+2020-01-24 15:54:37,027 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01233125
+2020-01-24 15:55:21,970 DEBUG      index_construction.py <module>        generating document representation batch_num=19401 	 num_document_batches=25218
+2020-01-24 15:55:21,970 DEBUG      index_construction.py <module>        index now holds 60315 documents
+2020-01-24 15:55:21,970 DEBUG      index_construction.py <module>        non_zero elements in batch = 21, total size = 160000
+2020-01-24 15:55:21,970 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00013125
+2020-01-24 15:56:06,073 DEBUG      index_construction.py <module>        generating document representation batch_num=19501 	 num_document_batches=25218
+2020-01-24 15:56:06,073 DEBUG      index_construction.py <module>        index now holds 60615 documents
+2020-01-24 15:56:06,074 DEBUG      index_construction.py <module>        non_zero elements in batch = 228, total size = 160000
+2020-01-24 15:56:06,074 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.001425
+2020-01-24 15:56:50,483 DEBUG      index_construction.py <module>        generating document representation batch_num=19601 	 num_document_batches=25218
+2020-01-24 15:56:50,483 DEBUG      index_construction.py <module>        index now holds 60914 documents
+2020-01-24 15:56:50,484 DEBUG      index_construction.py <module>        non_zero elements in batch = 864, total size = 160000
+2020-01-24 15:56:50,484 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0054
+2020-01-24 15:57:35,703 DEBUG      index_construction.py <module>        generating document representation batch_num=19701 	 num_document_batches=25218
+2020-01-24 15:57:35,703 DEBUG      index_construction.py <module>        index now holds 61221 documents
+2020-01-24 15:57:35,704 DEBUG      index_construction.py <module>        non_zero elements in batch = 46, total size = 160000
+2020-01-24 15:57:35,704 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0002875
+2020-01-24 15:58:19,050 DEBUG      index_construction.py <module>        generating document representation batch_num=19801 	 num_document_batches=25218
+2020-01-24 15:58:19,051 DEBUG      index_construction.py <module>        index now holds 61512 documents
+2020-01-24 15:58:19,051 DEBUG      index_construction.py <module>        non_zero elements in batch = 5117, total size = 160000
+2020-01-24 15:58:19,051 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.03198125
+2020-01-24 15:59:03,341 DEBUG      index_construction.py <module>        generating document representation batch_num=19901 	 num_document_batches=25218
+2020-01-24 15:59:03,342 DEBUG      index_construction.py <module>        index now holds 61802 documents
+2020-01-24 15:59:03,342 DEBUG      index_construction.py <module>        non_zero elements in batch = 498, total size = 160000
+2020-01-24 15:59:03,342 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0031125
+2020-01-24 15:59:47,488 DEBUG      index_construction.py <module>        generating document representation batch_num=20001 	 num_document_batches=25218
+2020-01-24 15:59:47,488 DEBUG      index_construction.py <module>        index now holds 62097 documents
+2020-01-24 15:59:47,489 DEBUG      index_construction.py <module>        non_zero elements in batch = 607, total size = 160000
+2020-01-24 15:59:47,489 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00379375
+2020-01-24 16:00:31,201 DEBUG      index_construction.py <module>        generating document representation batch_num=20101 	 num_document_batches=25218
+2020-01-24 16:00:31,201 DEBUG      index_construction.py <module>        index now holds 62452 documents
+2020-01-24 16:00:31,201 DEBUG      index_construction.py <module>        non_zero elements in batch = 13, total size = 160000
+2020-01-24 16:00:31,201 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=8.125e-05
+2020-01-24 16:01:13,671 DEBUG      index_construction.py <module>        generating document representation batch_num=20201 	 num_document_batches=25218
+2020-01-24 16:01:13,672 DEBUG      index_construction.py <module>        index now holds 62799 documents
+2020-01-24 16:01:13,672 DEBUG      index_construction.py <module>        non_zero elements in batch = 129, total size = 160000
+2020-01-24 16:01:13,672 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00080625
+2020-01-24 16:01:57,121 DEBUG      index_construction.py <module>        generating document representation batch_num=20301 	 num_document_batches=25218
+2020-01-24 16:01:57,121 DEBUG      index_construction.py <module>        index now holds 63127 documents
+2020-01-24 16:01:57,122 DEBUG      index_construction.py <module>        non_zero elements in batch = 3, total size = 160000
+2020-01-24 16:01:57,122 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=1.875e-05
+2020-01-24 16:02:40,316 DEBUG      index_construction.py <module>        generating document representation batch_num=20401 	 num_document_batches=25218
+2020-01-24 16:02:40,316 DEBUG      index_construction.py <module>        index now holds 63505 documents
+2020-01-24 16:02:40,316 DEBUG      index_construction.py <module>        non_zero elements in batch = 1046, total size = 160000
+2020-01-24 16:02:40,316 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0065375
+2020-01-24 16:03:24,160 DEBUG      index_construction.py <module>        generating document representation batch_num=20501 	 num_document_batches=25218
+2020-01-24 16:03:24,160 DEBUG      index_construction.py <module>        index now holds 63856 documents
+2020-01-24 16:03:24,160 DEBUG      index_construction.py <module>        non_zero elements in batch = 155, total size = 160000
+2020-01-24 16:03:24,160 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00096875
+2020-01-24 16:04:07,990 DEBUG      index_construction.py <module>        generating document representation batch_num=20601 	 num_document_batches=25218
+2020-01-24 16:04:07,990 DEBUG      index_construction.py <module>        index now holds 64191 documents
+2020-01-24 16:04:07,990 DEBUG      index_construction.py <module>        non_zero elements in batch = 78, total size = 160000
+2020-01-24 16:04:07,990 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0004875
+2020-01-24 16:04:52,107 DEBUG      index_construction.py <module>        generating document representation batch_num=20701 	 num_document_batches=25218
+2020-01-24 16:04:52,107 DEBUG      index_construction.py <module>        index now holds 64522 documents
+2020-01-24 16:04:52,107 DEBUG      index_construction.py <module>        non_zero elements in batch = 3615, total size = 160000
+2020-01-24 16:04:52,107 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.02259375
+2020-01-24 16:05:36,155 DEBUG      index_construction.py <module>        generating document representation batch_num=20801 	 num_document_batches=25218
+2020-01-24 16:05:36,155 DEBUG      index_construction.py <module>        index now holds 64898 documents
+2020-01-24 16:05:36,156 DEBUG      index_construction.py <module>        non_zero elements in batch = 27, total size = 160000
+2020-01-24 16:05:36,156 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00016875
+2020-01-24 16:06:20,349 DEBUG      index_construction.py <module>        generating document representation batch_num=20901 	 num_document_batches=25218
+2020-01-24 16:06:20,349 DEBUG      index_construction.py <module>        index now holds 65143 documents
+2020-01-24 16:06:20,350 DEBUG      index_construction.py <module>        non_zero elements in batch = 50, total size = 160000
+2020-01-24 16:06:20,350 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0003125
+2020-01-24 16:07:03,686 DEBUG      index_construction.py <module>        generating document representation batch_num=21001 	 num_document_batches=25218
+2020-01-24 16:07:03,686 DEBUG      index_construction.py <module>        index now holds 65375 documents
+2020-01-24 16:07:03,686 DEBUG      index_construction.py <module>        non_zero elements in batch = 35, total size = 160000
+2020-01-24 16:07:03,686 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00021875
+2020-01-24 16:07:47,356 DEBUG      index_construction.py <module>        generating document representation batch_num=21101 	 num_document_batches=25218
+2020-01-24 16:07:47,357 DEBUG      index_construction.py <module>        index now holds 65641 documents
+2020-01-24 16:07:47,357 DEBUG      index_construction.py <module>        non_zero elements in batch = 1, total size = 160000
+2020-01-24 16:07:47,357 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-06
+2020-01-24 16:08:31,561 DEBUG      index_construction.py <module>        generating document representation batch_num=21201 	 num_document_batches=25218
+2020-01-24 16:08:31,561 DEBUG      index_construction.py <module>        index now holds 65969 documents
+2020-01-24 16:08:31,562 DEBUG      index_construction.py <module>        non_zero elements in batch = 455, total size = 160000
+2020-01-24 16:08:31,562 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00284375
+2020-01-24 16:09:15,612 DEBUG      index_construction.py <module>        generating document representation batch_num=21301 	 num_document_batches=25218
+2020-01-24 16:09:15,612 DEBUG      index_construction.py <module>        index now holds 66283 documents
+2020-01-24 16:09:15,613 DEBUG      index_construction.py <module>        non_zero elements in batch = 734, total size = 160000
+2020-01-24 16:09:15,613 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0045875
+2020-01-24 16:09:59,937 DEBUG      index_construction.py <module>        generating document representation batch_num=21401 	 num_document_batches=25218
+2020-01-24 16:09:59,937 DEBUG      index_construction.py <module>        index now holds 66600 documents
+2020-01-24 16:09:59,938 DEBUG      index_construction.py <module>        non_zero elements in batch = 7, total size = 160000
+2020-01-24 16:09:59,938 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=4.375e-05
+2020-01-24 16:10:44,293 DEBUG      index_construction.py <module>        generating document representation batch_num=21501 	 num_document_batches=25218
+2020-01-24 16:10:44,293 DEBUG      index_construction.py <module>        index now holds 66904 documents
+2020-01-24 16:10:44,294 DEBUG      index_construction.py <module>        non_zero elements in batch = 717, total size = 160000
+2020-01-24 16:10:44,294 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00448125
+2020-01-24 16:11:28,546 DEBUG      index_construction.py <module>        generating document representation batch_num=21601 	 num_document_batches=25218
+2020-01-24 16:11:28,546 DEBUG      index_construction.py <module>        index now holds 67201 documents
+2020-01-24 16:11:28,547 DEBUG      index_construction.py <module>        non_zero elements in batch = 130, total size = 160000
+2020-01-24 16:11:28,547 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0008125
+2020-01-24 16:12:12,253 DEBUG      index_construction.py <module>        generating document representation batch_num=21701 	 num_document_batches=25218
+2020-01-24 16:12:12,253 DEBUG      index_construction.py <module>        index now holds 67512 documents
+2020-01-24 16:12:12,254 DEBUG      index_construction.py <module>        non_zero elements in batch = 17, total size = 160000
+2020-01-24 16:12:12,254 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00010625
+2020-01-24 16:12:55,748 DEBUG      index_construction.py <module>        generating document representation batch_num=21801 	 num_document_batches=25218
+2020-01-24 16:12:55,749 DEBUG      index_construction.py <module>        index now holds 67789 documents
+2020-01-24 16:12:55,749 DEBUG      index_construction.py <module>        non_zero elements in batch = 8, total size = 160000
+2020-01-24 16:12:55,749 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=5e-05
+2020-01-24 16:13:40,081 DEBUG      index_construction.py <module>        generating document representation batch_num=21901 	 num_document_batches=25218
+2020-01-24 16:13:40,081 DEBUG      index_construction.py <module>        index now holds 68087 documents
+2020-01-24 16:13:40,081 DEBUG      index_construction.py <module>        non_zero elements in batch = 5943, total size = 160000
+2020-01-24 16:13:40,082 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.03714375
+2020-01-24 16:14:24,469 DEBUG      index_construction.py <module>        generating document representation batch_num=22001 	 num_document_batches=25218
+2020-01-24 16:14:24,469 DEBUG      index_construction.py <module>        index now holds 68402 documents
+2020-01-24 16:14:24,470 DEBUG      index_construction.py <module>        non_zero elements in batch = 4025, total size = 160000
+2020-01-24 16:14:24,470 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.02515625
+2020-01-24 16:15:07,739 DEBUG      index_construction.py <module>        generating document representation batch_num=22101 	 num_document_batches=25218
+2020-01-24 16:15:07,740 DEBUG      index_construction.py <module>        index now holds 68736 documents
+2020-01-24 16:15:07,740 DEBUG      index_construction.py <module>        non_zero elements in batch = 29, total size = 160000
+2020-01-24 16:15:07,740 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00018125
+2020-01-24 16:15:51,770 DEBUG      index_construction.py <module>        generating document representation batch_num=22201 	 num_document_batches=25218
+2020-01-24 16:15:51,771 DEBUG      index_construction.py <module>        index now holds 69054 documents
+2020-01-24 16:15:51,771 DEBUG      index_construction.py <module>        non_zero elements in batch = 10, total size = 160000
+2020-01-24 16:15:51,771 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-05
+2020-01-24 16:16:35,846 DEBUG      index_construction.py <module>        generating document representation batch_num=22301 	 num_document_batches=25218
+2020-01-24 16:16:35,846 DEBUG      index_construction.py <module>        index now holds 69399 documents
+2020-01-24 16:16:35,847 DEBUG      index_construction.py <module>        non_zero elements in batch = 175, total size = 160000
+2020-01-24 16:16:35,847 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00109375
+2020-01-24 16:17:19,674 DEBUG      index_construction.py <module>        generating document representation batch_num=22401 	 num_document_batches=25218
+2020-01-24 16:17:19,674 DEBUG      index_construction.py <module>        index now holds 69720 documents
+2020-01-24 16:17:19,675 DEBUG      index_construction.py <module>        non_zero elements in batch = 4705, total size = 160000
+2020-01-24 16:17:19,675 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.02940625
+2020-01-24 16:18:03,150 DEBUG      index_construction.py <module>        generating document representation batch_num=22501 	 num_document_batches=25218
+2020-01-24 16:18:03,150 DEBUG      index_construction.py <module>        index now holds 70063 documents
+2020-01-24 16:18:03,150 DEBUG      index_construction.py <module>        non_zero elements in batch = 130, total size = 160000
+2020-01-24 16:18:03,150 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0008125
+2020-01-24 16:18:46,900 DEBUG      index_construction.py <module>        generating document representation batch_num=22601 	 num_document_batches=25218
+2020-01-24 16:18:46,900 DEBUG      index_construction.py <module>        index now holds 70389 documents
+2020-01-24 16:18:46,901 DEBUG      index_construction.py <module>        non_zero elements in batch = 540, total size = 160000
+2020-01-24 16:18:46,901 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.003375
+2020-01-24 16:19:30,272 DEBUG      index_construction.py <module>        generating document representation batch_num=22701 	 num_document_batches=25218
+2020-01-24 16:19:30,272 DEBUG      index_construction.py <module>        index now holds 70749 documents
+2020-01-24 16:19:30,273 DEBUG      index_construction.py <module>        non_zero elements in batch = 1443, total size = 160000
+2020-01-24 16:19:30,273 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00901875
+2020-01-24 16:20:14,159 DEBUG      index_construction.py <module>        generating document representation batch_num=22801 	 num_document_batches=25218
+2020-01-24 16:20:14,160 DEBUG      index_construction.py <module>        index now holds 71103 documents
+2020-01-24 16:20:14,160 DEBUG      index_construction.py <module>        non_zero elements in batch = 64, total size = 160000
+2020-01-24 16:20:14,160 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0004
+2020-01-24 16:20:57,935 DEBUG      index_construction.py <module>        generating document representation batch_num=22901 	 num_document_batches=25218
+2020-01-24 16:20:57,935 DEBUG      index_construction.py <module>        index now holds 71379 documents
+2020-01-24 16:20:57,936 DEBUG      index_construction.py <module>        non_zero elements in batch = 2279, total size = 160000
+2020-01-24 16:20:57,936 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.01424375
+2020-01-24 16:21:40,635 DEBUG      index_construction.py <module>        generating document representation batch_num=23001 	 num_document_batches=25218
+2020-01-24 16:21:40,636 DEBUG      index_construction.py <module>        index now holds 71698 documents
+2020-01-24 16:21:40,636 DEBUG      index_construction.py <module>        non_zero elements in batch = 97, total size = 160000
+2020-01-24 16:21:40,636 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00060625
+2020-01-24 16:22:24,200 DEBUG      index_construction.py <module>        generating document representation batch_num=23101 	 num_document_batches=25218
+2020-01-24 16:22:24,201 DEBUG      index_construction.py <module>        index now holds 71986 documents
+2020-01-24 16:22:24,201 DEBUG      index_construction.py <module>        non_zero elements in batch = 5025, total size = 160000
+2020-01-24 16:22:24,201 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.03140625
+2020-01-24 16:23:07,520 DEBUG      index_construction.py <module>        generating document representation batch_num=23201 	 num_document_batches=25218
+2020-01-24 16:23:07,520 DEBUG      index_construction.py <module>        index now holds 72326 documents
+2020-01-24 16:23:07,521 DEBUG      index_construction.py <module>        non_zero elements in batch = 4268, total size = 160000
+2020-01-24 16:23:07,521 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.026675
+2020-01-24 16:23:51,035 DEBUG      index_construction.py <module>        generating document representation batch_num=23301 	 num_document_batches=25218
+2020-01-24 16:23:51,036 DEBUG      index_construction.py <module>        index now holds 72653 documents
+2020-01-24 16:23:51,036 DEBUG      index_construction.py <module>        non_zero elements in batch = 2944, total size = 160000
+2020-01-24 16:23:51,036 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0184
+2020-01-24 16:24:34,675 DEBUG      index_construction.py <module>        generating document representation batch_num=23401 	 num_document_batches=25218
+2020-01-24 16:24:34,676 DEBUG      index_construction.py <module>        index now holds 72970 documents
+2020-01-24 16:24:34,676 DEBUG      index_construction.py <module>        non_zero elements in batch = 18, total size = 160000
+2020-01-24 16:24:34,676 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0001125
+2020-01-24 16:25:18,391 DEBUG      index_construction.py <module>        generating document representation batch_num=23501 	 num_document_batches=25218
+2020-01-24 16:25:18,393 DEBUG      index_construction.py <module>        index now holds 73312 documents
+2020-01-24 16:25:18,394 DEBUG      index_construction.py <module>        non_zero elements in batch = 1054, total size = 160000
+2020-01-24 16:25:18,394 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0065875
+2020-01-24 16:26:01,911 DEBUG      index_construction.py <module>        generating document representation batch_num=23601 	 num_document_batches=25218
+2020-01-24 16:26:01,912 DEBUG      index_construction.py <module>        index now holds 73641 documents
+2020-01-24 16:26:01,912 DEBUG      index_construction.py <module>        non_zero elements in batch = 14, total size = 160000
+2020-01-24 16:26:01,912 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=8.75e-05
+2020-01-24 16:26:45,525 DEBUG      index_construction.py <module>        generating document representation batch_num=23701 	 num_document_batches=25218
+2020-01-24 16:26:45,525 DEBUG      index_construction.py <module>        index now holds 73888 documents
+2020-01-24 16:26:45,526 DEBUG      index_construction.py <module>        non_zero elements in batch = 489, total size = 160000
+2020-01-24 16:26:45,526 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00305625
+2020-01-24 16:27:29,219 DEBUG      index_construction.py <module>        generating document representation batch_num=23801 	 num_document_batches=25218
+2020-01-24 16:27:29,219 DEBUG      index_construction.py <module>        index now holds 74144 documents
+2020-01-24 16:27:29,220 DEBUG      index_construction.py <module>        non_zero elements in batch = 10, total size = 160000
+2020-01-24 16:27:29,220 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-05
+2020-01-24 16:28:12,312 DEBUG      index_construction.py <module>        generating document representation batch_num=23901 	 num_document_batches=25218
+2020-01-24 16:28:12,312 DEBUG      index_construction.py <module>        index now holds 74410 documents
+2020-01-24 16:28:12,313 DEBUG      index_construction.py <module>        non_zero elements in batch = 0, total size = 160000
+2020-01-24 16:28:12,313 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0
+2020-01-24 16:28:55,647 DEBUG      index_construction.py <module>        generating document representation batch_num=24001 	 num_document_batches=25218
+2020-01-24 16:28:55,647 DEBUG      index_construction.py <module>        index now holds 74719 documents
+2020-01-24 16:28:55,648 DEBUG      index_construction.py <module>        non_zero elements in batch = 10, total size = 160000
+2020-01-24 16:28:55,648 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-05
+2020-01-24 16:29:38,727 DEBUG      index_construction.py <module>        generating document representation batch_num=24101 	 num_document_batches=25218
+2020-01-24 16:29:38,727 DEBUG      index_construction.py <module>        index now holds 75005 documents
+2020-01-24 16:29:38,728 DEBUG      index_construction.py <module>        non_zero elements in batch = 5002, total size = 160000
+2020-01-24 16:29:38,728 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0312625
+2020-01-24 16:30:21,300 DEBUG      index_construction.py <module>        generating document representation batch_num=24201 	 num_document_batches=25218
+2020-01-24 16:30:21,300 DEBUG      index_construction.py <module>        index now holds 75286 documents
+2020-01-24 16:30:21,300 DEBUG      index_construction.py <module>        non_zero elements in batch = 0, total size = 160000
+2020-01-24 16:30:21,301 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0
+2020-01-24 16:31:03,715 DEBUG      index_construction.py <module>        generating document representation batch_num=24301 	 num_document_batches=25218
+2020-01-24 16:31:03,715 DEBUG      index_construction.py <module>        index now holds 75550 documents
+2020-01-24 16:31:03,716 DEBUG      index_construction.py <module>        non_zero elements in batch = 1, total size = 160000
+2020-01-24 16:31:03,716 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=6.25e-06
+2020-01-24 16:31:46,578 DEBUG      index_construction.py <module>        generating document representation batch_num=24401 	 num_document_batches=25218
+2020-01-24 16:31:46,578 DEBUG      index_construction.py <module>        index now holds 75828 documents
+2020-01-24 16:31:46,578 DEBUG      index_construction.py <module>        non_zero elements in batch = 92, total size = 160000
+2020-01-24 16:31:46,578 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000575
+2020-01-24 16:32:29,654 DEBUG      index_construction.py <module>        generating document representation batch_num=24501 	 num_document_batches=25218
+2020-01-24 16:32:29,654 DEBUG      index_construction.py <module>        index now holds 76166 documents
+2020-01-24 16:32:29,654 DEBUG      index_construction.py <module>        non_zero elements in batch = 55, total size = 160000
+2020-01-24 16:32:29,654 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00034375
+2020-01-24 16:33:13,248 DEBUG      index_construction.py <module>        generating document representation batch_num=24601 	 num_document_batches=25218
+2020-01-24 16:33:13,248 DEBUG      index_construction.py <module>        index now holds 76476 documents
+2020-01-24 16:33:13,248 DEBUG      index_construction.py <module>        non_zero elements in batch = 140, total size = 160000
+2020-01-24 16:33:13,248 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.000875
+2020-01-24 16:33:56,357 DEBUG      index_construction.py <module>        generating document representation batch_num=24701 	 num_document_batches=25218
+2020-01-24 16:33:56,357 DEBUG      index_construction.py <module>        index now holds 76794 documents
+2020-01-24 16:33:56,358 DEBUG      index_construction.py <module>        non_zero elements in batch = 4799, total size = 160000
+2020-01-24 16:33:56,358 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.02999375
+2020-01-24 16:34:40,311 DEBUG      index_construction.py <module>        generating document representation batch_num=24801 	 num_document_batches=25218
+2020-01-24 16:34:40,311 DEBUG      index_construction.py <module>        index now holds 77121 documents
+2020-01-24 16:34:40,311 DEBUG      index_construction.py <module>        non_zero elements in batch = 599, total size = 160000
+2020-01-24 16:34:40,311 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.00374375
+2020-01-24 16:35:24,208 DEBUG      index_construction.py <module>        generating document representation batch_num=24901 	 num_document_batches=25218
+2020-01-24 16:35:24,210 DEBUG      index_construction.py <module>        index now holds 77443 documents
+2020-01-24 16:35:24,210 DEBUG      index_construction.py <module>        non_zero elements in batch = 938, total size = 160000
+2020-01-24 16:35:24,210 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0058625
+2020-01-24 16:36:08,503 DEBUG      index_construction.py <module>        generating document representation batch_num=25001 	 num_document_batches=25218
+2020-01-24 16:36:08,503 DEBUG      index_construction.py <module>        index now holds 77814 documents
+2020-01-24 16:36:08,503 DEBUG      index_construction.py <module>        non_zero elements in batch = 486, total size = 160000
+2020-01-24 16:36:08,504 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0030375
+2020-01-24 16:36:52,293 DEBUG      index_construction.py <module>        generating document representation batch_num=25101 	 num_document_batches=25218
+2020-01-24 16:36:52,293 DEBUG      index_construction.py <module>        index now holds 78142 documents
+2020-01-24 16:36:52,294 DEBUG      index_construction.py <module>        non_zero elements in batch = 4, total size = 160000
+2020-01-24 16:36:52,294 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=2.5e-05
+2020-01-24 16:37:35,987 DEBUG      index_construction.py <module>        generating document representation batch_num=25201 	 num_document_batches=25218
+2020-01-24 16:37:35,987 DEBUG      index_construction.py <module>        index now holds 78492 documents
+2020-01-24 16:37:35,988 DEBUG      index_construction.py <module>        non_zero elements in batch = 534, total size = 160000
+2020-01-24 16:37:35,988 DEBUG      index_construction.py <module>        generated doc_repr with 	ratio_non_zero_elements=0.0033375
+2020-01-24 16:37:43,465 DEBUG      inverted_index.py store           found 78548 documents in index
+2020-01-24 16:37:44,881 INFO       inverted_index.py store           Stored inverted index

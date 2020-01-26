@@ -1,0 +1,378 @@
+query_collection: data/evaluation/queries.dev.small.tsv
+document_collection: data/document_collection/collection.tsv
+evaluation_candidate_file: results/evaluation_candidate_2020-01-24_165200.txt
+result_file: results/retrieval_results_presentation_2020-01-24_193605
+====================================
+Query: 	 who sang louie louie louie louie
+* doc_id=8184439 	 score=414.8261504173279 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=2352313 	 score=301.22139167785645 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=4468380 	 score=256.61157417297363 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=7864841 	 score=252.26263761520386 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+* doc_id=7285513 	 score=237.8441400527954 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+====================================
+Query: 	 who sings c'est la vie music
+* doc_id=8184439 	 score=278.14927887916565 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=7285513 	 score=170.52838015556335 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=4468380 	 score=169.72071504592896 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=7864841 	 score=130.31247329711914 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+* doc_id=7513530 	 score=117.50726747512817 
+1. What does IHSA stand for? _____ 2. What is the purpose of IHSA? _____ _____ _____ 3. Name as many IHSA activities as you can. _____ _____ _____ _____ 4. One of the IHSA activities you can participate in is music. What are the six major categories of instruments? a. _____ b. _____ c. _____ d. _____ e. _____ f. _____ 5. Mascot Matching! Pay attention to the mascot banners displayed in the gallery. a.
+
+====================================
+Query: 	 Does Suddenlink Carry ESPN3
+* doc_id=8184439 	 score=426.4058675765991 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=2352313 	 score=327.98429465293884 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=4468380 	 score=266.4464657306671 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=7285513 	 score=243.86455249786377 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=1140631 	 score=185.04724943637848 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+====================================
+Query: 	 who unified italy mazzini,garibaldi or cavour
+* doc_id=8184439 	 score=34.13216781616211 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=7285513 	 score=21.647216796875 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=4468380 	 score=19.5999698638916 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=7513530 	 score=16.88396453857422 
+1. What does IHSA stand for? _____ 2. What is the purpose of IHSA? _____ _____ _____ 3. Name as many IHSA activities as you can. _____ _____ _____ _____ 4. One of the IHSA activities you can participate in is music. What are the six major categories of instruments? a. _____ b. _____ c. _____ d. _____ e. _____ f. _____ 5. Mascot Matching! Pay attention to the mascot banners displayed in the gallery. a.
+
+* doc_id=2352313 	 score=15.571334838867188 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+====================================
+Query: 	 trumbull marriott fax number
+* doc_id=8184439 	 score=345.5096216201782 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=4468380 	 score=213.99797534942627 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=2352313 	 score=187.72697532176971 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=7285513 	 score=164.1637306213379 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=7864841 	 score=162.6634964942932 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+====================================
+Query: 	 what is hydroxyz pam used for
+* doc_id=2352313 	 score=64.12139892578125 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=8184439 	 score=33.85791778564453 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=7864841 	 score=31.95591163635254 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+* doc_id=4468380 	 score=27.318805694580078 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=3488752 	 score=25.702808380126953 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+====================================
+Query: 	 what is full recourse guaranty
+* doc_id=8184439 	 score=43.98051357269287 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=2352313 	 score=32.28738498687744 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=7864841 	 score=28.7819766998291 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+* doc_id=4468380 	 score=28.095139980316162 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=7285513 	 score=17.84839153289795 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+====================================
+Query: 	 what is samsung defreeze code
+* doc_id=8184439 	 score=56.56609392166138 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=7864841 	 score=44.85863256454468 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+* doc_id=4468380 	 score=38.57538938522339 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=7285513 	 score=30.019666075706482 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=2352313 	 score=28.6893367767334 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+====================================
+Query: 	 what is diflorasone diacetate cream used for
+* doc_id=8184439 	 score=6290.20738363266 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=2352313 	 score=4344.512489795685 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=4468380 	 score=4111.540903031826 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=7285513 	 score=3721.926414370537 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=7864841 	 score=3418.4453834295273 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+====================================
+Query: 	 what is deck over on gooseneck trailers
+* doc_id=8184439 	 score=3122.7831728458405 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=4468380 	 score=2008.5681012868881 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=2352313 	 score=1811.1621485203505 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=7864841 	 score=1606.683376967907 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+* doc_id=7513530 	 score=1361.0551607012749 
+1. What does IHSA stand for? _____ 2. What is the purpose of IHSA? _____ _____ _____ 3. Name as many IHSA activities as you can. _____ _____ _____ _____ 4. One of the IHSA activities you can participate in is music. What are the six major categories of instruments? a. _____ b. _____ c. _____ d. _____ e. _____ f. _____ 5. Mascot Matching! Pay attention to the mascot banners displayed in the gallery. a.
+
+====================================
+Query: 	 what is barbra streisand net worth
+* doc_id=8184439 	 score=6827.820136785507 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=4468380 	 score=4438.46127140522 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=2352313 	 score=3427.9473727717996 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=3352.190062403679 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=7864841 	 score=2877.4568172693253 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+====================================
+Query: 	 what is badger inc in penn yan ny
+* doc_id=2352313 	 score=484.05132579803467 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=8184439 	 score=428.4592094421387 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=4468380 	 score=282.52506923675537 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=3488752 	 score=274.0420227050781 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=7864841 	 score=265.09571504592896 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+====================================
+Query: 	 aldridge pite melville ny telephone number
+* doc_id=8184439 	 score=358983.9684702009 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=4468380 	 score=224679.7773708366 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=2352313 	 score=192304.24073095853 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=7285513 	 score=180358.2004177384 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=7864841 	 score=151086.6642732974 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+====================================
+Query: 	 weather in laurinburg nc
+* doc_id=2352313 	 score=828.656930744648 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=8184439 	 score=739.3087639212608 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=4468380 	 score=466.0460986196995 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=7285513 	 score=335.88554026186466 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=3488752 	 score=331.05987709760666 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+====================================
+Query: 	 are florida mangroves protected
+* doc_id=8184439 	 score=450.36503648757935 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=2352313 	 score=427.8718719482422 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=4468380 	 score=274.4448310136795 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=7513530 	 score=206.26287269592285 
+1. What does IHSA stand for? _____ 2. What is the purpose of IHSA? _____ _____ _____ 3. Name as many IHSA activities as you can. _____ _____ _____ _____ 4. One of the IHSA activities you can participate in is music. What are the six major categories of instruments? a. _____ b. _____ c. _____ d. _____ e. _____ f. _____ 5. Mascot Matching! Pay attention to the mascot banners displayed in the gallery. a.
+
+* doc_id=7285513 	 score=190.74369096755981 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+====================================
+Query: 	 why is kinder gelt provide to german families
+* doc_id=8184439 	 score=10.13405990600586 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=2352313 	 score=6.4988694190979 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=7285513 	 score=6.058584213256836 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=4468380 	 score=5.992130756378174 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=7864841 	 score=4.767207622528076 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+====================================
+Query: 	 are premature roth ira distributions taxable
+* doc_id=8184439 	 score=19.10764503479004 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=7285513 	 score=14.694357872009277 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=4468380 	 score=13.286458015441895 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=723311 	 score=12.27068042755127 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=12.096323013305664 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+====================================
+Query: 	 are sore throats contagious
+* doc_id=8184439 	 score=52.74381971359253 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=7285513 	 score=34.61725854873657 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=7864841 	 score=34.30081558227539 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+* doc_id=4468380 	 score=34.17035531997681 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=2352313 	 score=28.412813186645508 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+====================================
+Query: 	 what are conchae or turbinates and what function do they do for breathing?
+* doc_id=8184439 	 score=9911.888730373234 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=2352313 	 score=7673.873295983067 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=4468380 	 score=6341.082996493205 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=3488752 	 score=4799.174706097692 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=7285513 	 score=3967.336065242067 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+====================================
+Query: 	 what dog breed is a peekapoo
+* doc_id=8184439 	 score=42.47941970825195 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=7285513 	 score=29.638959884643555 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=4468380 	 score=25.711376190185547 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=1140631 	 score=21.201773643493652 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=7864841 	 score=19.01978302001953 
+1-penten-3-one (ethyl vinyl ketone) 1-propanol 2,2-dichloropropane 2,3-butanediol 2,3-butanedione (diacetal) 2,3-pentanedione 2,4-dimethyl-3-pentanone 2,6-dimethyl-4-heptanone 2-butanone (MEK) 2-buten-1-ol (crotyl alcohol) 2-butoxyethanol (butyl cellosolve) 2-chlorotoluene 14.38 8.05 16.38 12.60 4.00 27.43 6.11 4.00 8.72 8.34 22.23 16.46 18.18 24.02 21.41 17.47 20.02 13.43
+
+====================================
+Query: 	 what does thhn in electrical stand for
+* doc_id=8184439 	 score=48.154266357421875 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=7285513 	 score=38.85835647583008 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=4468380 	 score=27.47217559814453 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=1140631 	 score=24.329862594604492 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=22.986108779907227 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+====================================
+Query: 	 what does quimica mean in spanish
+* doc_id=8184439 	 score=116.20319271087646 
+Whatâs the Purpose? FDRâs Pearl Harbor Speech On December 7, 1941, the Japanese aircraft and naval ships attacked the U.S. military at Pearl Harbor on the island of Oahu in Hawaii. Over 2,400 people were killed and the U.S. lost a large number of ships and aircraft. The next day, President Franklin Roosevelt addressed a Joint Session of Congress, which was broadcast to the American people. The text on the right is the beginning of his speech. Determine the Purpose From reading the passage, what do you think was the purpose of Presidentâs Rooseveltâs speech? _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ Correct answers will vary. Possible correct answers may include: 1) Roosevelt is condemning the attack on Pearl Harbor 2) Roosevelt wants to go to war with Japan. 3) Roosevelt wants Congress and the American people to understand
+
+* doc_id=4468380 	 score=74.36910057067871 
+3. What is the approximate height and temperature of the: tropopause: _____ _____ stratopause: _____ _____ mesopause: _____ _____ 4. What causes the temperature to increase with height through the stratosphere, and decrease with height through the mesosphere? 5. What causes the temperature to decrease with height in the troposphere?
+
+* doc_id=7285513 	 score=59.052510261535645 
+master omraam mikhael aivanhov erobizde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov simple way to get the amazing book from experienced . Who is the master omraam mikhael aivanhov fehnrwde, download and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov that's it, a book to wait for in this month. Who is the master omraam mikhael aivanhov kscoutde, browse and read who is the master omraam mikhael aivanhov who is the master omraam mikhael aivanhov new updated! the who is the master omraam mikhael . Omraam mikhaÃ«l aÃ¯vanhov wikipedia, deunov chose aivanhov
+
+* doc_id=723311 	 score=51.92674112319946 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=7513530 	 score=51.65627479553223 
+1. What does IHSA stand for? _____ 2. What is the purpose of IHSA? _____ _____ _____ 3. Name as many IHSA activities as you can. _____ _____ _____ _____ 4. One of the IHSA activities you can participate in is music. What are the six major categories of instruments? a. _____ b. _____ c. _____ d. _____ e. _____ f. _____ 5. Mascot Matching! Pay attention to the mascot banners displayed in the gallery. a.
+

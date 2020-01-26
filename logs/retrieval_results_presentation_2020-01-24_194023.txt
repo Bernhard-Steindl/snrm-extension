@@ -1,0 +1,514 @@
+query_collection: data/evaluation/queries.dev.small.tsv
+document_collection: data/document_collection/collection.tsv
+evaluation_candidate_file: results/evaluation_candidate_2020-01-24_113906.txt
+result_file: results/retrieval_results_presentation_2020-01-24_194023
+====================================
+Query: 	 who sang louie louie louie louie
+* doc_id=2352313 	 score=668.1490479726344 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=336.4166369140148 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=162810 	 score=331.3413257114589 
+Epidermodysplasia Verruciformis. Epidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life. A major concern for those affected by this condition is that the lesions may transform into skin cancer.pidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life.
+
+* doc_id=1140631 	 score=317.6768529340625 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=236.7671086601913 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+====================================
+Query: 	 who sings c'est la vie music
+* doc_id=3488752 	 score=365.54663709923625 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=723311 	 score=344.1797373071313 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=332.8700046315789 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=1140631 	 score=280.7647570427507 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=2352313 	 score=272.0562358959578 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+====================================
+Query: 	 Does Suddenlink Carry ESPN3
+* doc_id=2352313 	 score=832.366801738739 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=1140631 	 score=477.5549916476011 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=474.2258116900921 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=464.0058354884386 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=3488752 	 score=460.3040253967047 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+====================================
+Query: 	 who unified italy mazzini,garibaldi or cavour
+* doc_id=2352313 	 score=63.408419728279114 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=871740 	 score=38.32015526294708 
+Put your head on someone's chest and the heartbeat sounds a bit like lub-DUB, lub-DUB, lub-DUB. The lub is the sound of the tricuspid and mitral valves closing. The DUB is the sound of the aortic and pulmonary valves closing. Together, they're the sound of someone's heart doing its job.
+
+* doc_id=1140631 	 score=36.956023931503296 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=3488752 	 score=33.58445692062378 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=723311 	 score=33.542816042900085 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+====================================
+Query: 	 trumbull marriott fax number
+* doc_id=2352313 	 score=359.5309306383133 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=1140631 	 score=249.5096242427826 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=210.58919286727905 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=210.10314512252808 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=3488752 	 score=209.77908897399902 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+====================================
+Query: 	 what is hydroxyz pam used for
+* doc_id=2352313 	 score=87.48110961914062 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=33.6681022644043 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=1140631 	 score=27.56646156311035 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=162810 	 score=22.762357711791992 
+Epidermodysplasia Verruciformis. Epidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life. A major concern for those affected by this condition is that the lesions may transform into skin cancer.pidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life.
+
+* doc_id=723311 	 score=22.55565643310547 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+====================================
+Query: 	 what is full recourse guaranty
+* doc_id=2352313 	 score=182.41753256320953 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=101.31690180301666 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=723311 	 score=96.30767393112183 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=94.70747500658035 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=1140631 	 score=89.68746960163116 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+====================================
+Query: 	 what is samsung defreeze code
+* doc_id=2352313 	 score=167.0716986656189 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=107.29731297492981 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=1140631 	 score=96.52533197402954 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=87.09503424167633 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=86.17400801181793 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+====================================
+Query: 	 what is diflorasone diacetate cream used for
+* doc_id=2352313 	 score=6511.648797601461 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=4184.092313170433 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=1140631 	 score=3488.1559421122074 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=3487.579580783844 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=3474.5554913282394 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+====================================
+Query: 	 what is deck over on gooseneck trailers
+* doc_id=2352313 	 score=3118.2218808289617 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=1695.8296321630478 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=1140631 	 score=1568.1249581575394 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=1432.9589867442846 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=1420.1369147151709 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+====================================
+Query: 	 what is barbra streisand net worth
+* doc_id=2352313 	 score=5649.374837428331 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=5459.724516749382 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=1140631 	 score=4390.135927706957 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=3995.0146768540144 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=3959.0810783207417 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+====================================
+Query: 	 what is badger inc in penn yan ny
+* doc_id=2352313 	 score=889.7062315940857 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=532.2194776535034 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=1140631 	 score=441.38130235671997 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=392.4252300262451 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=390.8632745742798 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+====================================
+Query: 	 vestibular hypofunction definition
+* doc_id=2352313 	 score=9.442831993103027 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=5.137826919555664 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=723311 	 score=5.054236888885498 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=5.054236888885498 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=1140631 	 score=3.7311525344848633 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+====================================
+Query: 	 aldridge pite melville ny telephone number
+* doc_id=2352313 	 score=218266.48463558778 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=165407.3641932439 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=723311 	 score=147103.4897516435 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=146491.9979511192 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=1140631 	 score=141888.4243872771 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+====================================
+Query: 	 _______ sediments originate from elements in seawater that precipitate out of solution.
+* doc_id=2352313 	 score=18.045988082885742 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=1140631 	 score=11.94072437286377 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=10.977850914001465 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=10.977850914001465 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=3488752 	 score=9.378235816955566 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+====================================
+Query: 	 was there a true bagger vance
+* doc_id=2352313 	 score=79.261465549469 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=1140631 	 score=42.728012561798096 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=3488752 	 score=41.12492227554321 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=3256588 	 score=30.160633087158203 
+Paraffinum Liquidum. Paraffinum Liquidum (mineral oil) is a petroleum by-product and is created through distillation. Mineral oil is completely transparent and is basically a liquid form of petroleum jelly.It is produced in large quantities and is used in many different ways all over the world, mostly due to its low toxicity and low cost.t can be used as a preservative, lubricant, coolant, and non-conductive thermal fluid. How Paraffinum Liquidum Works. Mineral oil is an alkane/paraffin that is composed entirely of hydrogen and carbon. Mineral oil is one of dozens of other by-products of petroleum distillation, making it a liquid petrolatum.
+
+* doc_id=162810 	 score=30.125306844711304 
+Epidermodysplasia Verruciformis. Epidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life. A major concern for those affected by this condition is that the lesions may transform into skin cancer.pidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life.
+
+====================================
+Query: 	 what is a rebuttal expert witness
+* doc_id=3488752 	 score=9.683271408081055 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=723311 	 score=7.34133243560791 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=7.34133243560791 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=2352313 	 score=7.233412742614746 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=1140631 	 score=7.228952884674072 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+====================================
+Query: 	 weather in laurinburg nc
+* doc_id=2352313 	 score=1066.7505848407745 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=408.8005028218031 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=723311 	 score=378.97563303261995 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=376.03791236132383 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=1140631 	 score=261.1258889809251 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+====================================
+Query: 	 are florida mangroves protected
+* doc_id=2352313 	 score=1056.3770892620087 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=1140631 	 score=430.9072766304016 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=3488752 	 score=392.73577189445496 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=723311 	 score=388.8518805503845 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=387.73295378685 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+====================================
+Query: 	 why is kinder gelt provide to german families
+* doc_id=2352313 	 score=104.1587905883789 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=1140631 	 score=46.74257469177246 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=46.45974159240723 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=46.45974159240723 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=3488752 	 score=39.60504722595215 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+====================================
+Query: 	 what is a great dane and mastiff
+* doc_id=2352313 	 score=42.03055953979492 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=1140631 	 score=20.155729293823242 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=3488752 	 score=16.558244705200195 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=3806236 	 score=15.519893646240234 
+Basic Networking, MPLS MPLS Layer 3 vpn pe-ce, mpls pe-ce, mpls pe-ce protocols, PE-CE interface, pe-ce routing protocols, what does pe-ce, what does pe-ce in MPLS, what is C device, what is P device, what is PE device, what is PE-CE, what is PE-CE in MPLS, what is PE-CE in MPLS VPN.
+
+* doc_id=162810 	 score=13.129549026489258 
+Epidermodysplasia Verruciformis. Epidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life. A major concern for those affected by this condition is that the lesions may transform into skin cancer.pidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life.
+
+====================================
+Query: 	 are premature roth ira distributions taxable
+* doc_id=723311 	 score=49.58980321884155 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=48.870177030563354 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=1140631 	 score=43.89012551307678 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=3488752 	 score=40.078306913375854 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=2450142 	 score=26.136237144470215 
+Masteron 101. Masteron or Drostanolone Propionate is a dihydrotestosterone (DHT) derived anabolic androgenic steroid. Directly, Masteron is a structurally altered form of the DHT hormone in that it possesses an added methyl group at the carbon 2 position.asteron 101. Masteron or Drostanolone Propionate is a dihydrotestosterone (DHT) derived anabolic androgenic steroid. Directly, Masteron is a structurally altered form of the DHT hormone in that it possesses an added methyl group at the carbon 2 position.
+
+====================================
+Query: 	 are sore throats contagious
+* doc_id=2352313 	 score=144.87421131134033 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=91.34606742858887 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=723311 	 score=84.07818937301636 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=83.59863328933716 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=1140631 	 score=68.74062538146973 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+====================================
+Query: 	 att email toll free number
+* doc_id=723311 	 score=33.00260353088379 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=32.00188064575195 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=3488752 	 score=31.907644271850586 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=1140631 	 score=26.526124000549316 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=162810 	 score=18.120168685913086 
+Epidermodysplasia Verruciformis. Epidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life. A major concern for those affected by this condition is that the lesions may transform into skin cancer.pidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life.
+
+====================================
+Query: 	 wow stonetalon mountains
+* doc_id=2352313 	 score=42.57474374771118 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=26.56212544441223 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=723311 	 score=20.777474641799927 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=20.777474641799927 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=1140631 	 score=16.304677724838257 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+====================================
+Query: 	 what are cat gut snares made of
+* doc_id=2352313 	 score=1.6326723098754883 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=2450142 	 score=1.474906086921692 
+Masteron 101. Masteron or Drostanolone Propionate is a dihydrotestosterone (DHT) derived anabolic androgenic steroid. Directly, Masteron is a structurally altered form of the DHT hormone in that it possesses an added methyl group at the carbon 2 position.asteron 101. Masteron or Drostanolone Propionate is a dihydrotestosterone (DHT) derived anabolic androgenic steroid. Directly, Masteron is a structurally altered form of the DHT hormone in that it possesses an added methyl group at the carbon 2 position.
+
+* doc_id=3488752 	 score=1.4047116041183472 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=1140631 	 score=1.2911309003829956 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=3256588 	 score=1.2888587713241577 
+Paraffinum Liquidum. Paraffinum Liquidum (mineral oil) is a petroleum by-product and is created through distillation. Mineral oil is completely transparent and is basically a liquid form of petroleum jelly.It is produced in large quantities and is used in many different ways all over the world, mostly due to its low toxicity and low cost.t can be used as a preservative, lubricant, coolant, and non-conductive thermal fluid. How Paraffinum Liquidum Works. Mineral oil is an alkane/paraffin that is composed entirely of hydrogen and carbon. Mineral oil is one of dozens of other by-products of petroleum distillation, making it a liquid petrolatum.
+
+====================================
+Query: 	 what are conchae or turbinates and what function do they do for breathing?
+* doc_id=2352313 	 score=15045.837323717307 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=8939.338982701302 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=1140631 	 score=7262.020640194416 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=7102.951862066984 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=7092.420061320066 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+====================================
+Query: 	 what dog breed is a peekapoo
+* doc_id=3488752 	 score=164.06143808364868 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=1140631 	 score=141.31795835494995 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=126.4671094417572 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=126.44519591331482 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=162810 	 score=90.09115242958069 
+Epidermodysplasia Verruciformis. Epidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life. A major concern for those affected by this condition is that the lesions may transform into skin cancer.pidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life.
+
+====================================
+Query: 	 what does thhn in electrical stand for
+* doc_id=1140631 	 score=113.50036984682083 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=723311 	 score=109.68602451682091 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=106.77880504727364 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=2352313 	 score=104.03313938714564 
+My girl jus Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie. (WAT!) Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie Gimmie.
+
+* doc_id=3488752 	 score=80.56558394432068 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+====================================
+Query: 	 what does quimica mean in spanish
+* doc_id=723311 	 score=189.26792669296265 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967. She was born on 25 th of June in 1908 in Ambala, Punjab to the S.N. Majumdar (a government doctor) and ...
+
+* doc_id=723313 	 score=185.70418548583984 
+Who was the First Woman Chief Minister in India. The first woman chief minister in India was Sucheta Kriplani. About Sucheta Kriplani. Sucheta Kriplani became a first woman chief minister of the Uttar Pradesh state of India from 1963 to 1967.
+
+* doc_id=3488752 	 score=156.0657583475113 
+The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an... The S2- ion, the simplest sulfur anion and also known as sulfide, has an electron configuration of 1s2 2s2 2p6 3s2 3p6. A neutral atom of sulfur has 16 electrons, but the atom then gains an additional two electrons when it forms an ion, taking the total number of electrons to 18. Continue Reading
+
+* doc_id=1140631 	 score=97.18101453781128 
+I had been tut-tutting: you had been tut-tutting: he/she/it had been tut-tutting: we had been tut-tutting: you had been tut-tutting: they had been tut-tutting: Conditional; I would tut-tut: you would tut-tut: he/she/it would tut-tut: we would tut-tut: you would tut-tut: they would tut-tut: Past Conditional; I would have tut-tutted: you would have tut-tutted
+
+* doc_id=162810 	 score=93.36123764514923 
+Epidermodysplasia Verruciformis. Epidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life. A major concern for those affected by this condition is that the lesions may transform into skin cancer.pidermodysplasia verruciformis (EV) is usually suspected with the appearance of generalized wart-like lesions early in life.
+
