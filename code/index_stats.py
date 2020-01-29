@@ -71,6 +71,7 @@ def main():
     mean_doc_repr = dict()
     median_doc_repr = dict()
     max_doc_repr = dict()
+    min_doc_repr = dict()
     quantile_80_doc_repr = dict()
     quantile_95_doc_repr = dict()
     quantile_99_doc_repr = dict()
@@ -80,6 +81,7 @@ def main():
         doc_repr = doc_repr_memmap[doc_repr_idx]
 
         max_doc_repr[doc_id] = np.max(doc_repr)
+        min_doc_repr[doc_id] = np.min(doc_repr)
         sum_doc_repr[doc_id] = np.sum(doc_repr)
         mean_doc_repr[doc_id] = np.mean(doc_repr)
         median_doc_repr[doc_id] = np.median(doc_repr)
@@ -88,8 +90,8 @@ def main():
         quantile_99_doc_repr[doc_id] = np.quantile(doc_repr, 0.99)
     
     for i, doc_id in enumerate(doc_id_to_occurence):
-        logging.info('{}. doc_repr values doc_id={}: max={:.5f},\tsum={:.5f},\tmean={:.7f},\t0.80-quantil={:.7f},\t0.95-quantil={:.7f}\t0.99-quantil={:.10f}'
-            .format(i+1, doc_id, max_doc_repr[doc_id], sum_doc_repr[doc_id], mean_doc_repr[doc_id], median_doc_repr[doc_id], quantile_80_doc_repr[doc_id], quantile_95_doc_repr[doc_id], quantile_99_doc_repr[doc_id]))
+        logging.info('{}. doc_repr values doc_id={}: min={:.5f},\tmax={:.5f},\tsum={:.5f},\tmean={:.7f},\t0.80-quantil={:.7f},\t0.95-quantil={:.7f}\t0.99-quantil={:.10f}'
+            .format(i+1, doc_id, min_doc_repr[doc_id], max_doc_repr[doc_id], sum_doc_repr[doc_id], mean_doc_repr[doc_id], median_doc_repr[doc_id], quantile_80_doc_repr[doc_id], quantile_95_doc_repr[doc_id], quantile_99_doc_repr[doc_id]))
 
     logging.info('=============================')
     logging.info('now printing number of occurences of docs in latent term dimensions, sorted ascending by occurence')
