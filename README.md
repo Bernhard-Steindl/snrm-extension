@@ -1,7 +1,9 @@
-# Standalone Neural Ranking Model (SNRM)
+# Extension of 'Standalone Neural Ranking Model (SNRM)'
 /** Copyright (C) 2018 by Center for Intelligent Information Retrieval / University of Massachusetts Amherst.
 
 The package of SNRM is distributed for research purpose, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. **/
+
+SNRM has been extended to run on the MS Marco Passage Ranking Dataset. https://github.com/microsoft/MSMARCO-Passage-Ranking 
 
 # Introduction
 SNRM [1] is the first learning to rank model that instead of "re-ranking" a few items (e.g., documents) is able to rank documents from a large collection of items. SNRM is a pairwise neural ranking model implemented for the ad-hoc retrieval task.
