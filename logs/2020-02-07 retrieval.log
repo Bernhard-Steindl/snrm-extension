@@ -1,0 +1,1176 @@
+2020-02-06 21:25:13,419 INFO       params.py  <module>        BASE_PATH=
+2020-02-06 21:25:13,421 INFO       params.py  <module>        BATCH_SIZE=32
+2020-02-06 21:25:13,421 INFO       params.py  <module>        BATCH_SIZE_DOCUMENTS=32
+2020-02-06 21:25:13,421 INFO       params.py  <module>        DICT_FILE_NAME=data/tokens/tokens_lowered_2019-12-28_001150_min_10.txt
+2020-02-06 21:25:13,421 INFO       params.py  <module>        DICT_MIN_FREQ=20
+2020-02-06 21:25:13,421 INFO       params.py  <module>        DOCUMENT_COLLECTION_FILE=data/document_collection/collection.air-subset.tsv
+2020-02-06 21:25:13,421 INFO       params.py  <module>        DROPOUT_PARAMETER=1.0
+2020-02-06 21:25:13,421 INFO       params.py  <module>        EMB_DIM=300
+2020-02-06 21:25:13,421 INFO       params.py  <module>        EVALUATION_QUERY_FILE=data/evaluation/queries.air-subset.tsv
+2020-02-06 21:25:13,421 INFO       params.py  <module>        EVALUATION_RESULT_CANDIDATE_FILE_PREFIX=results/evaluation_candidate_
+2020-02-06 21:25:13,421 INFO       params.py  <module>        EXPERIMENT_MODE=False
+2020-02-06 21:25:13,421 INFO       params.py  <module>        HIDDEN_1=50
+2020-02-06 21:25:13,421 INFO       params.py  <module>        HIDDEN_2=50
+2020-02-06 21:25:13,421 INFO       params.py  <module>        HIDDEN_3=5000
+2020-02-06 21:25:13,421 INFO       params.py  <module>        HIDDEN_4=-1
+2020-02-06 21:25:13,421 INFO       params.py  <module>        HIDDEN_5=-1
+2020-02-06 21:25:13,422 INFO       params.py  <module>        INDEX_PATH=index/
+2020-02-06 21:25:13,422 INFO       params.py  <module>        LEARNING_RATE=0.0001
+2020-02-06 21:25:13,422 INFO       params.py  <module>        LOG_PATH=tf-log/
+2020-02-06 21:25:13,422 INFO       params.py  <module>        MAX_DOC_LEN=103
+2020-02-06 21:25:13,422 INFO       params.py  <module>        MAX_Q_LEN=10
+2020-02-06 21:25:13,422 INFO       params.py  <module>        MODEL_PATH=model/
+2020-02-06 21:25:13,422 INFO       params.py  <module>        NUM_DOCUMENT_BATCHES=25218
+2020-02-06 21:25:13,422 INFO       params.py  <module>        NUM_EVALUATION_QUERIES=1000
+2020-02-06 21:25:13,422 INFO       params.py  <module>        NUM_RETRIEVAL_DOCUMENTS_PER_QUERY=100
+2020-02-06 21:25:13,422 INFO       params.py  <module>        NUM_TRAIN_STEPS=200000
+2020-02-06 21:25:13,422 INFO       params.py  <module>        NUM_VALID_STEPS=1000
+2020-02-06 21:25:13,422 INFO       params.py  <module>        PRE_TRAINED_EMBEDDING_FILE_NAME=data/embeddings/glove.42B.300d.txt
+2020-02-06 21:25:13,422 INFO       params.py  <module>        REGULARIZATION_TERM=1e-06
+2020-02-06 21:25:13,423 INFO       params.py  <module>        RESULT_PATH=results/
+2020-02-06 21:25:13,423 INFO       params.py  <module>        RUN_NAME=snrm-extension-example-run-33-colab60000
+2020-02-06 21:25:13,423 INFO       params.py  <module>        SAVE_SNAPSHOT_EVERY_N_STEPS=20000
+2020-02-06 21:25:13,423 INFO       params.py  <module>        TRAINING_DATA_TRIPLES_FILE=data/training_data/triples.train.small.tsv
+2020-02-06 21:25:13,423 INFO       params.py  <module>        VALIDATE_EVERY_N_STEPS=10000
+2020-02-06 21:25:13,423 INFO       params.py  <module>        VALIDATION_DATA_TRIPLES_FILE=data/training_data/triples.valid.tsv
+2020-02-06 21:25:13,423 INFO       params.py  <module>
+2020-02-06 21:25:13,423 INFO       params.py  <module>        Running with TensorFlow version: 1.4.0
+
+2020-02-06 21:25:13,423 INFO       params.py  <module>
+2020-02-06 21:25:17,686 INFO       dictionary.py load_from_galago_dump 359918 terms have been loaded to the dictionary
+2020-02-06 21:27:01,122 DEBUG      snrm.py    get_embedding_params found 86875 unkonwn terms from dictionary that are missing in embedding
+
+2020-02-06 21:27:06,085 INFO       snrm.py    __init__        obtained embeddings
+2020-02-06 21:27:06,089 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_query: [32, 1, 10, 300]
+2020-02-06 21:27:06,091 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc1: [32, 1, 103, 300]
+2020-02-06 21:27:06,093 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc2: [32, 1, 103, 300]
+2020-02-06 21:27:06,116 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc: [None, 1, 103, 300]
+2020-02-06 21:27:06,122 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_test_query: [None, 1, 10, 300]
+2020-02-06 21:27:06,480 INFO       inverted_index.py load            Loading inverted index (doc_repr_dims=5000, docs_per_batch=32, num_doc_batches=25218)
+2020-02-06 21:27:19,072 INFO       tf_logging.py info            Restoring parameters from model/snrm-extension-example-run-33-colab60000
+2020-02-06 21:27:20,158 INFO       retrieval.py <module>        Load model from model/snrm-extension-example-run-33-colab60000
+2020-02-06 21:27:20,164 INFO       retrieval.py <module>        created and writing evaluation candidate file results/evaluation_candidate_2020-02-06_212720.txt
+2020-02-06 21:27:20,164 DEBUG      retrieval.py <module>        processing 1 queries of 1000
+2020-02-06 21:27:20,518 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 47, total size = 5000
+2020-02-06 21:27:20,518 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0094
+2020-02-06 21:27:20,518 DEBUG      retrieval.py <module>        found 714429 docs in latent term dimension 65
+2020-02-06 21:28:15,273 DEBUG      retrieval.py <module>        found 137997 docs in latent term dimension 81
+2020-02-06 21:28:21,201 DEBUG      retrieval.py <module>        found 524225 docs in latent term dimension 378
+2020-02-06 21:28:51,170 DEBUG      retrieval.py <module>        found 576046 docs in latent term dimension 450
+2020-02-06 21:29:09,061 DEBUG      retrieval.py <module>        found 773225 docs in latent term dimension 523
+2020-02-06 21:29:27,981 DEBUG      retrieval.py <module>        found 560452 docs in latent term dimension 752
+2020-02-06 21:29:45,911 DEBUG      retrieval.py <module>        found 718350 docs in latent term dimension 854
+2020-02-06 21:30:02,141 DEBUG      retrieval.py <module>        found 612596 docs in latent term dimension 1088
+2020-02-06 21:30:23,083 DEBUG      retrieval.py <module>        found 560109 docs in latent term dimension 1127
+2020-02-06 21:30:30,665 DEBUG      retrieval.py <module>        found 591636 docs in latent term dimension 1138
+2020-02-06 21:30:36,649 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 21:30:46,018 DEBUG      retrieval.py <module>        found 662877 docs in latent term dimension 1282
+2020-02-06 21:30:58,790 DEBUG      retrieval.py <module>        found 493897 docs in latent term dimension 1368
+2020-02-06 21:31:06,802 DEBUG      retrieval.py <module>        found 547711 docs in latent term dimension 1606
+2020-02-06 21:31:27,213 DEBUG      retrieval.py <module>        found 486481 docs in latent term dimension 1610
+2020-02-06 21:31:34,888 DEBUG      retrieval.py <module>        found 665710 docs in latent term dimension 1732
+2020-02-06 21:31:50,042 DEBUG      retrieval.py <module>        found 533743 docs in latent term dimension 1786
+2020-02-06 21:31:57,529 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 21:32:06,875 DEBUG      retrieval.py <module>        found 652986 docs in latent term dimension 1944
+2020-02-06 21:32:20,892 DEBUG      retrieval.py <module>        found 706003 docs in latent term dimension 2016
+2020-02-06 21:32:31,494 DEBUG      retrieval.py <module>        found 505621 docs in latent term dimension 2224
+2020-02-06 21:32:46,471 DEBUG      retrieval.py <module>        found 164455 docs in latent term dimension 2245
+2020-02-06 21:32:48,559 DEBUG      retrieval.py <module>        found 477592 docs in latent term dimension 2330
+2020-02-06 21:32:59,418 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 21:33:16,052 DEBUG      retrieval.py <module>        found 602995 docs in latent term dimension 2449
+2020-02-06 21:33:23,258 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 21:33:31,111 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 21:33:38,924 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 21:33:53,857 DEBUG      retrieval.py <module>        found 594746 docs in latent term dimension 2818
+2020-02-06 21:34:10,174 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 21:34:24,438 DEBUG      retrieval.py <module>        found 620955 docs in latent term dimension 2922
+2020-02-06 21:34:30,703 DEBUG      retrieval.py <module>        found 555441 docs in latent term dimension 2971
+2020-02-06 21:34:37,033 DEBUG      retrieval.py <module>        found 302942 docs in latent term dimension 2998
+2020-02-06 21:34:40,163 DEBUG      retrieval.py <module>        found 636671 docs in latent term dimension 3084
+2020-02-06 21:34:51,207 DEBUG      retrieval.py <module>        found 516511 docs in latent term dimension 3129
+2020-02-06 21:34:57,332 DEBUG      retrieval.py <module>        found 739837 docs in latent term dimension 3227
+2020-02-06 21:35:11,572 DEBUG      retrieval.py <module>        found 570928 docs in latent term dimension 3299
+2020-02-06 21:35:19,245 DEBUG      retrieval.py <module>        found 626150 docs in latent term dimension 3376
+2020-02-06 21:35:29,216 DEBUG      retrieval.py <module>        found 662853 docs in latent term dimension 3605
+2020-02-06 21:35:50,613 DEBUG      retrieval.py <module>        found 518622 docs in latent term dimension 3636
+2020-02-06 21:35:57,000 DEBUG      retrieval.py <module>        found 593404 docs in latent term dimension 3766
+2020-02-06 21:36:10,946 DEBUG      retrieval.py <module>        found 630134 docs in latent term dimension 4201
+2020-02-06 21:36:47,869 DEBUG      retrieval.py <module>        found 612217 docs in latent term dimension 4544
+2020-02-06 21:37:19,063 DEBUG      retrieval.py <module>        found 462013 docs in latent term dimension 4547
+2020-02-06 21:37:26,686 DEBUG      retrieval.py <module>        found 553451 docs in latent term dimension 4846
+2020-02-06 21:37:49,165 DEBUG      retrieval.py <module>        found 662204 docs in latent term dimension 4888
+2020-02-06 21:38:03,378 DEBUG      retrieval.py <module>        found 775304 docs in latent term dimension 4918
+2020-02-06 21:38:15,525 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 21:38:16,620 DEBUG      retrieval.py <module>        1048585	Q0	8277317	1	639058.3507487774	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:38:16,620 DEBUG      retrieval.py <module>        1048585	Q0	8140466	2	633640.9451656342	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:38:16,620 DEBUG      retrieval.py <module>        1048585	Q0	7153378	3	633500.1985980272	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:38:16,620 DEBUG      retrieval.py <module>        1048585	Q0	7526154	4	633300.9443104267	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:38:16,620 DEBUG      retrieval.py <module>        1048585	Q0	2775034	5	632111.4327085018	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:38:16,621 DEBUG      retrieval.py <module>        1048585	Q0	76003	6	627264.3686892986	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:38:16,621 DEBUG      retrieval.py <module>        1048585	Q0	1766125	7	627044.1167964935	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:38:16,621 DEBUG      retrieval.py <module>        1048585	Q0	8097805	8	626962.3167283535	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:38:16,621 DEBUG      retrieval.py <module>        1048585	Q0	7137272	9	626829.5235154629	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:38:16,621 DEBUG      retrieval.py <module>        1048585	Q0	7153379	10	626062.4741383791	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:38:16,621 DEBUG      retrieval.py <module>        1048585	Q0	802217	11	624729.0534136295	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:38:16,621 DEBUG      retrieval.py <module>        processing 2 queries of 1000
+2020-02-06 21:38:17,151 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 40, total size = 5000
+2020-02-06 21:38:17,151 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.008
+2020-02-06 21:38:17,152 DEBUG      retrieval.py <module>        found 146366 docs in latent term dimension 346
+2020-02-06 21:38:25,891 DEBUG      retrieval.py <module>        found 524225 docs in latent term dimension 378
+2020-02-06 21:38:51,915 DEBUG      retrieval.py <module>        found 576046 docs in latent term dimension 450
+2020-02-06 21:39:07,949 DEBUG      retrieval.py <module>        found 528104 docs in latent term dimension 505
+2020-02-06 21:39:17,798 DEBUG      retrieval.py <module>        found 525234 docs in latent term dimension 547
+2020-02-06 21:39:24,097 DEBUG      retrieval.py <module>        found 266605 docs in latent term dimension 563
+2020-02-06 21:39:26,758 DEBUG      retrieval.py <module>        found 517778 docs in latent term dimension 804
+2020-02-06 21:39:45,651 DEBUG      retrieval.py <module>        found 617655 docs in latent term dimension 892
+2020-02-06 21:40:01,443 DEBUG      retrieval.py <module>        found 591636 docs in latent term dimension 1138
+2020-02-06 21:40:23,616 DEBUG      retrieval.py <module>        found 549033 docs in latent term dimension 1148
+2020-02-06 21:40:31,099 DEBUG      retrieval.py <module>        found 320043 docs in latent term dimension 1420
+2020-02-06 21:40:43,124 DEBUG      retrieval.py <module>        found 124673 docs in latent term dimension 1465
+2020-02-06 21:40:45,758 DEBUG      retrieval.py <module>        found 547711 docs in latent term dimension 1606
+2020-02-06 21:41:09,564 DEBUG      retrieval.py <module>        found 486481 docs in latent term dimension 1610
+2020-02-06 21:41:20,125 DEBUG      retrieval.py <module>        found 444799 docs in latent term dimension 1741
+2020-02-06 21:41:30,521 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 21:41:50,545 DEBUG      retrieval.py <module>        found 517417 docs in latent term dimension 1835
+2020-02-06 21:41:55,614 DEBUG      retrieval.py <module>        found 164455 docs in latent term dimension 2245
+2020-02-06 21:42:04,237 DEBUG      retrieval.py <module>        found 739990 docs in latent term dimension 2333
+2020-02-06 21:42:45,979 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 21:42:59,143 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 21:43:10,195 DEBUG      retrieval.py <module>        found 704676 docs in latent term dimension 2475
+2020-02-06 21:43:14,538 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 21:43:21,411 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 21:43:36,217 DEBUG      retrieval.py <module>        found 24785 docs in latent term dimension 2813
+2020-02-06 21:43:36,899 DEBUG      retrieval.py <module>        found 495103 docs in latent term dimension 2877
+2020-02-06 21:43:53,477 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 21:44:07,149 DEBUG      retrieval.py <module>        found 620955 docs in latent term dimension 2922
+2020-02-06 21:44:13,539 DEBUG      retrieval.py <module>        found 709032 docs in latent term dimension 2970
+2020-02-06 21:44:21,435 DEBUG      retrieval.py <module>        found 636671 docs in latent term dimension 3084
+2020-02-06 21:44:32,780 DEBUG      retrieval.py <module>        found 131426 docs in latent term dimension 3087
+2020-02-06 21:44:33,865 DEBUG      retrieval.py <module>        found 49123 docs in latent term dimension 3294
+2020-02-06 21:44:35,324 DEBUG      retrieval.py <module>        found 197538 docs in latent term dimension 3402
+2020-02-06 21:44:42,714 DEBUG      retrieval.py <module>        found 702502 docs in latent term dimension 3586
+2020-02-06 21:45:21,452 DEBUG      retrieval.py <module>        found 533212 docs in latent term dimension 3654
+2020-02-06 21:45:30,399 DEBUG      retrieval.py <module>        found 390675 docs in latent term dimension 3843
+2020-02-06 21:45:41,737 DEBUG      retrieval.py <module>        found 401203 docs in latent term dimension 3909
+2020-02-06 21:45:50,112 DEBUG      retrieval.py <module>        found 565390 docs in latent term dimension 4076
+2020-02-06 21:46:10,250 DEBUG      retrieval.py <module>        found 401955 docs in latent term dimension 4422
+2020-02-06 21:46:30,889 DEBUG      retrieval.py <module>        found 466051 docs in latent term dimension 4571
+2020-02-06 21:46:51,403 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 21:46:52,560 DEBUG      retrieval.py <module>        2	Q0	8277317	1	756522.1702873707	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:46:52,562 DEBUG      retrieval.py <module>        2	Q0	8140466	2	750103.9837073088	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:46:52,562 DEBUG      retrieval.py <module>        2	Q0	7153378	3	749961.1267719269	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:46:52,562 DEBUG      retrieval.py <module>        2	Q0	7526154	4	749706.1412758827	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:46:52,562 DEBUG      retrieval.py <module>        2	Q0	2775034	5	748337.9992361069	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:46:52,562 DEBUG      retrieval.py <module>        2	Q0	76003	6	742527.0764960051	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:46:52,563 DEBUG      retrieval.py <module>        2	Q0	1766125	7	742318.3606604338	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:46:52,563 DEBUG      retrieval.py <module>        2	Q0	8097805	8	742232.3655298352	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:46:52,563 DEBUG      retrieval.py <module>        2	Q0	7137272	9	742068.1841333508	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:46:52,563 DEBUG      retrieval.py <module>        2	Q0	7153379	10	741162.2722061872	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:46:52,563 DEBUG      retrieval.py <module>        2	Q0	802217	11	739501.1415443271	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:46:52,563 DEBUG      retrieval.py <module>        processing 3 queries of 1000
+2020-02-06 21:46:53,182 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 39, total size = 5000
+2020-02-06 21:46:53,182 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0078
+2020-02-06 21:46:53,183 DEBUG      retrieval.py <module>        found 581505 docs in latent term dimension 12
+2020-02-06 21:47:38,716 DEBUG      retrieval.py <module>        found 658695 docs in latent term dimension 172
+2020-02-06 21:48:05,531 DEBUG      retrieval.py <module>        found 773225 docs in latent term dimension 523
+2020-02-06 21:48:46,481 DEBUG      retrieval.py <module>        found 525234 docs in latent term dimension 547
+2020-02-06 21:48:52,196 DEBUG      retrieval.py <module>        found 618686 docs in latent term dimension 770
+2020-02-06 21:49:11,718 DEBUG      retrieval.py <module>        found 517778 docs in latent term dimension 804
+2020-02-06 21:49:19,353 DEBUG      retrieval.py <module>        found 788764 docs in latent term dimension 1049
+2020-02-06 21:49:48,965 DEBUG      retrieval.py <module>        found 605077 docs in latent term dimension 1110
+2020-02-06 21:49:56,388 DEBUG      retrieval.py <module>        found 549033 docs in latent term dimension 1148
+2020-02-06 21:50:02,346 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 21:50:09,626 DEBUG      retrieval.py <module>        found 775156 docs in latent term dimension 1347
+2020-02-06 21:50:30,754 DEBUG      retrieval.py <module>        found 608990 docs in latent term dimension 1702
+2020-02-06 21:50:58,574 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 21:51:20,364 DEBUG      retrieval.py <module>        found 652986 docs in latent term dimension 1944
+2020-02-06 21:51:34,210 DEBUG      retrieval.py <module>        found 726159 docs in latent term dimension 2058
+2020-02-06 21:51:49,304 DEBUG      retrieval.py <module>        found 521830 docs in latent term dimension 2064
+2020-02-06 21:51:53,346 DEBUG      retrieval.py <module>        found 537243 docs in latent term dimension 2162
+2020-02-06 21:52:02,214 DEBUG      retrieval.py <module>        found 744129 docs in latent term dimension 2347
+2020-02-06 21:52:24,626 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 21:52:34,576 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 21:52:45,477 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 21:52:53,266 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 21:53:07,883 DEBUG      retrieval.py <module>        found 522774 docs in latent term dimension 2827
+2020-02-06 21:53:23,013 DEBUG      retrieval.py <module>        found 615272 docs in latent term dimension 2863
+2020-02-06 21:53:32,417 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 21:53:41,878 DEBUG      retrieval.py <module>        found 555441 docs in latent term dimension 2971
+2020-02-06 21:53:50,037 DEBUG      retrieval.py <module>        found 331770 docs in latent term dimension 3319
+2020-02-06 21:54:05,587 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 21:54:47,251 DEBUG      retrieval.py <module>        found 702502 docs in latent term dimension 3586
+2020-02-06 21:54:57,153 DEBUG      retrieval.py <module>        found 611256 docs in latent term dimension 3621
+2020-02-06 21:55:04,325 DEBUG      retrieval.py <module>        found 657432 docs in latent term dimension 3697
+2020-02-06 21:55:14,779 DEBUG      retrieval.py <module>        found 679248 docs in latent term dimension 3756
+2020-02-06 21:55:23,601 DEBUG      retrieval.py <module>        found 289273 docs in latent term dimension 3867
+2020-02-06 21:55:29,574 DEBUG      retrieval.py <module>        found 565390 docs in latent term dimension 4076
+2020-02-06 21:55:52,017 DEBUG      retrieval.py <module>        found 630134 docs in latent term dimension 4201
+2020-02-06 21:56:10,146 DEBUG      retrieval.py <module>        found 650942 docs in latent term dimension 4379
+2020-02-06 21:56:30,128 DEBUG      retrieval.py <module>        found 401955 docs in latent term dimension 4422
+2020-02-06 21:56:35,639 DEBUG      retrieval.py <module>        found 466051 docs in latent term dimension 4571
+2020-02-06 21:56:47,632 DEBUG      retrieval.py <module>        found 662204 docs in latent term dimension 4888
+2020-02-06 21:57:20,964 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 21:57:22,060 DEBUG      retrieval.py <module>        524332	Q0	8277317	1	488329.3394768238	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:57:22,060 DEBUG      retrieval.py <module>        524332	Q0	8140466	2	484194.3540686369	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:57:22,060 DEBUG      retrieval.py <module>        524332	Q0	7153378	3	484129.11969184875	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:57:22,060 DEBUG      retrieval.py <module>        524332	Q0	7526154	4	483901.94327783585	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:57:22,060 DEBUG      retrieval.py <module>        524332	Q0	2775034	5	483044.50094509125	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:57:22,060 DEBUG      retrieval.py <module>        524332	Q0	76003	6	479365.9865703881	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:57:22,060 DEBUG      retrieval.py <module>        524332	Q0	1766125	7	479171.22369754314	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:57:22,060 DEBUG      retrieval.py <module>        524332	Q0	8097805	8	479108.92827397585	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:57:22,060 DEBUG      retrieval.py <module>        524332	Q0	7137272	9	478984.3391626477	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:57:22,061 DEBUG      retrieval.py <module>        524332	Q0	7153379	10	478461.7929581404	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:57:22,063 DEBUG      retrieval.py <module>        524332	Q0	802217	11	477340.97136592865	snrm-extension-example-run-33-colab60000
+
+2020-02-06 21:57:22,063 DEBUG      retrieval.py <module>        processing 4 queries of 1000
+2020-02-06 21:57:22,741 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 10, total size = 5000
+2020-02-06 21:57:22,741 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.002
+2020-02-06 21:57:22,742 DEBUG      retrieval.py <module>        found 773225 docs in latent term dimension 523
+2020-02-06 21:58:32,831 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 21:59:34,563 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 22:00:40,638 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 22:01:38,663 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 22:01:50,042 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 22:01:57,810 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 22:02:12,687 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 22:02:41,075 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 22:03:41,891 DEBUG      retrieval.py <module>        found 505633 docs in latent term dimension 4803
+2020-02-06 22:04:45,851 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 22:04:46,891 DEBUG      retrieval.py <module>        1048642	Q0	8277317	1	894365.9812459946	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:04:46,891 DEBUG      retrieval.py <module>        1048642	Q0	8140466	2	886791.881565094	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:04:46,891 DEBUG      retrieval.py <module>        1048642	Q0	7153378	3	886621.065967083	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:04:46,891 DEBUG      retrieval.py <module>        1048642	Q0	7526154	4	886290.8420850039	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:04:46,891 DEBUG      retrieval.py <module>        1048642	Q0	2775034	5	884670.7263655663	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:04:46,891 DEBUG      retrieval.py <module>        1048642	Q0	76003	6	877883.7794265151	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:04:46,891 DEBUG      retrieval.py <module>        1048642	Q0	1766125	7	877542.6663560867	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:04:46,891 DEBUG      retrieval.py <module>        1048642	Q0	8097805	8	877457.503023386	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:04:46,891 DEBUG      retrieval.py <module>        1048642	Q0	7137272	9	877248.4784862995	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:04:46,892 DEBUG      retrieval.py <module>        1048642	Q0	7153379	10	876210.417069912	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:04:46,892 DEBUG      retrieval.py <module>        1048642	Q0	802217	11	874154.8769083023	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:04:46,894 DEBUG      retrieval.py <module>        processing 5 queries of 1000
+2020-02-06 22:04:47,498 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 55, total size = 5000
+2020-02-06 22:04:47,498 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.011
+2020-02-06 22:04:47,498 DEBUG      retrieval.py <module>        found 581505 docs in latent term dimension 12
+2020-02-06 22:05:28,628 DEBUG      retrieval.py <module>        found 622692 docs in latent term dimension 43
+2020-02-06 22:05:43,013 DEBUG      retrieval.py <module>        found 578772 docs in latent term dimension 145
+2020-02-06 22:05:55,154 DEBUG      retrieval.py <module>        found 658695 docs in latent term dimension 172
+2020-02-06 22:06:04,028 DEBUG      retrieval.py <module>        found 524225 docs in latent term dimension 378
+2020-02-06 22:06:20,015 DEBUG      retrieval.py <module>        found 528104 docs in latent term dimension 505
+2020-02-06 22:06:34,288 DEBUG      retrieval.py <module>        found 618686 docs in latent term dimension 770
+2020-02-06 22:07:00,026 DEBUG      retrieval.py <module>        found 579992 docs in latent term dimension 830
+2020-02-06 22:07:10,895 DEBUG      retrieval.py <module>        found 718350 docs in latent term dimension 854
+2020-02-06 22:07:20,623 DEBUG      retrieval.py <module>        found 617655 docs in latent term dimension 892
+2020-02-06 22:07:27,244 DEBUG      retrieval.py <module>        found 788764 docs in latent term dimension 1049
+2020-02-06 22:07:48,269 DEBUG      retrieval.py <module>        found 605077 docs in latent term dimension 1110
+2020-02-06 22:07:55,753 DEBUG      retrieval.py <module>        found 591636 docs in latent term dimension 1138
+2020-02-06 22:08:02,438 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 22:08:09,911 DEBUG      retrieval.py <module>        found 775156 docs in latent term dimension 1347
+2020-02-06 22:08:32,322 DEBUG      retrieval.py <module>        found 608990 docs in latent term dimension 1702
+2020-02-06 22:09:03,541 DEBUG      retrieval.py <module>        found 665710 docs in latent term dimension 1732
+2020-02-06 22:09:16,169 DEBUG      retrieval.py <module>        found 444799 docs in latent term dimension 1741
+2020-02-06 22:09:19,718 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 22:09:31,792 DEBUG      retrieval.py <module>        found 517417 docs in latent term dimension 1835
+2020-02-06 22:09:36,780 DEBUG      retrieval.py <module>        found 521759 docs in latent term dimension 2056
+2020-02-06 22:09:53,808 DEBUG      retrieval.py <module>        found 726159 docs in latent term dimension 2058
+2020-02-06 22:10:04,383 DEBUG      retrieval.py <module>        found 521830 docs in latent term dimension 2064
+2020-02-06 22:10:08,508 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 22:10:47,623 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 22:11:01,880 DEBUG      retrieval.py <module>        found 704676 docs in latent term dimension 2475
+2020-02-06 22:11:06,505 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 22:11:13,802 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 22:11:30,061 DEBUG      retrieval.py <module>        found 539967 docs in latent term dimension 2720
+2020-02-06 22:11:40,963 DEBUG      retrieval.py <module>        found 522774 docs in latent term dimension 2827
+2020-02-06 22:11:51,570 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 22:12:06,902 DEBUG      retrieval.py <module>        found 709032 docs in latent term dimension 2970
+2020-02-06 22:12:17,080 DEBUG      retrieval.py <module>        found 555441 docs in latent term dimension 2971
+2020-02-06 22:12:20,347 DEBUG      retrieval.py <module>        found 302942 docs in latent term dimension 2998
+2020-02-06 22:12:23,050 DEBUG      retrieval.py <module>        found 636671 docs in latent term dimension 3084
+2020-02-06 22:12:33,371 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 22:13:18,317 DEBUG      retrieval.py <module>        found 702502 docs in latent term dimension 3586
+2020-02-06 22:13:27,659 DEBUG      retrieval.py <module>        found 662853 docs in latent term dimension 3605
+2020-02-06 22:13:33,448 DEBUG      retrieval.py <module>        found 611256 docs in latent term dimension 3621
+2020-02-06 22:13:38,119 DEBUG      retrieval.py <module>        found 657432 docs in latent term dimension 3697
+2020-02-06 22:13:47,328 DEBUG      retrieval.py <module>        found 196152 docs in latent term dimension 3743
+2020-02-06 22:13:49,299 DEBUG      retrieval.py <module>        found 679248 docs in latent term dimension 3756
+2020-02-06 22:13:56,819 DEBUG      retrieval.py <module>        found 593404 docs in latent term dimension 3766
+2020-02-06 22:14:01,673 DEBUG      retrieval.py <module>        found 390675 docs in latent term dimension 3843
+2020-02-06 22:14:07,345 DEBUG      retrieval.py <module>        found 289273 docs in latent term dimension 3867
+2020-02-06 22:14:10,462 DEBUG      retrieval.py <module>        found 583047 docs in latent term dimension 3886
+2020-02-06 22:14:17,228 DEBUG      retrieval.py <module>        found 565390 docs in latent term dimension 4076
+2020-02-06 22:14:33,011 DEBUG      retrieval.py <module>        found 723161 docs in latent term dimension 4126
+2020-02-06 22:14:45,592 DEBUG      retrieval.py <module>        found 630134 docs in latent term dimension 4201
+2020-02-06 22:14:54,522 DEBUG      retrieval.py <module>        found 650942 docs in latent term dimension 4379
+2020-02-06 22:15:11,767 DEBUG      retrieval.py <module>        found 401955 docs in latent term dimension 4422
+2020-02-06 22:15:16,786 DEBUG      retrieval.py <module>        found 466051 docs in latent term dimension 4571
+2020-02-06 22:15:27,274 DEBUG      retrieval.py <module>        found 632091 docs in latent term dimension 4606
+2020-02-06 22:15:36,536 DEBUG      retrieval.py <module>        found 662204 docs in latent term dimension 4888
+2020-02-06 22:15:59,011 DEBUG      retrieval.py <module>        found 775304 docs in latent term dimension 4918
+2020-02-06 22:16:10,936 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 22:16:12,040 DEBUG      retrieval.py <module>        524447	Q0	8277317	1	620620.4305412769	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:16:12,040 DEBUG      retrieval.py <module>        524447	Q0	8140466	2	615366.7415198088	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:16:12,040 DEBUG      retrieval.py <module>        524447	Q0	7153378	3	615279.6616840363	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:16:12,041 DEBUG      retrieval.py <module>        524447	Q0	7526154	4	614995.5497231483	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:16:12,041 DEBUG      retrieval.py <module>        524447	Q0	2775034	5	613900.6069021225	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:16:12,041 DEBUG      retrieval.py <module>        524447	Q0	76003	6	609228.7678197026	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:16:12,041 DEBUG      retrieval.py <module>        524447	Q0	1766125	7	608965.8403967619	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:16:12,041 DEBUG      retrieval.py <module>        524447	Q0	8097805	8	608897.5264185071	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:16:12,041 DEBUG      retrieval.py <module>        524447	Q0	7137272	9	608736.8547876477	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:16:12,041 DEBUG      retrieval.py <module>        524447	Q0	7153379	10	608067.5949600935	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:16:12,041 DEBUG      retrieval.py <module>        524447	Q0	802217	11	606586.4105046391	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:16:12,044 DEBUG      retrieval.py <module>        processing 6 queries of 1000
+2020-02-06 22:16:12,484 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 26, total size = 5000
+2020-02-06 22:16:12,484 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0052
+2020-02-06 22:16:12,484 DEBUG      retrieval.py <module>        found 714429 docs in latent term dimension 65
+2020-02-06 22:16:30,591 DEBUG      retrieval.py <module>        found 658695 docs in latent term dimension 172
+2020-02-06 22:16:43,242 DEBUG      retrieval.py <module>        found 618686 docs in latent term dimension 770
+2020-02-06 22:17:28,898 DEBUG      retrieval.py <module>        found 718350 docs in latent term dimension 854
+2020-02-06 22:17:49,269 DEBUG      retrieval.py <module>        found 605077 docs in latent term dimension 1110
+2020-02-06 22:18:11,727 DEBUG      retrieval.py <module>        found 549033 docs in latent term dimension 1148
+2020-02-06 22:18:19,757 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 22:18:29,792 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 22:19:32,973 DEBUG      retrieval.py <module>        found 517417 docs in latent term dimension 1835
+2020-02-06 22:19:38,165 DEBUG      retrieval.py <module>        found 726159 docs in latent term dimension 2058
+2020-02-06 22:20:03,638 DEBUG      retrieval.py <module>        found 739990 docs in latent term dimension 2333
+2020-02-06 22:20:34,135 DEBUG      retrieval.py <module>        found 744129 docs in latent term dimension 2347
+2020-02-06 22:20:41,376 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 22:20:49,539 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 22:21:00,344 DEBUG      retrieval.py <module>        found 704676 docs in latent term dimension 2475
+2020-02-06 22:21:04,600 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 22:21:11,502 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 22:21:26,299 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 22:21:53,999 DEBUG      retrieval.py <module>        found 620955 docs in latent term dimension 2922
+2020-02-06 22:21:59,999 DEBUG      retrieval.py <module>        found 636671 docs in latent term dimension 3084
+2020-02-06 22:22:14,975 DEBUG      retrieval.py <module>        found 626150 docs in latent term dimension 3376
+2020-02-06 22:22:40,156 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 22:23:03,548 DEBUG      retrieval.py <module>        found 518622 docs in latent term dimension 3636
+2020-02-06 22:23:13,014 DEBUG      retrieval.py <module>        found 679248 docs in latent term dimension 3756
+2020-02-06 22:23:28,425 DEBUG      retrieval.py <module>        found 735593 docs in latent term dimension 4098
+2020-02-06 22:24:03,718 DEBUG      retrieval.py <module>        found 662204 docs in latent term dimension 4888
+2020-02-06 22:25:06,856 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 22:25:07,928 DEBUG      retrieval.py <module>        786674	Q0	8277317	1	777440.3599188328	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:25:07,929 DEBUG      retrieval.py <module>        786674	Q0	8140466	2	770853.2680653334	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:25:07,929 DEBUG      retrieval.py <module>        786674	Q0	7153378	3	770717.8513154984	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:25:07,929 DEBUG      retrieval.py <module>        786674	Q0	7526154	4	770417.7176260948	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:25:07,929 DEBUG      retrieval.py <module>        786674	Q0	2775034	5	769026.9125680923	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:25:07,929 DEBUG      retrieval.py <module>        786674	Q0	76003	6	763130.3715735078	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:25:07,929 DEBUG      retrieval.py <module>        786674	Q0	1766125	7	762829.5363758802	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:25:07,929 DEBUG      retrieval.py <module>        786674	Q0	8097805	8	762748.135483563	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:25:07,929 DEBUG      retrieval.py <module>        786674	Q0	7137272	9	762563.6240089536	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:25:07,929 DEBUG      retrieval.py <module>        786674	Q0	7153379	10	761677.0298556089	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:25:07,929 DEBUG      retrieval.py <module>        786674	Q0	802217	11	759868.2277579233	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:25:07,930 DEBUG      retrieval.py <module>        processing 7 queries of 1000
+2020-02-06 22:25:08,462 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 55, total size = 5000
+2020-02-06 22:25:08,462 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.011
+2020-02-06 22:25:08,462 DEBUG      retrieval.py <module>        found 291480 docs in latent term dimension 49
+2020-02-06 22:25:20,735 DEBUG      retrieval.py <module>        found 714429 docs in latent term dimension 65
+2020-02-06 22:25:42,864 DEBUG      retrieval.py <module>        found 658695 docs in latent term dimension 172
+2020-02-06 22:25:56,168 DEBUG      retrieval.py <module>        found 576046 docs in latent term dimension 450
+2020-02-06 22:26:18,380 DEBUG      retrieval.py <module>        found 773225 docs in latent term dimension 523
+2020-02-06 22:26:36,323 DEBUG      retrieval.py <module>        found 560452 docs in latent term dimension 752
+2020-02-06 22:26:53,916 DEBUG      retrieval.py <module>        found 618686 docs in latent term dimension 770
+2020-02-06 22:27:01,855 DEBUG      retrieval.py <module>        found 718350 docs in latent term dimension 854
+2020-02-06 22:27:13,671 DEBUG      retrieval.py <module>        found 376450 docs in latent term dimension 1078
+2020-02-06 22:27:25,193 DEBUG      retrieval.py <module>        found 612596 docs in latent term dimension 1088
+2020-02-06 22:27:37,001 DEBUG      retrieval.py <module>        found 560109 docs in latent term dimension 1127
+2020-02-06 22:27:43,396 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 22:27:53,442 DEBUG      retrieval.py <module>        found 662877 docs in latent term dimension 1282
+2020-02-06 22:28:06,152 DEBUG      retrieval.py <module>        found 775156 docs in latent term dimension 1347
+2020-02-06 22:28:17,428 DEBUG      retrieval.py <module>        found 320043 docs in latent term dimension 1420
+2020-02-06 22:28:21,716 DEBUG      retrieval.py <module>        found 354065 docs in latent term dimension 1564
+2020-02-06 22:28:30,758 DEBUG      retrieval.py <module>        found 486481 docs in latent term dimension 1610
+2020-02-06 22:28:41,089 DEBUG      retrieval.py <module>        found 608990 docs in latent term dimension 1702
+2020-02-06 22:28:55,525 DEBUG      retrieval.py <module>        found 665710 docs in latent term dimension 1732
+2020-02-06 22:29:04,712 DEBUG      retrieval.py <module>        found 533743 docs in latent term dimension 1786
+2020-02-06 22:29:11,332 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 22:29:19,963 DEBUG      retrieval.py <module>        found 652986 docs in latent term dimension 1944
+2020-02-06 22:29:33,426 DEBUG      retrieval.py <module>        found 706003 docs in latent term dimension 2016
+2020-02-06 22:29:43,824 DEBUG      retrieval.py <module>        found 726159 docs in latent term dimension 2058
+2020-02-06 22:29:51,796 DEBUG      retrieval.py <module>        found 739990 docs in latent term dimension 2333
+2020-02-06 22:30:18,648 DEBUG      retrieval.py <module>        found 744129 docs in latent term dimension 2347
+2020-02-06 22:30:26,129 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 22:30:34,369 DEBUG      retrieval.py <module>        found 602995 docs in latent term dimension 2449
+2020-02-06 22:30:41,563 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 22:30:49,375 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 22:30:57,162 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 22:31:11,756 DEBUG      retrieval.py <module>        found 522774 docs in latent term dimension 2827
+2020-02-06 22:31:26,516 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 22:31:41,738 DEBUG      retrieval.py <module>        found 620955 docs in latent term dimension 2922
+2020-02-06 22:31:47,710 DEBUG      retrieval.py <module>        found 302942 docs in latent term dimension 2998
+2020-02-06 22:31:51,708 DEBUG      retrieval.py <module>        found 295677 docs in latent term dimension 3051
+2020-02-06 22:31:56,283 DEBUG      retrieval.py <module>        found 636671 docs in latent term dimension 3084
+2020-02-06 22:32:05,935 DEBUG      retrieval.py <module>        found 516511 docs in latent term dimension 3129
+2020-02-06 22:32:11,928 DEBUG      retrieval.py <module>        found 739837 docs in latent term dimension 3227
+2020-02-06 22:32:25,814 DEBUG      retrieval.py <module>        found 626150 docs in latent term dimension 3376
+2020-02-06 22:32:39,670 DEBUG      retrieval.py <module>        found 698681 docs in latent term dimension 3409
+2020-02-06 22:32:48,220 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 22:33:02,759 DEBUG      retrieval.py <module>        found 662853 docs in latent term dimension 3605
+2020-02-06 22:33:12,055 DEBUG      retrieval.py <module>        found 611256 docs in latent term dimension 3621
+2020-02-06 22:33:17,641 DEBUG      retrieval.py <module>        found 533212 docs in latent term dimension 3654
+2020-02-06 22:33:23,104 DEBUG      retrieval.py <module>        found 657432 docs in latent term dimension 3697
+2020-02-06 22:33:30,731 DEBUG      retrieval.py <module>        found 679248 docs in latent term dimension 3756
+2020-02-06 22:33:38,796 DEBUG      retrieval.py <module>        found 583047 docs in latent term dimension 3886
+2020-02-06 22:33:50,353 DEBUG      retrieval.py <module>        found 735593 docs in latent term dimension 4098
+2020-02-06 22:34:15,875 DEBUG      retrieval.py <module>        found 723161 docs in latent term dimension 4126
+2020-02-06 22:34:23,184 DEBUG      retrieval.py <module>        found 630134 docs in latent term dimension 4201
+2020-02-06 22:34:32,333 DEBUG      retrieval.py <module>        found 612217 docs in latent term dimension 4544
+2020-02-06 22:35:00,245 DEBUG      retrieval.py <module>        found 505633 docs in latent term dimension 4803
+2020-02-06 22:35:21,538 DEBUG      retrieval.py <module>        found 553451 docs in latent term dimension 4846
+2020-02-06 22:35:33,130 DEBUG      retrieval.py <module>        found 775304 docs in latent term dimension 4918
+2020-02-06 22:35:50,131 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 22:35:51,244 DEBUG      retrieval.py <module>        1048876	Q0	8277317	1	526635.1246533245	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:35:51,244 DEBUG      retrieval.py <module>        1048876	Q0	8140466	2	522169.8569123149	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:35:51,244 DEBUG      retrieval.py <module>        1048876	Q0	7153378	3	522068.90246373415	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:35:51,244 DEBUG      retrieval.py <module>        1048876	Q0	7526154	4	521882.6428198889	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:35:51,244 DEBUG      retrieval.py <module>        1048876	Q0	2775034	5	520937.19110010564	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:35:51,244 DEBUG      retrieval.py <module>        1048876	Q0	76003	6	517010.3273410797	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:35:51,244 DEBUG      retrieval.py <module>        1048876	Q0	1766125	7	516754.23192474246	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:35:51,244 DEBUG      retrieval.py <module>        1048876	Q0	8097805	8	516680.22075647116	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:35:51,244 DEBUG      retrieval.py <module>        1048876	Q0	7137272	9	516567.44632822275	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:35:51,244 DEBUG      retrieval.py <module>        1048876	Q0	7153379	10	515960.02723389864	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:35:51,244 DEBUG      retrieval.py <module>        1048876	Q0	802217	11	514888.15200042725	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:35:51,248 DEBUG      retrieval.py <module>        processing 8 queries of 1000
+2020-02-06 22:35:51,739 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 41, total size = 5000
+2020-02-06 22:35:51,739 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0082
+2020-02-06 22:35:51,739 DEBUG      retrieval.py <module>        found 622692 docs in latent term dimension 43
+2020-02-06 22:36:06,250 DEBUG      retrieval.py <module>        found 525234 docs in latent term dimension 547
+2020-02-06 22:36:39,539 DEBUG      retrieval.py <module>        found 718350 docs in latent term dimension 854
+2020-02-06 22:37:22,081 DEBUG      retrieval.py <module>        found 617655 docs in latent term dimension 892
+2020-02-06 22:37:31,032 DEBUG      retrieval.py <module>        found 612596 docs in latent term dimension 1088
+2020-02-06 22:37:48,804 DEBUG      retrieval.py <module>        found 605077 docs in latent term dimension 1110
+2020-02-06 22:37:56,959 DEBUG      retrieval.py <module>        found 591636 docs in latent term dimension 1138
+2020-02-06 22:38:03,046 DEBUG      retrieval.py <module>        found 549033 docs in latent term dimension 1148
+2020-02-06 22:38:07,402 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 22:38:15,157 DEBUG      retrieval.py <module>        found 775156 docs in latent term dimension 1347
+2020-02-06 22:38:35,521 DEBUG      retrieval.py <module>        found 320043 docs in latent term dimension 1420
+2020-02-06 22:38:39,801 DEBUG      retrieval.py <module>        found 215811 docs in latent term dimension 1727
+2020-02-06 22:38:48,913 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 22:39:23,204 DEBUG      retrieval.py <module>        found 517417 docs in latent term dimension 1835
+2020-02-06 22:39:28,224 DEBUG      retrieval.py <module>        found 706003 docs in latent term dimension 2016
+2020-02-06 22:39:48,628 DEBUG      retrieval.py <module>        found 726159 docs in latent term dimension 2058
+2020-02-06 22:39:57,352 DEBUG      retrieval.py <module>        found 505621 docs in latent term dimension 2224
+2020-02-06 22:40:09,751 DEBUG      retrieval.py <module>        found 716380 docs in latent term dimension 2239
+2020-02-06 22:40:18,883 DEBUG      retrieval.py <module>        found 739990 docs in latent term dimension 2333
+2020-02-06 22:40:31,170 DEBUG      retrieval.py <module>        found 744129 docs in latent term dimension 2347
+2020-02-06 22:40:37,840 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 22:40:45,892 DEBUG      retrieval.py <module>        found 602995 docs in latent term dimension 2449
+2020-02-06 22:40:53,010 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 22:41:00,671 DEBUG      retrieval.py <module>        found 704676 docs in latent term dimension 2475
+2020-02-06 22:41:04,946 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 22:41:11,781 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 22:41:26,195 DEBUG      retrieval.py <module>        found 495103 docs in latent term dimension 2877
+2020-02-06 22:41:43,033 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 22:41:56,823 DEBUG      retrieval.py <module>        found 516511 docs in latent term dimension 3129
+2020-02-06 22:42:14,210 DEBUG      retrieval.py <module>        found 626150 docs in latent term dimension 3376
+2020-02-06 22:42:39,364 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 22:43:03,055 DEBUG      retrieval.py <module>        found 702502 docs in latent term dimension 3586
+2020-02-06 22:43:11,859 DEBUG      retrieval.py <module>        found 533212 docs in latent term dimension 3654
+2020-02-06 22:43:18,740 DEBUG      retrieval.py <module>        found 679248 docs in latent term dimension 3756
+2020-02-06 22:43:31,567 DEBUG      retrieval.py <module>        found 401203 docs in latent term dimension 3909
+2020-02-06 22:43:40,891 DEBUG      retrieval.py <module>        found 735593 docs in latent term dimension 4098
+2020-02-06 22:44:07,216 DEBUG      retrieval.py <module>        found 723161 docs in latent term dimension 4126
+2020-02-06 22:44:14,371 DEBUG      retrieval.py <module>        found 630134 docs in latent term dimension 4201
+2020-02-06 22:44:23,512 DEBUG      retrieval.py <module>        found 409224 docs in latent term dimension 4592
+2020-02-06 22:44:44,209 DEBUG      retrieval.py <module>        found 80786 docs in latent term dimension 4731
+2020-02-06 22:44:46,611 DEBUG      retrieval.py <module>        found 662204 docs in latent term dimension 4888
+2020-02-06 22:45:23,687 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 22:45:24,862 DEBUG      retrieval.py <module>        1048917	Q0	8277317	1	771211.6234123707	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:45:24,862 DEBUG      retrieval.py <module>        1048917	Q0	8140466	2	764686.6223791838	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:45:24,862 DEBUG      retrieval.py <module>        1048917	Q0	7153378	3	764583.7066059113	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:45:24,862 DEBUG      retrieval.py <module>        1048917	Q0	7526154	4	764216.3402504921	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:45:24,862 DEBUG      retrieval.py <module>        1048917	Q0	2775034	5	762861.8586111069	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:45:24,862 DEBUG      retrieval.py <module>        1048917	Q0	76003	6	757069.0577674508	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:45:24,862 DEBUG      retrieval.py <module>        1048917	Q0	1766125	7	756714.8257483244	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:45:24,862 DEBUG      retrieval.py <module>        1048917	Q0	8097805	8	756643.068166554	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:45:24,862 DEBUG      retrieval.py <module>        1048917	Q0	7137272	9	756434.2749536633	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:45:24,862 DEBUG      retrieval.py <module>        1048917	Q0	7153379	10	755614.189686656	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:45:24,862 DEBUG      retrieval.py <module>        1048917	Q0	802217	11	753677.6198034286	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:45:24,863 DEBUG      retrieval.py <module>        processing 9 queries of 1000
+2020-02-06 22:45:25,430 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 7, total size = 5000
+2020-02-06 22:45:25,430 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0014
+2020-02-06 22:45:25,432 DEBUG      retrieval.py <module>        found 788764 docs in latent term dimension 1049
+2020-02-06 22:47:06,076 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 22:48:16,520 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 22:49:14,205 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 22:49:24,975 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 22:49:32,724 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 22:49:46,300 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 22:50:13,216 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 22:50:14,265 DEBUG      retrieval.py <module>        786786	Q0	8277317	1	888524.320433855	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:50:14,265 DEBUG      retrieval.py <module>        786786	Q0	8140466	2	880993.3247717619	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:50:14,265 DEBUG      retrieval.py <module>        786786	Q0	7153378	3	880834.7261371613	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:50:14,265 DEBUG      retrieval.py <module>        786786	Q0	7526154	4	880505.208170414	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:50:14,265 DEBUG      retrieval.py <module>        786786	Q0	2775034	5	878904.6308279037	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:50:14,265 DEBUG      retrieval.py <module>        786786	Q0	76003	6	872121.7886474729	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:50:14,265 DEBUG      retrieval.py <module>        786786	Q0	1766125	7	871825.1987951994	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:50:14,265 DEBUG      retrieval.py <module>        786786	Q0	8097805	8	871735.5386255383	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:50:14,265 DEBUG      retrieval.py <module>        786786	Q0	7137272	9	871528.3997095227	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:50:14,265 DEBUG      retrieval.py <module>        786786	Q0	7153379	10	870494.0129288435	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:50:14,265 DEBUG      retrieval.py <module>        786786	Q0	802217	11	868433.5392370224	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:50:14,269 DEBUG      retrieval.py <module>        processing 10 queries of 1000
+2020-02-06 22:50:14,832 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 46, total size = 5000
+2020-02-06 22:50:14,832 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0092
+2020-02-06 22:50:14,832 DEBUG      retrieval.py <module>        found 581505 docs in latent term dimension 12
+2020-02-06 22:50:44,010 DEBUG      retrieval.py <module>        found 622692 docs in latent term dimension 43
+2020-02-06 22:51:04,158 DEBUG      retrieval.py <module>        found 714429 docs in latent term dimension 65
+2020-02-06 22:51:16,971 DEBUG      retrieval.py <module>        found 524225 docs in latent term dimension 378
+2020-02-06 22:51:23,260 DEBUG      retrieval.py <module>        found 525234 docs in latent term dimension 547
+2020-02-06 22:51:30,430 DEBUG      retrieval.py <module>        found 560452 docs in latent term dimension 752
+2020-02-06 22:51:40,060 DEBUG      retrieval.py <module>        found 579992 docs in latent term dimension 830
+2020-02-06 22:51:48,608 DEBUG      retrieval.py <module>        found 718350 docs in latent term dimension 854
+2020-02-06 22:51:56,687 DEBUG      retrieval.py <module>        found 617655 docs in latent term dimension 892
+2020-02-06 22:52:02,716 DEBUG      retrieval.py <module>        found 612596 docs in latent term dimension 1088
+2020-02-06 22:52:15,842 DEBUG      retrieval.py <module>        found 605077 docs in latent term dimension 1110
+2020-02-06 22:52:21,718 DEBUG      retrieval.py <module>        found 591636 docs in latent term dimension 1138
+2020-02-06 22:52:25,457 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 22:52:31,574 DEBUG      retrieval.py <module>        found 493897 docs in latent term dimension 1368
+2020-02-06 22:52:37,330 DEBUG      retrieval.py <module>        found 608990 docs in latent term dimension 1702
+2020-02-06 22:52:56,631 DEBUG      retrieval.py <module>        found 444799 docs in latent term dimension 1741
+2020-02-06 22:53:02,194 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 22:53:19,206 DEBUG      retrieval.py <module>        found 517417 docs in latent term dimension 1835
+2020-02-06 22:53:21,545 DEBUG      retrieval.py <module>        found 521759 docs in latent term dimension 2056
+2020-02-06 22:53:28,237 DEBUG      retrieval.py <module>        found 521830 docs in latent term dimension 2064
+2020-02-06 22:53:31,900 DEBUG      retrieval.py <module>        found 716380 docs in latent term dimension 2239
+2020-02-06 22:53:45,668 DEBUG      retrieval.py <module>        found 398113 docs in latent term dimension 2365
+2020-02-06 22:53:54,703 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 22:54:08,266 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 22:54:19,256 DEBUG      retrieval.py <module>        found 704676 docs in latent term dimension 2475
+2020-02-06 22:54:23,481 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 22:54:30,280 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 22:54:44,522 DEBUG      retrieval.py <module>        found 594746 docs in latent term dimension 2818
+2020-02-06 22:55:00,116 DEBUG      retrieval.py <module>        found 522774 docs in latent term dimension 2827
+2020-02-06 22:55:05,785 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 22:55:16,904 DEBUG      retrieval.py <module>        found 636671 docs in latent term dimension 3084
+2020-02-06 22:55:34,098 DEBUG      retrieval.py <module>        found 626150 docs in latent term dimension 3376
+2020-02-06 22:55:59,077 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 22:56:22,058 DEBUG      retrieval.py <module>        found 702502 docs in latent term dimension 3586
+2020-02-06 22:56:31,091 DEBUG      retrieval.py <module>        found 657432 docs in latent term dimension 3697
+2020-02-06 22:56:42,736 DEBUG      retrieval.py <module>        found 679248 docs in latent term dimension 3756
+2020-02-06 22:56:51,497 DEBUG      retrieval.py <module>        found 593404 docs in latent term dimension 3766
+2020-02-06 22:56:56,594 DEBUG      retrieval.py <module>        found 565390 docs in latent term dimension 4076
+2020-02-06 22:57:18,956 DEBUG      retrieval.py <module>        found 723161 docs in latent term dimension 4126
+2020-02-06 22:57:33,867 DEBUG      retrieval.py <module>        found 630134 docs in latent term dimension 4201
+2020-02-06 22:57:42,707 DEBUG      retrieval.py <module>        found 612217 docs in latent term dimension 4544
+2020-02-06 22:58:09,661 DEBUG      retrieval.py <module>        found 409224 docs in latent term dimension 4592
+2020-02-06 22:58:15,962 DEBUG      retrieval.py <module>        found 632091 docs in latent term dimension 4606
+2020-02-06 22:58:24,261 DEBUG      retrieval.py <module>        found 373892 docs in latent term dimension 4797
+2020-02-06 22:58:35,200 DEBUG      retrieval.py <module>        found 505633 docs in latent term dimension 4803
+2020-02-06 22:58:45,236 DEBUG      retrieval.py <module>        found 662204 docs in latent term dimension 4888
+2020-02-06 22:58:58,958 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 22:59:00,057 DEBUG      retrieval.py <module>        524699	Q0	8277317	1	785967.5045969486	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:59:00,057 DEBUG      retrieval.py <module>        524699	Q0	8140466	2	779315.7770153284	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:59:00,057 DEBUG      retrieval.py <module>        524699	Q0	7153378	3	779182.2257761955	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:59:00,057 DEBUG      retrieval.py <module>        524699	Q0	7526154	4	778856.7891678661	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:59:00,057 DEBUG      retrieval.py <module>        524699	Q0	2775034	5	777446.6847367287	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:59:00,057 DEBUG      retrieval.py <module>        524699	Q0	76003	6	771530.9756794572	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:59:00,057 DEBUG      retrieval.py <module>        524699	Q0	1766125	7	771187.2886035442	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:59:00,057 DEBUG      retrieval.py <module>        524699	Q0	8097805	8	771114.2526996732	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:59:00,057 DEBUG      retrieval.py <module>        524699	Q0	7137272	9	770919.0808785558	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:59:00,058 DEBUG      retrieval.py <module>        524699	Q0	7153379	10	770035.3744415045	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:59:00,058 DEBUG      retrieval.py <module>        524699	Q0	802217	11	768173.3087604046	snrm-extension-example-run-33-colab60000
+
+2020-02-06 22:59:00,060 DEBUG      retrieval.py <module>        processing 11 queries of 1000
+2020-02-06 22:59:00,587 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 58, total size = 5000
+2020-02-06 22:59:00,588 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0116
+2020-02-06 22:59:00,588 DEBUG      retrieval.py <module>        found 581505 docs in latent term dimension 12
+2020-02-06 22:59:15,391 DEBUG      retrieval.py <module>        found 137997 docs in latent term dimension 81
+2020-02-06 22:59:17,550 DEBUG      retrieval.py <module>        found 658695 docs in latent term dimension 172
+2020-02-06 22:59:34,492 DEBUG      retrieval.py <module>        found 524225 docs in latent term dimension 378
+2020-02-06 22:59:50,883 DEBUG      retrieval.py <module>        found 224784 docs in latent term dimension 527
+2020-02-06 22:59:56,429 DEBUG      retrieval.py <module>        found 21151 docs in latent term dimension 739
+2020-02-06 22:59:57,094 DEBUG      retrieval.py <module>        found 560452 docs in latent term dimension 752
+2020-02-06 23:00:22,809 DEBUG      retrieval.py <module>        found 618686 docs in latent term dimension 770
+2020-02-06 23:00:34,596 DEBUG      retrieval.py <module>        found 517778 docs in latent term dimension 804
+2020-02-06 23:00:42,054 DEBUG      retrieval.py <module>        found 579992 docs in latent term dimension 830
+2020-02-06 23:00:48,594 DEBUG      retrieval.py <module>        found 376450 docs in latent term dimension 1078
+2020-02-06 23:01:01,408 DEBUG      retrieval.py <module>        found 612596 docs in latent term dimension 1088
+2020-02-06 23:01:14,611 DEBUG      retrieval.py <module>        found 605077 docs in latent term dimension 1110
+2020-02-06 23:01:21,715 DEBUG      retrieval.py <module>        found 26081 docs in latent term dimension 1120
+2020-02-06 23:01:21,947 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 23:01:32,586 DEBUG      retrieval.py <module>        found 662877 docs in latent term dimension 1282
+2020-02-06 23:01:45,343 DEBUG      retrieval.py <module>        found 775156 docs in latent term dimension 1347
+2020-02-06 23:01:56,383 DEBUG      retrieval.py <module>        found 493897 docs in latent term dimension 1368
+2020-02-06 23:02:00,901 DEBUG      retrieval.py <module>        found 354065 docs in latent term dimension 1564
+2020-02-06 23:02:10,648 DEBUG      retrieval.py <module>        found 608990 docs in latent term dimension 1702
+2020-02-06 23:02:29,848 DEBUG      retrieval.py <module>        found 444799 docs in latent term dimension 1741
+2020-02-06 23:02:36,230 DEBUG      retrieval.py <module>        found 533743 docs in latent term dimension 1786
+2020-02-06 23:02:45,303 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 23:02:55,163 DEBUG      retrieval.py <module>        found 652986 docs in latent term dimension 1944
+2020-02-06 23:03:08,527 DEBUG      retrieval.py <module>        found 13463 docs in latent term dimension 1991
+2020-02-06 23:03:08,700 DEBUG      retrieval.py <module>        found 706003 docs in latent term dimension 2016
+2020-02-06 23:03:20,395 DEBUG      retrieval.py <module>        found 125866 docs in latent term dimension 2090
+2020-02-06 23:03:22,222 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 23:04:00,951 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 23:04:11,729 DEBUG      retrieval.py <module>        found 704676 docs in latent term dimension 2475
+2020-02-06 23:04:16,003 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 23:04:22,860 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 23:04:37,360 DEBUG      retrieval.py <module>        found 594746 docs in latent term dimension 2818
+2020-02-06 23:04:53,314 DEBUG      retrieval.py <module>        found 522774 docs in latent term dimension 2827
+2020-02-06 23:04:58,880 DEBUG      retrieval.py <module>        found 615272 docs in latent term dimension 2863
+2020-02-06 23:05:05,660 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 23:05:13,842 DEBUG      retrieval.py <module>        found 620955 docs in latent term dimension 2922
+2020-02-06 23:05:19,943 DEBUG      retrieval.py <module>        found 456392 docs in latent term dimension 2947
+2020-02-06 23:05:24,427 DEBUG      retrieval.py <module>        found 555441 docs in latent term dimension 2971
+2020-02-06 23:05:30,031 DEBUG      retrieval.py <module>        found 159791 docs in latent term dimension 3070
+2020-02-06 23:05:32,820 DEBUG      retrieval.py <module>        found 331770 docs in latent term dimension 3319
+2020-02-06 23:05:46,348 DEBUG      retrieval.py <module>        found 197538 docs in latent term dimension 3402
+2020-02-06 23:05:51,364 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 23:06:26,923 DEBUG      retrieval.py <module>        found 611256 docs in latent term dimension 3621
+2020-02-06 23:06:37,172 DEBUG      retrieval.py <module>        found 518622 docs in latent term dimension 3636
+2020-02-06 23:06:42,235 DEBUG      retrieval.py <module>        found 657432 docs in latent term dimension 3697
+2020-02-06 23:06:51,044 DEBUG      retrieval.py <module>        found 196152 docs in latent term dimension 3743
+2020-02-06 23:06:52,952 DEBUG      retrieval.py <module>        found 565390 docs in latent term dimension 4076
+2020-02-06 23:07:19,304 DEBUG      retrieval.py <module>        found 630134 docs in latent term dimension 4201
+2020-02-06 23:07:37,648 DEBUG      retrieval.py <module>        found 4793 docs in latent term dimension 4259
+2020-02-06 23:07:37,710 DEBUG      retrieval.py <module>        found 69083 docs in latent term dimension 4346
+2020-02-06 23:07:39,389 DEBUG      retrieval.py <module>        found 650942 docs in latent term dimension 4379
+2020-02-06 23:07:58,600 DEBUG      retrieval.py <module>        found 401955 docs in latent term dimension 4422
+2020-02-06 23:08:03,945 DEBUG      retrieval.py <module>        found 612217 docs in latent term dimension 4544
+2020-02-06 23:08:18,859 DEBUG      retrieval.py <module>        found 466051 docs in latent term dimension 4571
+2020-02-06 23:08:24,516 DEBUG      retrieval.py <module>        found 373892 docs in latent term dimension 4797
+2020-02-06 23:08:37,053 DEBUG      retrieval.py <module>        found 553451 docs in latent term dimension 4846
+2020-02-06 23:08:51,334 DEBUG      retrieval.py <module>        found 775304 docs in latent term dimension 4918
+2020-02-06 23:09:07,056 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 23:09:08,156 DEBUG      retrieval.py <module>        1048995	Q0	8277317	1	767819.4945094585	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:09:08,156 DEBUG      retrieval.py <module>        1048995	Q0	8140466	2	761309.932079792	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:09:08,157 DEBUG      retrieval.py <module>        1048995	Q0	7153378	3	761178.5526875257	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:09:08,157 DEBUG      retrieval.py <module>        1048995	Q0	7526154	4	760886.758133173	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:09:08,157 DEBUG      retrieval.py <module>        1048995	Q0	2775034	5	759508.8627368212	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:09:08,157 DEBUG      retrieval.py <module>        1048995	Q0	76003	6	753671.9790081084	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:09:08,157 DEBUG      retrieval.py <module>        1048995	Q0	1766125	7	753408.1017575264	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:09:08,157 DEBUG      retrieval.py <module>        1048995	Q0	8097805	8	753317.1324099302	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:09:08,157 DEBUG      retrieval.py <module>        1048995	Q0	7137272	9	753140.6097048521	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:09:08,157 DEBUG      retrieval.py <module>        1048995	Q0	7153379	10	752253.4617669582	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:09:08,157 DEBUG      retrieval.py <module>        1048995	Q0	802217	11	750544.8350504488	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:09:08,160 DEBUG      retrieval.py <module>        processing 12 queries of 1000
+2020-02-06 23:09:08,628 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 9, total size = 5000
+2020-02-06 23:09:08,629 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0018
+2020-02-06 23:09:08,631 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 23:10:45,794 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 23:11:46,588 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 23:12:40,362 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 23:12:52,217 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 23:13:00,056 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 23:13:13,855 DEBUG      retrieval.py <module>        found 594746 docs in latent term dimension 2818
+2020-02-06 23:13:29,069 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 23:13:42,851 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 23:14:41,023 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 23:14:42,067 DEBUG      retrieval.py <module>        786857	Q0	8277317	1	914386.8515160084	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:14:42,067 DEBUG      retrieval.py <module>        786857	Q0	8140466	2	906639.5414007902	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:14:42,067 DEBUG      retrieval.py <module>        786857	Q0	7153378	3	906486.2943286896	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:14:42,067 DEBUG      retrieval.py <module>        786857	Q0	7526154	4	906125.871576786	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:14:42,067 DEBUG      retrieval.py <module>        786857	Q0	2775034	5	904491.3927679062	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:14:42,067 DEBUG      retrieval.py <module>        786857	Q0	76003	6	897551.4534474015	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:14:42,068 DEBUG      retrieval.py <module>        786857	Q0	1766125	7	897198.8075140715	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:14:42,068 DEBUG      retrieval.py <module>        786857	Q0	8097805	8	897111.9583795667	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:14:42,068 DEBUG      retrieval.py <module>        786857	Q0	7137272	9	896890.159307301	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:14:42,068 DEBUG      retrieval.py <module>        786857	Q0	7153379	10	895845.0332068205	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:14:42,068 DEBUG      retrieval.py <module>        786857	Q0	802217	11	893664.5712957382	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:14:42,070 DEBUG      retrieval.py <module>        processing 13 queries of 1000
+2020-02-06 23:14:42,597 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 42, total size = 5000
+2020-02-06 23:14:42,597 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0084
+2020-02-06 23:14:42,598 DEBUG      retrieval.py <module>        found 524225 docs in latent term dimension 378
+2020-02-06 23:15:28,958 DEBUG      retrieval.py <module>        found 528104 docs in latent term dimension 505
+2020-02-06 23:15:50,578 DEBUG      retrieval.py <module>        found 525234 docs in latent term dimension 547
+2020-02-06 23:16:00,233 DEBUG      retrieval.py <module>        found 266605 docs in latent term dimension 563
+2020-02-06 23:16:03,301 DEBUG      retrieval.py <module>        found 100834 docs in latent term dimension 684
+2020-02-06 23:16:04,704 DEBUG      retrieval.py <module>        found 618686 docs in latent term dimension 770
+2020-02-06 23:16:22,715 DEBUG      retrieval.py <module>        found 617655 docs in latent term dimension 892
+2020-02-06 23:16:36,478 DEBUG      retrieval.py <module>        found 175075 docs in latent term dimension 1092
+2020-02-06 23:16:41,126 DEBUG      retrieval.py <module>        found 605077 docs in latent term dimension 1110
+2020-02-06 23:16:55,845 DEBUG      retrieval.py <module>        found 354065 docs in latent term dimension 1564
+2020-02-06 23:17:09,377 DEBUG      retrieval.py <module>        found 547711 docs in latent term dimension 1606
+2020-02-06 23:17:26,270 DEBUG      retrieval.py <module>        found 608990 docs in latent term dimension 1702
+2020-02-06 23:17:43,409 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 23:18:04,625 DEBUG      retrieval.py <module>        found 517417 docs in latent term dimension 1835
+2020-02-06 23:18:07,903 DEBUG      retrieval.py <module>        found 103778 docs in latent term dimension 1968
+2020-02-06 23:18:09,042 DEBUG      retrieval.py <module>        found 521830 docs in latent term dimension 2064
+2020-02-06 23:18:18,492 DEBUG      retrieval.py <module>        found 537243 docs in latent term dimension 2162
+2020-02-06 23:18:28,380 DEBUG      retrieval.py <module>        found 505621 docs in latent term dimension 2224
+2020-02-06 23:18:36,841 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 23:18:59,834 DEBUG      retrieval.py <module>        found 170715 docs in latent term dimension 2435
+2020-02-06 23:19:01,576 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 23:19:10,913 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 23:19:18,183 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 23:19:32,540 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 23:20:00,227 DEBUG      retrieval.py <module>        found 620955 docs in latent term dimension 2922
+2020-02-06 23:20:04,626 DEBUG      retrieval.py <module>        found 709032 docs in latent term dimension 2970
+2020-02-06 23:20:10,055 DEBUG      retrieval.py <module>        found 555441 docs in latent term dimension 2971
+2020-02-06 23:20:12,736 DEBUG      retrieval.py <module>        found 636671 docs in latent term dimension 3084
+2020-02-06 23:20:20,736 DEBUG      retrieval.py <module>        found 131426 docs in latent term dimension 3087
+2020-02-06 23:20:21,625 DEBUG      retrieval.py <module>        found 702502 docs in latent term dimension 3586
+2020-02-06 23:21:05,171 DEBUG      retrieval.py <module>        found 611256 docs in latent term dimension 3621
+2020-02-06 23:21:13,221 DEBUG      retrieval.py <module>        found 679248 docs in latent term dimension 3756
+2020-02-06 23:21:28,498 DEBUG      retrieval.py <module>        found 390675 docs in latent term dimension 3843
+2020-02-06 23:21:34,773 DEBUG      retrieval.py <module>        found 89683 docs in latent term dimension 3917
+2020-02-06 23:21:36,306 DEBUG      retrieval.py <module>        found 49099 docs in latent term dimension 4121
+2020-02-06 23:21:38,071 DEBUG      retrieval.py <module>        found 200226 docs in latent term dimension 4318
+2020-02-06 23:21:48,790 DEBUG      retrieval.py <module>        found 650942 docs in latent term dimension 4379
+2020-02-06 23:22:23,230 DEBUG      retrieval.py <module>        found 612217 docs in latent term dimension 4544
+2020-02-06 23:22:43,885 DEBUG      retrieval.py <module>        found 466051 docs in latent term dimension 4571
+2020-02-06 23:22:49,880 DEBUG      retrieval.py <module>        found 632091 docs in latent term dimension 4606
+2020-02-06 23:22:57,835 DEBUG      retrieval.py <module>        found 274838 docs in latent term dimension 4671
+2020-02-06 23:23:01,458 DEBUG      retrieval.py <module>        found 505633 docs in latent term dimension 4803
+2020-02-06 23:23:15,719 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 23:23:16,815 DEBUG      retrieval.py <module>        524722	Q0	8277317	1	756788.6437238455	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:23:16,815 DEBUG      retrieval.py <module>        524722	Q0	8140466	2	750371.226896882	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:23:16,815 DEBUG      retrieval.py <module>        524722	Q0	7153378	3	750231.3740884066	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:23:16,815 DEBUG      retrieval.py <module>        524722	Q0	7526154	4	749964.9988607392	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:23:16,815 DEBUG      retrieval.py <module>        524722	Q0	2775034	5	748599.7464773059	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:23:16,815 DEBUG      retrieval.py <module>        524722	Q0	76003	6	742802.0109859109	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:23:16,815 DEBUG      retrieval.py <module>        524722	Q0	1766125	7	742577.1670457125	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:23:16,815 DEBUG      retrieval.py <module>        524722	Q0	8097805	8	742494.5582383275	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:23:16,815 DEBUG      retrieval.py <module>        524722	Q0	7137272	9	742326.0245719552	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:23:16,816 DEBUG      retrieval.py <module>        524722	Q0	7153379	10	741429.1022863388	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:23:16,816 DEBUG      retrieval.py <module>        524722	Q0	802217	11	739747.6568721533	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:23:16,819 DEBUG      retrieval.py <module>        processing 14 queries of 1000
+2020-02-06 23:23:17,381 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 62, total size = 5000
+2020-02-06 23:23:17,381 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0124
+2020-02-06 23:23:17,381 DEBUG      retrieval.py <module>        found 622692 docs in latent term dimension 43
+2020-02-06 23:23:45,692 DEBUG      retrieval.py <module>        found 714429 docs in latent term dimension 65
+2020-02-06 23:23:57,857 DEBUG      retrieval.py <module>        found 578772 docs in latent term dimension 145
+2020-02-06 23:24:06,278 DEBUG      retrieval.py <module>        found 658695 docs in latent term dimension 172
+2020-02-06 23:24:13,027 DEBUG      retrieval.py <module>        found 15650 docs in latent term dimension 268
+2020-02-06 23:24:13,278 DEBUG      retrieval.py <module>        found 576046 docs in latent term dimension 450
+2020-02-06 23:24:34,366 DEBUG      retrieval.py <module>        found 528104 docs in latent term dimension 505
+2020-02-06 23:24:44,496 DEBUG      retrieval.py <module>        found 525234 docs in latent term dimension 547
+2020-02-06 23:24:50,789 DEBUG      retrieval.py <module>        found 3968 docs in latent term dimension 599
+2020-02-06 23:24:50,840 DEBUG      retrieval.py <module>        found 618686 docs in latent term dimension 770
+2020-02-06 23:25:11,279 DEBUG      retrieval.py <module>        found 579992 docs in latent term dimension 830
+2020-02-06 23:25:21,067 DEBUG      retrieval.py <module>        found 718350 docs in latent term dimension 854
+2020-02-06 23:25:30,068 DEBUG      retrieval.py <module>        found 788764 docs in latent term dimension 1049
+2020-02-06 23:25:53,421 DEBUG      retrieval.py <module>        found 175075 docs in latent term dimension 1092
+2020-02-06 23:25:55,295 DEBUG      retrieval.py <module>        found 605077 docs in latent term dimension 1110
+2020-02-06 23:26:01,493 DEBUG      retrieval.py <module>        found 560109 docs in latent term dimension 1127
+2020-02-06 23:26:06,641 DEBUG      retrieval.py <module>        found 549033 docs in latent term dimension 1148
+2020-02-06 23:26:11,792 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 23:26:18,104 DEBUG      retrieval.py <module>        found 662877 docs in latent term dimension 1282
+2020-02-06 23:26:30,652 DEBUG      retrieval.py <module>        found 775156 docs in latent term dimension 1347
+2020-02-06 23:26:41,690 DEBUG      retrieval.py <module>        found 608990 docs in latent term dimension 1702
+2020-02-06 23:27:09,670 DEBUG      retrieval.py <module>        found 665710 docs in latent term dimension 1732
+2020-02-06 23:27:22,064 DEBUG      retrieval.py <module>        found 444799 docs in latent term dimension 1741
+2020-02-06 23:27:25,495 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 23:27:37,587 DEBUG      retrieval.py <module>        found 517417 docs in latent term dimension 1835
+2020-02-06 23:27:42,603 DEBUG      retrieval.py <module>        found 537243 docs in latent term dimension 2162
+2020-02-06 23:28:06,535 DEBUG      retrieval.py <module>        found 739990 docs in latent term dimension 2333
+2020-02-06 23:28:33,993 DEBUG      retrieval.py <module>        found 744129 docs in latent term dimension 2347
+2020-02-06 23:28:41,745 DEBUG      retrieval.py <module>        found 398113 docs in latent term dimension 2365
+2020-02-06 23:28:45,091 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 23:28:53,082 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 23:29:04,016 DEBUG      retrieval.py <module>        found 704676 docs in latent term dimension 2475
+2020-02-06 23:29:08,272 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 23:29:15,074 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 23:29:29,562 DEBUG      retrieval.py <module>        found 594746 docs in latent term dimension 2818
+2020-02-06 23:29:45,797 DEBUG      retrieval.py <module>        found 522774 docs in latent term dimension 2827
+2020-02-06 23:29:51,390 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 23:30:02,375 DEBUG      retrieval.py <module>        found 709032 docs in latent term dimension 2970
+2020-02-06 23:30:12,544 DEBUG      retrieval.py <module>        found 555441 docs in latent term dimension 2971
+2020-02-06 23:30:15,804 DEBUG      retrieval.py <module>        found 302942 docs in latent term dimension 2998
+2020-02-06 23:30:18,491 DEBUG      retrieval.py <module>        found 295677 docs in latent term dimension 3051
+2020-02-06 23:30:22,255 DEBUG      retrieval.py <module>        found 159791 docs in latent term dimension 3070
+2020-02-06 23:30:23,983 DEBUG      retrieval.py <module>        found 636671 docs in latent term dimension 3084
+2020-02-06 23:30:31,711 DEBUG      retrieval.py <module>        found 570928 docs in latent term dimension 3299
+2020-02-06 23:30:49,277 DEBUG      retrieval.py <module>        found 102999 docs in latent term dimension 3312
+2020-02-06 23:30:50,652 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 23:31:19,734 DEBUG      retrieval.py <module>        found 702502 docs in latent term dimension 3586
+2020-02-06 23:31:28,650 DEBUG      retrieval.py <module>        found 662853 docs in latent term dimension 3605
+2020-02-06 23:31:34,358 DEBUG      retrieval.py <module>        found 657432 docs in latent term dimension 3697
+2020-02-06 23:31:44,787 DEBUG      retrieval.py <module>        found 679248 docs in latent term dimension 3756
+2020-02-06 23:31:53,241 DEBUG      retrieval.py <module>        found 390675 docs in latent term dimension 3843
+2020-02-06 23:31:59,318 DEBUG      retrieval.py <module>        found 289273 docs in latent term dimension 3867
+2020-02-06 23:32:02,615 DEBUG      retrieval.py <module>        found 401203 docs in latent term dimension 3909
+2020-02-06 23:32:08,068 DEBUG      retrieval.py <module>        found 735593 docs in latent term dimension 4098
+2020-02-06 23:32:32,849 DEBUG      retrieval.py <module>        found 650942 docs in latent term dimension 4379
+2020-02-06 23:32:58,468 DEBUG      retrieval.py <module>        found 409224 docs in latent term dimension 4592
+2020-02-06 23:33:11,659 DEBUG      retrieval.py <module>        found 632091 docs in latent term dimension 4606
+2020-02-06 23:33:23,686 DEBUG      retrieval.py <module>        found 139340 docs in latent term dimension 4680
+2020-02-06 23:33:25,916 DEBUG      retrieval.py <module>        found 169135 docs in latent term dimension 4760
+2020-02-06 23:33:29,406 DEBUG      retrieval.py <module>        found 505633 docs in latent term dimension 4803
+2020-02-06 23:33:44,190 DEBUG      retrieval.py <module>        found 662204 docs in latent term dimension 4888
+2020-02-06 23:33:59,568 DEBUG      retrieval.py <module>        found 775304 docs in latent term dimension 4918
+2020-02-06 23:34:09,340 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 23:34:10,424 DEBUG      retrieval.py <module>        873886	Q0	8277317	1	786339.6501271725	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:34:10,424 DEBUG      retrieval.py <module>        873886	Q0	8140466	2	779692.3097869158	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:34:10,424 DEBUG      retrieval.py <module>        873886	Q0	7153378	3	779578.76232481	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:34:10,424 DEBUG      retrieval.py <module>        873886	Q0	7526154	4	779208.0726316571	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:34:10,424 DEBUG      retrieval.py <module>        873886	Q0	2775034	5	777835.1295286417	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:34:10,424 DEBUG      retrieval.py <module>        873886	Q0	76003	6	771968.39836514	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:34:10,424 DEBUG      retrieval.py <module>        873886	Q0	1766125	7	771555.6220794916	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:34:10,424 DEBUG      retrieval.py <module>        873886	Q0	8097805	8	771495.8703705072	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:34:10,424 DEBUG      retrieval.py <module>        873886	Q0	7137272	9	771284.7093349695	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:34:10,424 DEBUG      retrieval.py <module>        873886	Q0	7153379	10	770436.8082883358	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:34:10,424 DEBUG      retrieval.py <module>        873886	Q0	802217	11	768495.7290039062	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:34:10,427 DEBUG      retrieval.py <module>        processing 15 queries of 1000
+2020-02-06 23:34:10,871 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 7, total size = 5000
+2020-02-06 23:34:10,871 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0014
+2020-02-06 23:34:10,875 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 23:35:34,616 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 23:36:26,521 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 23:36:37,325 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 23:36:44,501 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 23:36:58,008 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 23:37:22,672 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 23:38:16,889 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 23:38:17,905 DEBUG      retrieval.py <module>        524733	Q0	8277317	1	875620.9185783863	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:38:17,905 DEBUG      retrieval.py <module>        524733	Q0	8140466	2	868194.8960608244	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:38:17,905 DEBUG      retrieval.py <module>        524733	Q0	7153378	3	868031.2969379425	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:38:17,905 DEBUG      retrieval.py <module>        524733	Q0	7526154	4	867728.3068032265	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:38:17,905 DEBUG      retrieval.py <module>        524733	Q0	2775034	5	866145.4948415756	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:38:17,905 DEBUG      retrieval.py <module>        524733	Q0	76003	6	859435.5756302476	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:38:17,905 DEBUG      retrieval.py <module>        524733	Q0	1766125	7	859171.1460608244	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:38:17,905 DEBUG      retrieval.py <module>        524733	Q0	8097805	8	859078.7676294446	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:38:17,905 DEBUG      retrieval.py <module>        524733	Q0	7137272	9	858883.5518091321	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:38:17,905 DEBUG      retrieval.py <module>        524733	Q0	7153379	10	857842.234608531	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:38:17,905 DEBUG      retrieval.py <module>        524733	Q0	802217	11	855866.5743932724	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:38:17,906 DEBUG      retrieval.py <module>        processing 16 queries of 1000
+2020-02-06 23:38:18,490 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 49, total size = 5000
+2020-02-06 23:38:18,491 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0098
+2020-02-06 23:38:18,491 DEBUG      retrieval.py <module>        found 581505 docs in latent term dimension 12
+2020-02-06 23:38:36,783 DEBUG      retrieval.py <module>        found 622692 docs in latent term dimension 43
+2020-02-06 23:38:51,973 DEBUG      retrieval.py <module>        found 658695 docs in latent term dimension 172
+2020-02-06 23:39:08,825 DEBUG      retrieval.py <module>        found 528104 docs in latent term dimension 505
+2020-02-06 23:39:31,620 DEBUG      retrieval.py <module>        found 525234 docs in latent term dimension 547
+2020-02-06 23:39:41,157 DEBUG      retrieval.py <module>        found 718350 docs in latent term dimension 854
+2020-02-06 23:40:13,128 DEBUG      retrieval.py <module>        found 617655 docs in latent term dimension 892
+2020-02-06 23:40:20,439 DEBUG      retrieval.py <module>        found 605077 docs in latent term dimension 1110
+2020-02-06 23:40:38,231 DEBUG      retrieval.py <module>        found 591636 docs in latent term dimension 1138
+2020-02-06 23:40:46,862 DEBUG      retrieval.py <module>        found 549033 docs in latent term dimension 1148
+2020-02-06 23:40:51,538 DEBUG      retrieval.py <module>        found 775156 docs in latent term dimension 1347
+2020-02-06 23:41:13,293 DEBUG      retrieval.py <module>        found 320043 docs in latent term dimension 1420
+2020-02-06 23:41:17,319 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 23:41:55,912 DEBUG      retrieval.py <module>        found 517417 docs in latent term dimension 1835
+2020-02-06 23:42:00,616 DEBUG      retrieval.py <module>        found 521759 docs in latent term dimension 2056
+2020-02-06 23:42:15,320 DEBUG      retrieval.py <module>        found 726159 docs in latent term dimension 2058
+2020-02-06 23:42:24,469 DEBUG      retrieval.py <module>        found 521830 docs in latent term dimension 2064
+2020-02-06 23:42:28,222 DEBUG      retrieval.py <module>        found 505621 docs in latent term dimension 2224
+2020-02-06 23:42:39,227 DEBUG      retrieval.py <module>        found 716380 docs in latent term dimension 2239
+2020-02-06 23:42:47,857 DEBUG      retrieval.py <module>        found 739990 docs in latent term dimension 2333
+2020-02-06 23:42:59,282 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 23:43:08,927 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 23:43:19,422 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 23:43:27,028 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 23:43:41,645 DEBUG      retrieval.py <module>        found 539967 docs in latent term dimension 2720
+2020-02-06 23:43:50,729 DEBUG      retrieval.py <module>        found 522774 docs in latent term dimension 2827
+2020-02-06 23:44:00,554 DEBUG      retrieval.py <module>        found 495103 docs in latent term dimension 2877
+2020-02-06 23:44:07,540 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 23:44:17,043 DEBUG      retrieval.py <module>        found 709032 docs in latent term dimension 2970
+2020-02-06 23:44:27,235 DEBUG      retrieval.py <module>        found 636671 docs in latent term dimension 3084
+2020-02-06 23:44:38,243 DEBUG      retrieval.py <module>        found 516511 docs in latent term dimension 3129
+2020-02-06 23:44:44,209 DEBUG      retrieval.py <module>        found 570928 docs in latent term dimension 3299
+2020-02-06 23:44:58,633 DEBUG      retrieval.py <module>        found 626150 docs in latent term dimension 3376
+2020-02-06 23:45:10,523 DEBUG      retrieval.py <module>        found 698681 docs in latent term dimension 3409
+2020-02-06 23:45:19,189 DEBUG      retrieval.py <module>        found 702502 docs in latent term dimension 3586
+2020-02-06 23:45:37,207 DEBUG      retrieval.py <module>        found 533212 docs in latent term dimension 3654
+2020-02-06 23:45:44,479 DEBUG      retrieval.py <module>        found 657432 docs in latent term dimension 3697
+2020-02-06 23:45:53,274 DEBUG      retrieval.py <module>        found 679248 docs in latent term dimension 3756
+2020-02-06 23:46:01,580 DEBUG      retrieval.py <module>        found 583047 docs in latent term dimension 3886
+2020-02-06 23:46:13,303 DEBUG      retrieval.py <module>        found 565390 docs in latent term dimension 4076
+2020-02-06 23:46:29,771 DEBUG      retrieval.py <module>        found 735593 docs in latent term dimension 4098
+2020-02-06 23:46:41,101 DEBUG      retrieval.py <module>        found 723161 docs in latent term dimension 4126
+2020-02-06 23:46:48,091 DEBUG      retrieval.py <module>        found 200226 docs in latent term dimension 4318
+2020-02-06 23:46:53,475 DEBUG      retrieval.py <module>        found 650942 docs in latent term dimension 4379
+2020-02-06 23:47:11,222 DEBUG      retrieval.py <module>        found 612217 docs in latent term dimension 4544
+2020-02-06 23:47:27,890 DEBUG      retrieval.py <module>        found 409224 docs in latent term dimension 4592
+2020-02-06 23:47:33,292 DEBUG      retrieval.py <module>        found 632091 docs in latent term dimension 4606
+2020-02-06 23:47:40,361 DEBUG      retrieval.py <module>        found 505633 docs in latent term dimension 4803
+2020-02-06 23:47:56,067 DEBUG      retrieval.py <module>        found 662204 docs in latent term dimension 4888
+2020-02-06 23:48:11,618 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 23:48:12,712 DEBUG      retrieval.py <module>        786918	Q0	8277317	1	745889.8965371847	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:48:12,712 DEBUG      retrieval.py <module>        786918	Q0	8140466	2	739571.9405292273	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:48:12,712 DEBUG      retrieval.py <module>        786918	Q0	7153378	3	739449.3877044916	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:48:12,712 DEBUG      retrieval.py <module>        786918	Q0	7526154	4	739146.8849743456	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:48:12,712 DEBUG      retrieval.py <module>        786918	Q0	2775034	5	737816.1316030025	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:48:12,712 DEBUG      retrieval.py <module>        786918	Q0	76003	6	732141.1616943479	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:48:12,712 DEBUG      retrieval.py <module>        786918	Q0	1766125	7	731878.4116087556	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:48:12,712 DEBUG      retrieval.py <module>        786918	Q0	8097805	8	731804.6243591905	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:48:12,712 DEBUG      retrieval.py <module>        786918	Q0	7137272	9	731625.3726199269	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:48:12,713 DEBUG      retrieval.py <module>        786918	Q0	7153379	10	730774.917904377	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:48:12,713 DEBUG      retrieval.py <module>        786918	Q0	802217	11	729039.7280721664	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:48:12,714 DEBUG      retrieval.py <module>        processing 17 queries of 1000
+2020-02-06 23:48:13,265 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 47, total size = 5000
+2020-02-06 23:48:13,265 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0094
+2020-02-06 23:48:13,265 DEBUG      retrieval.py <module>        found 581505 docs in latent term dimension 12
+2020-02-06 23:48:28,616 DEBUG      retrieval.py <module>        found 622692 docs in latent term dimension 43
+2020-02-06 23:48:37,302 DEBUG      retrieval.py <module>        found 576046 docs in latent term dimension 450
+2020-02-06 23:49:07,819 DEBUG      retrieval.py <module>        found 773225 docs in latent term dimension 523
+2020-02-06 23:49:29,066 DEBUG      retrieval.py <module>        found 525234 docs in latent term dimension 547
+2020-02-06 23:49:34,061 DEBUG      retrieval.py <module>        found 618686 docs in latent term dimension 770
+2020-02-06 23:49:53,113 DEBUG      retrieval.py <module>        found 718350 docs in latent term dimension 854
+2020-02-06 23:50:06,639 DEBUG      retrieval.py <module>        found 617655 docs in latent term dimension 892
+2020-02-06 23:50:13,310 DEBUG      retrieval.py <module>        found 788764 docs in latent term dimension 1049
+2020-02-06 23:50:32,833 DEBUG      retrieval.py <module>        found 605077 docs in latent term dimension 1110
+2020-02-06 23:50:39,684 DEBUG      retrieval.py <module>        found 549033 docs in latent term dimension 1148
+2020-02-06 23:50:45,484 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-06 23:50:52,670 DEBUG      retrieval.py <module>        found 775156 docs in latent term dimension 1347
+2020-02-06 23:51:12,670 DEBUG      retrieval.py <module>        found 665710 docs in latent term dimension 1732
+2020-02-06 23:51:44,553 DEBUG      retrieval.py <module>        found 444799 docs in latent term dimension 1741
+2020-02-06 23:51:49,533 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-06 23:52:03,421 DEBUG      retrieval.py <module>        found 517417 docs in latent term dimension 1835
+2020-02-06 23:52:08,423 DEBUG      retrieval.py <module>        found 652986 docs in latent term dimension 1944
+2020-02-06 23:52:20,929 DEBUG      retrieval.py <module>        found 537243 docs in latent term dimension 2162
+2020-02-06 23:52:38,572 DEBUG      retrieval.py <module>        found 716380 docs in latent term dimension 2239
+2020-02-06 23:52:53,436 DEBUG      retrieval.py <module>        found 739990 docs in latent term dimension 2333
+2020-02-06 23:53:06,316 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-06 23:53:16,584 DEBUG      retrieval.py <module>        found 602995 docs in latent term dimension 2449
+2020-02-06 23:53:23,786 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-06 23:53:31,476 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-06 23:53:39,142 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-06 23:53:53,834 DEBUG      retrieval.py <module>        found 594746 docs in latent term dimension 2818
+2020-02-06 23:54:09,977 DEBUG      retrieval.py <module>        found 522774 docs in latent term dimension 2827
+2020-02-06 23:54:15,610 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-06 23:54:26,700 DEBUG      retrieval.py <module>        found 709032 docs in latent term dimension 2970
+2020-02-06 23:54:37,085 DEBUG      retrieval.py <module>        found 636671 docs in latent term dimension 3084
+2020-02-06 23:54:48,529 DEBUG      retrieval.py <module>        found 739837 docs in latent term dimension 3227
+2020-02-06 23:55:06,455 DEBUG      retrieval.py <module>        found 570928 docs in latent term dimension 3299
+2020-02-06 23:55:14,108 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-06 23:55:41,209 DEBUG      retrieval.py <module>        found 702502 docs in latent term dimension 3586
+2020-02-06 23:55:50,131 DEBUG      retrieval.py <module>        found 533212 docs in latent term dimension 3654
+2020-02-06 23:55:58,186 DEBUG      retrieval.py <module>        found 657432 docs in latent term dimension 3697
+2020-02-06 23:56:06,920 DEBUG      retrieval.py <module>        found 679248 docs in latent term dimension 3756
+2020-02-06 23:56:15,672 DEBUG      retrieval.py <module>        found 583047 docs in latent term dimension 3886
+2020-02-06 23:56:27,515 DEBUG      retrieval.py <module>        found 401203 docs in latent term dimension 3909
+2020-02-06 23:56:31,898 DEBUG      retrieval.py <module>        found 735593 docs in latent term dimension 4098
+2020-02-06 23:56:55,284 DEBUG      retrieval.py <module>        found 723161 docs in latent term dimension 4126
+2020-02-06 23:57:02,744 DEBUG      retrieval.py <module>        found 612217 docs in latent term dimension 4544
+2020-02-06 23:57:35,721 DEBUG      retrieval.py <module>        found 462013 docs in latent term dimension 4547
+2020-02-06 23:57:41,967 DEBUG      retrieval.py <module>        found 632091 docs in latent term dimension 4606
+2020-02-06 23:57:52,743 DEBUG      retrieval.py <module>        found 662204 docs in latent term dimension 4888
+2020-02-06 23:58:22,574 DEBUG      retrieval.py <module>        found 775304 docs in latent term dimension 4918
+2020-02-06 23:58:34,927 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-06 23:58:36,004 DEBUG      retrieval.py <module>        786937	Q0	8277317	1	509963.0345892906	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:58:36,004 DEBUG      retrieval.py <module>        786937	Q0	8140466	2	505644.8069591522	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:58:36,004 DEBUG      retrieval.py <module>        786937	Q0	7153378	3	505578.42015457153	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:58:36,004 DEBUG      retrieval.py <module>        786937	Q0	7526154	4	505338.4541378021	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:58:36,005 DEBUG      retrieval.py <module>        786937	Q0	2775034	5	504446.47276592255	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:58:36,005 DEBUG      retrieval.py <module>        786937	Q0	76003	6	500610.27731513977	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:58:36,005 DEBUG      retrieval.py <module>        786937	Q0	1766125	7	500397.1826915741	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:58:36,005 DEBUG      retrieval.py <module>        786937	Q0	8097805	8	500334.9878349304	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:58:36,005 DEBUG      retrieval.py <module>        786937	Q0	7137272	9	500202.9895439148	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:58:36,005 DEBUG      retrieval.py <module>        786937	Q0	7153379	10	499659.0442121029	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:58:36,005 DEBUG      retrieval.py <module>        786937	Q0	802217	11	498485.2736787796	snrm-extension-example-run-33-colab60000
+
+2020-02-06 23:58:36,008 DEBUG      retrieval.py <module>        processing 18 queries of 1000
+2020-02-06 23:58:36,371 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 11, total size = 5000
+2020-02-06 23:58:36,372 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0022
+2020-02-06 23:58:36,372 DEBUG      retrieval.py <module>        found 773225 docs in latent term dimension 523
+2020-02-06 23:59:40,879 DEBUG      retrieval.py <module>        found 784178 docs in latent term dimension 1157
+2020-02-07 00:00:49,073 DEBUG      retrieval.py <module>        found 806877 docs in latent term dimension 1801
+2020-02-07 00:01:54,543 DEBUG      retrieval.py <module>        found 806955 docs in latent term dimension 2386
+2020-02-07 00:02:53,229 DEBUG      retrieval.py <module>        found 806912 docs in latent term dimension 2469
+2020-02-07 00:03:04,696 DEBUG      retrieval.py <module>        found 806936 docs in latent term dimension 2498
+2020-02-07 00:03:12,373 DEBUG      retrieval.py <module>        found 806975 docs in latent term dimension 2617
+2020-02-07 00:03:27,473 DEBUG      retrieval.py <module>        found 594746 docs in latent term dimension 2818
+2020-02-07 00:03:45,261 DEBUG      retrieval.py <module>        found 806967 docs in latent term dimension 2884
+2020-02-07 00:04:00,596 DEBUG      retrieval.py <module>        found 620955 docs in latent term dimension 2922
+2020-02-07 00:04:06,809 DEBUG      retrieval.py <module>        found 780448 docs in latent term dimension 3523
+2020-02-07 00:05:09,542 DEBUG      retrieval.py <module>        obtained a score for 806976 distinct docs
+2020-02-07 00:05:10,594 DEBUG      retrieval.py <module>        1049085	Q0	8277317	1	890405.8353264332	snrm-extension-example-run-33-colab60000
+
+2020-02-07 00:05:10,594 DEBUG      retrieval.py <module>        1049085	Q0	8140466	2	882866.9351233244	snrm-extension-example-run-33-colab60000
+
+2020-02-07 00:05:10,594 DEBUG      retrieval.py <module>        1049085	Q0	7153378	3	882731.0650043488	snrm-extension-example-run-33-colab60000
+
+2020-02-07 00:05:10,594 DEBUG      retrieval.py <module>        1049085	Q0	7526154	4	882346.8033852577	snrm-extension-example-run-33-colab60000
+
+2020-02-07 00:05:10,594 DEBUG      retrieval.py <module>        1049085	Q0	2775034	5	880766.3488454819	snrm-extension-example-run-33-colab60000
+
+2020-02-07 00:05:10,594 DEBUG      retrieval.py <module>        1049085	Q0	76003	6	874043.7981884181	snrm-extension-example-run-33-colab60000
+
+2020-02-07 00:05:10,594 DEBUG      retrieval.py <module>        1049085	Q0	1766125	7	873666.1631506681	snrm-extension-example-run-33-colab60000
+
+2020-02-07 00:05:10,594 DEBUG      retrieval.py <module>        1049085	Q0	8097805	8	873583.8684595227	snrm-extension-example-run-33-colab60000
+
+2020-02-07 00:05:10,594 DEBUG      retrieval.py <module>        1049085	Q0	7137272	9	873355.9468286633	snrm-extension-example-run-33-colab60000
+
+2020-02-07 00:05:10,594 DEBUG      retrieval.py <module>        1049085	Q0	7153379	10	872369.972889781	snrm-extension-example-run-33-colab60000
+
+2020-02-07 00:05:10,594 DEBUG      retrieval.py <module>        1049085	Q0	802217	11	870187.1494635493	snrm-extension-example-run-33-colab60000
+
+2020-02-07 00:05:10,595 DEBUG      retrieval.py <module>        processing 19 queries of 1000
+2020-02-07 00:05:11,312 DEBUG      retrieval.py <module>        non_zero elements in query_repr = 24, total size = 5000
+2020-02-07 00:05:11,312 DEBUG      retrieval.py <module>        generated query_repr with ratio_non_zero_elements=0.0048
+2020-02-07 00:05:11,312 DEBUG      retrieval.py <module>        found 581505 docs in latent term dimension 12
+

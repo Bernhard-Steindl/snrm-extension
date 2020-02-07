@@ -97,8 +97,8 @@ class SNRM(object):
             self.d1_repr = self.network(emb_layer_d1, self.weights, self.weights_name, self.biases, self.biases_name)
             self.d2_repr = self.network(emb_layer_d2, self.weights, self.weights_name, self.biases, self.biases_name)
 
-            logits_d1 = tf.reduce_sum(tf.multiply(self.q_repr, self.d1_repr), axis=1, keep_dims=True)
-            logits_d2 = tf.reduce_sum(tf.multiply(self.q_repr, self.d2_repr), axis=1, keep_dims=True)
+            logits_d1 = tf.reduce_mean(tf.multiply(self.q_repr, self.d1_repr), axis=1, keep_dims=True)
+            logits_d2 = tf.reduce_mean(tf.multiply(self.q_repr, self.d2_repr), axis=1, keep_dims=True)
             logits = tf.concat([logits_d1, logits_d2], axis=1)
 
             # For inverted index construction:
@@ -275,10 +275,8 @@ class SNRM(object):
                                            weights[weights_name[i]],
                                            strides=[1, 1, 1, 1],
                                            padding='SAME'))
-
-                layers[i + 1] = tf.nn.dropout(
-                    tf.nn.relu(layers[i + 1]),
-                    self.dropout_keep_prob)
+                if i == len(weights)-1:
+                    layers[i + 1] = tf.nn.relu(layers[i + 1])
 
         return tf.reduce_mean(layers[len(layers) - 1], [1, 2])
 
