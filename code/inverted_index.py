@@ -1,16 +1,15 @@
 """
-The inverted index class. This file only contain a simple in-memory inverted index.
+The inverted index that is created using a memory mapped file.
 
-Authors: Hamed Zamani (zamani@cs.umass.edu)
+Authors: Bernhard Steindl
 """
+from app_logger import logger
+logger = logger(__file__)
 
-import logging
+import params
+
 import pickle as pkl
 import numpy as np
-from params import FLAGS
-
-FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
-logging.basicConfig(format=FORMAT, level=logging.DEBUG)
 
 class MemMappedInvertedIndex(object):
 

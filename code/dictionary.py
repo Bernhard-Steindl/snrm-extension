@@ -4,11 +4,11 @@ A dictionary class that contains vocabulary terms and their IDs.
 Authors: Hamed Zamani (zamani@cs.umass.edu)
 """
 
-import logging
-FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
-logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+from app_logger import logger
+logger = logger(__file__)
 
-from params import FLAGS
+from config import config
+import params
 import numpy as np
 
 from nltk.tokenize import word_tokenize
@@ -50,7 +50,7 @@ class Dictionary(object):
                 self.id_to_term.append(term)
                 self.term_to_id[term] = id
                 id += 1
-        logging.info(str(id) + ' terms have been loaded to the dictionary')
+        logger.info(str(id) + ' terms have been loaded to the dictionary')
 
     def size(self):
         return len(self.id_to_term)
@@ -73,20 +73,20 @@ class Dictionary(object):
                 else self.term_to_id['UNKNOWN'])
             for t in text_tokens if t not in stop_words]
 
-        # logging.debug('text_tokens={}, \t term_ids={}'.format(repr(text_tokens), repr(term_ids)))
+        # logger.debug('text_tokens={}, \t term_ids={}'.format(repr(text_tokens), repr(term_ids)))
 
         # unknown_terms = set([t for t in text_tokens if t not in self.term_to_id])
-        # logging.debug('unknown terms: {}'.format(repr(unknown_terms)))
+        # logger.debug('unknown terms: {}'.format(repr(unknown_terms)))
 
         # num_non_zero =  np.count_nonzero(term_ids)
         # num_zero = len(text_tokens) - num_non_zero
         # ratio_known_tokens = num_non_zero / len(text_tokens)
-        # logging.debug('word_tokenization of "{}" / len(text_tokens)={} / len(term_ids)={} / len(term_ids_without_unknown)={} / ratio_known_tokens={}'
+        # logger.debug('word_tokenization of "{}" / len(text_tokens)={} / len(term_ids)={} / len(term_ids_without_unknown)={} / ratio_known_tokens={}'
         #    .format(text, str(len(text_tokens)), str(len(term_ids)), str(num_non_zero), str(ratio_known_tokens)))
-        # logging.debug('ratio_known_tokens={}'.format(str( round(ratio_known_tokens, 4))))
+        # logger.debug('ratio_known_tokens={}'.format(str( round(ratio_known_tokens, 4))))
         return term_ids
 
 # just for test
 if __name__ == '__main__':
     dictionary = Dictionary()
-    dictionary.load_from_galago_dump(FLAGS.base_path + FLAGS.dict_file_name)
+    dictionary.load_from_galago_dump(config.get('base_path') + config.get('dict_file_name'))
