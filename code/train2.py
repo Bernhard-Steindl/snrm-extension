@@ -87,19 +87,6 @@ for n, p in model.named_parameters():
 
 # TODO loss, optimizer
 
-# torch.nn.HingeEmbeddingLoss(margin=1.0, size_average=None, reduce=None, reduction='mean')
-
-#regularization_term = config.get('regularization_term')
-# https://pytorch.org/docs/stable/nn.html#l1loss
-#l1_regularization = 1
-#l1_regularization = torch.mul(l1_regularization, regularization_term)
-# https://pytorch.org/docs/stable/nn.html#hingeembeddingloss
-#hinge_loss = F.hinge_embedding_loss(input=1, 
-                                    #target=1,
-                                    #reduction='mean')
-# F.hinge_embedding_loss(input, target, margin=1.0, size_average=None, reduce=None, reduction='mean') -> Tensor
-# F.l1_loss(input, target, size_average=None, reduce=None, reduction='mean') -> Tensor
-#criterion = torch.sum(hinge_loss, l1_regularization)
 
 # optimizer 
 # TODO remove (create after model.cuda - according to its docs)
@@ -109,13 +96,17 @@ optimizer = Adam(model_params, lr=config.get('learning_rate'))
 # training
 num_steps = config.get('num_train_steps')
 average_loss = 0
+regularization_term = config.get('regularization_term')
 
 # TODO how stopword removal?
+# TODO steps are done in inner loop - outer one could be epochs, but we do not have this in legacy code
 for step in range(num_steps):
     if step % 100 == 0:
         logger.info('training step {} of {}'.format(step+1, num_steps))
 
     for batch in Tqdm.tqdm(iterator(triple_loader.read(config.get('training_data_triples_file')), num_epochs=1)):
+        optimizer.zero_grad()  # zero the gradient buffers
+
         q_repr, doc_pos_repr, doc_neg_repr = model.forward(batch["query_tokens"]["tokens"], 
                                                            batch["doc_pos_tokens"]["tokens"], 
                                                            batch["doc_neg_tokens"]["tokens"])
@@ -152,5 +143,13 @@ for step in range(num_steps):
 #             name='l1_regularization')
 #         # the cost function including the hinge loss and the l1 regularization.
 #         self.cost = self.loss + (tf.constant(self.regularization_term, dtype=tf.float32) * self.l1_regularization)
-
         
+        # TODO experiment by using torch.mean(tensor, dim=1)  instead of torch.sum(tensor, dim=1)
+        l1_regularization = torch.mean(torch.sum(input=torch.cat(tensors=(q_repr, doc_pos_repr, doc_neg_repr), dim=1), dim=1)) # torch.Size([]) i.e. scalar tensor
+        # logger.info('l1_regularization shape {} data {}'.format(l1_regularization.size(), l1_regularization.data))
+        cost = torch.add(hinge_loss, torch.mul(l1_regularization, regularization_term))
+        logger.info('cost {}'.format(cost.data))
+
+        loss = cost
+        loss.backward() # calculate gradients of weights for network
+        optimizer.step()  # updates network with new weights
