@@ -1,8 +1,10 @@
 # based on: https://github.com/allenai/allennlp/blob/master/allennlp/data/dataset_readers/seq2seq.py
 # and: https://github.com/sebastian-hofstaetter/teaching/blob/master/advanced-information-retrieval/neural-ir-exercise/src/data_loading.py
 
+from app_logger import logger
+logger = logger(__file__)
+
 from typing import Dict
-import logging
 
 from overrides import overrides
 
@@ -15,7 +17,6 @@ from allennlp.data.instance import Instance
 from allennlp.data.tokenizers import Token, Tokenizer, WordTokenizer
 from allennlp.data.token_indexers import TokenIndexer, SingleIdTokenIndexer
 from allennlp.data.tokenizers.word_splitter import SimpleWordSplitter
-logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 class IrTripleDatasetReader(DatasetReader):
     """

@@ -11,7 +11,7 @@ from typing import Union, Dict, ItemsView
 
 class Config(object):
 
-    def __init__ (self):
+    def __init__ (self) -> None:
         self._logger = logger(__file__)
         self._config_file_name:str = os.path.join('config', 'config.json')
         self._config_data: Dict = {}

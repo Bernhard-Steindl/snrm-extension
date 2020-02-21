@@ -13,7 +13,7 @@ logging.getLogger().setLevel(logging.NOTSET)
 
 # Add stdout handler, with level INFO
 console = logging.StreamHandler(sys.stdout)
-console.setLevel(logging.DEBUG)
+console.setLevel(logging.INFO)
 console_formatter = logging.Formatter('%(asctime)-16s %(levelname)-8s %(name)-10s %(funcName)-15s %(message)s')
 console.setFormatter(console_formatter)
 logging.getLogger().addHandler(console)
@@ -30,7 +30,7 @@ log_file_name = os.path.join('logs', 'application.log')
 rotating_handler = logging.handlers.TimedRotatingFileHandler(filename=log_file_name,when='midnight')
 file_formatter = logging.Formatter('%(asctime)-16s %(levelname)-8s %(name)-10s %(funcName)-15s %(message)s')
 rotating_handler.setFormatter(file_formatter)
-rotating_handler.setLevel(logging.DEBUG)
+rotating_handler.setLevel(logging.INFO)
 logging.getLogger().addHandler(rotating_handler)
 
 
