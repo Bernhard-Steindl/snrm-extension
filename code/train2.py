@@ -67,6 +67,7 @@ for i in [config.get('hidden_1'), config.get('hidden_2'), config.get('hidden_3')
         break
     layer_size.append(i)
 
+
 # The SNRM model.
 model = SNRM(word_embeddings= word_embedder,
             batch_size=config.get('batch_size'),
@@ -115,5 +116,41 @@ for step in range(num_steps):
         logger.info('training step {} of {}'.format(step+1, num_steps))
 
     for batch in Tqdm.tqdm(iterator(triple_loader.read(config.get('training_data_triples_file')), num_epochs=1)):
-        output_pos = model.forward(batch["query_tokens"]["tokens"], batch["doc_pos_tokens"]["tokens"], batch["doc_neg_tokens"]["tokens"])
+        q_repr, doc_pos_repr, doc_neg_repr = model.forward(batch["query_tokens"]["tokens"], 
+                                                           batch["doc_pos_tokens"]["tokens"], 
+                                                           batch["doc_neg_tokens"]["tokens"])
+        # q_repr and doc_pos_repr and doc_neg_repr have shape [batch_size, nn_output_dim]
 
+        # torch.mean: If keepdim is True, the output tensor is of the same size as input except in the dimension(s) dim where it is of size 1.
+        logits_d1 = torch.mean(input=torch.mul(q_repr, doc_pos_repr), dim=1, keepdim=True) # shape: torch.Size([batch_size, 1])
+        logits_d2 = torch.mean(input=torch.mul(q_repr, doc_neg_repr), dim=1, keepdim=True) # shape: torch.Size([batch_size, 1])
+        logits = torch.cat(tensors=(logits_d1, logits_d2), dim=1) # shape: torch.Size([batch_size, 2])
+
+        # Assumption doc1 is relevant/positive (1), but doc2 is non-relevant/negative (0) for every doc-pair in batch
+        # instead of using 0, PyTorch wants us to use -1 instead of 0
+        target_relevance_labels = torch.tensor([[1, -1]]).repeat(config.get('batch_size'), 1) # [1,-1]*batch_size, shape: torch.Size([batch_size, 2])
+        
+#       self.labels_pl = tf.placeholder(tf.float32, shape=[self.batch_size, 2])
+#       labels = np.array(labels) # shape [batch_size]
+#       labels = np.concatenate(
+#                [labels.reshape(FLAGS.batch_size, 1), 1. - labels.reshape(FLAGS.batch_size, 1)], axis=1)
+#         # the hinge loss function for training
+#         # hinge_loss(labels, logits, weights=1.0, scope=None, loss_collection=tf.GraphKeys.LOSSES, reduction=Reduction.SUM_BY_NONZERO_WEIGHTS)
+#         self.loss = tf.reduce_mean(
+#             tf.losses.hinge_loss(logits=logits, labels=self.labels_pl, scope='hinge_loss'))
+        
+        # F.hinge_embedding_loss(input, target, margin=1.0, size_average=None, reduce=None, reduction='mean') -> Tensor
+        # https://pytorch.org/docs/stable/nn.html#hingeembeddingloss
+        hinge_loss = F.hinge_embedding_loss(input=logits, 
+                                            target=target_relevance_labels, 
+                                            margin=1.0, 
+                                            reduction='mean') # torch.Size([]) i.e. scalar tensor
+        # logger.info('hinge_loss shape {} data {}'.format(hinge_loss.size(), hinge_loss.data))
+
+#         self.l1_regularization = tf.reduce_mean(
+#             tf.reduce_sum(tf.concat([self.q_repr, self.d1_repr, self.d2_repr], axis=1), axis=1),
+#             name='l1_regularization')
+#         # the cost function including the hinge loss and the l1 regularization.
+#         self.cost = self.loss + (tf.constant(self.regularization_term, dtype=tf.float32) * self.l1_regularization)
+
+        

@@ -104,7 +104,7 @@ class SNRM(nn.Module):
 
 
 
-    def forward(self, query: torch.Tensor, doc_pos: torch.Tensor, doc_neg: torch.Tensor) -> torch.Tensor:
+    def forward(self, query: torch.Tensor, doc_pos: torch.Tensor, doc_neg: torch.Tensor) -> (torch.Tensor, torch.Tensor, torch.Tensor):
 
         # TODO why do we need this?
         # shape: (batch, query_max)
@@ -146,19 +146,22 @@ class SNRM(nn.Module):
         #logger.info('shape doc_neg_embeddings_nchw {}'.format(doc_neg_embeddings_nchw.size())) # [32, 300, 1, 103]
 
         self.q_repr = self.convolution(query_embeddings_nchw)
-        logger.info('q_repr before reduce_mean shape: {}'.format(self.q_repr.size())) # torch.Size([32, 50, 1, 10])
+        #logger.info('q_repr before reduce_mean shape: {}'.format(self.q_repr.size())) # torch.Size([32, 50, 1, 10])
         self.d1_repr = self.convolution(doc_pos_embeddings_nchw)
-        logger.info('d1_repr before reduce_mean shape: {}'.format(self.d1_repr.size())) # torch.Size([32, 50, 1, 103])
+        #logger.info('d1_repr before reduce_mean shape: {}'.format(self.d1_repr.size())) # torch.Size([32, 50, 1, 103])
         self.d2_repr = self.convolution(doc_neg_embeddings_nchw)
-        logger.info('d2_repr before reduce_mean shape: {}'.format(self.d2_repr.size())) # torch.Size([32, 50, 1, 103])
+        #logger.info('d2_repr before reduce_mean shape: {}'.format(self.d2_repr.size())) # torch.Size([32, 50, 1, 103])
 
         reduction_dim = [2,3] # not [1,2] because of different order of dimensions than in legacy snrm code
-        self.q_repr = torch.mean(self.q_repr, reduction_dim)
-        logger.info('q_repr after reduce_mean shape: {}'.format(self.q_repr.size())) # torch.Size([32, 50])
-        self.d1_repr = torch.mean(self.d1_repr, reduction_dim)
-        logger.info('d1_repr after reduce_mean shape: {}'.format(self.d1_repr.size())) # torch.Size([32, 50])
-        self.d2_repr = torch.mean(self.d2_repr, reduction_dim)
-        logger.info('d2_repr after reduce_mean shape: {}'.format(self.d2_repr.size())) # torch.Size([32, 50])
+        self.q_repr = torch.mean(self.q_repr, reduction_dim) # torch.Size([32, 50])
+        #logger.info('q_repr after reduce_mean shape: {}'.format(self.q_repr.size())) # torch.Size([32, 50])
+        self.d1_repr = torch.mean(self.d1_repr, reduction_dim) # torch.Size([32, 50])
+        #logger.info('d1_repr after reduce_mean shape: {}'.format(self.d1_repr.size())) # torch.Size([32, 50])
+        self.d2_repr = torch.mean(self.d2_repr, reduction_dim) # torch.Size([32, 50])
+        #logger.info('d2_repr after reduce_mean shape: {}'.format(self.d2_repr.size())) # torch.Size([32, 50])
+
+        # TODO should we return query and doc representations, and handle logit computation ouside of nn model?    
+        return (self.q_repr, self.d1_repr, self.d2_repr) 
 
     #     self.graph = tf.Graph()
     #     with self.graph.as_default():
@@ -195,6 +198,8 @@ class SNRM(nn.Module):
     #         self.d1_repr = self.network(emb_layer_d1, self.weights, self.weights_name, self.biases, self.biases_name)
     #         self.d2_repr = self.network(emb_layer_d2, self.weights, self.weights_name, self.biases, self.biases_name)
 
+    #         tf.multiply(x,y) is: x * y element-wise where x and y are matrices of shape (N, output-dim)
+    #         tf.reduce_mean - Unless keep_dims is true, the rank of the tensor is reduced by 1 for each entry in axis. If keep_dims is true, the reduced dimensions are retained with length 1  
     #         logits_d1 = tf.reduce_mean(tf.multiply(self.q_repr, self.d1_repr), axis=1, keep_dims=True)
     #         logits_d2 = tf.reduce_mean(tf.multiply(self.q_repr, self.d2_repr), axis=1, keep_dims=True)
     #         logits = tf.concat([logits_d1, logits_d2], axis=1)
