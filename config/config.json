@@ -16,7 +16,7 @@
     "index_path": "index/",
     "run_name": "snrm-ext-pytorch-run-1",
     "batch_size": 32,
-    "num_train_steps": 60000,
+    "num_train_steps": 200,
     "num_valid_steps": 1000,
     "batch_size_documents": 32,
     "num_document_batches": 25218,
