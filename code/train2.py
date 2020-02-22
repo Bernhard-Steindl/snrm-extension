@@ -38,6 +38,56 @@ from snrm import SNRM
 import json
 
 
+
+
+def obtain_loss(q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: torch.Tensor) -> (torch.Tensor, torch.Tensor, torch.Tensor):
+    # q_repr and doc_pos_repr and doc_neg_repr have shape [batch_size, nn_output_dim]
+
+     # torch.mean: If keepdim is True, the output tensor is of the same size as input except in the dimension(s) dim where it is of size 1.
+    logits_d1 = torch.mean(input=torch.mul(q_repr, doc_pos_repr), dim=1, keepdim=True) # shape: torch.Size([batch_size, 1])
+    logits_d2 = torch.mean(input=torch.mul(q_repr, doc_neg_repr), dim=1, keepdim=True) # shape: torch.Size([batch_size, 1])
+    logits = torch.cat(tensors=(logits_d1, logits_d2), dim=1) # shape: torch.Size([batch_size, 2])
+
+    # AIR Assignment hint: The iterators do not guarantee a fixed batch size (the last one will probably be smaller)
+    current_batch_size = batch['query_tokens']['tokens'].shape[0] # is <= config.get('batch_size')
+    # Assumption doc1 is relevant/positive (1), but doc2 is non-relevant/negative (0) for every doc-pair in batch
+    # instead of using 0, PyTorch wants us to use -1 instead of 0
+    target_relevance_labels = torch.tensor([[1, -1]]).repeat(current_batch_size, 1) # [1,-1]*batch_size, shape: torch.Size([batch_size, 2])
+    
+#       self.labels_pl = tf.placeholder(tf.float32, shape=[self.batch_size, 2])
+#       labels = np.array(labels) # shape [batch_size]
+#       labels = np.concatenate(
+#                [labels.reshape(FLAGS.batch_size, 1), 1. - labels.reshape(FLAGS.batch_size, 1)], axis=1)
+#         # the hinge loss function for training
+#         # hinge_loss(labels, logits, weights=1.0, scope=None, loss_collection=tf.GraphKeys.LOSSES, reduction=Reduction.SUM_BY_NONZERO_WEIGHTS)
+#         self.loss = tf.reduce_mean(
+#             tf.losses.hinge_loss(logits=logits, labels=self.labels_pl, scope='hinge_loss'))
+    
+    # F.hinge_embedding_loss(input, target, margin=1.0, size_average=None, reduce=None, reduction='mean') -> Tensor
+    # https://pytorch.org/docs/stable/nn.html#hingeembeddingloss
+    hinge_loss = F.hinge_embedding_loss(input=logits, 
+                                        target=target_relevance_labels, 
+                                        margin=1.0, 
+                                        reduction='mean') # torch.Size([]) i.e. scalar tensor
+    # logger.info('hinge_loss shape {} data {}'.format(hinge_loss.size(), hinge_loss.data))
+
+#         self.l1_regularization = tf.reduce_mean(
+#             tf.reduce_sum(tf.concat([self.q_repr, self.d1_repr, self.d2_repr], axis=1), axis=1),
+#             name='l1_regularization')
+#         # the cost function including the hinge loss and the l1 regularization.
+#         self.cost = self.loss + (tf.constant(self.regularization_term, dtype=tf.float32) * self.l1_regularization)
+    
+    # TODO experiment by using torch.mean(tensor, dim=1)  instead of torch.sum(tensor, dim=1)
+    l1_regularization = torch.mean(torch.sum(input=torch.cat(tensors=(q_repr, doc_pos_repr, doc_neg_repr), dim=1), dim=1)) # torch.Size([]) i.e. scalar tensor
+    # logger.info('l1_regularization shape {} data {}'.format(l1_regularization.size(), l1_regularization.data))
+    l1_regularization = torch.mul(l1_regularization, regularization_term)
+    cost = torch.add(hinge_loss, l1_regularization) # torch.Size([]) i.e. scalar tensor
+    # logger.info('cost {}'.format(cost.data))
+    return cost, hinge_loss, l1_regularization
+
+
+
+
 vocabulary: 'Vocabulary' = Vocabulary.from_files(directory=config.get('vocab_dir_path'))
 
 token_embedding: 'Embedding' = Embedding.from_params(vocab=vocabulary, params=Params({"pretrained_file": config.get('pre_trained_embedding_file_name'),
@@ -49,7 +99,7 @@ token_embedding: 'Embedding' = Embedding.from_params(vocab=vocabulary, params=Pa
 
 word_embedder = BasicTextFieldEmbedder({"tokens": token_embedding})
 
-triple_loader = IrTripleDatasetReader(lazy=True, 
+train_triple_loader = IrTripleDatasetReader(lazy=True, 
                                        max_doc_length=config.get('max_doc_len'),
                                        max_query_length=config.get('max_q_len'),
                                        tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter())) 
@@ -98,67 +148,40 @@ average_loss = 0
 regularization_term = config.get('regularization_term')
 
 # TODO how stopword removal?
-# TODO steps are done in inner loop - outer one could be epochs, but we do not have this in legacy code
-curr_training_step = 0
-    
+# TODO how to handle oov tokens and padding values?
 
-for batch in Tqdm.tqdm(iterator(triple_loader.read(config.get('training_data_triples_file')), num_epochs=1)):
+curr_training_step = 0
+should_validate = config.get('validate_every_n_steps') > -1
+
+for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_data_triples_file')), num_epochs=1)):
     curr_training_step += 1
     optimizer.zero_grad()  # zero the gradient buffers
+
 
     q_repr, doc_pos_repr, doc_neg_repr = model.forward(batch["query_tokens"]["tokens"], 
                                                         batch["doc_pos_tokens"]["tokens"], 
                                                         batch["doc_neg_tokens"]["tokens"])
     # q_repr and doc_pos_repr and doc_neg_repr have shape [batch_size, nn_output_dim]
 
-    # torch.mean: If keepdim is True, the output tensor is of the same size as input except in the dimension(s) dim where it is of size 1.
-    logits_d1 = torch.mean(input=torch.mul(q_repr, doc_pos_repr), dim=1, keepdim=True) # shape: torch.Size([batch_size, 1])
-    logits_d2 = torch.mean(input=torch.mul(q_repr, doc_neg_repr), dim=1, keepdim=True) # shape: torch.Size([batch_size, 1])
-    logits = torch.cat(tensors=(logits_d1, logits_d2), dim=1) # shape: torch.Size([batch_size, 2])
-
-    # Assumption doc1 is relevant/positive (1), but doc2 is non-relevant/negative (0) for every doc-pair in batch
-    # instead of using 0, PyTorch wants us to use -1 instead of 0
-    target_relevance_labels = torch.tensor([[1, -1]]).repeat(config.get('batch_size'), 1) # [1,-1]*batch_size, shape: torch.Size([batch_size, 2])
-    
-#       self.labels_pl = tf.placeholder(tf.float32, shape=[self.batch_size, 2])
-#       labels = np.array(labels) # shape [batch_size]
-#       labels = np.concatenate(
-#                [labels.reshape(FLAGS.batch_size, 1), 1. - labels.reshape(FLAGS.batch_size, 1)], axis=1)
-#         # the hinge loss function for training
-#         # hinge_loss(labels, logits, weights=1.0, scope=None, loss_collection=tf.GraphKeys.LOSSES, reduction=Reduction.SUM_BY_NONZERO_WEIGHTS)
-#         self.loss = tf.reduce_mean(
-#             tf.losses.hinge_loss(logits=logits, labels=self.labels_pl, scope='hinge_loss'))
-    
-    # F.hinge_embedding_loss(input, target, margin=1.0, size_average=None, reduce=None, reduction='mean') -> Tensor
-    # https://pytorch.org/docs/stable/nn.html#hingeembeddingloss
-    hinge_loss = F.hinge_embedding_loss(input=logits, 
-                                        target=target_relevance_labels, 
-                                        margin=1.0, 
-                                        reduction='mean') # torch.Size([]) i.e. scalar tensor
-    # logger.info('hinge_loss shape {} data {}'.format(hinge_loss.size(), hinge_loss.data))
-
-#         self.l1_regularization = tf.reduce_mean(
-#             tf.reduce_sum(tf.concat([self.q_repr, self.d1_repr, self.d2_repr], axis=1), axis=1),
-#             name='l1_regularization')
-#         # the cost function including the hinge loss and the l1 regularization.
-#         self.cost = self.loss + (tf.constant(self.regularization_term, dtype=tf.float32) * self.l1_regularization)
-    
-    # TODO experiment by using torch.mean(tensor, dim=1)  instead of torch.sum(tensor, dim=1)
-    l1_regularization = torch.mean(torch.sum(input=torch.cat(tensors=(q_repr, doc_pos_repr, doc_neg_repr), dim=1), dim=1)) # torch.Size([]) i.e. scalar tensor
-    # logger.info('l1_regularization shape {} data {}'.format(l1_regularization.size(), l1_regularization.data))
-    cost = torch.add(hinge_loss, torch.mul(l1_regularization, regularization_term)) # torch.Size([]) i.e. scalar tensor
-    # logger.info('cost {}'.format(cost.data))
+    cost, hinge_loss, l1_regularization = obtain_loss(q_repr, doc_pos_repr, doc_neg_repr)
 
     if curr_training_step % 100 == 0:
-        log_output_train = (curr_training_step, num_training_steps,cost.data, hinge_loss.data, l1_regularization.data)
-        logger.info('Training step {:6d} of {:6d} \t Cost={:10.4f} (Hinge-Loss={:10.4f}, L1-Reg={:10.4f})'.format(*log_output_train))
+        log_output_train = (curr_training_step, num_training_steps, cost.data, hinge_loss.data, l1_regularization.data)
+        logger.info('Training step {:6d} of {:6d} \t Cost={:10.4f} (Hinge-Loss={:10.4f}, L1-Reg={:8.5f})'.format(*log_output_train))
 
     loss = cost
     loss.backward() # calculate gradients of weights for network
     optimizer.step()  # updates network with new weights
 
+    if should_validate and curr_training_step % config.get('validate_every_n_steps') == 0:
+        num_validation_steps = config.get('num_valid_steps')
+        logger.info('Validating model at step {} - with {} validation steps'.format(curr_training_step, num_validation_steps))
+        validation_loss = 0.
+        # for validation_step in range(num_validation_steps):
 
 
+        validation_loss /= num_validation_steps
+        logger.info('Average loss on validation set at step {}: {}'.format(curr_training_step, validation_loss))
 
     # https://pytorch.org/docs/stable/notes/serialization.html#best-practices
     # https://pytorch.org/tutorials/beginner/saving_loading_models.html
