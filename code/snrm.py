@@ -127,6 +127,7 @@ class SNRM(nn.Module):
         # or doc_neg num_tokens of 83 instead of max_doc_length? i.e.
         # shape query_embeddings torch.Size([32, 9, 300])
         # shape doc_neg_embeddings torch.Size([32, 83, 300])
+        # ADD: AIR assignment hint: The batch tensors also have no fixed size, the max values in the readers are just to cap outliers (the size will be based on the biggest sample in the batch (per tensor) and the others padded with 0 to the same length)
         query_num_token = query_embeddings.shape[1] # is <= self.max_q_len
         doc_pos_num_tokens = doc_pos_embeddings.shape[1] # is <= self.max_doc_len
         doc_neg_num_tokens = doc_neg_embeddings.shape[1] # is <= self.max_doc_len

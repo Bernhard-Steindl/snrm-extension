@@ -85,8 +85,43 @@ def obtain_loss(q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: 
     # logger.info('cost {}'.format(cost.data))
     return cost, hinge_loss, l1_regularization
 
+def validate_model(model: nn.Module, num_validation_steps: int, vocabulary: Vocabulary) -> float:
+    # TODO is it ok if we might use always the same validation data batches, in legacy code we always validate using distinct validation data batches
+    validation_loss = 0.
+    model.eval() # Sets the module in evaluation mode. This has any effect only on certain modules. See documentations of particular modules for details of their behaviors in training/evaluation mode, if they are affected, e.g. Dropout, BatchNorm, etc.
+    validation_triple_loader = IrTripleDatasetReader(lazy=True, 
+                                                     max_doc_length=config.get('max_doc_len'),
+                                                     max_query_length=config.get('max_q_len'),
+                                                     tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter())) 
+                                                     # already spacy tokenized, so that it is faster 
+    iterator = BucketIterator(batch_size=config.get('batch_size'),
+                            sorting_keys=[("doc_pos_tokens", "num_tokens"), ("doc_neg_tokens", "num_tokens")])
+    iterator.index_with(vocabulary)
+    curr_validation_step = 0
+    for batch in Tqdm.tqdm(iterator(validation_triple_loader.read(config.get('validation_data_triples_file')), num_epochs=1)):
+        curr_validation_step += 1
+        q_repr, doc_pos_repr, doc_neg_repr = model.forward(batch["query_tokens"]["tokens"], 
+                                                           batch["doc_pos_tokens"]["tokens"], 
+                                                           batch["doc_neg_tokens"]["tokens"])
+        # q_repr and doc_pos_repr and doc_neg_repr have shape [batch_size, nn_output_dim]
+        cost, hinge_loss, l1_regularization = obtain_loss(q_repr, doc_pos_repr, doc_neg_repr)
+        if curr_validation_step % 10 == 0:
+            log_output_train = (curr_validation_step, num_validation_steps, cost.data, hinge_loss.data, l1_regularization.data)
+            logger.info('Validation step {:6d} of {:6d} \t Cost={:10.4f} (Hinge-Loss={:10.4f}, L1-Reg={:8.5f})'.format(*log_output_train))
+        validation_loss += cost
+        if curr_validation_step == num_validation_steps:
+            break
+    return validation_loss / num_validation_steps # average validation_loss
 
-
+def save_model(model: nn.Module, step_num='final') -> None:
+    model_save_path = '{0}model-state_{1}_{2}.pt'.format(config.get('model_path'), config.get('run_name'), step_num)
+    logger.info('Reached {:6d} training steps, now saving model'.format(curr_training_step))
+    torch.save(model.state_dict(), model_save_path)
+    logger.info('Model has been saved to "{}"'.format(model_save_path))
+    model_config_save_path = '{0}model-config_{1}_{2}.json'.format(config.get('model_path'), config.get('run_name'), step_num)
+    with open(model_config_save_path, 'w') as fp:
+        json.dump(dict(config.items()), fp, indent=4)
+    logger.info('Model Config has been saved to "{}"'.format(model_config_save_path))
 
 vocabulary: 'Vocabulary' = Vocabulary.from_files(directory=config.get('vocab_dir_path'))
 
@@ -96,18 +131,14 @@ token_embedding: 'Embedding' = Embedding.from_params(vocab=vocabulary, params=Pa
                                                                               "max_norm": None, 
                                                                               "norm_type": 2.0,
                                                                               "padding_index": 0}))
-
 word_embedder = BasicTextFieldEmbedder({"tokens": token_embedding})
-
-train_triple_loader = IrTripleDatasetReader(lazy=True, 
+train_triple_loader = IrTripleDatasetReader(lazy=True,
                                        max_doc_length=config.get('max_doc_len'),
                                        max_query_length=config.get('max_q_len'),
                                        tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter())) 
                                        # already spacy tokenized, so that it is faster 
-
 iterator = BucketIterator(batch_size=config.get('batch_size'),
                           sorting_keys=[("doc_pos_tokens", "num_tokens"), ("doc_neg_tokens", "num_tokens")])
-
 iterator.index_with(vocabulary)
 
 
@@ -151,7 +182,8 @@ regularization_term = config.get('regularization_term')
 # TODO how to handle oov tokens and padding values?
 
 curr_training_step = 0
-should_validate = config.get('validate_every_n_steps') > -1
+should_validate_every_n_steps = config.get('validate_every_n_steps') > -1
+should_save_snapshot_every_n_steps = config.get('save_snapshot_every_n_steps') > -1 
 
 for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_data_triples_file')), num_epochs=1)):
     curr_training_step += 1
@@ -173,26 +205,24 @@ for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_da
     loss.backward() # calculate gradients of weights for network
     optimizer.step()  # updates network with new weights
 
-    if should_validate and curr_training_step % config.get('validate_every_n_steps') == 0:
+    if should_validate_every_n_steps and curr_training_step % config.get('validate_every_n_steps') == 0:
         num_validation_steps = config.get('num_valid_steps')
         logger.info('Validating model at step {} - with {} validation steps'.format(curr_training_step, num_validation_steps))
-        validation_loss = 0.
-        # for validation_step in range(num_validation_steps):
+        try:
+            mean_validation_loss = validate_model(model, num_validation_steps, vocabulary)
+            logger.info('Average loss on validation set at step {}: {}'.format(curr_training_step, mean_validation_loss))
+        except Exception as e:
+            # we do not care if something bad happens during validation, we keep on training and log the exception
+            logger.exception('Failed to validate model at training step {}'.format(curr_training_step))
+        finally:
+            model.train() # Sets the module in training mode.
 
-
-        validation_loss /= num_validation_steps
-        logger.info('Average loss on validation set at step {}: {}'.format(curr_training_step, validation_loss))
+    if should_save_snapshot_every_n_steps and curr_training_step > 0 and curr_training_step % config.get('save_snapshot_every_n_steps') == 0:
+        save_model(model, curr_training_step)
 
     # https://pytorch.org/docs/stable/notes/serialization.html#best-practices
     # https://pytorch.org/tutorials/beginner/saving_loading_models.html
     # save model to file (saves only the model parameters)
     if curr_training_step == num_training_steps:
-        model_save_path = config.get('model_path') + 'model-state_' + config.get('run_name') + '.pt'
-        logger.info('Reached {:6d} training steps, now saving model'.format(curr_training_step))
-        torch.save(model.state_dict(), model_save_path)
-        logger.info('Model has been saved to "{}"'.format(model_save_path))
-        model_config_save_path = config.get('model_path') + 'model-config_' + config.get('run_name') + '.json'
-        with open(model_config_save_path, 'w') as fp:
-            json.dump(dict(config.items()), fp, indent=4)
-        logger.info('Model Config has been saved to "{}"'.format(model_config_save_path))
+        save_model(model)
         break
