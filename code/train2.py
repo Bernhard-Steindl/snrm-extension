@@ -18,6 +18,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.optim import Adam
+from torch.utils.tensorboard import SummaryWriter
 
 from allennlp.common.checks import ConfigurationError
 from allennlp.common.testing import AllenNlpTestCase
@@ -36,10 +37,11 @@ import os
 
 from snrm import SNRM
 import json
+import time
 
 
 
-
+# TODO should this be here in train.py or in nn Module snrm.py?
 def obtain_loss(q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: torch.Tensor) -> (torch.Tensor, torch.Tensor, torch.Tensor):
     # q_repr and doc_pos_repr and doc_neg_repr have shape [batch_size, nn_output_dim]
 
@@ -85,7 +87,26 @@ def obtain_loss(q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: 
     # logger.info('cost {}'.format(cost.data))
     return cost, hinge_loss, l1_regularization
 
-def validate_model(model: nn.Module, num_validation_steps: int, vocabulary: Vocabulary) -> float:
+def count_zero(tensor: torch.Tensor) -> int:
+    return (tensor == 0.0).sum().item()
+
+def write_to_tensorboard(writer: SummaryWriter, step: int, cost: torch.Tensor, hinge_loss: torch.Tensor, l1_regularization: torch.Tensor, q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: torch.Tensor) -> None:
+    # https://pytorch.org/docs/stable/tensorboard.html
+    # https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html
+    # using slash (/) in the tag name groups items
+    writer.add_scalar('Loss/Cost', cost.item(), step)
+    writer.add_scalar('Loss/Hinge_Loss', hinge_loss.item(), step)
+    writer.add_scalar('Loss/L1_Regularization', l1_regularization.item(), step)
+
+    writer.add_scalar('Mean_Representation_Batch/Query', torch.mean(q_repr), step)
+    writer.add_scalar('Mean_Representation_Batch/Document_Positive', torch.mean(doc_pos_repr), step)
+    writer.add_scalar('Mean_Representation_Batch/Document_Negative', torch.mean(doc_neg_repr), step)
+
+    writer.add_scalar('Sparsity_Representation_Batch/Query', count_zero(q_repr) / q_repr.numel(), step)
+    writer.add_scalar('Sparsity_Representation_Batch/Document_Positive', count_zero(doc_pos_repr) / doc_pos_repr.numel(), step)
+    writer.add_scalar('Sparsity_Representation_Batch/Document_Negative', count_zero(doc_neg_repr) / doc_neg_repr.numel(), step)
+
+def validate_model(model: nn.Module, num_validation_steps: int, vocabulary: Vocabulary, writer_valid: SummaryWriter, last_training_step: int) -> float:
     # TODO is it ok if we might use always the same validation data batches, in legacy code we always validate using distinct validation data batches
     validation_loss = 0.
     model.eval() # Sets the module in evaluation mode. This has any effect only on certain modules. See documentations of particular modules for details of their behaviors in training/evaluation mode, if they are affected, e.g. Dropout, BatchNorm, etc.
@@ -108,12 +129,17 @@ def validate_model(model: nn.Module, num_validation_steps: int, vocabulary: Voca
         if curr_validation_step % 10 == 0:
             log_output_train = (curr_validation_step, num_validation_steps, cost.data, hinge_loss.data, l1_regularization.data)
             logger.info('Validation step {:6d} of {:6d} \t Cost={:10.4f} (Hinge-Loss={:10.4f}, L1-Reg={:8.5f})'.format(*log_output_train))
+        if (last_training_step < 1000 and curr_validation_step % 5 == 0) or (last_training_step >= 1000 and curr_validation_step % 10 == 0):
+            write_to_tensorboard(writer_valid, last_training_step + curr_validation_step, cost, hinge_loss, l1_regularization, q_repr, doc_pos_repr, doc_neg_repr)
         validation_loss += cost
         if curr_validation_step == num_validation_steps:
             break
     return validation_loss / num_validation_steps # average validation_loss
 
 def save_model(model: nn.Module, step_num='final') -> None:
+    # https://pytorch.org/docs/stable/notes/serialization.html#best-practices
+    # https://pytorch.org/tutorials/beginner/saving_loading_models.html
+    # save model to file (saves only the model parameters)
     model_save_path = '{0}model-state_{1}_{2}.pt'.format(config.get('model_path'), config.get('run_name'), step_num)
     logger.info('Reached {:6d} training steps, now saving model'.format(curr_training_step))
     torch.save(model.state_dict(), model_save_path)
@@ -122,6 +148,14 @@ def save_model(model: nn.Module, step_num='final') -> None:
     with open(model_config_save_path, 'w') as fp:
         json.dump(dict(config.items()), fp, indent=4)
     logger.info('Model Config has been saved to "{}"'.format(model_config_save_path))
+
+######################################################################
+######################################################################
+
+# https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html
+tensorboard_log_path = config.get('log_path') + time.strftime("%Y-%m-%d-%H%M%S") + '_' + config.get('run_name')
+writer_train = SummaryWriter(tensorboard_log_path + '/train')
+writer_valid = SummaryWriter(tensorboard_log_path + '/valid')
 
 vocabulary: 'Vocabulary' = Vocabulary.from_files(directory=config.get('vocab_dir_path'))
 
@@ -187,8 +221,14 @@ should_save_snapshot_every_n_steps = config.get('save_snapshot_every_n_steps') >
 
 for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_data_triples_file')), num_epochs=1)):
     curr_training_step += 1
-    optimizer.zero_grad()  # zero the gradient buffers
 
+    if curr_training_step == 1:
+        writer_train.add_graph(model, (batch["query_tokens"]["tokens"], 
+                                batch["doc_pos_tokens"]["tokens"], 
+                                batch["doc_neg_tokens"]["tokens"])) # adds graph of model to tensorboard
+        writer_train.add_text('config', json.dumps(dict(config.items())), 0) # add config key-value pairs to tensorboard
+
+    optimizer.zero_grad()  # zero the gradient buffers
 
     q_repr, doc_pos_repr, doc_neg_repr = model.forward(batch["query_tokens"]["tokens"], 
                                                         batch["doc_pos_tokens"]["tokens"], 
@@ -196,6 +236,11 @@ for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_da
     # q_repr and doc_pos_repr and doc_neg_repr have shape [batch_size, nn_output_dim]
 
     cost, hinge_loss, l1_regularization = obtain_loss(q_repr, doc_pos_repr, doc_neg_repr)
+
+    if (curr_training_step < 1000 and curr_training_step % 10 == 0) or (curr_training_step >= 1000 and curr_training_step % 100 == 0):
+        write_to_tensorboard(writer_train, curr_training_step, cost, hinge_loss, l1_regularization, q_repr, doc_pos_repr, doc_neg_repr)
+        
+    # TODO change .data() to .item() for single value tensor 
 
     if curr_training_step % 100 == 0:
         log_output_train = (curr_training_step, num_training_steps, cost.data, hinge_loss.data, l1_regularization.data)
@@ -207,10 +252,10 @@ for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_da
 
     if should_validate_every_n_steps and curr_training_step % config.get('validate_every_n_steps') == 0:
         num_validation_steps = config.get('num_valid_steps')
-        logger.info('Validating model at step {} - with {} validation steps'.format(curr_training_step, num_validation_steps))
+        logger.info('Validating model at step {:6d} - with {} validation steps'.format(curr_training_step, num_validation_steps))
         try:
-            mean_validation_loss = validate_model(model, num_validation_steps, vocabulary)
-            logger.info('Average loss on validation set at step {}: {}'.format(curr_training_step, mean_validation_loss))
+            mean_validation_loss = validate_model(model, num_validation_steps, vocabulary, writer_valid, curr_training_step)
+            logger.info('Average loss on validation set at step {}: {:10.4f}'.format(curr_training_step, mean_validation_loss))
         except Exception as e:
             # we do not care if something bad happens during validation, we keep on training and log the exception
             logger.exception('Failed to validate model at training step {}'.format(curr_training_step))
@@ -220,9 +265,11 @@ for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_da
     if should_save_snapshot_every_n_steps and curr_training_step > 0 and curr_training_step % config.get('save_snapshot_every_n_steps') == 0:
         save_model(model, curr_training_step)
 
-    # https://pytorch.org/docs/stable/notes/serialization.html#best-practices
-    # https://pytorch.org/tutorials/beginner/saving_loading_models.html
-    # save model to file (saves only the model parameters)
     if curr_training_step == num_training_steps:
         save_model(model)
         break
+
+writer_train.flush()
+writer_valid.flush()
+writer_train.close()
+writer_valid.close()

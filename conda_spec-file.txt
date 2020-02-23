@@ -25,7 +25,6 @@ https://repo.anaconda.com/pkgs/main/osx-64/readline-7.0-h1de35cc_5.conda
 https://repo.anaconda.com/pkgs/main/osx-64/sqlite-3.31.1-ha441bb4_0.conda
 https://repo.anaconda.com/pkgs/main/osx-64/python-3.7.6-h359304d_2.conda
 https://repo.anaconda.com/pkgs/main/osx-64/certifi-2019.11.28-py37_0.tar.bz2
-https://repo.anaconda.com/pkgs/main/osx-64/mypy_extensions-0.4.1-py37_0.conda
 https://repo.anaconda.com/pkgs/main/osx-64/ninja-1.9.0-py37h04f5b5a_0.conda
 https://repo.anaconda.com/pkgs/main/osx-64/olefile-0.46-py37_0.conda
 https://repo.anaconda.com/pkgs/main/osx-64/psutil-5.6.7-py37h1de35cc_0.tar.bz2
@@ -33,7 +32,6 @@ https://repo.anaconda.com/pkgs/main/osx-64/six-1.14.0-py37_0.conda
 https://repo.anaconda.com/pkgs/main/osx-64/typed-ast-1.4.1-py37h1de35cc_0.conda
 https://repo.anaconda.com/pkgs/main/osx-64/typing_extensions-3.7.4.1-py37_0.tar.bz2
 https://repo.anaconda.com/pkgs/main/osx-64/mkl-service-2.3.0-py37hfbe908c_0.conda
-https://repo.anaconda.com/pkgs/main/noarch/mypy-0.750-py_0.conda
 https://repo.anaconda.com/pkgs/main/osx-64/pillow-7.0.0-py37h4655f20_0.conda
 https://repo.anaconda.com/pkgs/main/osx-64/setuptools-45.1.0-py37_0.conda
 https://repo.anaconda.com/pkgs/main/osx-64/numpy-base-1.18.1-py37h6575580_1.conda
