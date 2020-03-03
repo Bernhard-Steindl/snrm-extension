@@ -20,7 +20,7 @@ import torch.nn.functional as F
 from allennlp.modules.text_field_embedders import TextFieldEmbedder
 
 from collections import OrderedDict
-from typing import List
+from typing import List, Optional
 
 #import numpy as np
 import util
@@ -96,6 +96,11 @@ class SNRM(nn.Module):
         conv_layer_dict['relu_end'] = nn.ReLU()
 
         # TODO drop out?
+        # During training, randomly zeroes some of the elements of the input tensor with probability p using samples from a Bernoulli distribution. 
+        # Each channel will be zeroed out independently on every forward call.
+        # torch.nn.Dropout(p=0.5, inplace=False) 
+        # p = probability of an element to be zeroed
+        # nn.Dropout(p=config.get('dropout_probability'), inplace=False) 
         
         self.convolution = nn.Sequential(conv_layer_dict)
 
@@ -104,65 +109,96 @@ class SNRM(nn.Module):
 
 
 
-    def forward(self, query: torch.Tensor, doc_pos: torch.Tensor, doc_neg: torch.Tensor) -> (torch.Tensor, torch.Tensor, torch.Tensor):
-
-        # TODO why do we need this?
+    def forward(self, query: Optional[torch.Tensor], doc_pos: Optional[torch.Tensor], doc_neg: Optional[torch.Tensor]) -> (Optional[torch.Tensor], Optional[torch.Tensor], Optional[torch.Tensor]):
+        
+        # TODO do we need this?
         # shape: (batch, query_max)
         #query_pad_oov_mask = (query["tokens"] > 0).float()
         # shape: (batch, doc_max)
         #document_pad_oov_mask = (document["tokens"] > 0).float()
-
-        # getting the embedding vectors for the query and the documents.
-        query_embeddings = self.word_embeddings({"tokens": query})
-        doc_pos_embeddings = self.word_embeddings({"tokens": doc_pos})
-        doc_neg_embeddings = self.word_embeddings({"tokens": doc_neg})
 
         # 2020-01-24 16:51:51,770 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_query: [32, 1, 10, 300]
         # 2020-01-24 16:51:51,773 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc1: [32, 1, 103, 300]
         # 2020-01-24 16:51:51,775 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc2: [32, 1, 103, 300]
         # 2020-01-24 16:51:51,798 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_doc: [None, 1, 103, 300]
         # 2020-01-24 16:51:51,802 INFO       snrm.py    get_embedding_layer_output emb shape name=emb_layer_test_query: [None, 1, 10, 300]
-        
+
         # TODO why do we sometimes get query batch with 9 num_tokens/per query instead of 10 
         # or doc_neg num_tokens of 83 instead of max_doc_length? i.e.
         # shape query_embeddings torch.Size([32, 9, 300])
         # shape doc_neg_embeddings torch.Size([32, 83, 300])
         # ADD: AIR assignment hint: The batch tensors also have no fixed size, the max values in the readers are just to cap outliers (the size will be based on the biggest sample in the batch (per tensor) and the others padded with 0 to the same length)
-        query_num_token = query_embeddings.shape[1] # is <= self.max_q_len
-        doc_pos_num_tokens = doc_pos_embeddings.shape[1] # is <= self.max_doc_len
-        doc_neg_num_tokens = doc_neg_embeddings.shape[1] # is <= self.max_doc_len
-
-        #logger.info('shape query_embeddings {}'.format(query_embeddings.size())) # [32, 10, 300])
-        #logger.info('shape doc_pos_embeddings {}'.format(doc_pos_embeddings.size())) # [32, 103, 300]
-        #logger.info('shape doc_neg_embeddings {}'.format(doc_neg_embeddings.size())) # [32, 103, 300]
-        
-        # network input should be in shape [N,C_in​,H,W]
-        # where N := batch size, C_in := number of input_channels, H := height of input, W := width of input
-        query_embeddings_nchw = query_embeddings.view(-1, self.emb_dim, 1, query_num_token) # [32, 300, 1, 10]
-        doc_pos_embeddings_nchw = doc_pos_embeddings.view(-1, self.emb_dim, 1, doc_pos_num_tokens) # [32, 300, 1, 103]
-        doc_neg_embeddings_nchw = doc_neg_embeddings.view(-1, self.emb_dim, 1, doc_neg_num_tokens) # [32, 300, 1, 103]
-
-        #logger.info('shape query_embeddings_nchw {}'.format(query_embeddings_nchw.size())) # [32, 300, 1, 10]
-        #logger.info('shape doc_pos_embeddings_nchw {}'.format(doc_pos_embeddings_nchw.size())) # [32, 300, 1, 103]
-        #logger.info('shape doc_neg_embeddings_nchw {}'.format(doc_neg_embeddings_nchw.size())) # [32, 300, 1, 103]
-
-        self.q_repr = self.convolution(query_embeddings_nchw)
-        #logger.info('q_repr before reduce_mean shape: {}'.format(self.q_repr.size())) # torch.Size([32, 50, 1, 10])
-        self.d1_repr = self.convolution(doc_pos_embeddings_nchw)
-        #logger.info('d1_repr before reduce_mean shape: {}'.format(self.d1_repr.size())) # torch.Size([32, 50, 1, 103])
-        self.d2_repr = self.convolution(doc_neg_embeddings_nchw)
-        #logger.info('d2_repr before reduce_mean shape: {}'.format(self.d2_repr.size())) # torch.Size([32, 50, 1, 103])
+        # query_num_token = query_embeddings.shape[1] # is <= self.max_q_len
+        # ...
 
         reduction_dim = [2,3] # not [1,2] because of different order of dimensions than in legacy snrm code
-        self.q_repr = torch.mean(self.q_repr, reduction_dim) # torch.Size([32, 50])
-        #logger.info('q_repr after reduce_mean shape: {}'.format(self.q_repr.size())) # torch.Size([32, 50])
-        self.d1_repr = torch.mean(self.d1_repr, reduction_dim) # torch.Size([32, 50])
-        #logger.info('d1_repr after reduce_mean shape: {}'.format(self.d1_repr.size())) # torch.Size([32, 50])
-        self.d2_repr = torch.mean(self.d2_repr, reduction_dim) # torch.Size([32, 50])
-        #logger.info('d2_repr after reduce_mean shape: {}'.format(self.d2_repr.size())) # torch.Size([32, 50])
 
+        (q_repr, d1_repr, d2_repr) = (None, None, None) # init - we may not return a Tensor for every input arg
+
+        if query != None:
+            # getting the embedding vectors for the query and the documents.
+            query_embeddings = self.word_embeddings({"tokens": query})
+            #logger.info('shape query_embeddings {}'.format(query_embeddings.size())) # [32, 10, 300])
+
+            # ADD: AIR assignment hint: The batch tensors also have no fixed size, the max values in the readers are just to cap outliers
+            # (the size will be based on the biggest sample in the batch (per tensor) and the others padded with 0 to the same length)
+            query_num_token = query_embeddings.shape[1] # is <= self.max_q_len
+
+            # network input should be in shape [N,C_in​,H,W]
+            # where N := batch size, C_in := number of input_channels, H := height of input, W := width of input
+            query_embeddings_nchw = query_embeddings.view(-1, self.emb_dim, 1, query_num_token) # [32, 300, 1, 10]
+            #logger.info('shape query_embeddings_nchw {}'.format(query_embeddings_nchw.size())) # [32, 300, 1, 10]
+
+            q_repr = self.convolution(query_embeddings_nchw)
+            #logger.info('q_repr before reduce_mean shape: {}'.format(q_repr.size())) # torch.Size([32, 50, 1, 10])
+
+            q_repr = torch.mean(q_repr, reduction_dim) # torch.Size([32, 50])
+            #logger.info('q_repr after reduce_mean shape: {}'.format(q_repr.size())) # torch.Size([32, 50])
+
+        if doc_pos != None:
+            doc_pos_embeddings = self.word_embeddings({"tokens": doc_pos})
+            #logger.info('shape doc_pos_embeddings {}'.format(doc_pos_embeddings.size())) # [32, 103, 300]
+
+            # ADD: AIR assignment hint: The batch tensors also have no fixed size, the max values in the readers are just to cap outliers
+            # (the size will be based on the biggest sample in the batch (per tensor) and the others padded with 0 to the same length)
+            doc_pos_num_tokens = doc_pos_embeddings.shape[1] # is <= self.max_doc_len
+
+            # network input should be in shape [N,C_in​,H,W]
+            # where N := batch size, C_in := number of input_channels, H := height of input, W := width of input
+            doc_pos_embeddings_nchw = doc_pos_embeddings.view(-1, self.emb_dim, 1, doc_pos_num_tokens) # [32, 300, 1, 103]
+            #logger.info('shape doc_pos_embeddings_nchw {}'.format(doc_pos_embeddings_nchw.size())) # [32, 300, 1, 103]
+            
+            d1_repr = self.convolution(doc_pos_embeddings_nchw)
+            #logger.info('d1_repr before reduce_mean shape: {}'.format(d1_repr.size())) # torch.Size([32, 50, 1, 103])
+
+            d1_repr = torch.mean(d1_repr, reduction_dim) # torch.Size([32, 50])
+            #logger.info('d1_repr after reduce_mean shape: {}'.format(d1_repr.size())) # torch.Size([32, 50])
+
+        if doc_neg != None:
+            doc_neg_embeddings = self.word_embeddings({"tokens": doc_neg})
+            #logger.info('shape doc_neg_embeddings {}'.format(doc_neg_embeddings.size())) # [32, 103, 300]
+
+            # ADD: AIR assignment hint: The batch tensors also have no fixed size, the max values in the readers are just to cap outliers
+            # (the size will be based on the biggest sample in the batch (per tensor) and the others padded with 0 to the same length)
+            doc_neg_num_tokens = doc_neg_embeddings.shape[1] # is <= self.max_doc_len
+
+            # network input should be in shape [N,C_in​,H,W]
+            # where N := batch size, C_in := number of input_channels, H := height of input, W := width of input
+            doc_neg_embeddings_nchw = doc_neg_embeddings.view(-1, self.emb_dim, 1, doc_neg_num_tokens) # [32, 300, 1, 103]
+            #logger.info('shape doc_neg_embeddings_nchw {}'.format(doc_neg_embeddings_nchw.size())) # [32, 300, 1, 103]
+        
+            d2_repr = self.convolution(doc_neg_embeddings_nchw)
+            #logger.info('d2_repr before reduce_mean shape: {}'.format(d2_repr.size())) # torch.Size([32, 50, 1, 103])
+        
+            d2_repr = torch.mean(d2_repr, reduction_dim) # torch.Size([32, 50])
+            #logger.info('d2_repr after reduce_mean shape: {}'.format(d2_repr.size())) # torch.Size([32, 50])
+        
         # TODO should we return query and doc representations, and handle logit computation ouside of nn model?    
-        return (self.q_repr, self.d1_repr, self.d2_repr) 
+        return (q_repr, d1_repr, d2_repr) 
+
+
+            
+
 
     #     self.graph = tf.Graph()
     #     with self.graph.as_default():

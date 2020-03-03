@@ -6,6 +6,7 @@ Authors: Bernhard Steindl
 from app_logger import logger
 logger = logger(__file__)
 
+from config import config
 import params
 
 import pickle as pkl
@@ -16,10 +17,10 @@ class MemMappedInvertedIndex(object):
     def __init__(self, n_latent_terms):
         super(MemMappedInvertedIndex, self).__init__()
         self._n_latent_terms = n_latent_terms
-        self._memmap_num_rows = FLAGS.batch_size_documents * FLAGS.num_document_batches
+        self._memmap_num_rows = config.get('batch_size') * config.get('num_document_batches')
         self._memmap_num_cols = self._n_latent_terms
 
-        index_storage_path_prefix = FLAGS.base_path + FLAGS.index_path + FLAGS.run_name
+        index_storage_path_prefix = config.get('index_path') + config.get('run_name')
         self._filename_memmap_index = index_storage_path_prefix + '-memmap_docrepr_index'
         self._filename_latent_term_index = index_storage_path_prefix + '-latent_term_index'
         self._filename_doc_keymapping_index = index_storage_path_prefix + '-doc_keymapping_index'
@@ -33,13 +34,14 @@ class MemMappedInvertedIndex(object):
         self._doc_repr_memmap = np.memmap(self._filename_memmap_index, dtype='float32', mode='w+', shape=(self._memmap_num_rows, self._memmap_num_cols))
 
     def add(self, doc_ids, doc_repr):
+        # TODO can this be optimized / parallel?
         for i in range(len(doc_ids)): # for each document indexed via i
             should_add_doc_to_index = False
-            current_doc_id = doc_ids[i]
+            current_doc_id = doc_ids[i].item()
             current_doc_repr = doc_repr[i]
 
             for j in range(len(current_doc_repr)): # for each doc_repr dimension for doc i
-                if current_doc_repr[j] > 0.:
+                if current_doc_repr[j].item() > 0.:
                     should_add_doc_to_index = True
                     if j not in self.index:
                         self.index[j] = []
@@ -48,10 +50,10 @@ class MemMappedInvertedIndex(object):
             if (should_add_doc_to_index == True) and (current_doc_id not in self._doc_id_to_memmap_idx):
                 memmap_index_for_doc = self._next_sequence_val()
                 self._doc_id_to_memmap_idx[current_doc_id] = memmap_index_for_doc
-                self._doc_repr_memmap[memmap_index_for_doc] = current_doc_repr
+                self._doc_repr_memmap[memmap_index_for_doc] = current_doc_repr.detach().numpy() # TODO is this ok?
 
     def store(self):
-        logging.debug('found {} documents in index'.format(str(self.count_documents())))
+        logger.info('Found {} documents in index for storing inverted index'.format(str(self.count_documents())))
         del self._doc_repr_memmap # Deletion of memory mapped index flushes memory changes to disk before removing the object 
         pkl.dump(self._doc_id_to_memmap_idx, open(self._filename_doc_keymapping_index, 'wb'))
         self._doc_id_to_memmap_idx
@@ -60,7 +62,7 @@ class MemMappedInvertedIndex(object):
         pkl.dump(self.index, open(self._filename_latent_term_index, 'wb'))
         self.index.clear()
         del self.index
-        logging.info('Stored inverted index')
+        logger.info('Successfully stored inverted index')
         
 
     def load(self):

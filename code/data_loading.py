@@ -150,3 +150,54 @@ class IrLabeledTupleDatasetReader(DatasetReader):
             "doc_id":doc_id_field,
             "query_tokens":query_field,
             "doc_tokens":doc_field})
+
+class IrTupleDatasetReader(DatasetReader):
+    """
+    Read a tsv file containing tuple of document id and document text, and create a dataset suitable for a
+    neural IR model, or any model with a matching API.
+    Expected format for each input line: <id_string>\t<text_string>
+    The output of ``read`` is a list of ``Instance`` s with the fields:
+        id: ``TextField`` and
+        tokens: ``TextField``
+    """
+    def __init__(self,
+                 tokenizer: Tokenizer = None,
+                 token_indexers: Dict[str, TokenIndexer] = None,
+                 source_add_start_token: bool = True,
+                 max_text_length:int = -1,
+                 lazy: bool = False) -> None:
+        super().__init__(lazy)
+        self._tokenizer = tokenizer or WordTokenizer() # little bit faster, useful for multicore proc. word_splitter=SimpleWordSplitter()
+        self._token_indexers = token_indexers or {"tokens": SingleIdTokenIndexer(lowercase_tokens=True)}
+        self._source_add_start_token = source_add_start_token
+        self.max_text_length = max_text_length
+
+    @overrides
+    def _read(self, file_path):
+        with open(cached_path(file_path), "r", encoding="utf8") as data_file:
+            #logger.info("Reading instances from lines in file at: %s", file_path)
+            for line_num, line in enumerate(data_file):
+                line = line.strip("\n")
+
+                if not line:
+                    continue
+
+                line_parts = line.split('\t')
+                if len(line_parts) != 2:
+                    raise ConfigurationError("Invalid line format: %s (line number %d)" % (line, line_num + 1))
+                id, text_tokens = line_parts
+                yield self.text_to_instance(id, text_tokens)
+
+    @overrides
+    def text_to_instance(self, id: str, text_tokens: str) -> Instance:  # type: ignore
+        # pylint: disable=arguments-differ
+        text_id_field = LabelField(int(id), skip_indexing=True)
+
+        text_tokenized = self._tokenizer.tokenize(text_tokens)
+        if self.max_text_length > -1:
+            text_tokenized = text_tokenized[:self.max_text_length]
+        text_field = TextField(text_tokenized, self._token_indexers)
+        
+        return Instance({
+            "id":text_id_field,
+            "text_tokens":text_field})

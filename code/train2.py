@@ -170,7 +170,7 @@ train_triple_loader = IrTripleDatasetReader(lazy=True,
                                        max_doc_length=config.get('max_doc_len'),
                                        max_query_length=config.get('max_q_len'),
                                        tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter())) 
-                                       # already spacy tokenized, so that it is faster 
+                                       # already spacy tokenized, so that it is faster
 iterator = BucketIterator(batch_size=config.get('batch_size'),
                           sorting_keys=[("doc_pos_tokens", "num_tokens"), ("doc_neg_tokens", "num_tokens")])
 iterator.index_with(vocabulary)
@@ -191,7 +191,7 @@ model = SNRM(word_embeddings= word_embedder,
             max_doc_len=config.get('max_doc_len'),
             emb_dim=config.get('emb_dim'),
             layer_size=layer_size,
-            dropout_parameter=config.get('dropout_parameter'),
+            dropout_parameter=config.get('dropout_probability'),
             regularization_term=config.get('regularization_term'),
             learning_rate=config.get('learning_rate'))
 
