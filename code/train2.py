@@ -31,6 +31,8 @@ from allennlp.modules.text_field_embedders import BasicTextFieldEmbedder
 from allennlp.data.tokenizers.word_splitter import JustSpacesWordSplitter
 from allennlp.data.tokenizers import WordTokenizer
 
+from allennlp.nn.util import move_to_device
+
 from data_loading import IrTripleDatasetReader
 
 import os
@@ -39,7 +41,8 @@ from snrm import SNRM
 import json
 import time
 
-
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+logger.info('PyTorch uses device {}'.format(device))
 
 # TODO should this be here in train.py or in nn Module snrm.py?
 def obtain_loss(q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: torch.Tensor) -> (torch.Tensor, torch.Tensor, torch.Tensor):
@@ -50,11 +53,13 @@ def obtain_loss(q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: 
     logits_d2 = torch.mean(input=torch.mul(q_repr, doc_neg_repr), dim=1, keepdim=True) # shape: torch.Size([batch_size, 1])
     logits = torch.cat(tensors=(logits_d1, logits_d2), dim=1) # shape: torch.Size([batch_size, 2])
 
+    # TODO usage of requires_grad unsure
+
     # AIR Assignment hint: The iterators do not guarantee a fixed batch size (the last one will probably be smaller)
     current_batch_size = batch['query_tokens']['tokens'].shape[0] # is <= config.get('batch_size')
     # Assumption doc1 is relevant/positive (1), but doc2 is non-relevant/negative (0) for every doc-pair in batch
     # instead of using 0, PyTorch wants us to use -1 instead of 0
-    target_relevance_labels = torch.tensor([[1, -1]]).repeat(current_batch_size, 1) # [1,-1]*batch_size, shape: torch.Size([batch_size, 2])
+    target_relevance_labels = torch.tensor([[1, -1]], requires_grad=False, device=device).repeat(current_batch_size, 1) # [1,-1]*batch_size, shape: torch.Size([batch_size, 2])
     
 #       self.labels_pl = tf.placeholder(tf.float32, shape=[self.batch_size, 2])
 #       labels = np.array(labels) # shape [batch_size]
@@ -121,6 +126,7 @@ def validate_model(model: nn.Module, num_validation_steps: int, vocabulary: Voca
     curr_validation_step = 0
     for batch in Tqdm.tqdm(iterator(validation_triple_loader.read(config.get('validation_data_triples_file')), num_epochs=1)):
         curr_validation_step += 1
+        batch = move_to_device(obj=batch, cuda_device=(0 if torch.cuda.is_available() else -1))
         q_repr, doc_pos_repr, doc_neg_repr = model.forward(batch["query_tokens"]["tokens"], 
                                                            batch["doc_pos_tokens"]["tokens"], 
                                                            batch["doc_neg_tokens"]["tokens"])
@@ -186,14 +192,15 @@ for i in [config.get('hidden_1'), config.get('hidden_2'), config.get('hidden_3')
 
 # The SNRM model.
 model = SNRM(word_embeddings= word_embedder,
-            batch_size=config.get('batch_size'),
-            max_q_len=config.get('max_q_len'),
-            max_doc_len=config.get('max_doc_len'),
-            emb_dim=config.get('emb_dim'),
-            layer_size=layer_size,
-            dropout_parameter=config.get('dropout_probability'),
-            regularization_term=config.get('regularization_term'),
-            learning_rate=config.get('learning_rate'))
+             batch_size=config.get('batch_size'),
+             max_q_len=config.get('max_q_len'),
+             max_doc_len=config.get('max_doc_len'),
+             emb_dim=config.get('emb_dim'),
+             layer_size=layer_size,
+             dropout_parameter=config.get('dropout_probability'),
+             regularization_term=config.get('regularization_term'),
+             learning_rate=config.get('learning_rate')
+            ).to(device)
 
 logger.info('Model "{}" parameters: {}'.format(config.get('run_name'), sum(p.numel() for p in model.parameters() if p.requires_grad)))
 logger.info('Network: {}'.format(repr(model)))
@@ -221,6 +228,7 @@ should_save_snapshot_every_n_steps = config.get('save_snapshot_every_n_steps') >
 
 for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_data_triples_file')), num_epochs=1)):
     curr_training_step += 1
+    batch = move_to_device(obj=batch, cuda_device=(0 if torch.cuda.is_available() else -1))
 
     if curr_training_step == 1:
         writer_train.add_graph(model, (batch["query_tokens"]["tokens"], 

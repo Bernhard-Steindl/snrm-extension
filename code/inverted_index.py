@@ -50,7 +50,7 @@ class MemMappedInvertedIndex(object):
             if (should_add_doc_to_index == True) and (current_doc_id not in self._doc_id_to_memmap_idx):
                 memmap_index_for_doc = self._next_sequence_val()
                 self._doc_id_to_memmap_idx[current_doc_id] = memmap_index_for_doc
-                self._doc_repr_memmap[memmap_index_for_doc] = current_doc_repr.detach().numpy() # TODO is this ok?
+                self._doc_repr_memmap[memmap_index_for_doc] = current_doc_repr.detach().cpu().numpy() # TODO is this ok?
 
     def store(self):
         logger.info('Found {} documents in index for storing inverted index'.format(str(self.count_documents())))

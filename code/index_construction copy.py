@@ -31,6 +31,11 @@ import torch
 from snrm import SNRM
 from inverted_index import MemMappedInvertedIndex
 
+from allennlp.nn.util import move_to_device
+
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+logger.info('PyTorch uses device {}'.format(device))
+
 # TODO extract to utils file, already used in train2 file
 def count_zero(tensor: torch.Tensor) -> int:
     return (tensor == 0.0).sum().item()
@@ -67,7 +72,11 @@ model_load_path = '{0}model-state_{1}.pt'.format(config.get('model_path'), confi
 logger.info('Restoring model parameters from "{}"'.format(model_load_path))
 # restore model parameter
 model.load_state_dict(torch.load(model_load_path))
+model.to(device)
 model.eval() # set model in evaluation mode
+
+
+# TODO should we also use torch.no_grad() ?
 
 logger.info('Creating new Memory Mapped Index')
 inverted_index = MemMappedInvertedIndex(layer_size[-1])
@@ -91,6 +100,7 @@ logger.info('Iterating over document collection file')
 # if we reach end-of-file (EOF) no exception will be thrown, batch will have reduced size
 for batch in Tqdm.tqdm(iterator(document_tuple_loader.read(config.get('document_collection_file')), num_epochs=1)):
     batch_num += 1
+    batch = move_to_device(obj=batch, cuda_device=(0 if torch.cuda.is_available() else -1))
     doc_ids = batch['id']
     _, doc_repr, _ = model.forward(None, batch['text_tokens']['tokens'], None)
 

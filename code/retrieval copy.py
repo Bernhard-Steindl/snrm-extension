@@ -34,6 +34,11 @@ import torch
 from snrm import SNRM
 from inverted_index import MemMappedInvertedIndex
 
+from allennlp.nn.util import move_to_device
+
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+logger.info('PyTorch uses device {}'.format(device))
+
 
 # TODO extract to utils file, already used in train2 file
 def count_zero(tensor: torch.Tensor) -> int:
@@ -71,25 +76,8 @@ model_load_path = '{0}model-state_{1}.pt'.format(config.get('model_path'), confi
 logger.info('Restoring model parameters from "{}"'.format(model_load_path))
 # restore model parameter
 model.load_state_dict(torch.load(model_load_path))
+model.to(device)
 model.eval() # set model in evaluation mode
-
-
-def get_retrieval_queries():
-    """
-    Returns 
-    TODO doc
-    """
-    # TODO which qrel file and which query file should we use?
-    # queries.validation.tsv
-    # queries.dev.small.tsv
-    queries = dict()
-    with open(config.get('base_path') + config.get('evaluation_query_file')) as f:
-        for line in f:
-            line_components = line.rstrip('\n').split('\t')
-            qid = line_components[0]
-            query_text = line_components[1]
-            queries[qid] = query_text
-    return queries
 
 
 inverted_index = MemMappedInvertedIndex(layer_size[-1])
@@ -117,7 +105,8 @@ with open(candidate_file_name, 'w') as evaluationCandidateFile:
     
     for batch in Tqdm.tqdm(iterator(query_tuple_loader.read(config.get('evaluation_query_file')), num_epochs=1)):
         batch_num += 1
-        
+        batch = move_to_device(obj=batch, cuda_device=(0 if torch.cuda.is_available() else -1))
+
         query_ids = batch['id']
         query_repr, _, _ = model.forward(batch['text_tokens']['tokens'], None, None)
 

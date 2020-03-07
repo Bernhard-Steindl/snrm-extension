@@ -28,21 +28,10 @@ from allennlp.data.tokenizers import WordTokenizer
 
 from data_loading import IrTupleDatasetReader
 
+from allennlp.nn.util import move_to_device
 
-def get_retrieval_queries():
-    """
-    Returns 
-    TODO doc
-    copy from retrieval.py
-    """
-    queries = dict()
-    with open(FLAGS.base_path + FLAGS.evaluation_query_file) as f:
-        for line in f:
-            line_components = line.rstrip('\n').split('\t')
-            qid = line_components[0]
-            query_text = line_components[1]
-            queries[qid] = query_text
-    return queries
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+logging.info('PyTorch uses device {}'.format(device))
 
 def main():
     layer_size = [config.get('emb_dim')] # input layer
@@ -148,6 +137,7 @@ def main():
     logging.info('Restoring model parameters from "{}"'.format(model_load_path))
     # restore model parameter
     model.load_state_dict(torch.load(model_load_path))
+    model.to(device)
     model.eval() # set model in evaluation mode
     
     sum_q_repr = dict()
@@ -173,7 +163,8 @@ def main():
     batch_num = 0
     for batch in Tqdm.tqdm(iterator(query_tuple_loader.read(config.get('evaluation_query_file')), num_epochs=1)):
         batch_num += 1
-        
+        batch = move_to_device(obj=batch, cuda_device=(0 if torch.cuda.is_available() else -1))
+
         query_ids = batch['id']
         query_repr, _, _ = model.forward(batch['text_tokens']['tokens'], None, None)
 

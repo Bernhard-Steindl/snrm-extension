@@ -43,23 +43,20 @@ class SNRM(nn.Module):
                 max_doc_len: int,
                 emb_dim: int,
                 layer_size: List[int], 
-                dropout_parameter   , 
-                regularization_term, 
-                learning_rate):
+                dropout_parameter: float, 
+                regularization_term: float, 
+                learning_rate: float):
         """
             The SNRM constructor.
             Args:
             dictionary (obj): an instance of the class Dictionary containing terms and term IDs.
-            pre_trained_embedding_file_name (str): the path to the pre-trained word embeddings for initialization.
-                 This is optional. If a term in the dictionary does not appear in the pre-trained vector file, its
-                 embedding will be initialized by a random vector. If this argument is 'None', the embedding matrix will
-                 be initialized randomly with a uniform distribution.
+            word_embeddings (TextFieldEmbedder): instance of word embedding
             batch_size (int): the batch size for training and validation.
             max_q_len (int): maximum length of a query.
             max_doc_len (int): maximum length of a document.
             emb_dim (int): embedding dimensionality.
             layer_size (list): a list of int containing the size of each layer.
-            dropout_parameter (float): the keep probability of dropout. 1 means no dropout.
+            dropout_parameter (float): the probability of dropout. 0 means no dropout.
             regularization_term (float): the weight of the l1 regularization for sparsity.
             learning_rate (float): the learning rate for the adam optimizer.
         """
