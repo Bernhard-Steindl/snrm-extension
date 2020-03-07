@@ -102,8 +102,8 @@ for batch in Tqdm.tqdm(iterator(document_tuple_loader.read(config.get('document_
         zero_elements = count_zero(doc_repr)
         num_elements = doc_repr.numel()
         ratio_zero = (zero_elements / num_elements)
-        logger.info('zero elements in doc_repr batch={}, total batch size={}'.format(str(zero_elements), str(num_elements)))
-        logger.info('generated doc_repr with ratio_zero_elements={:6.5f}'.format(str(ratio_zero)))
+        logger.info('zero elements in doc_repr batch={}, total batch size={}'.format(zero_elements, num_elements))
+        logger.info('generated doc_repr with ratio_zero_elements={:6.5f}'.format(ratio_zero))
         logger.info('added doc_ids = {}'.format(repr(doc_ids)))
     if batch_num == num_document_batches:
         break

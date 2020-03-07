@@ -27,6 +27,7 @@ from allennlp.common.testing import AllenNlpTestCase
 from allennlp.data import Vocabulary
 from allennlp.modules.token_embedders.embedding import Embedding
 
+# TODO check todos in this file and then delete it
 
 class Dictionary(object):
     """

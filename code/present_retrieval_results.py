@@ -1,5 +1,6 @@
 import sys
 import time
+from config import config
 
 def main():
     """
@@ -28,14 +29,14 @@ def main():
     
     if len(sys.argv) == 2:
 
-        query_collection = 'data/evaluation/queries.dev.small.tsv'
-        document_collection = 'data/document_collection/collection.tsv'
+        query_collection = config.get('evaluation_query_file')
+        document_collection = config.get('document_collection_file')
         current_timestamp_str = time.strftime("%Y-%m-%d_%H%M%S")
         result_file = 'results/retrieval_results_presentation_{}'.format(current_timestamp_str)
         evaluation_candidate_file = sys.argv[1]
 
-        max_documents_per_query = 4 # max number of documents per query to be presented
-        max_queries = 2 # max number of queries to be presented
+        max_documents_per_query = 5 # max number of documents per query to be presented
+        max_queries = 10 # max number of queries to be presented
 
         query_and_rankings = dict()
         doc_to_text = dict() # holds doc_id -> doc_text

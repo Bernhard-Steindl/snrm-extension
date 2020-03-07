@@ -7,6 +7,9 @@ Authors: Hamed Zamani (zamani@cs.umass.edu)
 import math
 
 
+# TODO delete this file - not necessary 
+
+
 def load_word_embeddings(file_name, dim, normalize=True, term_dictionary=dict()):
     term_ids = {}
     we_matrix = []  # a term_num * dim matrix for word embeddings

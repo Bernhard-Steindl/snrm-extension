@@ -97,7 +97,7 @@ inverted_index.load()
 
 logger.info('Initializing document tuple loader and iterator')
 query_tuple_loader = IrTupleDatasetReader(lazy=True, 
-                                             max_text_length=config.get('max_doc_len'),
+                                             max_text_length=config.get('max_q_len'),
                                              tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter())) 
                                              # already spacy tokenized, so that it is faster 
 iterator = BucketIterator(batch_size=config.get('batch_size'), # TODO should we only process one query at a time? would be faster if > 1
@@ -121,7 +121,7 @@ with open(candidate_file_name, 'w') as evaluationCandidateFile:
         query_ids = batch['id']
         query_repr, _, _ = model.forward(batch['text_tokens']['tokens'], None, None)
 
-        if batch_num % 10 == 0:
+        if batch_num % 4 == 0:
             zero_elements = count_zero(query_repr)
             num_elements = query_repr.numel()
             ratio_zero = (zero_elements / num_elements)
@@ -130,21 +130,20 @@ with open(candidate_file_name, 'w') as evaluationCandidateFile:
             logger.info('retrieving document scores for query qid={}'.format(repr(query_ids)))
 
         num_queries_in_batch = query_repr.shape[0]
-        for i in range(num_queries_in_batch):
-
-            query_repr_v = query_repr[i]
-            qid = query_ids[i]
+        for q in range(num_queries_in_batch):
+            query_repr_v = query_repr[q]
+            qid = query_ids[q]
             retrieval_scores = dict() # maps doc_id to retrieval score for the query
 
-            if i % 10 == 0:
+            if q % 10 == 0:
                 zero_elements = count_zero(query_repr_v)
                 num_elements = query_repr_v.numel()
                 ratio_zero = (zero_elements / num_elements)
-                logger.info('query_repr qid={} has zero elements={}, total size={}'.format(qid, zero_elements, num_elements))
-                logger.info('query_repr qid={} has ratio_zero_elements={:6.5f}'.format(qid, ratio_zero))
+                logger.debug('query_repr qid={} has zero elements={}, total size={}'.format(qid, zero_elements, num_elements))
+                logger.debug('query_repr qid={} has ratio_zero_elements={:6.5f}'.format(qid, ratio_zero))
 
             sum_docs_processed = 0
-            for i in range(len(query_repr_v)):
+            for i in range(len(query_repr_v)): # TODO can this be optimized / parallelized?
                 if query_repr_v[i] > 0.:
                     if not i in inverted_index.index:
                         # logger.debug('A latent term dimension (dim={}) of a query (qid={}) has no assigned documents in index'.format(i, qid))
@@ -166,20 +165,22 @@ with open(candidate_file_name, 'w') as evaluationCandidateFile:
             retrieval_result_for_qid = retrieval_result_for_qid[:max_retrieval_docs]
 
             if len(retrieval_result_for_qid) == 0:
-                logger.warn('Could not retrieve any relevant document for query qid={}'.format(qid))
+                logger.warning('Could not retrieve any relevant document for query qid={}'.format(qid))
 
             # writing retrieval result to candidate file
             for rank, (doc_id, retrieval_score) in enumerate(retrieval_result_for_qid):
                 # logger.debug('qid={}\t\tdoc_id={}\tscore={}\trank={}'.format(qid,doc_id,retrieval_score, rank+1))
                 evaluationCandidateFile.write('{0}\tQ0\t{1}\t{2}\t{3}\t{4}\n'.format(qid, doc_id, rank+1, retrieval_score, config.get('run_name')))
                 if rank < 10:
-                    logger.info('{0}\tQ0\t{1}\t{2}\t{3}\t{4}'.format(qid, doc_id, rank+1, retrieval_score, config.get('run_name')))
+                    logger.debug('{0}\tQ0\t{1}\t{2}\t{3}\t{4}'.format(qid, doc_id, rank+1, retrieval_score, config.get('run_name')))
 
             num_queries_processed += 1
             if num_queries_processed == config.get('num_evaluation_queries'):
                 logger.info('Ending retrieval after processing {} queries'.format(num_queries_processed))
                 break
         logger.info('Processed {} queries for retrieval'.format(num_queries_processed))
+        if num_queries_processed == config.get('num_evaluation_queries'):
+            break
 
 
 

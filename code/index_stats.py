@@ -2,12 +2,32 @@ import logging
 FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
 logging.basicConfig(format=FORMAT, level=logging.DEBUG, filemode='a', filename='results/index_stats.log')
 
+from allennlp.common import Params, Tqdm
+from allennlp.common.util import prepare_environment
+prepare_environment(Params({})) # sets the seeds to be fixed
+
+from config import config
+import params
+
 import numpy as np
-import tensorflow as tf
-from dictionary import Dictionary
 from inverted_index import MemMappedInvertedIndex
-from params import FLAGS
+import torch
 from snrm import SNRM
+
+
+from allennlp.data import Vocabulary
+from allennlp.modules.token_embedders.embedding import Embedding
+from allennlp.modules.text_field_embedders import TextFieldEmbedder
+from allennlp.modules.text_field_embedders import BasicTextFieldEmbedder
+
+
+from allennlp.data.iterators import BucketIterator
+from allennlp.modules.text_field_embedders import BasicTextFieldEmbedder
+from allennlp.data.tokenizers.word_splitter import JustSpacesWordSplitter
+from allennlp.data.tokenizers import WordTokenizer
+
+from data_loading import IrTupleDatasetReader
+
 
 def get_retrieval_queries():
     """
@@ -25,11 +45,12 @@ def get_retrieval_queries():
     return queries
 
 def main():
-    layer_size = [FLAGS.emb_dim]
-    for i in [FLAGS.hidden_1, FLAGS.hidden_2, FLAGS.hidden_3, FLAGS.hidden_4, FLAGS.hidden_5]:
+    layer_size = [config.get('emb_dim')] # input layer
+    for i in [config.get('hidden_1'), config.get('hidden_2'), config.get('hidden_3'), config.get('hidden_4'), config.get('hidden_5')]:
         if i <= 0:
             break
         layer_size.append(i)
+    
     inverted_index = MemMappedInvertedIndex(layer_size[-1])
     inverted_index.load()
     logging.info('Loaded inverted index')
@@ -100,21 +121,34 @@ def main():
         logging.info('doc_id={:6},\toccurence={:4},\tsum_doc_repr_values={:8.7f},\tmean_doc_repr_values={:8.7f}'.format(doc_id, occurence, sum_doc_repr[doc_id], mean_doc_repr[doc_id]))
 
 
-    dictionary = Dictionary()
-    dictionary.load_from_galago_dump(FLAGS.base_path + FLAGS.dict_file_name)
-    logging.info('Loaded vocabulary into dictionary')
+
+    logging.info('Loading vocabulary')
+    vocabulary: Vocabulary = Vocabulary.from_files(directory=config.get('vocab_dir_path'))
+    logging.info('Loading embedding')
+    token_embedding: Embedding = Embedding.from_params(vocab=vocabulary, params=Params({"pretrained_file": config.get('pre_trained_embedding_file_name'),
+                                                                                "embedding_dim": config.get('emb_dim'),
+                                                                                "trainable": False, # TODO is this ok?
+                                                                                "max_norm": None, 
+                                                                                "norm_type": 2.0,
+                                                                                "padding_index": 0}))
+    word_embedder = BasicTextFieldEmbedder({"tokens": token_embedding})
     logging.debug('Now Loading model')
     # The SNRM model.
-    snrm = SNRM(dictionary=dictionary,
-                pre_trained_embedding_file_name=FLAGS.base_path + FLAGS.pre_trained_embedding_file_name,
-                batch_size=FLAGS.batch_size,
-                max_q_len=FLAGS.max_q_len,
-                max_doc_len=FLAGS.max_doc_len,
-                emb_dim=FLAGS.emb_dim,
+    model = SNRM(word_embeddings= word_embedder,
+                batch_size=config.get('batch_size'),
+                max_q_len=config.get('max_q_len'),
+                max_doc_len=config.get('max_doc_len'),
+                emb_dim=config.get('emb_dim'),
                 layer_size=layer_size,
-                dropout_parameter=FLAGS.dropout_parameter,
-                regularization_term=FLAGS.regularization_term,
-                learning_rate=FLAGS.learning_rate)
+                dropout_parameter=config.get('dropout_probability'),
+                regularization_term=config.get('regularization_term'),
+                learning_rate=config.get('learning_rate'))
+
+    model_load_path = '{0}model-state_{1}.pt'.format(config.get('model_path'), config.get('run_name'))
+    logging.info('Restoring model parameters from "{}"'.format(model_load_path))
+    # restore model parameter
+    model.load_state_dict(torch.load(model_load_path))
+    model.eval() # set model in evaluation mode
     
     sum_q_repr = dict()
     mean_q_repr = dict()
@@ -126,24 +160,30 @@ def main():
     quantile_99_q_repr = dict()
     ratio_non_zero_q_repr = dict()
 
-    with tf.Session(graph=snrm.graph) as session:
-        session.run(snrm.init)
-        logging.debug('Initialized tf session')
 
-        snrm.saver.restore(session, FLAGS.base_path + FLAGS.model_path + FLAGS.run_name)  # restore all variables
-        logging.debug('Load model from {:s}'.format(FLAGS.base_path + FLAGS.model_path + FLAGS.run_name))
-        queries = get_retrieval_queries()
-        num_queries = len(queries.keys())
+    logging.info('Initializing document tuple loader and iterator')
+    query_tuple_loader = IrTupleDatasetReader(lazy=True, 
+                                                max_text_length=config.get('max_q_len'),
+                                                tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter())) 
+                                                # already spacy tokenized, so that it is faster 
+    iterator = BucketIterator(batch_size=config.get('batch_size'), # TODO should we only process one query at a time? would be faster if > 1
+                            sorting_keys=[("text_tokens", "num_tokens")])
+    iterator.index_with(vocabulary)
+
+    batch_num = 0
+    for batch in Tqdm.tqdm(iterator(query_tuple_loader.read(config.get('evaluation_query_file')), num_epochs=1)):
+        batch_num += 1
         
-        for qid in queries:
-            q_term_ids = dictionary.get_term_id_list(queries[qid])
-            q_term_ids.extend([0] * (FLAGS.max_q_len - len(q_term_ids)))
-            q_term_ids = q_term_ids[:FLAGS.max_q_len]
+        query_ids = batch['id']
+        query_repr, _, _ = model.forward(batch['text_tokens']['tokens'], None, None)
 
-            # logging.debug('retrieving document scores for query qid={}'.format(qid))
-            query_repr = session.run(snrm.query_representation, feed_dict={snrm.test_query_pl: [q_term_ids]})
+        num_queries_in_batch = query_repr.shape[0]
+        for q in range(num_queries_in_batch):
+            query_repr_v = query_repr[q]
+            qid = query_ids[q]
+
             retrieval_scores = dict()
-            query_repr_v = query_repr[0]
+            query_repr_v = query_repr[0].detach().numpy()
 
             non_zero_elements = np.count_nonzero(query_repr_v)
             num_elements = len(query_repr_v)
