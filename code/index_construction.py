@@ -4,145 +4,126 @@ Inverted index construction from the latent terms to document IDs from the repre
 Authors: Hamed Zamani (zamani@cs.umass.edu)
 """
 
-import logging
-FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
-logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+from app_logger import logger
+logger = logger(__file__)
 
-import tensorflow as tf
-import numpy as np
+from allennlp.common import Params, Tqdm
+from allennlp.common.util import prepare_environment
+prepare_environment(Params({})) # sets the seeds to be fixed
 
-from dictionary import Dictionary
-from inverted_index import MemMappedInvertedIndex
-from params import FLAGS
+from config import config
+import params
+
+from allennlp.data import Vocabulary
+from allennlp.modules.token_embedders.embedding import Embedding
+from allennlp.modules.text_field_embedders import TextFieldEmbedder
+from allennlp.modules.text_field_embedders import BasicTextFieldEmbedder
+
+from allennlp.data.iterators import BucketIterator
+from allennlp.modules.text_field_embedders import BasicTextFieldEmbedder
+from allennlp.data.tokenizers.word_splitter import JustSpacesWordSplitter
+from allennlp.data.tokenizers import WordTokenizer
+
+from data_loading import IrTupleDatasetReader
+
+import torch
+
 from snrm import SNRM
+from inverted_index import MemMappedInvertedIndex
 
+from allennlp.nn.util import move_to_device
 
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+logger.info('PyTorch uses device {}'.format(device))
+
+# TODO extract to utils file, already used in train2 file
+def count_zero(tensor: torch.Tensor) -> int:
+    return (tensor == 0.0).sum().item()
 
 # layer_size is a list containing the size of each layer. It can be set through the 'hiddein_x' arguments.
-layer_size = [FLAGS.emb_dim]
-for i in [FLAGS.hidden_1, FLAGS.hidden_2, FLAGS.hidden_3, FLAGS.hidden_4, FLAGS.hidden_5]:
+layer_size = [config.get('emb_dim')] # input layer
+for i in [config.get('hidden_1'), config.get('hidden_2'), config.get('hidden_3'), config.get('hidden_4'), config.get('hidden_5')]:
     if i <= 0:
         break
     layer_size.append(i)
 
-# Dictionary is a class containing terms and their IDs. The implemented class just load the terms from a Galago dump
-# file. If you are not using Galago, you have to implement your own reader. See the 'dictionary.py' file.
-dictionary = Dictionary()
-dictionary.load_from_galago_dump(FLAGS.base_path + FLAGS.dict_file_name)
-
+logger.info('Loading vocabulary')
+vocabulary: Vocabulary = Vocabulary.from_files(directory=config.get('vocab_dir_path'))
+logger.info('Loading embedding')
+token_embedding: Embedding = Embedding.from_params(vocab=vocabulary, params=Params({"pretrained_file": config.get('pre_trained_embedding_file_name'),
+                                                                              "embedding_dim": config.get('emb_dim'),
+                                                                              "trainable": False, # TODO is this ok?
+                                                                              "max_norm": None, 
+                                                                              "norm_type": 2.0,
+                                                                              "padding_index": 0}))
+word_embedder = BasicTextFieldEmbedder({"tokens": token_embedding})
 # The SNRM model.
-snrm = SNRM(dictionary=dictionary,
-            pre_trained_embedding_file_name=FLAGS.base_path + FLAGS.pre_trained_embedding_file_name,
-            batch_size=FLAGS.batch_size,
-            max_q_len=FLAGS.max_q_len,
-            max_doc_len=FLAGS.max_doc_len,
-            emb_dim=FLAGS.emb_dim,
+model = SNRM(word_embeddings= word_embedder,
+            batch_size=config.get('batch_size'),
+            max_q_len=config.get('max_q_len'),
+            max_doc_len=config.get('max_doc_len'),
+            emb_dim=config.get('emb_dim'),
             layer_size=layer_size,
-            dropout_parameter=FLAGS.dropout_parameter,
-            regularization_term=FLAGS.regularization_term,
-            learning_rate=FLAGS.learning_rate)
+            dropout_parameter=config.get('dropout_probability'),
+            regularization_term=config.get('regularization_term'),
+            learning_rate=config.get('learning_rate'))
+
+model_load_path = '{0}model-state_{1}.pt'.format(config.get('model_path'), config.get('run_name'))
+logger.info('Restoring model parameters from "{}"'.format(model_load_path))
+# restore model parameter
+model.load_state_dict(torch.load(model_load_path))
+model.to(device)
+model.eval() # set model in evaluation mode
 
 
-def generate_batch(batch_size, last_file_position = -1):
-    """
-        Generating a batch of documents from the collection for making the inverted index. This function should iterate
-        over all the documents (each once) to learn an inverted index.
-        Args:
-            batch_size (int): total number of training or validation data in each batch.
+# TODO should we also use torch.no_grad() ?
 
-        Returns:
-            batch_doc_id (list): a list of str containing document IDs.
-            batch_doc (list): a 2D list of int containing document term IDs with size (batch_size * FLAGS.max_doc_len).
-
-        # TODO documentation 
-    """
-    # raise Exception('the generate_batch method is not implemented.')
-    batch_doc_id = []
-    batch_doc = []
-
-    num_lines_per_batch = batch_size
-
-    with open(FLAGS.base_path + FLAGS.document_collection_file, 'r') as file:
-        if last_file_position == -1:
-            file.tell()
-        else:
-            file.seek(last_file_position)
-
-        for relative_line_num in range(num_lines_per_batch):
-            line = file.readline()
-            # logging.debug('relative_line_num={}\n{}'.format(relative_line_num, line))
-            if line == '':
-                raise ValueError('Failed to generate batch, because file does not have enough lines left.')
-
-            line_components = line.rstrip('\n').split('\t')
-            # tsv: pid, passage
-            passage_id = line_components[0]
-            passage_text = line_components[1]
-            # logging.debug('passage_id={}, \t passage={}'.format(passage_id, passage_text))
-
-            passage_term_ids = dictionary.get_term_id_list(passage_text)
-            passage_term_ids.extend([0] * (FLAGS.max_doc_len - len(passage_term_ids)))
-            passage_term_ids = passage_term_ids[:FLAGS.max_doc_len]
-
-            batch_doc_id.append(passage_id)
-            batch_doc.append(passage_term_ids)
-            # logging.debug('passage_id={}, \t passage_term_ids len={}'.format(passage_id, len(passage_term_ids)))
-            # logging.debug('passage_id={}, \t passage_term_ids={}'.format(passage_id, repr(passage_term_ids)))
-        last_file_position = file.tell()
-    return batch_doc_id, batch_doc, last_file_position
-
+logger.info('Creating new Memory Mapped Index')
 inverted_index = MemMappedInvertedIndex(layer_size[-1])
 inverted_index.create()
 
-with tf.Session(graph=snrm.graph) as session:
-    session.run(snrm.init)
-    print('Initialized')
+logger.info('Initializing document tuple loader and iterator')
+document_tuple_loader = IrTupleDatasetReader(lazy=True, 
+                                             max_text_length=config.get('max_doc_len'),
+                                             tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter())) 
+                                             # already spacy tokenized, so that it is faster 
+iterator = BucketIterator(batch_size=config.get('batch_size'),
+                          sorting_keys=[("text_tokens", "num_tokens")])
+iterator.index_with(vocabulary)
 
-    snrm.saver.restore(session, FLAGS.base_path + FLAGS.model_path + FLAGS.run_name)  # restore all variables
-    logging.info('Load model from {:s}'.format(FLAGS.base_path + FLAGS.model_path + FLAGS.run_name))
+batch_num = 0
+num_document_batches = config.get('num_document_batches')
 
-    # TODO use for what?
-    docs = []
-    doc_names = []
-    # col_file = open(FLAGS.base_path + FLAGS.model_path + 'learned_robust.txt', 'wb')
-    # doc_len_file = open(FLAGS.base_path + FLAGS.model_path + 'learned_robust_doc_len.txt', 'wb')
+# TODO exception handling file not found when iterating etc?
 
-    # TODO why is here this loop? infinite loop?
-    # TODO should batch_size here be the document collection size or a subset?
-    # TODO is the doc_repr always the same for the same batch or why should we need a loop?
-    # while True:
-    #     #     doc_ids, docs = generate_batch(FLAGS.batch_size)
-    #     #     try:
-    #     #         doc_repr = session.run(snrm.doc_representation, feed_dict={snrm.doc_pl: docs})
-    #     #         inverted_index.add(doc_ids, doc_repr)
-    #     #     except Exception as ex:
-    #     #         break
+logger.info('Iterating over document collection file')
+# if we reach end-of-file (EOF) no exception will be thrown, batch will have reduced size
+for batch in Tqdm.tqdm(iterator(document_tuple_loader.read(config.get('document_collection_file')), num_epochs=1)):
+    batch_num += 1
+    batch = move_to_device(obj=batch, cuda_device=(0 if torch.cuda.is_available() else -1))
+    doc_ids = batch['id']
+    _, doc_repr, _ = model.forward(None, batch['text_tokens']['tokens'], None)
 
+    inverted_index.add(doc_ids, doc_repr)
 
-    last_doc_collection_file_position = -1
+    if batch_num % 100 == 0:
+        logger.info('generated document representation for batch_num={} of num_document_batches={}'.format(batch_num, num_document_batches))
+        logger.info('index now holds {} documents '.format(str(inverted_index.count_documents())))
+        zero_elements = count_zero(doc_repr)
+        num_elements = doc_repr.numel()
+        ratio_zero = (zero_elements / num_elements)
+        logger.info('zero elements in doc_repr batch={}, total batch size={}'.format(zero_elements, num_elements))
+        logger.info('generated doc_repr with ratio_zero_elements={:6.5f}'.format(ratio_zero))
+        logger.info('added doc_ids = {}'.format(repr(doc_ids)))
+    if batch_num == num_document_batches:
+        break
+    
+logger.info('Ended iterating document batches last_batch_num={} of num_document_batches={}'.format(batch_num, num_document_batches))
 
-    for batch_num in range(FLAGS.num_document_batches):
-        try:
-            doc_ids, docs, last_doc_collection_file_position = generate_batch(FLAGS.batch_size_documents, last_doc_collection_file_position)
-            doc_repr = session.run(snrm.doc_representation, feed_dict={snrm.doc_pl: docs})
-            inverted_index.add(doc_ids, doc_repr)
-
-            if batch_num % 100 == 0:
-                logging.debug('generating document representation batch_num={} \t num_document_batches={}'.format(batch_num+1, FLAGS.num_document_batches))
-                logging.debug('index now holds {} documents '.format(str(inverted_index.count_documents())))
-                non_zero_elements = np.count_nonzero(doc_repr)
-                num_elements = np.size(doc_repr)
-                ratio_non_zero = (non_zero_elements / num_elements)
-                logging.debug('non_zero elements in batch = {}, total size = {}'.format(str(non_zero_elements), str(num_elements)))
-                logging.debug('generated doc_repr with \tratio_non_zero_elements={}'.format(str(ratio_non_zero)))
-                logging.debug('try adding doc_ids = {}'.format(repr(doc_ids)))
-        except Exception as ex:
-            print(ex)
-            break
-
-    # for i in range(len(doc_ids)):
-    #  logging.debug('adds doc_repr to index\tdoc_id={},\tdoc_repr=\n{}'.format(str(doc_ids[i]), repr(doc_repr[i])))
+# for i in range(len(doc_ids)):
+#  logger.debug('adds doc_repr to index\tdoc_id={},\tdoc_repr=\n{}'.format(str(doc_ids[i]), repr(doc_repr[i])))
 try:
     inverted_index.store()
 except Exception as ex:
+    logger.exception('Failed to store inverted index')
     print(ex)
