@@ -27,6 +27,7 @@ from allennlp.data.tokenizers.word_splitter import JustSpacesWordSplitter
 from allennlp.data.tokenizers import WordTokenizer
 
 from data_loading import IrTupleDatasetReader
+from allennlp.data.tokenizers.word_filter import StopwordFilter
 
 from allennlp.nn.util import move_to_device
 
@@ -135,8 +136,10 @@ def main():
 
     model_load_path = '{0}model-state_{1}.pt'.format(config.get('model_path'), config.get('run_name'))
     logging.info('Restoring model parameters from "{}"'.format(model_load_path))
-    # restore model parameter
+    # restore model parameter https://pytorch.org/tutorials/beginner/saving_loading_models.html
     model.load_state_dict(torch.load(model_load_path))
+    # if you saved model on GPU and now want to load it on a CPU:
+    # model.load_state_dict(torch.load(model_load_path, map_location=device))
     model.to(device)
     model.eval() # set model in evaluation mode
     
@@ -154,7 +157,8 @@ def main():
     logging.info('Initializing document tuple loader and iterator')
     query_tuple_loader = IrTupleDatasetReader(lazy=True, 
                                                 max_text_length=config.get('max_q_len'),
-                                                tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter())) 
+                                                tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter(),
+                                                                          word_filter=StopwordFilter())) 
                                                 # already spacy tokenized, so that it is faster 
     iterator = BucketIterator(batch_size=config.get('batch_size'), # TODO should we only process one query at a time? would be faster if > 1
                             sorting_keys=[("text_tokens", "num_tokens")])

@@ -34,6 +34,7 @@ from allennlp.data.tokenizers import WordTokenizer
 from allennlp.nn.util import move_to_device
 
 from data_loading import IrTripleDatasetReader
+from allennlp.data.tokenizers.word_filter import StopwordFilter
 
 import os
 
@@ -59,7 +60,7 @@ def obtain_loss(q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: 
     current_batch_size = batch['query_tokens']['tokens'].shape[0] # is <= config.get('batch_size')
     # Assumption doc1 is relevant/positive (1), but doc2 is non-relevant/negative (0) for every doc-pair in batch
     # instead of using 0, PyTorch wants us to use -1 instead of 0
-    target_relevance_labels = torch.tensor([[1, -1]], requires_grad=False, device=device).repeat(current_batch_size, 1) # [1,-1]*batch_size, shape: torch.Size([batch_size, 2])
+    target_relevance_labels = torch.tensor([[1, -1]], device=device).repeat(current_batch_size, 1) # [1,-1]*batch_size, shape: torch.Size([batch_size, 2])
     
 #       self.labels_pl = tf.placeholder(tf.float32, shape=[self.batch_size, 2])
 #       labels = np.array(labels) # shape [batch_size]
@@ -118,7 +119,8 @@ def validate_model(model: nn.Module, num_validation_steps: int, vocabulary: Voca
     validation_triple_loader = IrTripleDatasetReader(lazy=True, 
                                                      max_doc_length=config.get('max_doc_len'),
                                                      max_query_length=config.get('max_q_len'),
-                                                     tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter())) 
+                                                     tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter(),
+                                                                               word_filter=StopwordFilter()))
                                                      # already spacy tokenized, so that it is faster 
     iterator = BucketIterator(batch_size=config.get('batch_size'),
                             sorting_keys=[("doc_pos_tokens", "num_tokens"), ("doc_neg_tokens", "num_tokens")])
@@ -175,7 +177,8 @@ word_embedder = BasicTextFieldEmbedder({"tokens": token_embedding})
 train_triple_loader = IrTripleDatasetReader(lazy=True,
                                        max_doc_length=config.get('max_doc_len'),
                                        max_query_length=config.get('max_q_len'),
-                                       tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter())) 
+                                       tokenizer = WordTokenizer(word_splitter=JustSpacesWordSplitter(),
+                                                                 word_filter=StopwordFilter())) 
                                        # already spacy tokenized, so that it is faster
 iterator = BucketIterator(batch_size=config.get('batch_size'),
                           sorting_keys=[("doc_pos_tokens", "num_tokens"), ("doc_neg_tokens", "num_tokens")])
