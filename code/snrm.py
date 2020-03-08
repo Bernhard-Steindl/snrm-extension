@@ -88,9 +88,10 @@ class SNRM(nn.Module):
                                                            padding_mode='zeros')
             # Fills the input Tensor with values drawn from the normal distribution
             nn.init.normal_(tensor=conv_layer_dict['conv_' + str(i)].weight, mean=0.0, std=1.0)
+            conv_layer_dict['relu' + str(i)] = nn.ReLU()
 
             # conv_layer_dict['relu_' + str(i)] = nn.ReLU()
-        conv_layer_dict['relu_end'] = nn.ReLU()
+        # conv_layer_dict['relu_end'] = nn.ReLU()
 
         # TODO drop out?
         # During training, randomly zeroes some of the elements of the input tensor with probability p using samples from a Bernoulli distribution. 
