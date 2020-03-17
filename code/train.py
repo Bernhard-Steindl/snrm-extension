@@ -21,7 +21,6 @@ from torch.optim import Adam
 from torch.utils.tensorboard import SummaryWriter
 
 from allennlp.common.checks import ConfigurationError
-from allennlp.common.testing import AllenNlpTestCase
 from allennlp.data import Vocabulary
 from allennlp.modules.token_embedders.embedding import Embedding
 from allennlp.modules.text_field_embedders import TextFieldEmbedder

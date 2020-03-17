@@ -23,7 +23,6 @@ from config import config
 
 from allennlp.common import Params
 from allennlp.common.checks import ConfigurationError
-from allennlp.common.testing import AllenNlpTestCase
 from allennlp.data import Vocabulary
 from allennlp.modules.token_embedders.embedding import Embedding
 
