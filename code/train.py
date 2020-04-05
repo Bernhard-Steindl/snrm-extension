@@ -83,11 +83,16 @@ def obtain_loss(q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: 
 #             name='l1_regularization')
 #         # the cost function including the hinge loss and the l1 regularization.
 #         self.cost = self.loss + (tf.constant(self.regularization_term, dtype=tf.float32) * self.l1_regularization)
-    
-    # TODO experiment by using torch.mean(tensor, dim=1)  instead of torch.sum(tensor, dim=1)
-    l1_regularization = torch.mean(torch.sum(input=torch.cat(tensors=(q_repr, doc_pos_repr, doc_neg_repr), dim=1), dim=1)) # torch.Size([]) i.e. scalar tensor
-    # logger.info('l1_regularization shape {} data {}'.format(l1_regularization.size(), l1_regularization.data))
-    l1_regularization = torch.mul(l1_regularization, regularization_term)
+    doc_reg_term = config.get('doc_reg_term')
+    q_reg_term = config.get('q_reg_term')
+    l1_regularization_docs = (doc_pos_repr + doc_neg_repr) * doc_reg_term # shape [batch_size, nn_output_dim]
+    l1_regularization_query = q_repr * q_reg_term # shape [batch_size, nn_output_dim]
+
+    # l1-var1
+    l1_regularization = torch.mean(torch.sum(input=(l1_regularization_docs + l1_regularization_query), dim=1)) # torch.Size([]) i.e. scalar tensor
+    # or l1-var2
+    # l1_regularization = torch.mean(torch.sum(input=l1_regularization_docs, dim=1)) + torch.mean(torch.sum(input=l1_regularization_query, dim=1))  # torch.Size([]) i.e. scalar tensor
+
     cost = torch.add(hinge_loss, l1_regularization) # torch.Size([]) i.e. scalar tensor
     # logger.info('cost {}'.format(cost.data))
     return cost, hinge_loss, l1_regularization
