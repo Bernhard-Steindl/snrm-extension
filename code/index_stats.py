@@ -1,6 +1,6 @@
 import logging
 FORMAT = '%(asctime)-15s %(levelname)-10s %(filename)-10s %(funcName)-15s %(message)s'
-logging.basicConfig(format=FORMAT, level=logging.DEBUG, filemode='a', filename='results/index_stats.log')
+logging.basicConfig(format=FORMAT, level=logging.INFO, filemode='a', filename='results/index_stats.log')
 
 from allennlp.common import Params, Tqdm
 from allennlp.common.util import prepare_environment
@@ -13,6 +13,7 @@ import numpy as np
 from inverted_index import MemMappedInvertedIndex
 import torch
 from snrm import SNRM
+import sys
 
 
 from allennlp.data import Vocabulary
@@ -34,13 +35,17 @@ from allennlp.nn.util import move_to_device
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 logging.info('PyTorch uses device {}'.format(device))
 
-def main():
+
+def get_layer_size():
     layer_size = [config.get('emb_dim')] # input layer
     for i in [config.get('hidden_1'), config.get('hidden_2'), config.get('hidden_3'), config.get('hidden_4'), config.get('hidden_5')]:
         if i <= 0:
             break
         layer_size.append(i)
-    
+    return layer_size
+
+def evaluate_document_repr():
+    layer_size = get_layer_size()
     inverted_index = MemMappedInvertedIndex(layer_size[-1])
     inverted_index.load()
     logging.info('Loaded inverted index')
@@ -110,8 +115,8 @@ def main():
     for doc_id, occurence in sorted(doc_id_to_occurence.items(), key=lambda item: item[1]):
         logging.info('doc_id={:6},\toccurence={:4},\tsum_doc_repr_values={:8.7f},\tmean_doc_repr_values={:8.7f}'.format(doc_id, occurence, sum_doc_repr[doc_id], mean_doc_repr[doc_id]))
 
-
-
+def evaluate_query_repr():
+    layer_size = get_layer_size()
     logging.info('Loading vocabulary')
     vocabulary: Vocabulary = Vocabulary.from_files(directory=config.get('vocab_dir_path'))
     logging.info('Loading embedding')
@@ -137,9 +142,9 @@ def main():
     model_load_path = '{0}model-state_{1}.pt'.format(config.get('model_path'), config.get('run_name'))
     logging.info('Restoring model parameters from "{}"'.format(model_load_path))
     # restore model parameter https://pytorch.org/tutorials/beginner/saving_loading_models.html
-    model.load_state_dict(torch.load(model_load_path))
+    # model.load_state_dict(torch.load(model_load_path))
     # if you saved model on GPU and now want to load it on a CPU:
-    # model.load_state_dict(torch.load(model_load_path, map_location=device))
+    model.load_state_dict(torch.load(model_load_path, map_location=device))
     model.to(device)
     model.eval() # set model in evaluation mode
     
@@ -174,11 +179,10 @@ def main():
 
         num_queries_in_batch = query_repr.shape[0]
         for q in range(num_queries_in_batch):
-            query_repr_v = query_repr[q]
+            query_repr_v = query_repr[q].detach().numpy()
             qid = query_ids[q]
 
             retrieval_scores = dict()
-            query_repr_v = query_repr[0].detach().numpy()
 
             non_zero_elements = np.count_nonzero(query_repr_v)
             num_elements = len(query_repr_v)
@@ -200,9 +204,37 @@ def main():
 
 
 
+def usage():
+    print('Usage: index_stats.py {query|doc}')
+    exit()
+
+
+def main():
+    
+    if len(sys.argv) > 1:
+        arg = sys.argv[1]
+        if arg == 'query':
+            evaluate_query_repr()
+            return
+        if arg == 'doc':
+            evaluate_document_repr()
+            return
+        else:
+            usage()
+            return
+    else:
+        evaluate_query_repr()
+        evaluate_document_repr()
+
 
 if __name__ == '__main__':
     """
-    Generates statistics from already created inverted index
+    Generates statistics from already created inverted index (doc sparsity) and/or model's query sparsity
+
+    
     """
+    
+    if len(sys.argv) > 2:
+        usage()
+
     main()
