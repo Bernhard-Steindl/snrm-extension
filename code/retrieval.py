@@ -104,6 +104,10 @@ current_timestamp_str = time.strftime("%Y-%m-%d_%H%M%S")
 candidate_file_name = config.get('base_path') + config.get('evaluation_result_candidate_file_prefix') + current_timestamp_str + '.txt'
 max_retrieval_docs = config.get('num_retrieval_documents_per_query') # we are only interested in the top k document for a query
 
+
+inverted_index_lat_term_keys = np.array(list(inverted_index.index.keys()))
+logger.info('Inverted Index has {} dimensions'.format(len(inverted_index_lat_term_keys)))
+
 with open(candidate_file_name, 'w') as evaluationCandidateFile:
     logger.info('Created and writing evaluation candidate file "{}"'.format(candidate_file_name))
     
@@ -136,13 +140,27 @@ with open(candidate_file_name, 'w') as evaluationCandidateFile:
                 logger.debug('query_repr qid={} has ratio_zero_elements={:6.5f}'.format(qid, ratio_zero))
 
             sum_docs_processed = 0
-            for i in range(len(query_repr_v)): # TODO can this be optimized / parallelized?
-                if query_repr_v[i] > 0.:
-                    if not i in inverted_index.index:
+
+            indices_query_positive = ((query_repr_v > 0).nonzero()).flatten().numpy()
+            logger.info('Query (qid={}) has {} latent term dimensions > 0'.format(qid, len(indices_query_positive)))
+
+            indices_query_positive_in_index = np.intersect1d(indices_query_positive, inverted_index_lat_term_keys, assume_unique=True)
+            logger.info('Query (qid={}) has {} relevant dimensions in index'.format(qid, len(indices_query_positive_in_index)))
+
+            skipped_query_dimensions = 0
+
+            for i in indices_query_positive_in_index: # TODO can this be optimized / parallelized?
+                #if not i in inverted_index.index:
                         # logger.debug('A latent term dimension (dim={}) of a query (qid={}) has no assigned documents in index'.format(i, qid))
                         # TODO log or write something
-                        continue # no document is in this latent term dimension
+                #    continue # no document is in this latent term dimension
                     # logger.info('found {} docs in latent term dimension {}'.format(str(len(inverted_index.index[i])),str(i)))
+                
+                if len(inverted_index.index[i]) > (inverted_index.count_documents() * 0.8):
+                    logger.warning('Skipping latent term dimension={} for Query (qid={}) - too much docs in dimension ({})'.format(i, qid, len(inverted_index.index[i])))
+                    skipped_query_dimensions += 1
+                    continue
+                
                     for doc_id in inverted_index.index[i]: # for every doc in the current latent term dimension
                         sum_docs_processed += 1
                         if doc_id not in retrieval_scores:
@@ -150,6 +168,7 @@ with open(candidate_file_name, 'w') as evaluationCandidateFile:
                         doc_representation_v = inverted_index.get_doc_representation(doc_id)
                         weight = doc_representation_v[i]
                         retrieval_scores[doc_id] += query_repr_v[i] * weight
+            logger.info('Skipped {} / {} latent term dimensions for Query (qid={}), due to too much docs in dimension'.format(skipped_query_dimensions, len(indices_query_positive_in_index), qid))
             mean_docs_processed = round(sum_docs_processed / len(query_repr_v), 3)
             #logger.debug('processed avg. {} non-distinct docs for query per dimension (whole: {})'.format(str(mean_docs_processed), str(sum_docs_processed)))
             logger.info('Obtained a score for {} distinct docs for query qid={}'.format(len(retrieval_scores), qid))
