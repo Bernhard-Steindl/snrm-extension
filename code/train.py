@@ -164,10 +164,14 @@ def save_model(model: nn.Module, step_num='final') -> None:
 ######################################################################
 ######################################################################
 
+
+should_validate_every_n_steps = config.get('validate_every_n_steps') > -1
+
 # https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html
 tensorboard_log_path = config.get('log_path') + time.strftime("%Y-%m-%d-%H%M%S") + '_' + config.get('run_name')
 writer_train = SummaryWriter(tensorboard_log_path + '/train')
-writer_valid = SummaryWriter(tensorboard_log_path + '/valid')
+if should_validate_every_n_steps:
+    writer_valid = SummaryWriter(tensorboard_log_path + '/valid')
 
 vocabulary: 'Vocabulary' = Vocabulary.from_files(directory=config.get('vocab_dir_path'))
 
@@ -230,7 +234,6 @@ regularization_term = config.get('regularization_term')
 # TODO how to handle oov tokens and padding values?
 
 curr_training_step = 0
-should_validate_every_n_steps = config.get('validate_every_n_steps') > -1
 should_save_snapshot_every_n_steps = config.get('save_snapshot_every_n_steps') > -1 
 
 for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_data_triples_file')), num_epochs=1)):
@@ -284,7 +287,11 @@ for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_da
         save_model(model)
         break
 
+# TODO save model if we did not reach num_training_steps, but no more training samples are left
+
 writer_train.flush()
-writer_valid.flush()
 writer_train.close()
-writer_valid.close()
+
+if should_validate_every_n_steps:
+    writer_valid.flush()
+    writer_valid.close()
