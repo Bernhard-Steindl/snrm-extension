@@ -46,6 +46,8 @@ class MemMappedInvertedIndex(object):
                     if j not in self.index:
                         self.index[j] = []
                     self.index[j].append(current_doc_id)
+                    if len(self.index[j]) > 20000: # TODO define constant
+                        logger.warning('Added doc {} to index dimension {} which already holds {} docs'.format(current_doc_id, j, len(self.index[j])))
 
             if (should_add_doc_to_index == True) and (current_doc_id not in self._doc_id_to_memmap_idx):
                 memmap_index_for_doc = self._next_sequence_val()
