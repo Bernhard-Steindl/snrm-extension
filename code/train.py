@@ -217,7 +217,7 @@ logger.info('Model "{}" parameters: {}'.format(config.get('run_name'), sum(p.num
 logger.info('Network: {}'.format(repr(model)))
 
 for n, p in model.named_parameters():
-    logger.info('model parameter "{}" shape {}'.format(n, p.shape))
+    logger.info('model parameter "{}": shape={}, requires_grad={}'.format(n, p.shape, p.requires_grad))
 
 
 # optimizer 
@@ -257,6 +257,23 @@ for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_da
 
     if (curr_training_step < 1000 and curr_training_step % 10 == 0) or (curr_training_step >= 1000 and curr_training_step % 100 == 0):
         write_to_tensorboard(writer_train, curr_training_step, cost, hinge_loss, l1_regularization, q_repr, doc_pos_repr, doc_neg_repr)
+        
+        # tensorboard add histogram for sparsity TODO extract to method
+        non_zero_indices_query = q_repr[0].nonzero().flatten() # indices of values > 0
+        non_zero_indices_doc_pos = doc_pos_repr[0].nonzero().flatten()
+        non_zero_indices_doc_neg = doc_neg_repr[0].nonzero().flatten()
+        if non_zero_indices_query.nelement() > 0:
+            writer_train.add_histogram('Sparsity_Representation_First_Batch_Item/Query', non_zero_indices_query, curr_training_step)
+        if non_zero_indices_doc_pos.nelement() > 0:
+            writer_train.add_histogram('Sparsity_Representation_First_Batch_Item/Document_Positive', non_zero_indices_doc_pos, curr_training_step)
+        if non_zero_indices_doc_neg.nelement() > 0:
+            writer_train.add_histogram('Sparsity_Representation_First_Batch_Item/Document_Negative', non_zero_indices_doc_neg, curr_training_step)
+
+        # tensorboard add histogram for model parameter weight/bias properties TODO extract to method
+        for n, p in model.named_parameters():
+            if p.requires_grad == False:
+                continue
+            writer_train.add_histogram('Model_Param_Weight/{}'.format(n), p.data, curr_training_step)
         
     # TODO change .data() to .item() for single value tensor 
 
