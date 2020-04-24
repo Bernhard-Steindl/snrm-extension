@@ -134,8 +134,11 @@ class SNRM(nn.Module):
         (q_repr, d1_repr, d2_repr) = (None, None, None) # init - we may not return a Tensor for every input arg
 
         if query != None:
+            mask_query_oov = (query > 1).float() # padding idx=0, oov idx=1; mask is 0 if padding or oov token, otherwise 1
+
             # getting the embedding vectors for the query and the documents.
-            query_embeddings = self.word_embeddings({"tokens": query})
+            # shapes [32, 10, 300] * [32, 10, 1] (use unsqueeze to add a dimension on the specified index)
+            query_embeddings = self.word_embeddings({"tokens": query}) * mask_query_oov.unsqueeze(2) # mask used for padding oov tokens with 0 value
             #logger.info('shape query_embeddings {}'.format(query_embeddings.size())) # [32, 10, 300])
 
             # ADD: AIR assignment hint: The batch tensors also have no fixed size, the max values in the readers are just to cap outliers
@@ -154,7 +157,9 @@ class SNRM(nn.Module):
             #logger.info('q_repr after reduce_mean shape: {}'.format(q_repr.size())) # torch.Size([32, 50])
 
         if doc_pos != None:
-            doc_pos_embeddings = self.word_embeddings({"tokens": doc_pos})
+            mask_doc_pos_oov = (doc_pos > 1).float() # padding idx=0, oov idx=1; mask is 0 if padding or oov token, otherwise 1
+            # shapes [32, 103, 300] * [32, 103, 1] (use unsqueeze to add a dimension on the specified index)
+            doc_pos_embeddings = self.word_embeddings({"tokens": doc_pos}) * mask_doc_pos_oov.unsqueeze(2) # mask used for padding oov tokens with 0 value
             #logger.info('shape doc_pos_embeddings {}'.format(doc_pos_embeddings.size())) # [32, 103, 300]
 
             # ADD: AIR assignment hint: The batch tensors also have no fixed size, the max values in the readers are just to cap outliers
@@ -173,7 +178,9 @@ class SNRM(nn.Module):
             #logger.info('d1_repr after reduce_mean shape: {}'.format(d1_repr.size())) # torch.Size([32, 50])
 
         if doc_neg != None:
-            doc_neg_embeddings = self.word_embeddings({"tokens": doc_neg})
+            mask_doc_neg_oov = (doc_neg > 1).float() # padding idx=0, oov idx=1; mask is 0 if padding or oov token, otherwise 1
+            # shapes [32, 103, 300] * [32, 103, 1] (use unsqueeze to add a dimension on the specified index)
+            doc_neg_embeddings = self.word_embeddings({"tokens": doc_neg}) * mask_doc_neg_oov.unsqueeze(2) # mask used for padding oov tokens with 0 value
             #logger.info('shape doc_neg_embeddings {}'.format(doc_neg_embeddings.size())) # [32, 103, 300]
 
             # ADD: AIR assignment hint: The batch tensors also have no fixed size, the max values in the readers are just to cap outliers
