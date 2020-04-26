@@ -87,7 +87,7 @@ class SNRM(nn.Module):
                                                            bias=True,
                                                            padding_mode='zeros')
             # Fills the input Tensor with values drawn from the normal distribution
-            nn.init.normal_(tensor=conv_layer_dict['conv_' + str(i)].weight, mean=0.0, std=1.0)
+            # nn.init.normal_(tensor=conv_layer_dict['conv_' + str(i)].weight, mean=0.0, std=1.0)
             #conv_layer_dict['relu' + str(i)] = nn.ReLU()
 
             # conv_layer_dict['relu_' + str(i)] = nn.ReLU()
