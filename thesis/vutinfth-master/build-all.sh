@@ -2,7 +2,7 @@
 # Copyright (C) 2014-2020 by Thomas Auzinger <thomas@auzinger.name>
 
 CLASS=vutinfth
-SOURCE=example
+SOURCE=thesis
 
 # Build vutinfth documentation
 pdflatex $CLASS.dtx
