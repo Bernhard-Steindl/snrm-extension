@@ -1,0 +1,20 @@
+\chapter{Methodology}
+
+The practical values of the bachelor thesis will be the reproducibility of the SNRM implementation and the migration of the original SNRM source code to be executable with the latest versions of the machine learning library PyTorch.
+An analysis [5] from Horace He shows that in 2019 the machine learning frameworks PyTorch and TensorFlow  are the most popular used ones.
+According to Horace He, TensorFlow is still the dominant framework in the industry by comparing job listings, for instance.
+However, he also studied research papers that either use PyTorch or TensorFlow and found PyTorch has gained traction since 2018 and actually holds the majority in the research community at the moment. [5] 
+The growing popularity of using PyTorch motivates the usage of the framework for the bachelor thesis.
+The theoretical values of the bachelor thesis will be a comparison of the original SNRM and the ported SNRM, as well as an analysis of state of the art neural information retrieval models, like SNRM and NVSM.
+Concerning the practical part of the thesis, the first goal is to be able to run the original SNRM.
+For training and evaluation of the IR model the Microsoft MAchine Reading COmprehension Dataset (MS MARCO) for passage ranking  will be used.
+One of the first steps to approach this goal is to find compatible versions for Python, TensorFlow and NumPy, because the originally used legacy package versions of the authors are not listed on the GitHub page of SNRM.
+
+Next up, will be the implementation of missing Python functions in the original SNRM code, comprising among others the creation of an in-memory term dictionary, and the provision of training and evaluation batch data to the model.
+Afterwards, the original SNRM will be ported resp. migrated to SNRM-PyTorch, which will be a SNRM with up-to-date versions of Python, PyTorch and NumPy.
+
+For version control of the source code a private GitHub repository, forked from the original SNRM, will be used.
+The design of the implementation and the source code will be available in the thesis chapter Design and Implementation.
+For the theoretical part, a comparison as well as an evaluation of the model training performance and ranking results of the original SNRM and SNRM-PyTorch with the MS MARCO dataset will be presented in the chapter Evaluation.
+
+The bachelor thesis chapter State of the Art will be a comparison of SNRM to other recent proposals of Neural Information Retrieval models, like the Neural Vector Space Model (NVSM).
