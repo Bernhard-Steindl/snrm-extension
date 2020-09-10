@@ -3,49 +3,52 @@
 \section{Problem}
 
 In Information Retrieval (IR) the main objective is to retrieve and rank relevant documents that satisfy a user’s search query, which represents an instance of a user’s information need.
-
 Most traditional information retrieval models, like TF-IDF and BM25, are designed to estimate document relevance by counting the word resp. term frequency in documents.
 These models utilize an inverted index for holding a posting list for every term in the model’s vocabulary.
 The posting list for a term saves tuples of a document id and its term frequency of the documents, in which the term occurs.
 A posting list only holds the document ids for a term where the term frequency is non-zero, and therefore the data storage requirements are reduced.
 Additionally, these traditional models take advantage of efficient data access during the retrieval phase.
+
 However, a drawback of these models is that they consider only the documents which contain exact matches of the query terms.
-These IR models ignore the aboutness of a document and the semantic concepts it depicts, because they do not comprise relationships between terms. [1]
+These IR models ignore the aboutness of a document and the semantic concepts it depicts, because they do not comprise relationships between terms. \cite{mitra:2018:introduction-neural-ir}
+
 Users may express their search intent by formulating a query with words, that do not exactly match the words that occur in the relevant documents for their information need.
 Circumlocutory queries are also used by people for seeking relevant medical information for the self-diagnosis of symptoms they observe, for instance.
 These queries are formulated as a description of their symptoms (e.g. hives all over body). 
-Zuccon et al. revealed in their work [2] that current search engines are still poorly equipped to answer such queries, which might result in misleading advice, escalation of medical concerns and medication errors.
+Zuccon et al. revealed in their work \cite{zuccon:2015:diagnose-this} that current search engines are still poorly equipped to answer such queries, which might result in misleading advice, escalation of medical concerns and medication errors.
 
 
 \section{Motivation and Goal}
 
-A vocabulary gap occurs, if the set of terms used in a query compared to those used in documents are different, but describe the same concepts. [3]
-Neural IR models were proposed to bridge the gap between query and document vocabulary.
+A vocabulary gap occurs, if the set of terms used in a query compared to those used in documents are different, but describe the same concepts. \cite{van-gysel:2017:neural-vector-spaces}
+\\Neural IR models were proposed to bridge the gap between query and document vocabulary.
 These models employ deep neural networks for the information retrieval task.
 Current neural IR models use supervised machine learning techniques for learning to rank that require a large collection of labelled data, which sometimes are not sufficiently available.
+\\In an alternative setting where labelled data is not needed, unsupervised learning can be used to learn vector representations (embeddings) of query and document text that capture different notions of text similarity and relatedness between terms.
+These representations can then be used in conjunction with a similarity metric (e.g. cosine similarity) to estimate the relevance of a document to a query in a vector space. \cite{mitra:2018:introduction-neural-ir}
 
-In an alternative setting where labelled data is not needed, unsupervised learning can be used to learn vector representations (embeddings) of query and document text that capture different notions of text similarity and relatedness between terms.
-These representations can then be used in conjunction with a similarity metric (e.g. cosine similarity) to estimate the relevance of a document to a query in a vector space. [1]
 Words that are used in a document in similar context tend to be semantically similar, according to the distributional hypothesis.
 In observed feature spaces, a term can be represented differently based on the selected distributional features (e.g. by neighboring terms), and consequently captures different semantic relationships between terms.
 A drawback of observed feature spaces is, that representations are highly sparse and high-dimensional.
 By contrast, an embedding is a simplified representation of items in a new vector space and usually learned from observed features in a way such that relationships and properties of the items are preserved.
 The features of an embedding’s vector space are not observable resp. not interpretable, but latent.
-Latent vector spaces are dense and lower-dimensional and learnt from data. [1]
+Latent vector spaces are dense and lower-dimensional and learnt from data. \cite{mitra:2018:introduction-neural-ir}
 
-As stated in the work of Zamani et al. [4] current neural IR ranking models learn dense latent representations for query and document terms, which is highly inefficient and infeasible for large document collections, if every query and document representation must be matched during scoring.
-To avoid this, neural re-ranking models have been proposed, which are integrated in a multi-stage ranking system and only re-rank a small subset of potentially relevant documents retrieved by an efficient different first stage ranker beforehand. [4] 
-As a first stage ranker a lexical matching method can be used. [3] 
+As stated in the work of Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking} current neural IR ranking models learn dense latent representations for query and document terms, which is highly inefficient and infeasible for large document collections, if every query and document representation must be matched during scoring.
+To avoid this, neural re-ranking models have been proposed, which are integrated in a multi-stage ranking system and only re-rank a small subset of potentially relevant documents retrieved by an efficient different first stage ranker beforehand. \cite{zamani:2018:from-neural-reranking-to-neural-ranking} 
+As a first stage ranker a lexical matching method can be used. \cite{van-gysel:2017:neural-vector-spaces} 
 Re-ranking a small subset of the document collection might be more efficient, but a downside of re-ranking models is their acting as a document filter.
-Some relevant documents might be filtered out by the first stage ranker in an early stage, that could have been retrieved by a neural IR model. [4]
-Scientific research and work on neural IR approaches have been limited mostly to re-ranking the top-k documents. [1]
+Some relevant documents might be filtered out by the first stage ranker in an early stage, that could have been retrieved by a neural IR model. \cite{zamani:2018:from-neural-reranking-to-neural-ranking}
+\\Scientific research and work on neural IR approaches have been limited mostly to re-ranking the top-k documents. \cite{mitra:2018:introduction-neural-ir}
 This is motivating to explore new neural IR models.
-In a recent work from Van Gysel et. al. [3] they introduce the Neural Vector Space Model (NVSM) suited for document collections of medium scale.
+
+In a recent work from Van Gysel et. al. \cite{van-gysel:2017:neural-vector-spaces} they introduce the Neural Vector Space Model (NVSM) suited for document collections of medium scale.
 According to the authors, their model performs better at document ranking than existing latent semantic vector space methods.
 Their neural IR model learns low-dimensional representations of words and documents with unsupervised learning from scratch by gradient descent.
 Additionally, they learn a linear transformation function that maps from the word representation vector space to the document representation vector space, due to different vector space dimensionality.
-NVSM is different from other neural semantic matching models, because instead of matching every document in the document collection to a query, they use nearest neighbor search algorithms within the vector space framework to rank the top-k documents. [3]
-Zamani et al. recently proposed [4] a standalone neural ranking model (SNRM).
+NVSM is different from other neural semantic matching models, because instead of matching every document in the document collection to a query, they use nearest neighbor search algorithms within the vector space framework to rank the top-k documents. \cite{van-gysel:2017:neural-vector-spaces}
+
+Zamani et al. recently proposed \cite{zamani:2018:from-neural-reranking-to-neural-ranking} a standalone neural ranking model (SNRM).
 Their model does not require a first stage ranker and the authors stress retrieval using large-scale document collections as efficient as conventional term matching models.
 The SNRM is designed to first learn low-dimensional dense latent representations of queries and documents to capture semantic meaning, and then learns a function that transforms the representation in a high-dimensional representation by enforcing and rewarding sparsity.
-The resulting sparse representations then allow the construction of an inverted index for the document collection. [4]
+The resulting sparse representations then allow the construction of an inverted index for the document collection. \cite{zamani:2018:from-neural-reranking-to-neural-ranking}
