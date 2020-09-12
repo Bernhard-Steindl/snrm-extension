@@ -19,3 +19,166 @@ The design of the implementation and the source code will be available in the th
 For the theoretical part, a comparison as well as an evaluation of the model training performance and ranking results of the original SNRM and SNRM-PyTorch with the MS MARCO dataset will be presented in the chapter Evaluation.
 
 The bachelor thesis chapter State of the Art will be a comparison of SNRM to other recent proposals of Neural Information Retrieval models, like the Neural Vector Space Model (NVSM).
+
+
+
+Actually done:
+
+Read papers of SNRM, NVSM, An Introduction to Neural Information Retrieval,
+first two weeks of Coursera Stanford Machine Learning Course \footnote{Coursera Stanford Machine Learning Course website \url{https://www.coursera.org/learn/machine-learning}}
+useful for learning about an Introduction to machine learning, supervised and unsupervised learning, intuition of
+cost function, gradient descent, linear regression, refresher course in linear algebra (matrices, vectors)
+Python tutorial \footnote{Python tutorial website \url{https://docs.python.org/3.6/tutorial/}}
+
+Understand SNRM Code and Tensorflow, NumPy, PyTorch
+Gain experience in using pip and Conda for dependency resp. package management, as well as IDE Visual Studio Code.
+
+
+According to the paper of SNRM, as datasets were used Robust (TREC), ClueWeb und AOL query logs and a Wikipedia dump.
+However, 
+
+
+Google Colab like a Jupyter Notebook but with free NVIDA GPU
+
+SNRM original tensorflow code make runnable on local MacBook and CPU
+Extension of original SNRM code in Tensorflow to be able to use the MS MARCO passage ranking dataset.
+
+Unfortunately, the authors neither stated the versions of Python, Tensorflow and NumPy on their paper nor in the SNRM GitHub repository.
+Hence, the first effort was put in trying different versions and resolve version conflicts between dependencies.
+By trial-and-error executing SNRM Tensorflow with various versions, the following versions seemed to make the application run.
+Probable, these versions were used by the authors of he SNRM with Tensorflow:
+
+\begin{itemize}
+    \item python 3.6.9
+    \item tensorflow 1.4.0
+    \item numpy 1.16.4
+\end{itemize}
+
+After finding potential suitable Python, Tensorflow and Numpy versions, runtime errors occured, likely due to invokations of incompatible 
+    resp. obsolete api methods and attributes by the SNRM code.
+
+
+
+triples.train.tsv (Dataset Advanced IR/MS MARCO), NLTK \verb|word_tokenize|
+
+
+code/dictionary.py
+
+
+
+
+SNRM's \texttt|code/dictionary.py| opens a file comprising tokens and generates two datastructures, one for mapping from an id to a token, 
+    and vice versa.
+According to the original SNRM source code, the authors loaded vocabulary terms from the output of Galago's \verb|dump_term_stats| function.
+There was no reference supplied where to download their vocabulary terms.
+Hence, the file \verb|allen_vocab_lower_10/tokens.txt| from the Advanced Information Retrieval course's exercise files 
+    \footnote{Advanced IR course's excercise files \url{https://owncloud.tuwien.ac.at/index.php/s/QA4LEtxdBokqdNx}}
+    was chosen and used as a token file and in this way the known vocabulary.
+The original implementation for loading the vocabulary tokens had to be adjusted due to a different format of the token file.
+It is worth to note, that the original SNRM implementation only used simple whitespace (\verb|" "|) tokenization, for demonstrating
+    the concept of retrieval with two exemplary hard-coded queries (see \texttt{code/retrieval.py}).
+Instead of retaining the simple whitespace tokenization, NLTK word tokenization was employed.
+NLTK in version 3.4.5, a Python dependency, was added for using the NLTK corpus' english stopwords and word tokenization.
+The file \texttt{code/dictionary.py} was edited and the function function \verb|get_term_id_list| was added as a 
+    replacement of the previous tokenization technique, for the means to generate a list of term-ids from 
+    query and document text via word tokenization with regards to remove stop words, too.
+
+
+
+% Die Methode zum Generieren von Data-Batches (generate_batches) war im Original-Code noch nicht umgesetzt. 
+% Ich vermute, weil diese abhängig vom gewählten Datensatz ist. Als Datensatz habe ich mal die train.triples.tsv von dir genommen. 
+% Ich bin mir aber unsicher, ob mein Batch dem entspricht, was erwartet wird, weil ich das Kommentar, das die Nachbedingung beschreibt, 
+% nicht ganz verstehe. Für die Tokenization v. query und passages hab ich NLTK gefunden und vorerst hinzugefügt (word\_tokenize).
+
+
+
+
+Implementation halted for writing the bachelor thesis proposal, composed of the thesis title, literature, thesis structure and the motivation, 
+    and planned goals of the thesis.
+
+The paper's authors did not provide the function \verb|generate_batch| within the python file \verb|code/train.py|, 
+    which is supposed to be used for generating a new batch of training data (resp. validating data), while also remembering which 
+    data was already generated.
+One raw batch is a matrix comprising various query texts, two document texts (passages), and a label indicating which document 
+    is more relevant to the corresponding query text.
+The batch data's query and document text have to be represented as term ids. 
+As a consequence, the positve and negative document as well as the query texts had to be tokenized, stopwords had be removed,
+    and the representations had to be trimmed or padded to have a common length.
+
+Concerning training and validation data, at first a processed (HOW?) subset of the MS MARCO dataset was used, 
+    \verb|triples.train.tsv| (ca. 1.7 GB), which was downloaded from the Advanced IR course's exercise files.
+The triples file was split in two distinct files, namely one for training and the other for validation data.
+The format of the dataset is \verb|"query \t relevant-doc \t non-relevant-doc"|.
+
+% google tensorboard
+% 'dict_file_name', 'data/tokens/tokens_lowered_2019-12-28_001150_min_10.txt
+% google-colab/SNRM_Extension_Steindl.ipynb 
+
+Similarly, the authors of the SNRM paper did not implement the \verb|generate_batch| function for the phase of index construction in 
+    the file \verb|code/index_construction.py|. As a result, the function had to be implemented in such a way, that it returns a
+    batch resp. matrix comprising of multiple document-id entries and assigning every document-id a list of the document token ids.
+    The document token ids were obtained the same way as in the training phase's batch generation 
+    (tokenization, stopword removal, padding/trimming).
+As the data source for generating passage text batches, the document collection \verb|collection.tsv| (ca. 2.9 GB)
+    \footnote{MS MARCO passage ranking document collection dataset download link 
+    \url{https://msmarco.blob.core.windows.net/msmarcoranking/collection.tar.gz}}, 
+    from the MS MARCO passage ranking GitHub repository was used, which has the format \verb|"passage-id \t passage-text"|.
+
+For the reader it remains unclear, why the source code for batch generation has been deleted and replaced with an exception pointing out the
+    missing implementation. 
+Probably, the code was too domain-specific or too closely tied to the chosen training data and document collection,
+    so it was not worth making it publicly available on GitHub.
+Nevertheless, for the reproduction of the SNRM's results it is necessary to add the lacking implementation details.
+
+As already stated, the Python script for the retrieval phase (\texttt{code/retrieval.py}) had only hard-coded two example queries,
+    and demonstrated the steps for obtaining the retrieval scores for documents, for a given query.
+After mapping the query text to a list of token ids, generation of a latent query representation vector through model inference, 
+    inverted index lookup for relevant documents with the latent representation's dimension, a document's retrieval score was
+    calculated by summation over a document's latent term weigh and the coefficient of the corresponding latent query term dimension.
+Afterwards, the original SNRM code just writes the document retrieval scores to a binary file by Pyhon object serialization (\texttt{pickle}).
+One of the goals in reproducing the paper and the source code, was to evaluate the retrieval model with recent evaluation tools like 
+    \verb|trec_eval| \footnote{Evaluation software \texttt{trec\_eval} GitHub repository \url{https://github.com/usnistgov/trec_eval}},
+    and \verb|msmarco_eval.py| 
+    \footnote{Evaluation software \texttt{msmarco\_eval.py} GitHub repository \url{https://github.com/spacemanidol/MSMARCO/blob/master/Ranking/Baselines/msmarco_eval.py}}.
+Associated with this, the retrieval Python script was modified, to process as input a query file, to write the retrieval result as an 
+    evaluation file comprising the retrieved and relevant document candidates in TREC format, 
+    and to allow to stop retrieval after a configurable number of input queries have been processed. 
+
+The MS MARCO passage ranking GitHub repository also provides queries and TREC qrel files for model evaluation.
+As a starting point, the query file \texttt{queries.dev.small.tsv} and the qrel file \texttt{qrels.dev.small.tsv} were downloaded
+    \footnote{MS MARCO passage ranking queries, and qrel files download link \url{https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz} }.
+    and used.
+
+% queries.air-subset.tsv
+
+By writing and utilizing a Python script for analysing the qrel file's content, the following statistics have been observed.
+The qrel file \texttt{qrels.dev.small.tsv} comprises of 6,980 queries in total.
+When grouping all queries by how much relevant documents a certain query has, as a result is obtained, that 
+    out of all queries, 6,590 queries have only one relevant document, resp. 331 queries have two, 
+    51 queries have three and 8 queries have four relevant documents, accoding to the relevance judgements file.
+
+Unfortunately, the own available personal computers lack the accessibility to a NVIDIA GPU.
+NVIDIA GPUs proved to be well equipped for improving model training performance and speed, compared to a CPU.
+Hence, after making the original SNRM code with stated modifications executable, a Google Colab notebook was created
+    with Google Colaboratory (Colab) \footnote{Google Colaboratory (Colab) website \url{https://colab.research.google.com}},
+    for executing the SNRM application phases in a Jupyter Notebook like environment, 
+    but also utilizing a free NVIDIA GPU.
+In the Google Colab Notebook, commands were used to setup the platform (NVIDIA CUDA, NVIDIA cuDNN, Coda, pip, Python, etc.), 
+    install the required project dependencies, downloading and extracting datasets,
+    before invoking the Python scripts, according to the model's information retrieval phases
+    model training, inverted index construction, retrieval, and evaluation.
+
+
+
+
+
+
+    
+%     The format of a qrels file is as follows:
+% TOPIC      ITERATION      DOCUMENT#      RELEVANCY 
+% https://trec.nist.gov/data/qrels_eng/
+
+% limitation of number of retrieval documents (max_retrieval_docs flag)
+% retrieval.py statistics sparsity, logging of document count per latent term dimension found, logging empty retrieval list for query
+
+
