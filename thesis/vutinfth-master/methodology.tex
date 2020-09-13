@@ -34,6 +34,8 @@ Understand SNRM Code and Tensorflow, NumPy, PyTorch
 Gain experience in using pip and Conda for dependency resp. package management, as well as IDE Visual Studio Code.
 
 
+Book François Chollet - Deep Learning with Python
+
 According to the paper of SNRM, as datasets were used Robust (TREC), ClueWeb und AOL query logs and a Wikipedia dump.
 However, 
 
@@ -110,6 +112,13 @@ Concerning training and validation data, at first a processed (HOW?) subset of t
 The triples file was split in two distinct files, namely one for training and the other for validation data.
 The format of the dataset is \verb|"query \t relevant-doc \t non-relevant-doc"|.
 
+The SNRM model was operated with pre-trained GloVe word vectors
+    \footnote{GloVe pre-trained word vectors GitHub repository \url{https://github.com/stanfordnlp/GloVe\#download-pre-trained-word-vectors}},
+    which were downloaded from their GitHub repository.
+Different GloVe embeddings were used for experimenation, namely \verb|glove.42B.300d.txt|, 
+    of corpora Common Crawl (42B tokens, 1.9M vocab, uncased, 300d vectors, 1.75 GB download), 
+    and \verb|glove.6B.100d.txt|, of corpora Wikipedia 2014 + Gigaword 5 (6B tokens, 400K vocab, uncased, 100d vectors, 822 MB download).
+
 % google tensorboard
 % 'dict_file_name', 'data/tokens/tokens_lowered_2019-12-28_001150_min_10.txt
 % google-colab/SNRM_Extension_Steindl.ipynb 
@@ -157,13 +166,15 @@ When grouping all queries by how much relevant documents a certain query has, as
     out of all queries, 6,590 queries have only one relevant document, resp. 331 queries have two, 
     51 queries have three and 8 queries have four relevant documents, accoding to the relevance judgements file.
 
+
+
 Unfortunately, the own available personal computers lack the accessibility to a NVIDIA GPU.
 NVIDIA GPUs proved to be well equipped for improving model training performance and speed, compared to a CPU.
 Hence, after making the original SNRM code with stated modifications executable, a Google Colab notebook was created
     with Google Colaboratory (Colab) \footnote{Google Colaboratory (Colab) website \url{https://colab.research.google.com}},
     for executing the SNRM application phases in a Jupyter Notebook like environment, 
     but also utilizing a free NVIDIA GPU.
-In the Google Colab Notebook, commands were used to setup the platform (NVIDIA CUDA, NVIDIA cuDNN, Conda, pip, Python, etc.),
+In the Google Colab Notebook, commands were used to setup the platform (NVIDIA CUDA, NVIDIA cuDNN, Miniconda, pip, Python, etc.),
     checkout the GitHub source code,
     install the required project dependencies, downloading and extracting datasets,
     before invoking the Python scripts, according to the model's information retrieval phases
@@ -177,6 +188,7 @@ Google provides a table of tested build configurations on their Tensorflow websi
     \footnote{Tensorflow tested Linux GPU build configurations \url{https://www.tensorflow.org/install/source\#gpu}}, 
     which was useful in finding the supported NVIDIA sofware versions, that has to be installed in Google Colab 
     after deleting the originally preinstalled packages.
+Unfortunately, the authors have not disclosed the used NVIDIA CUDA and cuDNN versions.
 
 After writing a Google Colab notebook for SNRM was done, the model training was run for several hours in Google Colab,
     followed by index construction.
@@ -184,9 +196,15 @@ Evaluating the model's retrieval results showed that the inverted index was only
 This bug could be identified and was fixed soon afterwards by processing the whole document collection or until a
     configurable number of documents has been indexed.
 
-Index construction posed another next challenge, because the original source code utilizes an in-memory storage
+Index construction posed another challenge, because the original source code utilizes an in-memory storage
     for the inverted index and writes it to a file with Python's \texttt{pickle} not until index construction finishes.
 Subsequentially, in the retrieval phase, the index is read in from this binary file, that was created prior to that.
+Though, the authors noted in their source code, that the inverted index should be implemented and that it can be 
+    either an in-memory inverted index or any kind of database in the hard disk.
+Hence, it is likely that the publicly provided in-memory storage functionality was not not used for their actual experiments,
+    because they might have experienced the same memory issues.
+Instead, probably they provided the \verb|code/inverted_index.py| file just for demonstration of their IR system's index
+    storage functionality.
 Unfortunately, the employed personal computer was equipped with just 16 GB 1600 MHz DDR3 random-access memory (RAM),
     and Google Colab only provides 12 GB RAM at maximum.
 Only about 64,000 documents could be indexed and hold in-memory, although the whole collection contained 8,841,823 documents.
@@ -195,8 +213,64 @@ Utilizing Numpy's \texttt{numpy.memmap}
     \footnote{Numpy documentation of \texttt{numpy.memmap} \url{https://numpy.org/doc/1.16/reference/generated/numpy.memmap.html?highlight=numpy.memmap\#numpy.memmap}} 
     function for creating a memory-map to an array stored in a binary file on disk, was the response to the 
     inefficient memory storage issue.
+The modified inverted index storage comprises three datastructures.
+Firstly, a Python dictionary \texttt{dict()} is used for establishing a mapping between a latent document representation's dimension
+    to a list of document ids.
+This datastructure is like an index, in returning all potentially relevant documents for a latent document representation's term.
+Secondly, a Numpy two-dimensional memory-mapped file is used, which provides storage for the latent document representations' vectors
+    of all intended documents for index construction.
+Lastly, another Python dictionary is utilized for mapping a document id to its corresponding document representation's index within the memory-map array.
+This datastructure can be used to retrieve the latent document representation for a given document id.
+Both of these Python dictionary datastructures are stored using the Python function \texttt{pickle} on index construction completion,
+    whereas the memory-mapped array is automatically stored on disk through Numpy.
+If only a certain section of the memory mapped file is requested, Numpy loads only that part into memory, rather than loading the whole file from disk,
+    which allows to index more documents and increases memory access.
 
-    
+After implementing the more sophisticated inverted index, the next challenge emerged.
+Several hours and days were spent in training the model, index construction, retrieval and evaluation.
+Indexing more than 1 Mio. documents was not feasible, because retrieval of documents for a single query sometimes took hours or even longer, so
+    retrieval had to be terminated, because an end was not in sight.
+The retrieval did not yield positive metrics for \verb|trec_eval| and manual observations showed that retrieval returned meaningless and irrelevant 
+    document passages.\\
+One attempt to cope with this issue was to write a new Python script \verb|code/generate_tokens.py| for generating a new token file, 
+    containing all distinct tokens of the collection's documents in lower case, with an configurable occurence frequency 
+    (e.g. token appears at least 10 times in the collection).
+An analysis of one of the generated token files (\verb|"data/tokens/tokens_lowered_2019-12-28_001150_min_10.txt"|) showed,
+    that the file holds 359,918 tokens, where one of the embeddings (\verb|glove.6B.100d.txt|) did not know 177,032 tokens.
+That is, ca. 49\% of the tokens in the generated file were unknown tokens for the embedding,
+    which means that for these unknown tokens a random vector is used as an embedding.
+Training the model with the first 640,000 lines of the training dataset \verb|train.triples.tsv| and
+    indexing 1 Mio. documents from the collection,
+    by using this newly generated token file, unfortunately, yielded no improvement of the evaluation
+    metrics.
+
+To speed up evaluation two new Python scripts were written
+    (\verb|code/qrels_subset.py|, \verb|code/query_subset_from_qrel.py|).
+One of them creates out of an existing qrel file (e.g. \verb|qrels.dev.small.tsv|)
+    a new subset qrel file containing only those queries, that have at least one 
+    relevant document in the document collection that is intented to be indexed.
+The other one creates for an existing query file (e.g. \verb|queries.dev.small.tsv|)
+    and a subset qrel file a new query file, containing only the subset of queries from the input.
+For experimenation in this early stage, sometimes only a subset of the documents from the 
+    collection (e.g. the last 1 Mio.) were indexed, and hence, 
+    the retrieval of queries that only have relevant documents in the qrel file, which are non-indexed,
+    is useless.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
