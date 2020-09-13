@@ -163,13 +163,40 @@ Hence, after making the original SNRM code with stated modifications executable,
     with Google Colaboratory (Colab) \footnote{Google Colaboratory (Colab) website \url{https://colab.research.google.com}},
     for executing the SNRM application phases in a Jupyter Notebook like environment, 
     but also utilizing a free NVIDIA GPU.
-In the Google Colab Notebook, commands were used to setup the platform (NVIDIA CUDA, NVIDIA cuDNN, Coda, pip, Python, etc.), 
+In the Google Colab Notebook, commands were used to setup the platform (NVIDIA CUDA, NVIDIA cuDNN, Conda, pip, Python, etc.),
+    checkout the GitHub source code,
     install the required project dependencies, downloading and extracting datasets,
     before invoking the Python scripts, according to the model's information retrieval phases
     model training, inverted index construction, retrieval, and evaluation.
 
+Due to the authors' use of a relatively old Tensorflow version 1.4.0 nowadays, special effort had to be put in setting up
+    NVIDIA cuDNN in version 6 and NVIDIA CUDA version 8, to be compatible with \verb|tensorflow_gpu-1.4.0|.
+Google Colab's platform is setup with an already preinstalled version of these NVIDIA software, which was in its original condition
+    not compatible with the SNRM source code resp. Tensorflow version 1.4.
+Google provides a table of tested build configurations on their Tensorflow website
+    \footnote{Tensorflow tested Linux GPU build configurations \url{https://www.tensorflow.org/install/source\#gpu}}, 
+    which was useful in finding the supported NVIDIA sofware versions, that has to be installed in Google Colab 
+    after deleting the originally preinstalled packages.
 
+After writing a Google Colab notebook for SNRM was done, the model training was run for several hours in Google Colab,
+    followed by index construction.
+Evaluating the model's retrieval results showed that the inverted index was only created for a small document fraction.
+This bug could be identified and was fixed soon afterwards by processing the whole document collection or until a
+    configurable number of documents has been indexed.
 
+Index construction posed another next challenge, because the original source code utilizes an in-memory storage
+    for the inverted index and writes it to a file with Python's \texttt{pickle} not until index construction finishes.
+Subsequentially, in the retrieval phase, the index is read in from this binary file, that was created prior to that.
+Unfortunately, the employed personal computer was equipped with just 16 GB 1600 MHz DDR3 random-access memory (RAM),
+    and Google Colab only provides 12 GB RAM at maximum.
+Only about 64,000 documents could be indexed and hold in-memory, although the whole collection contained 8,841,823 documents.
+The imposed system hardware constraints led to a search for an alternative option of index storage.
+Utilizing Numpy's \texttt{numpy.memmap}
+    \footnote{Numpy documentation of \texttt{numpy.memmap} \url{https://numpy.org/doc/1.16/reference/generated/numpy.memmap.html?highlight=numpy.memmap\#numpy.memmap}} 
+    function for creating a memory-map to an array stored in a binary file on disk, was the response to the 
+    inefficient memory storage issue.
+
+    
 
 
 
