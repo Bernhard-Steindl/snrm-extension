@@ -64,6 +64,8 @@ After finding potential suitable Python, Tensorflow and Numpy versions, runtime 
 triples.train.tsv (Dataset Advanced IR/MS MARCO), NLTK \verb|word_tokenize|
 
 
+
+
 code/dictionary.py
 
 
@@ -179,6 +181,8 @@ In the Google Colab Notebook, commands were used to setup the platform (NVIDIA C
     install the required project dependencies, downloading and extracting datasets,
     before invoking the Python scripts, according to the model's information retrieval phases
     model training, inverted index construction, retrieval, and evaluation.
+Note that to run Tensorflow GPU-accelerated the package \verb|tensorflow-gpu| must also be installed,
+    with \verb|pip| for instance.
 
 Due to the authors' use of a relatively old Tensorflow version 1.4.0 nowadays, special effort had to be put in setting up
     NVIDIA cuDNN in version 6 and NVIDIA CUDA version 8, to be compatible with \verb|tensorflow_gpu-1.4.0|.
@@ -256,9 +260,94 @@ For experimenation in this early stage, sometimes only a subset of the documents
     the retrieval of queries that only have relevant documents in the qrel file, which are non-indexed,
     is useless.
 
+The model was configured for these runs with three hidden layers, with 100-, 80- and 100 units,
+    and an output layer with 5,000 units.
+After these unsuccessful attempts, another consideration was that potentially the model has not been trained
+    long enough, and therefore the metrics are not positive.
+Instead of training the model on the training dataset \verb|train.triples.tsv| over the first 640,000 entries,
+    the model was trained over the first 2,259,200 rows.
+To be more precise, the model was trained with 70,600 steps each time with a batch size of 32.
+Training this model with the personal computer without a NVIDIA GPU available, took very long --- 
+    approximately 17 hours.
+Subsequent to index construction of the last 1 Mio. documents from the collection,
+    the IR model did not find a single document for all evaluation queries,
+    because the model inference returned for all query representations zero vectors.
+Obviously, the vector representations were much too sparse to be useful.
+
+% tensorboard diagramm siehe "2019-12-30 Tensorboard snrm-extension.pdf"
+% TODO maybe add picture of tensorboard cost function converging to zero
+
+Tensorboard was added for inspecting the model's training run.
+According to one of the Tensorboard diagramms, the cost function during training
+    was approaching towards 0, but after about 22,000 training steps the model
+    swivel in to a value of 3 and stayed there.
+
+After discussing the issue with the thesis advisor assistance, 
+    a different document collection dataset (\verb|collection.air-subset.tsv|) 
+    which is based on MS MARCO, but preprocessed for the Advanced Information Retrieval 
+    lecture exercise, was chosen for experimentation.
+This document collection should have a better ratio between relevant and non-relevant documents,
+    than the previously utilized one.
+For evaluation, as a query file, resp. qrels file the files \verb|queries.air-subset.tsv| resp.
+    \verb|qrel.air-subset.tsv| were also downloaded from the university's OwnCloud server 
+    \footnote{Advanced IR lecture exercise files (collection, query, qrel) \url{https://owncloud.tuwien.ac.at/index.php/s/1MugXnkP607Qm8P}}.
+It was also tried to use as training dataset the MSMARCO \verb|triples.train.small.tsv| (27 GB)
+    \footnote{MSMARCO passage ranking training set triples.train.small.tsv download link \url{https://msmarco.blob.core.windows.net/msmarcoranking/triples.train.small.tar.gz}}.
+Due to Google Colab's hardware constraints of ca. free 30 GB disk space, rather than using the whole training,
+    a smaller proportion of training triples (e.g. 6 GB) were used.
+
+In another experiments, saving the model after every ten-thousand training steps, when training for about 70,000 steps, 
+    showed, that, the longer the model had been trained, the more sparse the tensor representations became.
+Either, the model was trained too long and the query representations had been the zero vector,
+    or the query representation has non-zero values, however all documents are returned for such a query or 
+    retrieval takes far too long to be feasible.
+In other words, the IR systems either returns all documents from the collection as relevant or no document.
+Obviously, the system was not able to learn and polarize different semantic concepts.
+
+To better gauge SNRM during index construction and retrieval, Python logging was expanded,
+    to log the sparsity of inferred query and document representations.
+This showed useful to get a glimpse of how useful resulting representations are, and for deciding
+    which models might not be worth for further experiments.
+Especially for retrieval, besides sparsity, logging was also added for gaining knowledge of
+    the number of existing documents per latent term dimension in the inverted index. \\
+Tensorboard Logging was extended with diagrams of the number of zeros in tensors (sparsity) of 
+    query and document representations.
+Aside from that, validation runs between model training phases, were separated from the Tensorboard logging 
+    of training runs.
 
 
 
+
+
+Obviously, the loss function approached just after a few ten-thousand the value zero, despite little variation.
+The sparsity, the number of zeros, of the query and document representation tensors, similarly, 
+    approaches soon 1, i.e. the representations coefficients tend to become all zero.
+
+% tensorboard diagramme 2020-01-15 Tensorboard snrm-extension.pdf 
+
+
+
+
+
+
+
+
+% google colab challenge hardware, timeout
+A further challenge was, that Google Colab terminated sessions regulary, probably based on time spent or usage.
+The occurence of these timeouts, led to moving the index construction, retrieval and evaluation to the 
+    local available personal computer, and using Google Colab only for training the model GPU-accelerated.
+Further delays have happened, because sometimes Google refused the usage of a compute instance equipped with a GPU,
+    and therefore enforcing the utilization of a non-GPU system, 
+    or to wait until a GPU machine becomes available again.
+
+
+
+
+
+
+
+
+    
 
 
 
