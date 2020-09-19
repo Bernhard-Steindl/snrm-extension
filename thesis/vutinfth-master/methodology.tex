@@ -320,8 +320,7 @@ Experiments over multiple weeks were executed, trying to find a way to cope with
 Examination of the tests revealed, that the loss function approaches the value zero, 
     despite little variation, just after a few ten-thousand training steps.
 The sparsity, the number of zeros, of the query and document representation tensors, similarly, 
-    approaches soon 1, i.e. the representations coefficients tend to become all zero too fast.
-% maybe add pictures of tensorboard diagramme 2020-01-15 Tensorboard snrm-extension.pdf 
+    approaches soon 1, i.e. the representations coefficients tend to become all zero too fast.\\
 Hyperparameter and the neural network architecture is configurable via the Python file \verb|"code/params.py"|.
 In this configuration file, it is possible to easily adjust the number of neural network layers and neuron units
     for each layer separately, for instance.
@@ -411,10 +410,8 @@ The latter is bad for retrieval, because no documents would be found for zero ve
     despite having true positve coefficients in document representation vectors.
 Therefore, the model training time was restricted due to the representations' rising sparsity,
     and as a result, the SNRM model could not deliver positive evaluation metrics.
+% maybe add pictures of tensorboard diagramme 2020-01-15 Tensorboard snrm-extension.pdf 
 
-
-
-% google colab challenge hardware, timeout
 A further challenge was, that Google Colab terminated sessions regulary, probably based on time spent or usage.
 The occurence of these timeouts, led to moving the index construction, retrieval and evaluation to the 
     local available personal computer, and using Google Colab only for training the model GPU-accelerated.
@@ -422,14 +419,58 @@ Further delays have happened, because sometimes Google refused the usage of a co
     and therefore enforcing the utilization of a non-GPU system, 
     or to wait until a GPU machine becomes available again.
 
+In the original SNRM code the Tensorflow model was designed with two-dimensional convolution layers, 
+    followed by a ReLu (Rectified Linear Unit) activation function.
+If configured also a dropout could be added after the activation function.\\
+Since it was already tried in vain to use only the hinge loss without any regularization as the model's cost function,
+    as a further attempt the model was modified additionally to ommit the dropout
+    and to use only a ReLu activation layer on the last layer, i.e. on the output.
+That experiment leaded to a similar result regarding sparsity, albeit with more a bit more variation in the cost function.
+% maybe add image of 2020-01-24 tensorboard diagramme
 
+The model experiments and results have been discussed with the advisor assistance, subsequentially.
+Another proposed try was to adjust the tensor operation on the logits for the hinge loss,
+    while keeping the previous neural network design, with only one ReLu activation function at the output layer and
+    without using dropout.
+In the original SNRM code a hinge loss function is used between given truth labels
+    (i.e. determining which document is more relevant to a given query),
+    and logits.
+Originally, the logits were computed as a tensor multiplication (\texttt{tf.multiply}) of 
+    a positve and a negative representation's batch and a query representation's batch,
+    followed by a sum computation (\texttt{tf.reduce\_sum}), 
+    and a concatenation of the two tensors (\texttt{tf.concat}).
+The following code shows part of the original SNRM source code for the logits computation for the hinge loss.
 
+% TODO is this ok to use verbatim for code? or can we use something with syntax highlighting 
+% or must we use the pseudocode-formatting like in intro.tex with \begin{algorithm}?
+\begin{verbatim}
+logits_d1 = tf.reduce_sum(tf.multiply(self.q_repr,self.d1_repr),
+                          axis=1, keep_dims=True)
+logits_d2 = tf.reduce_sum(tf.multiply(self.q_repr,self.d2_repr),
+                          axis=1, keep_dims=True)
+logits = tf.concat([logits_d1, logits_d2], axis=1)
 
+# the hinge loss function for training
+self.loss = tf.reduce_mean(tf.losses.hinge_loss(
+                                         logits=logits, 
+                                         labels=self.labels_pl, 
+                                         scope='hinge_loss'))
+\end{verbatim}
 
-
-
-
-    
+In the course of this experiment, rather than using a sum reduction, it was tried to use
+    a mean reduction (\texttt{tf.reduce\_mean}) instead for each document's logit computation.
+Interestingly, without using a L1 regularization the representation sparsity had settled down after
+    a few ten-thousand steps to about 0.8.
+Compared to previous runs the sparsity approached 1.0 always, even without a L1 regularization utilized.
+The cost function had started at not such a high values than before, but neared the value 1 much faster 
+    and stays there.
+Further experiments based on that were carried out, with the interest of adding a L1 regularization 
+    and testing the controllability of the sparsity with the regularization term parameter $\lambda$.
+Surprisingly, it was possible to change the query and documentation sparsity during training runs
+    with different values for $\lambda$.
+It was possible to increase the sparsity to a quite constant and desirable level of approx. 0.9.
+When compared to previous attempts, the sparsity had not been controllable.
+% add images of 2020-02-07 tensorboard diagramme.pdf
 
 
 
