@@ -421,6 +421,8 @@ Further delays have happened, because sometimes Google refused the usage of a co
 
 In the original SNRM code the Tensorflow model was designed with two-dimensional convolution layers, 
     followed by a ReLu (Rectified Linear Unit) activation function.
+The authors used ReLu to increase the sparsity of the tensors by the nature of ReLu,
+    which maps negative values to zero.
 If configured also a dropout could be added after the activation function.\\
 Since it was already tried in vain to use only the hinge loss without any regularization as the model's cost function,
     as a further attempt the model was modified additionally to ommit the dropout
@@ -468,9 +470,49 @@ Further experiments based on that were carried out, with the interest of adding 
     and testing the controllability of the sparsity with the regularization term parameter $\lambda$.
 Surprisingly, it was possible to change the query and documentation sparsity during training runs
     with different values for $\lambda$.
-It was possible to increase the sparsity to a quite constant and desirable level of approx. 0.9.
-When compared to previous attempts, the sparsity had not been controllable.
+It was possible to increase the sparsity to a quite constant and desirable value of approx. 0.9.
+When compared to previous attempts, the sparsity had not been controllable.\\
 % add images of 2020-02-07 tensorboard diagramme.pdf
+Additionally, it was tried to add the ReLu activation function again for all layers, instead of 
+    only for the last one, for this experiment design, but that leaded to even larger, undesired 
+    differences in sparsity between document and query representations.
+Therefore, the Relu activation function was only utilized for the last layer for the most experiments.
+% maybe add image of sparsity difference for relu-all? 2020-02-07 tensorboard diagramme relu all.pdf
+
+To illustrate the results of one of the training runs, where the sparsity was controllable, 
+    here are a few document and query representation statistics for a model that has been 
+    trained 60,000 steps, followed by an inverted index construction.
+A Python script (\texttt{code/index\_stats.py}) was written to aggregate these document and
+    query statistics.
+The inverted index was created with 806,976 distinct document passages.
+When analysing the document representations' dimensions, that is their latent term dimensions,
+    there were at minimum 2,444 and at maximum 806,975 documents assigned for a latent dimension.
+The latent dimensions' number of documents mean was 17,301.6318, the median was 3,660, and the
+    0.75-quantile was 4,269.25, resp. the 0.90-quantile was 5,568.2.
+Unfavorably, the sparsity of the document representations is bad for retrieval, because
+    the number of documents for a certain latent term dimension is quite large.
+For example, for one latent term dimension all indexed documents (806,976) are classified as relevant,
+    and on average 17,301.6318 documents for a single out of 5,000 latent term dimensions
+    would be returned for that model.\\
+Concerning an analysis of the SNRM model's query representation statistics,
+    the following metrics where gathered during inference of query representation tensors
+    using the query file \texttt{queries.air-subset.tsv}.
+The queries' mean of the non-zero value ratio was 0.00721, with a standard deviation of
+    0.02364.
+That is, the mean query representation sparsity was 99,279\%.
+Over all query representations' minimum values the minimum was 0, and over all
+    maximum values the maximum was 993.35760.
+Finally, the mean value across all query representations' mean values was 0.20925, 
+    resp. the standard deviation over all mean values was 0.08913.
+Obviously, the maximum query representations' maximum value of 993.35760 lies far away from the mean of
+    all vector mean values of 0.20925.
+Summarized, the document representation sparsity is for this model still too low, because 
+    too many document would be classified relevant, and the query representations' sparsity might be too big.
+
+These results have concluded the experimentations regarding the SNRM model with extensions and modifications
+    for running it with the MSMARCO passage ranking dataset.
+The next steps in the practical part of the thesis was the migration of SNRM to PyTorch.
+
 
 
 
