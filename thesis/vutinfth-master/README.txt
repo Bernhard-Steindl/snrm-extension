@@ -118,5 +118,18 @@ This work consists of the files vutinfth.dtx and vutinfth.ins
 and the derived file vutinfth.cls.
 This work also consists of the file intro.tex.
 
-The 'TU Wien' logo and 'Fakultät für !nformatik' logo are copyright of the TU
+The 'TU Wien' logo and 'Fakultï¿½t fï¿½r !nformatik' logo are copyright of the TU
 Wien.
+
+
+Add BS: How to integrate a build script in Microsoft Visual Studio Code:
+----------------
+
+Open Visual Code folder `"thesis/vutinfth-master/"`.
+Open Visual Studio Code settings, and search for setting `"latex-workshop.latex.external.build.command"`.
+Enter the value `./build-thesis.sh` for the field
+"The external command to execute when calling latex-workshop.build. 
+This is useful when compiling relies on a Makefile or a bespoke script. 
+When defined, it completely bypasses the recipes and root file detection mechanism.
+
+

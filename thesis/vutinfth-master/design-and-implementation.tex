@@ -1,7 +1,7 @@
 \chapter{Design and Implementation}
 
 
-\section{SNRM Extension}
+\section{SNRM extension and modification}
 Actually done:
 
 Read papers of SNRM, NVSM, An Introduction to Neural Information Retrieval,
@@ -10,7 +10,7 @@ useful for learning about an Introduction to machine learning, supervised and un
 cost function, gradient descent, linear regression, refresher course in linear algebra (matrices, vectors)
 Python tutorial \footnote{Python tutorial website \url{https://docs.python.org/3.6/tutorial/}}
 
-Understand SNRM Code and Tensorflow, NumPy, PyTorch
+Understand SNRM Code and TensorFlow, NumPy, PyTorch
 Gain experience in using pip and Conda for dependency resp. package management, as well as IDE Visual Studio Code.
 
 
@@ -23,12 +23,12 @@ However,
 Google Colab like a Jupyter Notebook but with free NVIDA GPU
 
 SNRM original tensorflow code make runnable on local MacBook and CPU
-Extension of original SNRM code in Tensorflow to be able to use the MS MARCO passage ranking dataset.
+Extension of original SNRM code in TensorFlow to be able to use the MS MARCO passage ranking dataset.
 
-Unfortunately, the authors neither stated the versions of Python, Tensorflow and NumPy on their paper nor in the SNRM GitHub repository.
+Unfortunately, the authors neither stated the versions of Python, TensorFlow and NumPy on their paper nor in the SNRM GitHub repository.
 Hence, the first effort was put in trying different versions and resolve version conflicts between dependencies.
-By trial-and-error executing SNRM Tensorflow with various versions, the following versions seemed to make the application run.
-Probable, these versions were used by the authors of he SNRM with Tensorflow:
+By trial-and-error executing SNRM TensorFlow with various versions, the following versions seemed to make the application run.
+Probable, these versions were used by the authors of he SNRM with TensorFlow:
 
 \begin{itemize}
     \item python 3.6.9
@@ -36,7 +36,9 @@ Probable, these versions were used by the authors of he SNRM with Tensorflow:
     \item numpy 1.16.4
 \end{itemize}
 
-After finding potential suitable Python, Tensorflow and Numpy versions, runtime errors occured, likely due to invokations of incompatible 
+It is even probable that a Python version below 3 was used, due the author's usage of the Python 
+    function \texttt{xrange} in the source code, which did exist in Python 2, but was removed in Python version 3.
+After finding potential suitable Python, TensorFlow and Numpy versions, runtime errors occured, likely due to invokations of incompatible 
     resp. obsolete api methods and attributes by the SNRM code.
 
 
@@ -148,8 +150,6 @@ When grouping all queries by how much relevant documents a certain query has, as
     out of all queries, 6,590 queries have only one relevant document, resp. 331 queries have two, 
     51 queries have three and 8 queries have four relevant documents, accoding to the relevance judgements file.
 
-
-
 Unfortunately, the own available personal computers lack the accessibility to a NVIDIA GPU.
 NVIDIA GPUs proved to be well equipped for improving model training performance and speed, compared to a CPU.
 Hence, after making the original SNRM code with stated modifications executable, a Google Colab notebook was created
@@ -161,15 +161,22 @@ In the Google Colab Notebook, commands were used to setup the platform (NVIDIA C
     install the required project dependencies, downloading and extracting datasets,
     before invoking the Python scripts, according to the model's information retrieval phases
     model training, inverted index construction, retrieval, and evaluation.
-Note that to run Tensorflow GPU-accelerated the package \verb|tensorflow-gpu| must also be installed,
+Note that to run TensorFlow GPU-accelerated the package \verb|tensorflow-gpu| must also be installed,
     with \verb|pip| for instance.
+The following Conda and pip packages were installed in Google Colab.
+% TODO discuss if usage of verbatim is ok here
+\begin{verbatim}
+!conda install -q -y -c conda-forge python=3.6.9 \
+                tensorflow=1.4.0 nltk=3.4.5 numpy=1.16.4
+!pip install tensorflow-gpu==1.4
+\end{verbatim}
 
-Due to the authors' use of a relatively old Tensorflow version 1.4.0 nowadays, special effort had to be put in setting up
-    NVIDIA cuDNN in version 6 and NVIDIA CUDA version 8, to be compatible with \verb|tensorflow_gpu-1.4.0|.
+Due to the authors' use of a nowadays relatively old TensorFlow version 1.4.0, special effort had to be put in setting up
+    NVIDIA cuDNN in version 6.0.21-1 and NVIDIA CUDA version 8.0.61-1, to be compatible with \verb|tensorflow_gpu-1.4.0|.
 Google Colab's platform is setup with an already preinstalled version of these NVIDIA software, which was in its original condition
-    not compatible with the SNRM source code resp. Tensorflow version 1.4.
-Google provides a table of tested build configurations on their Tensorflow website
-    \footnote{Tensorflow tested Linux GPU build configurations \url{https://www.tensorflow.org/install/source\#gpu}}, 
+    not compatible with the SNRM source code resp. TensorFlow version 1.4.
+Google provides a table of tested build configurations on their TensorFlow website
+    \footnote{TensorFlow tested Linux GPU build configurations \url{https://www.tensorflow.org/install/source\#gpu}}, 
     which was useful in finding the supported NVIDIA sofware versions, that has to be installed in Google Colab 
     after deleting the originally preinstalled packages.
 Unfortunately, the authors have not disclosed the used NVIDIA CUDA and cuDNN versions.
@@ -258,6 +265,7 @@ Obviously, the vector representations were much too sparse to be useful.
 % TODO maybe add picture of tensorboard cost function converging to zero
 
 Tensorboard was added for inspecting the model's training run.
+Therefore the Conda package tensorboard in version 0.4.0rc3 was added.
 According to one of the Tensorboard diagramms, the cost function during training
     was approaching towards 0, but after about 22,000 training steps the model
     swivel in to a value of 3 and stayed there.
@@ -399,7 +407,7 @@ Further delays have happened, because sometimes Google refused the usage of a co
     and therefore enforcing the utilization of a non-GPU system, 
     or to wait until a GPU machine becomes available again.
 
-In the original SNRM code the Tensorflow model was designed with two-dimensional convolution layers, 
+In the original SNRM code the TensorFlow model was designed with two-dimensional convolution layers, 
     followed by a ReLu (Rectified Linear Unit) activation function.
 The authors used ReLu to increase the sparsity of the tensors by the nature of ReLu,
     which maps negative values to zero.
@@ -493,9 +501,76 @@ These results have concluded the experimentations regarding the SNRM model with 
     for running it with the MSMARCO passage ranking dataset.
 The next steps in the practical part of the thesis was the migration of SNRM to PyTorch.
 
-\section{SNRM Migration to PyTorch}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{SNRM migration to PyTorch}
 
+For migration of the SNRM code to PyTorch, a new Git branch (\texttt{extension-pytorch})
+    was created based on the previous SNRM extension code (\texttt{extension} branch), 
+    i.e. previous modifications were partly reused for SNRM with PyTorch.
+One of the first steps before moving on was to gain basic knowledge of PyTorch and AllenNLP
+    and to take a few practical exercises and tutorials.
+% TODO where to add first footnote for AllenNLP? where to mention AllenNLP first?
+% \footnote{AllenNLP website \url{https://allennlp.org}
+Especially, the programming API and the way neural models are defined is considerable
+    different between PyTorch 1.4 and TensorFlow 1.4.\\
 
+A new and clean Conda environment for the SNRM PyTorch project was set-up,
+    without any installed pip or Conda software packets. 
+Subsequently, the following packages were installed using Conda and pip.
+% TODO discuss if this is ok to use verbatim environment here
+\begin{verbatim}
+!conda install -qy -c pytorch pytorch=1.4.0 torchvision=0.5.0 \
+                              cudatoolkit=10.1.243 python=3.7.6
+!pip install allennlp==0.9.0 tensorboard==2.1.0
+\end{verbatim}
+Implicitely, the Numpy package (version 1.18.1) and other dependent packages were downloaded
+    and installed automatically by these package managers. \\
+Just like before, the Google Colab platform was used and hence, previously 
+    installed NVIDIA CUDA and cuDNN packages were uninstalled,
+    and compatible versions for PyTorch were installed.
+To be able to use GPU-accelerated model training, NVIDIA CUDA version 10.1.243-1 
+    and NVIDIA cuDNN v7.6.4 were installed in Google Colab manually.
+NVIDIA CUDA was downloaded from NVIDIA's CUDA Toolkit Archive
+    \footnote{NVIDIA Developer CUDA Toolkit Archive website \url{https://developer.nvidia.com/cuda-toolkit-archive}}
+    for Google Colab's operating system, currently at the time Ubuntu 18.04.3 LTS.
+For downloading NVIDIA cuDNN a NVIDIA Developer Program Membership is required to be able to
+    download the software from NVIDIA's cuDNN Archive
+    \footnote{NVIDIA Developer cuDNN Archive website \url{https://developer.nvidia.com/rdp/cudnn-archive}}.
+After installing the necessary and at that time current packages, the migration of the actual source code
+    was done.
+
+Unlike the original SNRM source code, a logger with an application wide logging 
+    configuration was setup (\texttt{code/app\_logger.py}),
+    that not only writes log output to the console, but also to a rotating log file.
+An advantage of the application logger was to more easily trace the the application behaviour,
+    particularly regarding sparsity progression, a more centralized ability for configuring logging,
+    and to overcome some consoles' maximum log line limitations.
+
+Originally in the SNRM code, hyperparameters and more general configuration values were defined using
+    TensorFlow's flags implementation \texttt{tf.flags}.
+For instance, a \texttt{float} value for the parameter "learning rate" was configured and read with an 
+    invokation of the following code in the TensorFlow implementation.
+% TODO discuss if usage of verbatim is valid here! can we get syntax highlightning for Python?
+\begin{verbatim}
+import tensorflow as tf
+
+# define value and description for parameter "learning_rate":
+tf.flags.DEFINE_float('learning_rate', 
+                      0.0001, 
+                      'Learning rate for Adam Optimizer')
+FLAGS = tf.flags.FLAGS
+FLAGS._parse_flags()
+
+# read and use parameter learning rate:
+learning_rate=FLAGS.learning_rate
+\end{verbatim}
+
+Several of the examined PyTorch projects, did not use anything similar to TensorFlow's
+    \texttt{tf.flags} api.
+Hence, the configuration capability was redesigned for the SNRM PyTorch version,
+    to allow parameter configuration in a JSON file (\texttt{config/config.json}),
+    and a configuration Python class (\texttt{code/config.py}) simplifies
+    reading and accessing the configuration.
 
 
 
@@ -517,3 +592,5 @@ The next steps in the practical part of the thesis was the migration of SNRM to 
 % retrieval.py statistics sparsity, logging of document count per latent term dimension found, logging empty retrieval list for query
 
 
+% TODO which source code should be added to the implementation section? github reference enough?
+% certain parts of model?
