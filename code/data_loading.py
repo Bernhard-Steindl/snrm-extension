@@ -1,5 +1,5 @@
 # based on: https://github.com/allenai/allennlp/blob/v0.9.0/allennlp/data/dataset_readers/seq2seq.py
-# and: https://github.com/sebastian-hofstaetter/teaching/blob/master/advanced-information-retrieval/neural-ir-exercise/src/data_loading.py
+# and: https://github.com/sebastian-hofstaetter/teaching/blob/173ad0c8c1a8f9e91bb5a097d33eaf506ab6bff5/advanced-information-retrieval/neural-ir-exercise/src/data_loading.py
 
 from app_logger import logger
 logger = logger(__file__)

@@ -572,11 +572,46 @@ Hence, the configuration capability was redesigned for the SNRM PyTorch version,
     and a configuration Python class (\texttt{code/config.py}) simplifies
     reading and accessing the configuration.
 
+In the Tensorflow SNRM extension project, standard Python functions were used 
+    to open, read, parse and process data from several files, 
+    like tokens, word embeddings, training triples, document collection 
+    and query files.
+Instead of reusing this code in the SNRM PyTorch project, functions from the
+    AllenNLP library were used, e.g. to load and init a vocabulary from the token file,
+    to initialize word embeddings from the embedding file,
+    and to generate data batches automatically incl. padding or truncation 
+    to an appropriate max length per batch for efficiency.
+ Reusability, efficiency, and a simpler more concise code overall justify the usage of the 
+    AllenNLP library for these tasks, compared to implementing code once again by hand.
+In order to be able to hand over structured data to AllenNLP functions for further processing, 
+    two Python classes were added (\texttt{IrTripleDatasetReader}, \texttt{IrTupleDatasetReader})
+    in the file \texttt{"/code/data\_loading.py"}, that implement AllenNLP's \texttt{DatasetReader}.
+As the name of the interface suggests, these classes are responsible for reading tab separated files (tsv),
+    and return those parsed, tokenized and filtered contents as fields within an AllenNLP \texttt{Instance} class.
+Word tokenization resp. stopword filtering is also done using provided AllenNLP classes, 
+    like \texttt{WordTokenizer}, \texttt{StopwordFilter}, and \texttt{JustSpacesWordSplitter} from the
+    \texttt{allennlp.data.tokenizers} Python module.
+The first one of the implemented data loaders, is in charge of reading input lines from training and validation
+    triples files, with a format of \verb|"<query_string>\t<pos_doc_string>\t<neg_doc_string>"|.
+And the other one, reads files with a format of \verb|"<id_string>\t<text_string>"|, and is used for
+    reading entries of a document collection and of a query file, during index construction resp. 
+    retrieval phases.\\
+Other involved AllenNLP classes in the project are \texttt{Vocabulary}, which was used for loading 
+    a vocabulary from a token file, \texttt{Embedding} and \texttt{BasicTextFieldEmbedder}, 
+    for initializing a word vector embedding from a pre-trained embedding file,
+    \texttt{BucketIterator}, for iterating, padding and combining data to similiar sized batches together,
+    and \texttt{Tqdm}, to show a visual progress meter during data batch iteration.
+These AllenNLP classes obtained corresponding input data from one of the dataset readers.
+The dataset reader implementation was based on a provided neural information retrieval example from the 
+    Advanced Information Retrieval lecture's exercise files
+    \footnote{Neural IR exercise file "src/data\_loading.py" of Advanced IR lecture \url{https://github.com/sebastian-hofstaetter/teaching/blob/173ad0c8c1a8f9e91bb5a097d33eaf506ab6bff5/advanced-information-retrieval/neural-ir-exercise/src/data_loading.py}}
+    and modified to be suitable for the SNRM PyTorch project.
 
 
 
 
-
+% embed code to show difference between model definition TF, PyTorch
+% add layer etc.
 
 
 
