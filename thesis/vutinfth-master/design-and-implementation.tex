@@ -583,8 +583,10 @@ Instead of reusing this code in the SNRM PyTorch project, functions from the
     to initialize word embeddings from the embedding file,
     and to generate data batches automatically incl. padding or truncation 
     to an appropriate max length per batch for efficiency.
- Reusability, efficiency, and a simpler more concise code overall justify the usage of the 
+Reusability, efficiency, and a simpler more concise code overall justify the usage of the 
     AllenNLP library for these tasks, compared to implementing code once again by hand.
+As a side effect the previously used dictionary Python class (\texttt{code/dictionary.py}) was not
+    required anymore, due to the use of AllenNLP functions instead.
 In order to be able to hand over structured data to AllenNLP functions for further processing, 
     two Python classes were added (\texttt{IrTripleDatasetReader}, \texttt{IrTupleDatasetReader})
     in the file \texttt{"/code/data\_loading.py"}, that implement AllenNLP's \texttt{DatasetReader}.
@@ -631,8 +633,156 @@ self._doc_repr_memmap[memmap_index_for_doc] =
                 current_doc_repr.detach().cpu().numpy()
 \end{verbatim}
 
+Admittedly, migrating the SNRM model (\texttt{"code/snrm.py"}) and the training procedure 
+    (\texttt{"code/train.py"}) to be runnable with PyTorch was the most time-consuming phase.
+In the original TensorFlow SRNM code and in the extended SNRM code, the SNRM model file
+    was responsible for many functionality --- from defining the neural network architecture
+    through layers and tensor operations, to returning an embedding layer for a tensor of token ids,
+    to reading a word vector embedding file and initializing an embedding matrix 
+    (for establishing a mapping between a token id and a word vector),
+    to manually creating and initalizing variables for every network layer's weight,
+    and to defining the model's computational graph.
+But, the SNRM's TensorFlow graph is comprised of placeholders for input tensors,
+    of operations for obtaining an embedding layer output for query and/or document tokens,
+    of neural network inference invocations to get document and query representations,
+    of computations of logits and a cost function, 
+    of opimizing the model with regard to the cost function,
+    and of providing TensorBoard with data for visualizations.
+
+The PyTorch implementation of the SNRM model file was completely redesigned.
+To begin with, the SNRM class had to subclass the \texttt{torch.nn.Module} class, which is PyTorch's
+    base class for all neural network modules.
+The scope of responsibility for the SNRM class was reduced to two areas, 
+    namely, to define the neural network's architecture of layers and activation functions
+    in the constructor, and in the second place, to define the model's \texttt{forward} 
+    function for representation inference.
+
+% TODO add model declarations from constructor, describe it!
+
+\begin{verbatim}
+self.convolution = nn.Sequential()
+conv_layer_dict = OrderedDict()
+
+# torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros')
+for i in range(len(self.layer_size)-1):
+    conv_layer_dict['conv_' + str(i)] = 
+                        nn.Conv2d(in_channels=self.layer_size[i], 
+                                out_channels=self.layer_size[i+1],
+                                kernel_size=(1, 5 if i==0 else 1), 
+                                stride=(1,1),
+                                padding=(0, 2 if i==0 else 0),
+                                dilation=(1,1),
+                                bias=True,
+                                padding_mode='zeros')
+                                                    
+    # Fills the input Tensor with values drawn from the normal distribution
+    # nn.init.normal_(tensor=conv_layer_dict['conv_' + str(i)].weight, mean=0.0, std=1.0)
+    #conv_layer_dict['relu' + str(i)] = nn.ReLU()
+
+    # conv_layer_dict['relu_' + str(i)] = nn.ReLU()
+conv_layer_dict['relu_end'] = nn.ReLU()
+
+# TODO drop out?
+# During training, randomly zeroes some of the elements of the input tensor with probability p using samples from a Bernoulli distribution. 
+# Each channel will be zeroed out independently on every forward call.
+# torch.nn.Dropout(p=0.5, inplace=False) 
+# p = probability of an element to be zeroed
+# nn.Dropout(p=config.get('dropout_probability'), inplace=False) 
+
+self.convolution = nn.Sequential(conv_layer_dict)
+\end{verbatim}
+
 % embed code to show difference between model definition TF, PyTorch
 % add layer etc.
+
+The model inference is used in the training, index construction and retrieval phases.
+For each phase, a different batch input is supplied to the model, that could be,
+    either a triple of a query, a positive document and a negative document token batch,
+    or just one document token batch, or just one query token batch.
+As a result, the model's inference function was designed to have three optional formal parameters for
+    a query tensor, and two document tensors, and only returns a representation for
+    the respective, given arguments.
+The model's two-dimensional input tensors' data is a batch of token ids, where every row in the batch 
+    holds a list of token ids, representing the tokenized text.
+SNRM's representation inference can be imagined as a sequence of operations.
+Firstly, an embedding tensor for every token in the batch is obtained, which adds a dimension
+    to the input tensor's shape of the embedding's word vector length, and hence, resulting 
+    in a three-dimensional tensor.
+As before, 100- and 300- dimensional GloVe word vectors were used.
+Next, padding and out-of-vocabulary tokens are replaced with the value 0 in the embedding tensor.
+According to the PyTorch 1.4 documentation of the 2-dimensional convolution layer \texttt{Conv2d}
+    \footnote{PyTorch v1.4 documentation of \texttt{Conv2d} convolution layer \url{https://pytorch.org/docs/1.4.0/nn.html\#conv2d}},
+    the input must have a shape of $(N, C_{in}, H, W)$, 
+    where $N$ is the batch size,
+    $C_{in}$ is the number of input channels (i.e. word vector dimension),
+    $H$ is the height of the embedding tensor (i.e. value of 1), and 
+    $W$ is the width of the embedding tensor (i.e. the number of tokens in the input batch, 
+    resp. the number of elements along the input batch's 1\textsuperscript{st} axis).
+Interestingly, the default input shape for \texttt{Conv2D} in TensorFlow 1.4 is different,
+    because it requires channels to be last, that is $(N, H, W, C_{in})$,
+    according to the documentation
+    \footnote{TensorFlow v1.4 documentation of \texttt{Conv2D} convolution layer \url{https://github.com/tensorflow/docs/blob/r1.4/site/en/api_docs/api_docs/python/tf/layers/Conv2D.md}},.
+In spite of that, the embedding tensor's shape of $(N, W, C_{in})$ has to be transformed resp. 
+    viewed as $(N, C_{in}, H, W)$, to be suitable as an input to the convolutional neural network.
+After this, the two-dimensional convolutions are done, which returns a tensor of shape 
+    $(N, C_{out}, H_{out}, W_{out})$, where 
+    $C_{out}$ is the number of output channels (i.e. one of the inferred representation's vector length),
+    and the tensor height and width stays the same $H_{out} = H, W_{out} = W$.
+Finally, the representations of shape $(N, C_{out})$ for the input batch are obtained by 
+    applying a mean tensor reduction to the 2\textsuperscript{nd} and 3\textsuperscript{rd} axis $(H_{out}, W_{out})$
+    of the convolution's result tensor.
+The following code part illustrates the described steps inside the \texttt{forward} function resp. model inference, 
+    given a query input batch.
+% TODO is this ok to use verbatim environment for code here?
+\begin{verbatim}
+# input is a N element batch of W token ids of e.g. a query
+# query shape: (N, W)
+query: torch.Tensor
+
+# create mask of indices, that are either padding or 
+# out-of-vocabulary (oov) tokens, with values 0 or 1
+# mask_query_oov shape: (N, W)
+mask_query_oov = (query > 1).float() 
+
+# getting the embedding vectors for the query
+# mask used for replacing padding and oov tokens with value 0
+# query_embeddings shape: (N, W, C_in)
+query_embeddings = self.word_embeddings({"tokens": query}) * 
+                        mask_query_oov.unsqueeze(2) 
+
+# query_num_token equals W
+query_num_token = query_embeddings.shape[1]
+
+# word vector length of embedding
+emb_dim = 300
+
+# neural network input (Conv2d) should be 
+#     in shape: (N, C_in, H, W)
+# N := batch size, C_in := number of input_channels,    
+# H := height of input, W := width of input
+# transform query_embeddings to desired shape
+# query_embeddings_nchw shape: (N, C_in, H, W), where H=1
+query_embeddings_nchw = query_embeddings.view(-1, emb_dim, 1, 
+                                query_num_token)
+
+# invoke model inference / convolution
+# q_repr shape: (N, C_out, H_out, W_out), where H_out=H, W_out=W
+# C_out := number of output_channels (representation vector length)
+q_repr = self.convolution(query_embeddings_nchw)
+
+# apply mean reduction for 2nd and 3rd axis
+# q_repr shape: (N, C_out)
+reduction_dim = [2,3]
+q_repr = torch.mean(q_repr, reduction_dim)
+\end{verbatim}
+
+The procedure of inference in the model's \texttt{forward} function is generally
+    the same for query and document tensors.
+
+% TODO comment code of original snrm to extensive, reduction to description
+
+     
+
 
 
 
