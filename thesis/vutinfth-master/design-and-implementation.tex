@@ -20,6 +20,8 @@ According to the paper of SNRM, as datasets were used Robust (TREC), ClueWeb und
 However, 
 
 
+% Git branch extension
+
 Google Colab like a Jupyter Notebook but with free NVIDA GPU
 
 SNRM original tensorflow code make runnable on local MacBook and CPU
@@ -38,7 +40,7 @@ Probable, these versions were used by the authors of he SNRM with TensorFlow:
 
 It is even probable that a Python version below 3 was used, due the author's usage of the Python 
     function \texttt{xrange} in the source code, which did exist in Python 2, but was removed in Python version 3.
-After finding potential suitable Python, TensorFlow and Numpy versions, runtime errors occured, likely due to invokations of incompatible 
+After finding potential suitable Python, TensorFlow and NumPy versions, runtime errors occured, likely due to invokations of incompatible 
     resp. obsolete api methods and attributes by the SNRM code.
 
 
@@ -200,21 +202,21 @@ Unfortunately, the employed personal computer was equipped with just 16 GB 1600 
     and Google Colab only provides 12 GB RAM at maximum.
 Only about 64,000 documents could be indexed and hold in-memory, although the whole collection contained 8,841,823 documents.
 The imposed system hardware constraints led to a search for an alternative option of index storage.
-Utilizing Numpy's \texttt{numpy.memmap}
-    \footnote{Numpy documentation of \texttt{numpy.memmap} \url{https://numpy.org/doc/1.16/reference/generated/numpy.memmap.html?highlight=numpy.memmap\#numpy.memmap}} 
+Utilizing NumPy's \texttt{numpy.memmap}
+    \footnote{NumPy documentation of \texttt{numpy.memmap} \url{https://numpy.org/doc/1.16/reference/generated/numpy.memmap.html?highlight=numpy.memmap\#numpy.memmap}} 
     function for creating a memory-map to an array stored in a binary file on disk, was the response to the 
     inefficient memory storage issue.
 The modified inverted index storage comprises three datastructures.
 Firstly, a Python dictionary \texttt{dict()} is used for establishing a mapping between a latent document representation's dimension
     to a list of document ids.
 This datastructure is like an index, in returning all potentially relevant documents for a latent document representation's term.
-Secondly, a Numpy two-dimensional memory-mapped file is used, which provides storage for the latent document representations' vectors
+Secondly, a NumPy two-dimensional memory-mapped file is used, which provides storage for the latent document representations' vectors
     of all intended documents for index construction.
 Lastly, another Python dictionary is utilized for mapping a document id to its corresponding document representation's index within the memory-map array.
 This datastructure can be used to retrieve the latent document representation for a given document id.
 Both of these Python dictionary datastructures are stored using the Python function \texttt{pickle} on index construction completion,
-    whereas the memory-mapped array is automatically stored on disk through Numpy.
-If only a certain section of the memory mapped file is requested, Numpy loads only that part into memory, rather than loading the whole file from disk,
+    whereas the memory-mapped array is automatically stored on disk through NumPy.
+If only a certain section of the memory mapped file is requested, NumPy loads only that part into memory, rather than loading the whole file from disk,
     which allows to index more documents and increases memory access.
 
 After implementing the more sophisticated inverted index, the next challenge emerged.
@@ -523,7 +525,7 @@ Subsequently, the following packages were installed using Conda and pip.
                               cudatoolkit=10.1.243 python=3.7.6
 !pip install allennlp==0.9.0 tensorboard==2.1.0
 \end{verbatim}
-Implicitely, the Numpy package (version 1.18.1) and other dependent packages were downloaded
+Implicitely, the NumPy package (version 1.18.1) and other dependent packages were downloaded
     and installed automatically by these package managers. \\
 Just like before, the Google Colab platform was used and hence, previously 
     installed NVIDIA CUDA and cuDNN packages were uninstalled,
@@ -602,13 +604,32 @@ Other involved AllenNLP classes in the project are \texttt{Vocabulary}, which wa
     \texttt{BucketIterator}, for iterating, padding and combining data to similiar sized batches together,
     and \texttt{Tqdm}, to show a visual progress meter during data batch iteration.
 These AllenNLP classes obtained corresponding input data from one of the dataset readers.
-The dataset reader implementation was based on a provided neural information retrieval example from the 
-    Advanced Information Retrieval lecture's exercise files
-    \footnote{Neural IR exercise file "src/data\_loading.py" of Advanced IR lecture \url{https://github.com/sebastian-hofstaetter/teaching/blob/173ad0c8c1a8f9e91bb5a097d33eaf506ab6bff5/advanced-information-retrieval/neural-ir-exercise/src/data_loading.py}}
+The dataset reader implementation and data handling was based on a provided neural information retrieval 
+    example from the Advanced Information Retrieval lecture's exercise files
+    (see \texttt{"src/data\_loading.py"}
+    \footnote{Neural IR exercise file \texttt{"src/data\_loading.py"} of Advanced IR lecture \url{https://github.com/sebastian-hofstaetter/teaching/blob/173ad0c8c1a8f9e91bb5a097d33eaf506ab6bff5/advanced-information-retrieval/neural-ir-exercise/src/data_loading.py}},
+    \texttt{"src/train.py"}
+    \footnote{Neural IR exercise file \texttt{"src/train.py"} of Advanced IR lecture \url{https://github.com/sebastian-hofstaetter/teaching/blob/173ad0c8c1a8f9e91bb5a097d33eaf506ab6bff5/advanced-information-retrieval/neural-ir-exercise/src/train.py}}),
     and modified to be suitable for the SNRM PyTorch project.
 
-
-
+Hardly anything had to be changed in the Python class responsible for the inverted index datastructure 
+    (\texttt{code/inverted\_index.py}).
+Access to the application configuration was adapted, that is, instead of using Tensorflow's flags api, the 
+    new configuration class was used.
+Commonly, a PyTorch model's input and output are variables wrapping an instance of a PyTorch tensor.
+If a model is used on a NVIDIA GPU-accelerated system, these PyTorch tensors are generally moved to 
+    the GPU resp. to a NVIDIA CUDA device, for taking advantage of more powerful, parallel computations.
+However, storing a document representation as a PyTorch tensor using NumPy's memory map function 
+    (\texttt{numpy.memmap}) is not possible, and requires a conversion beforehand.
+Therefore, before passing the representation's PyTorch tensor to NumPy, 
+    it has to be detached from PyTorch's computational graph,
+    moved from the GPU's to the CPU's memory, and finally transformed to a NumPy array.
+The following code line illustrates these steps for converting a PyTorch Tensor to a NumPy array.
+% TODO is it ok to use verbatim for code like this here?
+\begin{verbatim}
+self._doc_repr_memmap[memmap_index_for_doc] = 
+                current_doc_repr.detach().cpu().numpy()
+\end{verbatim}
 
 % embed code to show difference between model definition TF, PyTorch
 % add layer etc.
