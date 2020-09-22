@@ -646,60 +646,22 @@ But, the SNRM's TensorFlow graph is comprised of placeholders for input tensors,
     of operations for obtaining an embedding layer output for query and/or document tokens,
     of neural network inference invocations to get document and query representations,
     of computations of logits and a cost function, 
-    of opimizing the model with regard to the cost function,
+    of optimizing the model with regard to the cost function,
     and of providing TensorBoard with data for visualizations.
 
 The PyTorch implementation of the SNRM model file was completely redesigned.
 To begin with, the SNRM class had to subclass the \texttt{torch.nn.Module} class, which is PyTorch's
     base class for all neural network modules.
-The scope of responsibility for the SNRM class was reduced to two areas, 
-    namely, to define the neural network's architecture of layers and activation functions
-    in the constructor, and in the second place, to define the model's \texttt{forward} 
-    function for representation inference.
-
-% TODO add model declarations from constructor, describe it!
-
-\begin{verbatim}
-self.convolution = nn.Sequential()
-conv_layer_dict = OrderedDict()
-
-# torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros')
-for i in range(len(self.layer_size)-1):
-    conv_layer_dict['conv_' + str(i)] = 
-                        nn.Conv2d(in_channels=self.layer_size[i], 
-                                out_channels=self.layer_size[i+1],
-                                kernel_size=(1, 5 if i==0 else 1), 
-                                stride=(1,1),
-                                padding=(0, 2 if i==0 else 0),
-                                dilation=(1,1),
-                                bias=True,
-                                padding_mode='zeros')
-                                                    
-    # Fills the input Tensor with values drawn from the normal distribution
-    # nn.init.normal_(tensor=conv_layer_dict['conv_' + str(i)].weight, mean=0.0, std=1.0)
-    #conv_layer_dict['relu' + str(i)] = nn.ReLU()
-
-    # conv_layer_dict['relu_' + str(i)] = nn.ReLU()
-conv_layer_dict['relu_end'] = nn.ReLU()
-
-# TODO drop out?
-# During training, randomly zeroes some of the elements of the input tensor with probability p using samples from a Bernoulli distribution. 
-# Each channel will be zeroed out independently on every forward call.
-# torch.nn.Dropout(p=0.5, inplace=False) 
-# p = probability of an element to be zeroed
-# nn.Dropout(p=config.get('dropout_probability'), inplace=False) 
-
-self.convolution = nn.Sequential(conv_layer_dict)
-\end{verbatim}
-
-% embed code to show difference between model definition TF, PyTorch
-% add layer etc.
+The scope of responsibility for the SNRM class was reduced to two areas,
+    namely, to define the model's \texttt{forward} function for representation inference, 
+    and in the second place, to define the neural network's architecture of layers and activation functions
+    in the constructor.
 
 The model inference is used in the training, index construction and retrieval phases.
 For each phase, a different batch input is supplied to the model, that could be,
     either a triple of a query, a positive document and a negative document token batch,
     or just one document token batch, or just one query token batch.
-As a result, the model's inference function was designed to have three optional formal parameters for
+As a result, the model's inference function (\texttt{forward}) was designed to have three optional formal parameters for
     a query tensor, and two document tensors, and only returns a representation for
     the respective, given arguments.
 The model's two-dimensional input tensors' data is a batch of token ids, where every row in the batch 
@@ -778,12 +740,134 @@ q_repr = torch.mean(q_repr, reduction_dim)
 
 The procedure of inference in the model's \texttt{forward} function is generally
     the same for query and document tensors.
+SNRM's original code for inference is not added here as a comparison, due to its 
+    elaborateness, but the stated description should be sufficient
+    to get a view of its responsibility.
+For interested readers please refer to the SNRM repository
+    \footnote{SNRM repository of Hamed Zamani on GitHub \url{https://github.com/hamed-zamani/snrm}}
+    on GitHub.
 
-% TODO comment code of original snrm to extensive, reduction to description
+Besides, adding the model inference to the SNRM file (\texttt{"code/snrm.py"}),
+    the neural network and its architecture was defined in the class's constructor.
+Basically, the SNRM model definition in TensorFlow and PyTorch look quite the same.
+However, the programming API for the two-dimensional convolution is different.\\
+For the original SNRM TensorFlow code, weight variables (\texttt{tf.Variable}) were created and
+    initialized with random values from a normal distribution (\texttt{tf.random\_normal}).
+These weight variables then were referenced as \texttt{kernel\_size} one by one when adding 
+    two-dimensional convolution layers to the network.
+The kernel's shape was declared as a four tuple $(H, W, C_{in}, C_{out})$ in the TensorFlow 
+    SNRM code, where 
+    $H$ is the kernel's height with a value of 1,
+    $W$ is the kernel's width with a value of 5 for the 1\textsuperscript{st} layer and otherwise 1,
+    $C_{in}$ is the kernel's number of input channels for a convolution,
+    $C_{out}$ is the kernel's number of output channels for a convolution.
+A sliding window of width $W$ is established by the 1\textsuperscript{st} convolution kernel, 
+    that is supposed to capture a semantic relationship between a sequence of word vectors.
+For the convolution function's first argument (i.e. the \texttt{filters} argument),
+    initially, the output tensor from the embedding layer was used, and
+    for the residual layers the output tensor from the previous convolution.
+Both for the convolution's strides and for the dilation the value 1 was used for all spatial dimensions.
+In the TensorFlow SRNM code, a padding algorithm of "SAME" was declared, which obviously means
+    that TensorFlow adds zero-paddings evenly to the left and right side along the input's width dimension,
+    to allow the full kernel to slide over the whole input.
+More precisely, horizontal zero-padding, with an amount of 2, is only applied for 
+    the 1\textsuperscript{st} convolution layer,
+    because the sliding window's width is 5 for the 1\textsuperscript{st} convolution.
+For the other convolution layers no padding is added.
+Furthermore, in the original SNRM code a bias vector is added for every convolution layer with a default 
+    initialization of zeros.
+A 2D convolution is used for every layer, and afterwards, the ReLu activation function is applied,
+    followed by an optional dropout with a configurable dropout rate.
+The subsequent code part illustrates the neural network definition in the original SNRM TensorFlow code.
+% TODO is this ok to use verbatim here?
+\begin{verbatim}
+# a Tensor representing the output of embedding layer, 
+# which is the input of the neural ranking model.
+input_layer: obj
 
-     
+# a mapping from layer name to TensorFlow Variable 
+# corresponding to layer weights (Conv2d kernel size)
+# weights: dict 
+for i in range(len(layer_sizes) - 1):
+    with tf.name_scope(weights_name[i]):
+        weights[weights_name[i]] = \
+            tf.Variable(tf.random_normal(
+                            [1, 5 if i==0 else 1, 
+                            layer_sizes[i], 
+                            layer_sizes[i + 1]],
+                            name=weights_name[i]))
+
+# a list of str containing layer names for weight parameters.
+# weights_name: list
+weights_name = ['w' + str(i) for i in 
+                range(1, len(layer_sizes) - 1)] 
+                + ['w_out']
+
+# Dropout parameter, default: 1.0 (no dropout)
+dropout_keep_prob = tf.constant(1.0)
+
+# Add Conv2d layers, ReLu activation function, dropout
+# to the neural network
+layers = [input_layer]
+for i in range(len(weights)):
+    with tf.name_scope('layer_' + str(i + 1)):
+        layers.append(tf.nn.conv2d(layers[i],
+                                    weights[weights_name[i]],
+                                    strides=[1, 1, 1, 1],
+                                    padding='SAME'))
+        
+        layers[i + 1] = tf.nn.dropout(
+                            tf.nn.relu(layers[i + 1]),
+                            self.dropout_keep_prob)
+\end{verbatim}
 
 
+
+% TODO where to add this:    
+In contrast to TensorFlow's API, PyTorch's \texttt{nn.Conv2d} layer
+    is not intended to reference any neural network weight parameter variables.
+
+
+
+% TODO add model declarations from constructor, describe it!
+
+
+% TODO is this ok to compare original and new SNRM model code here with verbatim?
+\begin{verbatim}
+self.convolution = nn.Sequential()
+conv_layer_dict = OrderedDict()
+
+# torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros')
+for i in range(len(self.layer_size)-1):
+    conv_layer_dict['conv_' + str(i)] = 
+                        nn.Conv2d(in_channels=self.layer_size[i], 
+                                out_channels=self.layer_size[i+1],
+                                kernel_size=(1, 5 if i==0 else 1), 
+                                stride=(1,1),
+                                padding=(0, 2 if i==0 else 0),
+                                dilation=(1,1),
+                                bias=True,
+                                padding_mode='zeros')
+                                                    
+    # Fills the input Tensor with values drawn from the normal distribution
+    # nn.init.normal_(tensor=conv_layer_dict['conv_' + str(i)].weight, mean=0.0, std=1.0)
+    #conv_layer_dict['relu' + str(i)] = nn.ReLU()
+
+    # conv_layer_dict['relu_' + str(i)] = nn.ReLU()
+conv_layer_dict['relu_end'] = nn.ReLU()
+
+# TODO drop out?
+# During training, randomly zeroes some of the elements of the input tensor with probability p using samples from a Bernoulli distribution. 
+# Each channel will be zeroed out independently on every forward call.
+# torch.nn.Dropout(p=0.5, inplace=False) 
+# p = probability of an element to be zeroed
+# nn.Dropout(p=config.get('dropout_probability'), inplace=False) 
+
+self.convolution = nn.Sequential(conv_layer_dict)
+\end{verbatim}
+
+% embed code to show difference between model definition TF, PyTorch
+% add layer etc.
 
 
 
