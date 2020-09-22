@@ -822,52 +822,65 @@ for i in range(len(weights)):
 \end{verbatim}
 
 
-
-% TODO where to add this:    
+After having understood SNRM's neural network and especially TensorFlows programming API,
+    the next step was to migrate the neural network architecture to PyTorch.
+PyTorch's programming API for a 2D convolution layer is quite different from that of TensorFlow.
 In contrast to TensorFlow's API, PyTorch's \texttt{nn.Conv2d} layer
     is not intended to reference any neural network weight parameter variables.
-
-
-
-% TODO add model declarations from constructor, describe it!
-
+For a PyTorch convolution layer a kernel's width and height is specified as a tuple
+    using the \texttt{kernel\_size} argument, and the convolution's number of input resp. output channels
+    are denoted separtely with the arguments \texttt{in\_channels} resp. \texttt{out\_channels}.
+Also different is the specification of padding in PyTorch, which can be specified as a as an int number or
+    as a tuple of two ints.
+The horizontal zero-padding was given as a tuple $(0, 2)$ for the 1\textsuperscript{st} convolution layer,
+    and otherwise $(0, 0)$, which results in the padding algorithm "SAME" of SNRM's TensorFlow implementation.
+All residual arguments (stride, dilation and bias) for SNRM's convolution layers were alike.
+Equally similar was adding a ReLu activation feature and a dropout.
+Due to a different handling of weights, PyTorch does initialize weights automatically, 
+    but the model weights can also be intialized in another way, like with the values of a 
+    normal distribtution (\texttt{nn.init.normal\_}).
+The following PyTorch code shows the model architecture, comprising sequential 
+    2D convolution layers, an application of a ReLu activation function and dropout,
+    and furthermore, a model weight initialization from the normal distribution.
 
 % TODO is this ok to compare original and new SNRM model code here with verbatim?
 \begin{verbatim}
 self.convolution = nn.Sequential()
 conv_layer_dict = OrderedDict()
 
-# torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros')
 for i in range(len(self.layer_size)-1):
-    conv_layer_dict['conv_' + str(i)] = 
-                        nn.Conv2d(in_channels=self.layer_size[i], 
-                                out_channels=self.layer_size[i+1],
-                                kernel_size=(1, 5 if i==0 else 1), 
-                                stride=(1,1),
-                                padding=(0, 2 if i==0 else 0),
-                                dilation=(1,1),
-                                bias=True,
-                                padding_mode='zeros')
+    conv_layer_dict['conv_' + str(i)] = nn.Conv2d(
+                            in_channels=self.layer_size[i], 
+                            out_channels=self.layer_size[i+1],
+                            kernel_size=(1, 5 if i==0 else 1), 
+                            stride=(1,1),
+                            padding=(0, 2 if i==0 else 0),
+                            dilation=(1,1),
+                            bias=True,
+                            padding_mode='zeros')
                                                     
-    # Fills the input Tensor with values drawn from the normal distribution
-    # nn.init.normal_(tensor=conv_layer_dict['conv_' + str(i)].weight, mean=0.0, std=1.0)
-    #conv_layer_dict['relu' + str(i)] = nn.ReLU()
+    # Would fill the input Tensor with values drawn from the 
+    # normal distribution
+    # nn.init.normal_(
+        tensor=conv_layer_dict['conv_' + str(i)].weight, 
+        mean=0.0, std=1.0)
 
+    # Either add ReLu after every convolution layer or only 
+    # for the last layer
     # conv_layer_dict['relu_' + str(i)] = nn.ReLU()
+
 conv_layer_dict['relu_end'] = nn.ReLU()
 
-# TODO drop out?
-# During training, randomly zeroes some of the elements of the input tensor with probability p using samples from a Bernoulli distribution. 
-# Each channel will be zeroed out independently on every forward call.
-# torch.nn.Dropout(p=0.5, inplace=False) 
+# During training, randomly zeroes some of the elements of 
+# the input tensor with probability p using samples from 
+# a Bernoulli distribution. Each channel will be zeroed 
+# out independently on every forward call. 
 # p = probability of an element to be zeroed
-# nn.Dropout(p=config.get('dropout_probability'), inplace=False) 
+dropout_probability = config.get('dropout_probability')
+# nn.Dropout(p=dropout_probability, inplace=False) 
 
 self.convolution = nn.Sequential(conv_layer_dict)
 \end{verbatim}
-
-% embed code to show difference between model definition TF, PyTorch
-% add layer etc.
 
 
 
