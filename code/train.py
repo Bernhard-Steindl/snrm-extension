@@ -1,7 +1,7 @@
 """
 Training the SNRM model.
 
-Authors: Hamed Zamani (zamani@cs.umass.edu)
+Authors: Hamed Zamani (zamani@cs.umass.edu), Bernhard Steindl
 """
 
 from app_logger import logger
@@ -44,7 +44,6 @@ import time
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 logger.info('PyTorch uses device {}'.format(device))
 
-# TODO should this be here in train.py or in nn Module snrm.py?
 def obtain_loss(q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: torch.Tensor) -> (torch.Tensor, torch.Tensor, torch.Tensor):
     # q_repr and doc_pos_repr and doc_neg_repr have shape [batch_size, nn_output_dim]
 
@@ -53,23 +52,12 @@ def obtain_loss(q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: 
     logits_d2 = torch.mean(input=torch.mul(q_repr, doc_neg_repr), dim=1, keepdim=True) # shape: torch.Size([batch_size, 1])
     logits = torch.cat(tensors=(logits_d1, logits_d2), dim=1) # shape: torch.Size([batch_size, 2])
 
-    # TODO usage of requires_grad unsure
-
     # AIR Assignment hint: The iterators do not guarantee a fixed batch size (the last one will probably be smaller)
     current_batch_size = batch['query_tokens']['tokens'].shape[0] # is <= config.get('batch_size')
     # Assumption doc1 is relevant/positive (1), but doc2 is non-relevant/negative (0) for every doc-pair in batch
     # instead of using 0, PyTorch wants us to use -1 instead of 0
     target_relevance_labels = torch.tensor([[1, -1]], device=device).repeat(current_batch_size, 1) # [1,-1]*batch_size, shape: torch.Size([batch_size, 2])
-    
-#       self.labels_pl = tf.placeholder(tf.float32, shape=[self.batch_size, 2])
-#       labels = np.array(labels) # shape [batch_size]
-#       labels = np.concatenate(
-#                [labels.reshape(FLAGS.batch_size, 1), 1. - labels.reshape(FLAGS.batch_size, 1)], axis=1)
-#         # the hinge loss function for training
-#         # hinge_loss(labels, logits, weights=1.0, scope=None, loss_collection=tf.GraphKeys.LOSSES, reduction=Reduction.SUM_BY_NONZERO_WEIGHTS)
-#         self.loss = tf.reduce_mean(
-#             tf.losses.hinge_loss(logits=logits, labels=self.labels_pl, scope='hinge_loss'))
-    
+       
     # F.hinge_embedding_loss(input, target, margin=1.0, size_average=None, reduce=None, reduction='mean') -> Tensor
     # https://pytorch.org/docs/stable/nn.html#hingeembeddingloss
     hinge_loss = F.hinge_embedding_loss(input=logits, 
@@ -78,20 +66,13 @@ def obtain_loss(q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: 
                                         reduction='mean') # torch.Size([]) i.e. scalar tensor
     # logger.info('hinge_loss shape {} data {}'.format(hinge_loss.size(), hinge_loss.data))
 
-#         self.l1_regularization = tf.reduce_mean(
-#             tf.reduce_sum(tf.concat([self.q_repr, self.d1_repr, self.d2_repr], axis=1), axis=1),
-#             name='l1_regularization')
-#         # the cost function including the hinge loss and the l1 regularization.
-#         self.cost = self.loss + (tf.constant(self.regularization_term, dtype=tf.float32) * self.l1_regularization)
     doc_reg_term = config.get('doc_reg_term')
     q_reg_term = config.get('q_reg_term')
+
+    # l1-regularization
     l1_regularization_docs = (doc_pos_repr + doc_neg_repr) * doc_reg_term # shape [batch_size, nn_output_dim]
     l1_regularization_query = q_repr * q_reg_term # shape [batch_size, nn_output_dim]
-
-    # l1-var1
     l1_regularization = torch.mean(torch.sum(input=(l1_regularization_docs + l1_regularization_query), dim=1)) # torch.Size([]) i.e. scalar tensor
-    # or l1-var2
-    # l1_regularization = torch.mean(torch.sum(input=l1_regularization_docs, dim=1)) + torch.mean(torch.sum(input=l1_regularization_query, dim=1))  # torch.Size([]) i.e. scalar tensor
 
     cost = torch.add(hinge_loss, l1_regularization) # torch.Size([]) i.e. scalar tensor
     # logger.info('cost {}'.format(cost.data))
@@ -116,8 +97,29 @@ def write_to_tensorboard(writer: SummaryWriter, step: int, cost: torch.Tensor, h
     writer.add_scalar('Sparsity_Representation_Batch/Document_Positive', count_zero(doc_pos_repr) / doc_pos_repr.numel(), step)
     writer.add_scalar('Sparsity_Representation_Batch/Document_Negative', count_zero(doc_neg_repr) / doc_neg_repr.numel(), step)
 
+def write_histograms_to_tensorboard(writer: SummaryWriter, step: int, model: nn.Module, q_repr: torch.Tensor, doc_pos_repr: torch.Tensor, doc_neg_repr: torch.Tensor) -> None:
+    non_zero_indices_query = q_repr[0].nonzero().flatten() # indices of values > 0
+    non_zero_indices_doc_pos = doc_pos_repr[0].nonzero().flatten()
+    non_zero_indices_doc_neg = doc_neg_repr[0].nonzero().flatten()
+    if non_zero_indices_query.nelement() > 0:
+        writer.add_histogram('Sparsity_Representation_First_Batch_Item/Query', non_zero_indices_query, step)
+    if non_zero_indices_doc_pos.nelement() > 0:
+        writer.add_histogram('Sparsity_Representation_First_Batch_Item/Document_Positive', non_zero_indices_doc_pos, step)
+    if non_zero_indices_doc_neg.nelement() > 0:
+        writer.add_histogram('Sparsity_Representation_First_Batch_Item/Document_Negative', non_zero_indices_doc_neg, step)
+
+    # tensorboard add histogram of value distribution of network output/representation (first item in batch)
+    writer.add_histogram('Representation_First_Batch_Item/Query', q_repr[0], step)
+    writer.add_histogram('Representation_First_Batch_Item/Document_Positive', doc_pos_repr[0], step)
+    writer.add_histogram('Representation_First_Batch_Item/Document_Negative', doc_neg_repr[0], step)
+
+    # tensorboard add histogram for model parameter weight/bias properties
+    for n, p in model.named_parameters():
+        if p.requires_grad == False:
+            continue
+        writer.add_histogram('Model_Param_Weight/{}'.format(n), p.data, step)
+
 def validate_model(model: nn.Module, num_validation_steps: int, vocabulary: Vocabulary, writer_valid: SummaryWriter, last_training_step: int) -> float:
-    # TODO is it ok if we might use always the same validation data batches, in legacy code we always validate using distinct validation data batches
     validation_loss = 0.
     model.eval() # Sets the module in evaluation mode. This has any effect only on certain modules. See documentations of particular modules for details of their behaviors in training/evaluation mode, if they are affected, e.g. Dropout, BatchNorm, etc.
     validation_triple_loader = IrTripleDatasetReader(lazy=True, 
@@ -219,22 +221,16 @@ logger.info('Network: {}'.format(repr(model)))
 for n, p in model.named_parameters():
     logger.info('model parameter "{}": shape={}, requires_grad={}'.format(n, p.shape, p.requires_grad))
 
-
-# optimizer 
-# TODO remove (create after model.cuda - according to its docs)
 model_params = model.parameters()
 optimizer = Adam(model_params, lr=config.get('learning_rate'))
 
-# training
 num_training_steps = config.get('num_train_steps')
 average_loss = 0
 regularization_term = config.get('regularization_term')
 
-# TODO how stopword removal?
-# TODO how to handle oov tokens and padding values?
-
 curr_training_step = 0
 should_save_snapshot_every_n_steps = config.get('save_snapshot_every_n_steps') > -1 
+
 
 for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_data_triples_file')), num_epochs=1)):
     curr_training_step += 1
@@ -257,26 +253,8 @@ for batch in Tqdm.tqdm(iterator(train_triple_loader.read(config.get('training_da
 
     if (curr_training_step < 1000 and curr_training_step % 10 == 0) or (curr_training_step >= 1000 and curr_training_step % 100 == 0):
         write_to_tensorboard(writer_train, curr_training_step, cost, hinge_loss, l1_regularization, q_repr, doc_pos_repr, doc_neg_repr)
+        write_histograms_to_tensorboard(writer_train, curr_training_step, model, q_repr, doc_pos_repr, doc_neg_repr)
         
-        # tensorboard add histogram for sparsity TODO extract to method
-        non_zero_indices_query = q_repr[0].nonzero().flatten() # indices of values > 0
-        non_zero_indices_doc_pos = doc_pos_repr[0].nonzero().flatten()
-        non_zero_indices_doc_neg = doc_neg_repr[0].nonzero().flatten()
-        if non_zero_indices_query.nelement() > 0:
-            writer_train.add_histogram('Sparsity_Representation_First_Batch_Item/Query', non_zero_indices_query, curr_training_step)
-        if non_zero_indices_doc_pos.nelement() > 0:
-            writer_train.add_histogram('Sparsity_Representation_First_Batch_Item/Document_Positive', non_zero_indices_doc_pos, curr_training_step)
-        if non_zero_indices_doc_neg.nelement() > 0:
-            writer_train.add_histogram('Sparsity_Representation_First_Batch_Item/Document_Negative', non_zero_indices_doc_neg, curr_training_step)
-
-        # tensorboard add histogram for model parameter weight/bias properties TODO extract to method
-        for n, p in model.named_parameters():
-            if p.requires_grad == False:
-                continue
-            writer_train.add_histogram('Model_Param_Weight/{}'.format(n), p.data, curr_training_step)
-        
-    # TODO change .data() to .item() for single value tensor 
-
     if curr_training_step % 100 == 0:
         log_output_train = (curr_training_step, num_training_steps, cost.data, hinge_loss.data, l1_regularization.data)
         logger.info('Training step {:6d} of {:6d} \t Cost={:10.4f} (Hinge-Loss={:10.4f}, L1-Reg={:8.5f})'.format(*log_output_train))
