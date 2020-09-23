@@ -400,7 +400,7 @@ The latter is bad for retrieval, because no documents would be found for zero ve
     despite having true positve coefficients in document representation vectors.
 Therefore, the model training time was restricted due to the representations' rising sparsity,
     and as a result, the SNRM model could not deliver positive evaluation metrics.
-% maybe add pictures of tensorboard diagramme 2020-01-15 Tensorboard snrm-extension.pdf 
+% TODO maybe add pictures of tensorboard diagramme 2020-01-15 Tensorboard snrm-extension.pdf 
 
 A further challenge was, that Google Colab terminated sessions regulary, probably based on time spent or usage.
 The occurence of these timeouts, led to moving the index construction, retrieval and evaluation to the 
@@ -418,7 +418,7 @@ Since it was already tried in vain to use only the hinge loss without any regula
     as a further attempt the model was modified additionally to ommit the dropout
     and to use only a ReLu activation layer on the last layer, i.e. on the output.
 That experiment leaded to a similar result regarding sparsity, albeit with more a bit more variation in the cost function.
-% maybe add image of 2020-01-24 tensorboard diagramme
+% TODO maybe add image of 2020-01-24 tensorboard diagramme
 
 The model experiments and results have been discussed with the advisor assistance, subsequentially.
 Another proposed try was to adjust the tensor operation on the logits for the hinge loss,
@@ -462,12 +462,12 @@ Surprisingly, it was possible to change the query and documentation sparsity dur
     with different values for $\lambda$.
 It was possible to increase the sparsity to a quite constant and desirable value of approx. 0.9.
 When compared to previous attempts, the sparsity had not been controllable.\\
-% add images of 2020-02-07 tensorboard diagramme.pdf
+% TODO add images of 2020-02-07 tensorboard diagramme.pdf
 Additionally, it was tried to add the ReLu activation function again for all layers, instead of 
     only for the last one, for this experiment design, but that leaded to even larger, undesired 
     differences in sparsity between document and query representations.
 Therefore, the Relu activation function was only utilized for the last layer for the most experiments.
-% maybe add image of sparsity difference for relu-all? 2020-02-07 tensorboard diagramme relu all.pdf
+% TODO maybe add image of sparsity difference for relu-all? 2020-02-07 tensorboard diagramme relu all.pdf
 
 To illustrate the results of one of the training runs, where the sparsity was controllable, 
     here are a few document and query representation statistics for a model that has been 
@@ -968,12 +968,12 @@ Interestingly, when using ReLu only on the last convolution layer,
     the sparsity progression of the query was fairly different than the document one.
 After just a few thousand training steps, the sparsity of the query was near 1,
     wheras for the documents the sparsity was varying a lot and near 0.1.
-% maybe add image: "2020-03-08 Docs-Sparsity Problem Tensorboard Diagramm.pdf“
+% TODO maybe add image: "2020-03-08 Docs-Sparsity Problem Tensorboard Diagramm.pdf“
 However, running the experiment with a ReLu activation function after each convolution layer
     and using the value 0 as the regularization term $\lambda$, leaded to a
     quick progression of the sparsity for both, query and document representations, to 1,
     without beeing able to control the sparsity.
-% maybe add image: 2020-03-08 all-relu zu sparse Problem Tensorboard Diagramm.pdf"
+% TODO maybe add image: 2020-03-08 all-relu zu sparse Problem Tensorboard Diagramm.pdf"
 After having discussed the work and the results, the model training was tried with two different
     training sets.
 As already previously used for the reproduction of the TensorFlow implementation of SNRM, the training 
@@ -997,8 +997,94 @@ That means, that the negative documents might have something in common with the 
 % TODO link to owncloud is invalid now/deleted, should we mention it here anyway?
 When comparing the Tensorboard diagramms for the model training, the two new training sets,
     did not change the course of the sparsity, compared to using the \texttt{triples.train.tsv} dataset.
-% maybe add image of 2020-03-10_tensorboard_log_uniform_and_50_50 (tensorboard file)
+% TODO maybe add image of 2020-03-10_tensorboard_log_uniform_and_50_50 (tensorboard file)
 
+In another approach was tried to control the representation sparsity and to reach for documents a similar
+    sparsity than for queries.
+Instead of calculating a L1 regularization together for a query, a positive and a negative document 
+    representation batch and controlling the sparsity with one regularization term $\lambda$,
+    it was tried to separate the L1 regularization for queries and documents.
+Therefore, two regularization terms were introduced, namely $\lambda_{doc}$ and $\lambda_{query}$,
+    which should control their respective L1 regularizations.
+The document L1 regularization is calculated based on a positive and a negative document representation batch,
+    and its impact should be controlled with the document regularization term $\lambda_{doc}$.
+Whereas, the query L1 regularization is equal to the query representation batch, times the 
+    query regularization term $\lambda_{query}$.
+Then, the query and document L1 regularization tensors are summed up, a sum reduction is applied,
+    and the L1 regularization is calculated by taking the mean.
+The following code shows the different calculation of the L1 regularization before the approach
+    of controlling the query and document sparsity separately, and how it is afterwards.
+% TODO is it ok to use verbatim here?
+\begin{verbatim}
+##### BEFORE #####
+
+l1_regularization = torch.mean(
+        torch.sum(
+                input=torch.cat(tensors=(
+                    q_repr, doc_pos_repr, doc_neg_repr),
+                    dim=1), 
+                dim=1))
+
+# l1_regularization (scalar)
+l1_regularization = torch.mul(l1_regularization, 
+                              regularization_term)
+
+##### AFTER #####
+
+# separate regularization terms for query and documents
+doc_reg_term = config.get('doc_reg_term') 
+q_reg_term = config.get('q_reg_term')
+
+# separate l1 regularization for query and document
+l1_regularization_docs = (doc_pos_repr + doc_neg_repr) * 
+                         doc_reg_term 
+l1_regularization_query = q_repr * q_reg_term
+
+# l1 regularization (scalar)
+l1_regularization = torch.mean(
+        torch.sum(
+            input=(l1_regularization_docs + 
+                   l1_regularization_query), 
+            dim=1))
+\end{verbatim}
+
+Inspecting the model's TensorBoard diagrams after modifiying the L1 regularization showed,
+    that the modification was not able to change the course of the sparsity significantly.
+In some of those runs the cost function stayed on relatively large values (e.g. 1e+6)
+    and stayed there with a few variations.
+% TODO maybe add an image of tensorboard_snrm_2020-03-15.zip (tensorboard file)
+When for the cost function only the L1 regularization without the hinge loss was used,
+    the sparsity also did not change much.
+Rather than the cost function approaching the value 0, it settled down to a value
+    around 200.\\
+% TODO maybe add image of 2020-03-17_tensorboard_snrm_only_l1_reg 2 (tensorboard file)    
+After that, it was tried to use a bias vector for the convolution layers.
+In the original SNRM TensorFlow code a comment indicated, that they did not use biases,
+    although they created variables for them, but did not use them.
+% TODO only write the following, if the snrm model definition will be part of the thesis:
+Note, that the SNRM PyTorch model definition above, shows already the \texttt{nn.Conv2d} 
+    layer's argument \texttt{bias=True}.
+With a bias vector and by using for the cost function only the L1 regularization separated 
+    for query and documents without the hinge loss,
+    the course of the sparsity changed and approached the value 1 quickly after a few thousand 
+    training steps.
+Also the cost function neared 0 after a few thousand training steps.\\
+% TODO maybe add image of 2020-03-18_tensorboard_reduced_dims_bias 2 (tensorboard file)
+With that result, it was tried to control the sparsity with different values for 
+    the query and document's regularization terms $\lambda_{doc}$ and $\lambda_{query}$.
+The neural network's number of units per hidden layer was configured to 10, and three 
+    hidden layers were used.
+Without a L1 regularization, the sparsity was lower, compared to using one,
+    and the course of the sparsity was controllable with the regularization terms.
+But even small changes in a L1 regularization term causes the sparsity to rise too fast to 1.
+Besides that, changes in one of the L1 regularization terms, e.g. $\lambda_{doc}$),
+    also influences the sparsity of the other entity, i.e. the query.
+The cost functions during the experiments neared 0.5 after a few thousand steps and stayed 
+    there with few variations.
+In these training runs, the sparsity varied, but it was possible to save a PyTorch model    
+    with a sparsity of about 0.97, create an inverted index with it, and evaluate it..
+% TODO maybe add images of tensorboard_2020-04-06.zip (tensorboard file)
+An analysis of the inverted index's documents, showed that there were added 807,360 documents.
 
 
 
