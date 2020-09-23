@@ -1077,14 +1077,45 @@ The neural network's number of units per hidden layer was configured to 10, and 
 Without a L1 regularization, the sparsity was lower, compared to using one,
     and the course of the sparsity was controllable with the regularization terms.
 But even small changes in a L1 regularization term causes the sparsity to rise too fast to 1.
-Besides that, changes in one of the L1 regularization terms, e.g. $\lambda_{doc}$),
+Besides that, changes in one of the L1 regularization terms, e.g. $\lambda_{doc}$,
     also influences the sparsity of the other entity, i.e. the query.
 The cost functions during the experiments neared 0.5 after a few thousand steps and stayed 
     there with few variations.
 In these training runs, the sparsity varied, but it was possible to save a PyTorch model    
-    with a sparsity of about 0.97, create an inverted index with it, and evaluate it..
+    with a sparsity of about 0.97, create an inverted index with it, and evaluate it.
 % TODO maybe add images of tensorboard_2020-04-06.zip (tensorboard file)
-An analysis of the inverted index's documents, showed that there were added 807,360 documents.
+An analysis of the inverted index showed there were 807,360 documents added.
+The minimum and maximum number of documents per latent term dimension was 
+    1 document resp. 807,360 documents.
+That is, for at least one latent term dimension all document were relevent,
+    and this although the stopwords were filtered.
+Further, the mean number of documents per latent term dimension was 13,772.70, 
+    the median was 1013, and the 0.90-quantile 33,174.
+A retrieval of relevant documents for evaluation queries was not possible,
+    because of the large number of possiblly relevant documents for some 
+    latent term dimensions.
+The retrieval script was modified in a way to skip latent term dimensions with
+    a large amount of documents assigned.
+And even with that adjustment, there were more often at least 50,000 documents per 
+    latent term dimension returned.
+As a consequence, the documents' representations still were not sparse enough, although 
+    the document sparsity in TensorBoard during training approximately 0.98 was for documents.
+Multiple evaluation query representations had postive coefficients
+    for the same latent term dimensions, for which also all documents are relevant.
+The information retrieval metrics still were non-positive.
+Obviously, the model did not learn the specific of documents and queries, but general
+    concepts, that are suitable for many or all.
+
+
+
+% tried then:
+% \url{https://msmarco.blob.core.windows.net/msmarcoranking/triples.train.small.tar.gz}
+% \texttt{train.triples.small.tsv}
+
+% tried then to use bigger units per hidden layer
+
+% previously stop word filter: StopwordFilter
+% from allennlp.data.tokenizers.word_filter import StopwordFilter
 
 
 
