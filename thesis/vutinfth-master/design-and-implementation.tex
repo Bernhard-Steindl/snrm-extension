@@ -921,18 +921,44 @@ Instead, for every training iteration, the model's gradients have to be set to z
     as well as, positive and negative document tokens,
     to obtain their corresponding representations.
 With these representations the logits, hinge loss, L1 regularization, or more general the loss is computed.
-Next, the gradient of the loss is computed, with reference to its previous tensor operation history, using
+Next, the gradient of the loss is computed, with reference to its history of tensor operations, using
     PyTorch's built-in automatic differentiation package.
 Subsequent to that, the model's parameters (weights) are updated using the calculated gradient and 
     the chosen optimizer.
 SNRM uses the Adam optimizer.
 Model validation comprises the same steps, but without calculating gradients or updating parameters.
 Differently to the TensorFlow implementation, in PyTorch tensors have to be moved explicitely to 
-    a NVIDIA device for GPU-accelerated training.
+    a NVIDIA device for GPU-accelerated computing.
 In addition, a PyTorch model must be set in training or validation mode,
     to specify the intended use of the model.
-Also the model save functionality was migrated to PyTorch and extended to also save the used 
-    configuration parameters as a JSON file.
+Also the model save functionality was migrated to PyTorch and extended to also save
+    configuration and hyperparameter values as a JSON file.
+
+In the index construction phase, the Python file \texttt{"code/index\_construction.py"} is used.
+The script loads a saved model from the file system, generates representations from 
+    documents of the document collection by model inference, and stores the representations in
+    a inverted index data structure.
+Similar to the model training, in the TensorFlow implementaion a TensorFlow session from the SNRM graph is
+    run and an operation is invoked with a document batch, that returns the corresponding document 
+    representations.
+However, in PyTorch just the model inference has to be invoked, by passing a batch of document tokens 
+    to the model's \texttt{forward} fuction.
+Clearly, the loading and restoring of the model had to be modified to be compatible with PyTorch's 
+    programming API.
+
+Similarly, the retrieval file (\texttt{"code/retrieval.py"}) was updated.
+In this Python script, a batch of queries from an evaluation query file are used as model input,
+    to obtain query representations.
+Every query representation then is used to retrieve relevant documents from an inverted index,
+    and to compute a retrieval score.
+Migrating the retrieval file to use the SNRM PyTorch model was likewise.
+Rather than invoking a TensorFlow graph operation, the \texttt{forward} function 
+    of the PyTorch model was called with a batch of query tokens,
+    to retrieve the respective query representations.
+Additionally, logging was added for the query representations's sparsity ratio and number of zero coefficients,
+    and further, for the query's number of positive latent term dimensions, 
+    for the number of retrieved relevant documents, for the sake of model evaluation.
+
 
 
 
