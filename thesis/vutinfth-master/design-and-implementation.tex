@@ -962,8 +962,42 @@ Additionally, logging was added for the query representations's sparsity ratio a
 
 
 
-
-
+After finishing the migration of the SNRM's Tensorflow code to PyTorch,
+    further evaluations of the model were carried out.
+Interestingly, when using ReLu only on the last convolution layer,
+    the sparsity progression of the query was fairly different than the document one.
+After just a few thousand training steps, the sparsity of the query was near 1,
+    wheras for the documents the sparsity was varying a lot and near 0.1.
+% maybe add image: "2020-03-08 Docs-Sparsity Problem Tensorboard Diagramm.pdf“
+However, running the experiment with a ReLu activation function after each convolution layer
+    and using the value 0 as the regularization term $\lambda$, leaded to a
+    quick progression of the sparsity for both, query and document representations, to 1,
+    without beeing able to control the sparsity.
+% maybe add image: 2020-03-08 all-relu zu sparse Problem Tensorboard Diagramm.pdf"
+After having discussed the work and the results, the model training was tried with two different
+    training sets.
+As already previously used for the reproduction of the TensorFlow implementation of SNRM, the training 
+    dataset of the Advanced Information Retrieval lecture exercise files was used (\texttt{triples.train.tsv}).
+% TODO is the following correct for triples.train.tsv from AIR lecture exercise?
+%       Momentan ist bei uns einfach aus den top1000 von bm25 gesampled, 
+%       was heißt dass die Dokumente zumindest irgendwas mit dem positive doc zu tun haben 
+%       (und daher der unterschied kleiner ist). 
+Negative documents are sampled from the top 1,000 from BM25 for the \texttt{triples.train.tsv} training file.
+That means, that the negative documents might have something in common with the positive documents,
+    resp. the semantic difference between a positve and negative document passage might be smaller.
+% TODO is this correctly written? :D should we add a link to the dataset or is description sufficient?
+    Therefore, two new training files, based on the MS MARCO dataset were generated, namely 
+    one with a 50\% bm25 and 50\% collection sampling, and the other is to 100\% sampled from the collection,
+    regarding the negative documents.
+%       Aber er hat gesagt uniform sampling aus der Collection ist auch wichtig. 
+%       Also hab ich jetzt mal zwei neue trainingsversionen erstellt 
+%       (was das sampling der negativen docs betrifft):
+%       50% bm25 + 50% collection sampling https://owncloud.tuwien.ac.at/index.php/s/iF37s8DOzvFjRkd
+%       100% Collection sampling https://owncloud.tuwien.ac.at/index.php/s/Uk2n9pRxCigt6Dd
+% TODO link to owncloud is invalid now/deleted, should we mention it here anyway?
+When comparing the Tensorboard diagramms for the model training, the two new training sets,
+    did not change the course of the sparsity, compared to using the \texttt{triples.train.tsv} dataset.
+% maybe add image of 2020-03-10_tensorboard_log_uniform_and_50_50 (tensorboard file)
 
 
 
