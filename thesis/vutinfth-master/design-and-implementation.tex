@@ -832,10 +832,10 @@ For a PyTorch convolution layer a kernel's width and height is specified as a tu
     are denoted separtely with the arguments \texttt{in\_channels} resp. \texttt{out\_channels}.
 Also different is the specification of padding in PyTorch, which can be specified as a as an int number or
     as a tuple of two ints.
-The horizontal zero-padding was given as a tuple $(0, 2)$ for the 1\textsuperscript{st} convolution layer,
+Zero-padding was given as a tuple $(0, 2)$ for the 1\textsuperscript{st} convolution layer,
     and otherwise $(0, 0)$, which results in the padding algorithm "SAME" of SNRM's TensorFlow implementation.
 All residual arguments (stride, dilation and bias) for SNRM's convolution layers were alike.
-Equally similar was adding a ReLu activation feature and a dropout.
+Equally similar was adding a ReLu activation function and a dropout.
 Due to a different handling of weights, PyTorch does initialize weights automatically, 
     but the model weights can also be intialized in another way, like with the values of a 
     normal distribtution (\texttt{nn.init.normal\_}).
@@ -881,6 +881,42 @@ dropout_probability = config.get('dropout_probability')
 
 self.convolution = nn.Sequential(conv_layer_dict)
 \end{verbatim}
+
+After the migration of the SNRM file, the next step was to adapt the file used for the 
+    training procedure (\texttt{"code/train.py"}).
+Under the responsibility of the migrated SNRM training file are, as the name suggests,
+    to train the SNRM model with batches of training data,
+    and further, to validate the model after specific training steps,
+    to save the model to the filesystem, and
+    to write scalar data and histogram data to TensorBoard for model inspection.
+More precisely, for model training, the computation of the cost function, and thus,
+    also the calculation of the logits, hinge loss and L1 regularization, is now done
+    directly in the training file, instead of the model file, as previously.
+Additionally, more log output is added before training by logging, besides of configuration and parameter
+    values, also platform and installed software versions 
+    (e.g. operating system version, Python version, PyTorch version, available NVIDIA CUDA devices, 
+    NVIDIA CUDA version, NVIDIA cuDNN version, etc.)
+    are logged for reasons of reproducability.
+Furthermore, the neural network architecture (incl. layers and there arguments, activation functions, 
+    neural network weights and there shape) is logged.
+During training, after certain training step intervals, the cost value, hinge loss and 
+    L1 regularization is logged.
+These improved logging measures have been taken to provide users with more information for 
+    troubleshooting and debugging, and primarily to help interesting users to reproduce 
+    results of this SNRM PyTorch project.\\
+Referring to the training procedure invokation, in the TensorFlow implementation 
+    a TensorFlow session of SNRM's computational graph has to be started, 
+    followed by running graph operations (model optimization, loss computation, TensorBoard data preparation).
+These graph operations access graph values and placeholders, which have to be fed to the
+    TensorFlow session.
+For the training procedure, a batch of queries, positve and negative documents, and the correct 
+    relevance labels are fed, to replace placeholder values in the TensorFlow graph.
+The model's loss value and the TensorBoard data are returned by the graph operations.
+With the exception that the model optimizer operation is not run, the same operations 
+    are executed for a validation step.
+
+
+
 
 
 
