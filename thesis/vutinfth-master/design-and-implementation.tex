@@ -1104,18 +1104,72 @@ Multiple evaluation query representations had postive coefficients
     for the same latent term dimensions, for which also all documents are relevant.
 The information retrieval metrics still were non-positive.
 Obviously, the model did not learn the specific of documents and queries, but general
-    concepts, that are suitable for many or all.
-
-
-
-% tried then:
-% \url{https://msmarco.blob.core.windows.net/msmarcoranking/triples.train.small.tar.gz}
-% \texttt{train.triples.small.tsv}
-
-% tried then to use bigger units per hidden layer
-
-% previously stop word filter: StopwordFilter
-% from allennlp.data.tokenizers.word_filter import StopwordFilter
+    concepts, that are suitable for many or all.\\
+After this test and analysis, further model trainings and experiments were carried out.
+When modifying the neural network, to use variations of either two or three hidden layers 
+    with 100 or 300 neurons each, 
+    the course of the sparsity increased quite quick to 1, without using any L1 
+    regularization term.
+Therefore, no L1 regularization would be necessary for such a neural network,
+    and the sparsity was already too high after several ten-thousand training steps,
+    making the model training useless.\\
+Additionally, it was tried to switch to a different tokenizer resp. word splitter.
+Previously, the AllenNLP's \texttt{JustSpacesWordSplitter} was used,
+    but it was also tried to use the AllenNLP \texttt{SpacyWordSplitter} with the 
+    language model \texttt{en\_core\_web\_lg}.
+Despite changing the tokenizer, the sparsity progression was not significantly different
+    compared to previous runs. \\
+Further, the already employed TensorBoard reporting was extended to create histograms
+    of the model's weights and bias values during training, to investigate how the parameter
+    values are distributed and vary.
+These histograms allowed to monitor the course of parameter value changes.
+So far, the PyTorch model' weights were initialized just like in the original SNRM TensorFlow
+    implementation with random values of the normal distribution.
+The TensorBoard histograms of weight values looked bell-shaped and there mean did not change much.
+However, in the bias histograms an initial bell curve was dismantled, and the values 
+    varyied and their values were more distributed.
+Looking only at the model's course of weight and bias changes, it seemed that the model
+    primarily adjusts its bias without changing the neurons' weights much.\\
+% TODO should we add histograms of learned parameters?
+% "Bildschirmfoto 2020-04-11 um 15.56.06.png“ 
+% "Bildschirmfoto 2020-04-11 um 16.21.13.png“
+% or create new images from a new run...
+This insight led to thinking about different methods of parameter value initialization.
+Obviously, PyTorch does by default for convolution layers a 
+    "He initialization" (\texttt{torch.nn.init.kaiming\_uniform\_}) for its weights,
+    and intializes the bias from a uniform distribution (\texttt{torch.nn.init.uniform\_}),
+    according to the \texttt{conv.py} convolution class's function
+    responsible for resetting parameters
+    \footnote{PyTorch v1.4 code of convolution class with \texttt{reset\_parameters} function \url{https://github.com/pytorch/pytorch/blob/v1.4.0/torch/nn/modules/conv.py\#L49}}.\\
+Next, it was tried to use PyTorch's default initializatoin method for convolution layers,
+    and the MSMARCO passage ranking training data set \texttt{train.triples.small.tsv} from Microsoft's 
+    GitHub respository
+    \footnote{MSMARCO training dataset \texttt{train.triples.small.tsv} on GitHub \url{https://github.com/microsoft/MSMARCO-Passage-Ranking}},
+    due to more available training data.
+Training with a neural network architecture with three hidden layers with 100 or 300 neurons per layer,
+    and with 10,000 output neursons, showed that the sparsity was controllable again with 
+    the query and document regularization terms $\lambda_{doc}$ and $\lambda_{query}$.
+However, the course of the sparsity behaved very differently than before, due to frequent variations,
+    and a slower progression.
+Also, the cost function does not start with such large values than before (e.g. 2e+6),
+    but with values near 0.5.
+Though, the cost function varied between 0.5, there was no pattern showing that the function moves 
+    towards the value 0, despite training for about 400,000 training steps.\\
+% TODO maybe add image of after_train_2020-04-18_230538 (tensorboard file)
+%       sparsity, histograms?
+%       i.e. tf-log/2020-04-18-203850_snrm-ext-pytorch-run-1-draw-uniform-layers-300-100-300-10k-default-weight-init-l1-reg-2e-8-2e-12/train
+%            tf-log/2020-04-26-164458_snrm-ext-pytorch-run-1-train-triples-layers-300-100-300-1k-l1-reg-1e-8-1e-12/train
+Saving a model with a suitable sparsity ratio (e.g. 98\%) however showed that the information retrieval
+    evaluation metrics still were non-positive.
+The same challenges as before remained, that is an improper sparsity ratio of evaluation queries and 
+    a too large number of relevant documents per latent term dimension.
+Obviously, the model was not able to learn semantic word relationships and conecpts 
+    from the training dataset.\\
+These results concluded the practical part of the thesis, regarding the reproducability of the 
+    standalone neural ranking model (SNRM) of
+    Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking}
+    with the MSMARCO passage ranking dataset, 
+    and the migration of SNRM from the Python library TensorFlow to PyTorch.
 
 
 
