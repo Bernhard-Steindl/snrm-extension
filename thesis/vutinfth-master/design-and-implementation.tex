@@ -16,7 +16,7 @@ Zamani et al. provide the source code of their standalone neural ranking model a
     \footnote{Hamed Zamani's SNRM GitHub repository \url{https://github.com/hamed-zamani/snrm}}
     under the BSD-3-Clause license.
 A fork of the original SNRM GitHub repository was created
-    \footnote{Bernhard Steindl's fork \texttt{"snrm-extension"} of the original SNRM GitHub repository  \url{https://github.com/Bernhard-Steindl/snrm-extension}}
+    \footnote{Bernhard Steindl's fork \texttt{"snrm-extension"} of the original SNRM GitHub repository \url{https://github.com/Bernhard-Steindl/snrm-extension}}
     and used as the code basis.
 Under the forked repository \texttt{"snrm-extension"}, two git branches were created.
 The first branch \texttt{"extension"} contains the source code changes concerning the first
@@ -27,91 +27,53 @@ Secondly, the branch \texttt{"extension-pytorch"} comprises the realization of t
 % TODO make forked GitHub repo code public!
 
 \section{SNRM reproducability and extension}
-Actually done:
+This section describes the taken steps to set-up the original standalone neural ranking model of Zamani et al.
+    and to extend and modify the project to be able to use the MSMARCO passage ranking dataset.
+According to the SNRM paper of Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking} 
+    datasets of Robust (TREC), ClueWeb, and AOL query logs, as well as a Wikipedia dump was used
+    in their work.
+However, the lack of these datasets led to the use of the MSMARCO datasets, 
+    and due to its free availability for non-commercial research purposes.
 
-Read papers of SNRM, NVSM, An Introduction to Neural Information Retrieval,
-first two weeks of Coursera Stanford Machine Learning Course \footnote{Coursera Stanford Machine Learning Course website \url{https://www.coursera.org/learn/machine-learning}}
-useful for learning about an Introduction to machine learning, supervised and unsupervised learning, intuition of
-cost function, gradient descent, linear regression, refresher course in linear algebra (matrices, vectors)
-Python tutorial \footnote{Python tutorial website \url{https://docs.python.org/3.6/tutorial/}}
-
-Understand SNRM Code and TensorFlow, NumPy, PyTorch
-Gain experience in using pip and Conda for dependency resp. package management, as well as IDE Visual Studio Code.
-
-
-Book François Chollet - Deep Learning with Python
-
-According to the paper of SNRM, as datasets were used Robust (TREC), ClueWeb und AOL query logs and a Wikipedia dump.
-However, 
-
-
-% Git branch extension
-
-Google Colab like a Jupyter Notebook but with free NVIDA GPU
-
-SNRM original tensorflow code make runnable on local MacBook and CPU
-Extension of original SNRM code in TensorFlow to be able to use the MS MARCO passage ranking dataset.
-
-Unfortunately, the authors neither stated the versions of Python, TensorFlow and NumPy on their paper nor in the SNRM GitHub repository.
+At the beginning, the original TensorFlow implementation of SNRM was examined and studied,
+    before setting the project up on an Apple MacBook Pro (Retina, 15-inch, Mid 2015).
+The first objective was to make the original SNRM application runnable on this local system.
+Unfortunately, the authors neither stated the versions of Python, TensorFlow and NumPy on their paper nor 
+    in the SNRM GitHub repository.
 Hence, the first effort was put in trying different versions and resolve version conflicts between dependencies.
-By trial-and-error executing SNRM TensorFlow with various versions, the following versions seemed to make the application run.
+By trial-and-error executing SNRM TensorFlow with various versions, the following versions seemed to make the   
+    application run.
 Probable, these versions were used by the authors of he SNRM with TensorFlow:
-
 \begin{itemize}
     \item python 3.6.9
     \item tensorflow 1.4.0
     \item numpy 1.16.4
 \end{itemize}
-
 It is even probable that a Python version below 3 was used, due the author's usage of the Python 
     function \texttt{xrange} in the source code, which did exist in Python 2, but was removed in Python version 3.
-After finding potential suitable Python, TensorFlow and NumPy versions, runtime errors occured, likely due to invokations of incompatible 
-    resp. obsolete api methods and attributes by the SNRM code.
+After finding potential suitable Python, TensorFlow and NumPy versions, runtime errors occured, likely due to 
+    invokations of incompatible resp. obsolete api methods and attributes by the SNRM code.
 
-
-
-triples.train.tsv (Dataset Advanced IR/MS MARCO), NLTK \verb|word_tokenize|
-
-
-
-
-code/dictionary.py
-
-
-
-
-SNRM's \texttt{code/dictionary.py} opens a file comprising tokens and generates two datastructures, one for mapping from an id to a token, 
-    and vice versa.
-According to the original SNRM source code, the authors loaded vocabulary terms from the output of Galago's \verb|dump_term_stats| function.
+SNRM's \texttt{code/dictionary.py} opens a file comprising tokens and generates two datastructures, one for mapping 
+    from an id to a token, and vice versa.
+According to the original SNRM source code, the authors loaded vocabulary terms from the output of 
+    Galago's \verb|dump_term_stats| function.
 There was no reference supplied where to download their vocabulary terms.
 Hence, the file \verb|allen_vocab_lower_10/tokens.txt| from the Advanced Information Retrieval course's exercise files 
     \footnote{Advanced IR course's excercise files \url{https://owncloud.tuwien.ac.at/index.php/s/QA4LEtxdBokqdNx}}
     was chosen and used as a token file and in this way the known vocabulary.
 The original implementation for loading the vocabulary tokens had to be adjusted due to a different format of the token file.
-It is worth to note, that the original SNRM implementation only used simple whitespace (\verb|" "|) tokenization, for demonstrating
-    the concept of retrieval with two exemplary hard-coded queries (see \texttt{code/retrieval.py}).
+It is worth to note, that the original SNRM implementation only used simple whitespace (\verb|" "|) tokenization, 
+    for demonstrating the concept of retrieval with two exemplary hard-coded queries (see \texttt{code/retrieval.py}).
 Instead of retaining the simple whitespace tokenization, NLTK word tokenization was employed.
 NLTK in version 3.4.5, a Python dependency, was added for using the NLTK corpus' english stopwords and word tokenization.
 The file \texttt{code/dictionary.py} was edited and the function function \verb|get_term_id_list| was added as a 
     replacement of the previous tokenization technique, for the means to generate a list of term-ids from 
     query and document text via word tokenization with regards to remove stop words, too.
 
-
-
-% Die Methode zum Generieren von Data-Batches (generate_batches) war im Original-Code noch nicht umgesetzt. 
-% Ich vermute, weil diese abhängig vom gewählten Datensatz ist. Als Datensatz habe ich mal die train.triples.tsv von dir genommen. 
-% Ich bin mir aber unsicher, ob mein Batch dem entspricht, was erwartet wird, weil ich das Kommentar, das die Nachbedingung beschreibt, 
-% nicht ganz verstehe. Für die Tokenization v. query und passages hab ich NLTK gefunden und vorerst hinzugefügt (word\_tokenize).
-
-
-
-
-Implementation halted for writing the bachelor thesis proposal, composed of the thesis title, literature, thesis structure and the motivation, 
-    and planned goals of the thesis.
-
 The paper's authors did not provide the function \verb|generate_batch| within the python file \verb|code/train.py|, 
-    which is supposed to be used for generating a new batch of training data (resp. validating data), while also remembering which 
-    data was already generated.
+    which is supposed to be used for generating a new batch of training data (resp. validating data), while 
+    also remembering which data was already generated.
 One raw batch is a matrix comprising various query texts, two document texts (passages), and a label indicating which document 
     is more relevant to the corresponding query text.
 The batch data's query and document text have to be represented as term ids. 
@@ -144,8 +106,8 @@ As the data source for generating passage text batches, the document collection 
     \url{https://msmarco.blob.core.windows.net/msmarcoranking/collection.tar.gz}}, 
     from the MS MARCO passage ranking GitHub repository was used, which has the format \verb|"passage-id \t passage-text"|.
 
-For the reader it remains unclear, why the source code for batch generation has been deleted and replaced with an exception pointing out the
-    missing implementation. 
+For the reader it remains unclear, why the source code for batch generation has been deleted and replaced with an exception 
+    pointing out the missing implementation. 
 Probably, the code was too domain-specific or too closely tied to the chosen training data and document collection,
     so it was not worth making it publicly available on GitHub.
 Nevertheless, for the reproduction of the SNRM's results it is necessary to add the lacking implementation details.
@@ -155,7 +117,8 @@ As already stated, the Python script for the retrieval phase (\texttt{code/retri
 After mapping the query text to a list of token ids, generation of a latent query representation vector through model inference, 
     inverted index lookup for relevant documents with the latent representation's dimension, a document's retrieval score was
     calculated by summation over a document's latent term weigh and the coefficient of the corresponding latent query term dimension.
-Afterwards, the original SNRM code just writes the document retrieval scores to a binary file by Pyhon object serialization (\texttt{pickle}).
+Afterwards, the original SNRM code just writes the document retrieval scores to a binary file by Pyhon object 
+    serialization (\texttt{pickle}).
 One of the goals in reproducing the paper and the source code, was to evaluate the retrieval model with recent evaluation tools like 
     \verb|trec_eval| \footnote{Evaluation software \texttt{trec\_eval} GitHub repository \url{https://github.com/usnistgov/trec_eval}},
     and \verb|msmarco_eval.py| 
@@ -168,8 +131,6 @@ The MS MARCO passage ranking GitHub repository also provides queries and TREC qr
 As a starting point, the query file \texttt{queries.dev.small.tsv} and the qrel file \texttt{qrels.dev.small.tsv} were downloaded
     \footnote{MS MARCO passage ranking queries, and qrel files download link \url{https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz} }.
     and used.
-
-% queries.air-subset.tsv
 
 By writing and utilizing a Python script for analysing the qrel file's content, the following statistics have been observed.
 The qrel file \texttt{qrels.dev.small.tsv} comprises of 6,980 queries in total.
@@ -188,6 +149,7 @@ In the Google Colab Notebook, commands were used to setup the platform (NVIDIA C
     install the required project dependencies, downloading and extracting datasets,
     before invoking the Python scripts, according to the model's information retrieval phases
     model training, inverted index construction, retrieval, and evaluation.
+For reproducibility reasons, the Google Colab Notebook was added to the GitHub repository.
 Note that to run TensorFlow GPU-accelerated the package \verb|tensorflow-gpu| must also be installed,
     with \verb|pip| for instance.
 The following Conda and pip packages were installed in Google Colab.
@@ -237,19 +199,20 @@ Firstly, a Python dictionary \texttt{dict()} is used for establishing a mapping 
 This datastructure is like an index, in returning all potentially relevant documents for a latent document representation's term.
 Secondly, a NumPy two-dimensional memory-mapped file is used, which provides storage for the latent document representations' vectors
     of all intended documents for index construction.
-Lastly, another Python dictionary is utilized for mapping a document id to its corresponding document representation's index within the memory-map array.
+Lastly, another Python dictionary is utilized for mapping a document id to its corresponding document representation's index within 
+    the memory-map array.
 This datastructure can be used to retrieve the latent document representation for a given document id.
 Both of these Python dictionary datastructures are stored using the Python function \texttt{pickle} on index construction completion,
     whereas the memory-mapped array is automatically stored on disk through NumPy.
-If only a certain section of the memory mapped file is requested, NumPy loads only that part into memory, rather than loading the whole file from disk,
-    which allows to index more documents and increases memory access.
+If only a certain section of the memory mapped file is requested, NumPy loads only that part into memory, rather than loading the 
+    whole file from disk, which allows to index more documents and increases memory access.
 
 After implementing the more sophisticated inverted index, the next challenge emerged.
 Several hours and days were spent in training the model, index construction, retrieval and evaluation.
-Indexing more than 1 Mio. documents was not feasible, because retrieval of documents for a single query sometimes took hours or even longer, so
-    retrieval had to be terminated, because an end was not in sight.
-The retrieval did not yield positive metrics for \verb|trec_eval| and manual observations showed that retrieval returned meaningless and irrelevant 
-    document passages.\\
+Indexing more than 1 Mio. documents was not feasible, because retrieval of documents for a single query sometimes took hours or 
+    even longer, so retrieval had to be terminated, because an end was not in sight.
+The retrieval did not yield positive metrics for \verb|trec_eval| and manual observations showed that retrieval returned meaningless    
+    and irrelevant document passages.\\
 One attempt to cope with this issue was to write a new Python script \verb|code/generate_tokens.py| for generating a new token file, 
     containing all distinct tokens of the collection's documents in lower case, with an configurable occurence frequency 
     (e.g. token appears at least 10 times in the collection).
@@ -530,6 +493,13 @@ The next steps in the practical part of the thesis was the migration of SNRM to 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{SNRM migration to PyTorch}
+
+In this section the realization of the migration from the SNRM TensorFlow implementation to the PyTorch library
+    is documented.
+Additionally, observations and results of experiments are depicted, and
+    challenges that have arisen and their respective attempts to solve them are presented.
+This practical part of the thesis was done after setting-up the original SNRM application,
+    and modifying it, to be runnable with the MSMRACO passage ranking dataset.\\
 
 For migration of the SNRM code to PyTorch, a new Git branch (\texttt{extension-pytorch})
     was created based on the previous SNRM extension code (\texttt{extension} branch), 
@@ -1196,16 +1166,5 @@ These results concluded the practical part of the thesis, regarding the reproduc
     with the MSMARCO passage ranking dataset, 
     and the migration of SNRM from the Python library TensorFlow to PyTorch.
 
-
-
-    
-%     The format of a qrels file is as follows:
-% TOPIC      ITERATION      DOCUMENT#      RELEVANCY 
-% https://trec.nist.gov/data/qrels_eng/
-
-% limitation of number of retrieval documents (max_retrieval_docs flag)
-% retrieval.py statistics sparsity, logging of document count per latent term dimension found, logging empty retrieval list for query
-
-
 % TODO which source code should be added to the implementation section? github reference enough?
-% certain parts of model?
+%      certain parts of model?
