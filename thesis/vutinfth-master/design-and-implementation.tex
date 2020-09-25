@@ -1,13 +1,30 @@
 \chapter{Design and Implementation}
 
+The design and implementation chapter documents the practical part of the thesis.
+It is comprised of two sections, namely the extension of the original standalone neural
+    ranking model to be usable with the MSMARCO passage ranking dataset,
+    as well as the migration of the SNRM's source code from the Python library TensorFlow 
+    to PyTorch.
+The reproduction of the original work from 
+    Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking}
+    using the MSMARCO dataset represents also a primary objective.
+Each of these sections describes in chronological order the realized
+    design and implementation tasks, encountered challenges, 
+    carried out experiments and also their results.\\
+Zamani et al. provide the source code of their standalone neural ranking model as a
+    repository on GitHub
+    \footnote{Hamed Zamani's SNRM GitHub repository \url{https://github.com/hamed-zamani/snrm}}
+    under the BSD-3-Clause license.
+A fork of the original SNRM GitHub repository was created
+    \footnote{Bernhard Steindl's fork \texttt{"snrm-extension"} of the original SNRM GitHub repository  \url{https://github.com/Bernhard-Steindl/snrm-extension}}
+    and used as the code basis.
+Under the forked repository \texttt{"snrm-extension"}, two git branches were created.
+The first branch \texttt{"extension"} contains the source code changes concerning the first
+    section of the SNRM reproducability and extension.
+Secondly, the branch \texttt{"extension-pytorch"} comprises the realization of the migration
+    from TensorFlow to PyTorch, according to the second section of this chapter.
 
-TODO - add an intro of this chapter. 
-how is this chapter organized,
-summarize what is the scope of the practical part.
-
-\todo{Enter your text here.}
-
-
+% TODO make forked GitHub repo code public!
 
 \section{SNRM reproducability and extension}
 Actually done:
