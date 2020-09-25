@@ -1,4 +1,4 @@
-\chapter{Design and Implementation}
+\chapter{Design and Implementation} \label{chapter:design-and-implementation}
 
 The design and implementation chapter documents the practical part of the thesis.
 It is comprised of two sections, namely the extension of the original standalone neural
@@ -20,13 +20,13 @@ A fork of the original SNRM GitHub repository was created
     and used as the code basis.
 Under the forked repository \texttt{"snrm-extension"}, two git branches were created.
 The first branch \texttt{"extension"} contains the source code changes concerning the first
-    section of the SNRM reproducability and extension.
+    section of the SNRM reproducibility and extension.
 Secondly, the branch \texttt{"extension-pytorch"} comprises the realization of the migration
     from TensorFlow to PyTorch, according to the second section of this chapter.
 
 % TODO make forked GitHub repo code public!
 
-\section{SNRM reproducability and extension}
+\section{SNRM reproducibility and extension}
 This section describes the taken steps to set-up the original standalone neural ranking model of Zamani et al.
     and to extend and modify the project to be able to use the MSMARCO passage ranking dataset.
 According to the SNRM paper of Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking} 
@@ -891,7 +891,7 @@ Additionally, more log output is added before training by logging, besides of co
     values, also platform and installed software versions 
     (e.g. operating system version, Python version, PyTorch version, available NVIDIA CUDA devices, 
     NVIDIA CUDA version, NVIDIA cuDNN version, etc.)
-    are logged for reasons of reproducability.
+    are logged for reasons of reproducibility.
 Furthermore, the neural network architecture (incl. layers and there arguments, activation functions, 
     neural network weights and there shape) is logged.
 During training, after certain training step intervals, the cost value, hinge loss and 
@@ -1160,7 +1160,7 @@ The same challenges as before remained, that is an improper sparsity ratio of ev
     a too large number of relevant documents per latent term dimension.
 Obviously, the model was not able to learn semantic word relationships and conecpts 
     from the training dataset.\\
-These results concluded the practical part of the thesis, regarding the reproducability of the 
+These results concluded the practical part of the thesis, regarding the reproducibility of the 
     standalone neural ranking model (SNRM) of
     Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking}
     with the MSMARCO passage ranking dataset, 

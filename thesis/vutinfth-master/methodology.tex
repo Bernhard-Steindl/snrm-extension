@@ -1,70 +1,127 @@
 \chapter{Methodology}
 
-The practical values of the bachelor thesis will be the reproducibility of
-    the SNRM implementation and the migration of the original SNRM source 
-    code to be executable with the latest versions of the machine learning 
-    library PyTorch \footnote{PyTorch website \url{https://pytorch.org}}  
+% Intro:
+In this chapther the approach of realizing this bachelor thesis is illustrated.
+It answers what the theoretical and practical values of the work are.
+Also, an original plan of this thesis' goals and tasks is shown and compared with the
+    actual, reached objectives.
 
-An analysis \cite{he:2019:state-of-ml-frameworks} from Horace He shows that 
-    in 2019 the machine learning frameworks PyTorch and TensorFlow 
+% Overview practical values
+The practical values of the bachelor thesis is the reproducibility of
+    the SNRM implementation and the migration of the original SNRM source 
+    code, that was written with the TensorFlow
     \footnote{TensorFlow website \url{https://www.tensorflow.org}}
+    library, 
+    to the currently latest version of the machine learning
+    library PyTorch \footnote{PyTorch website \url{https://pytorch.org}}.
+Instead of using the same datasets as SNRM's authors,
+    Microsoft's MAchine Reading COmprehension Dataset (MS MARCO)
+    \footnote{MS MARCO website \url{http://www.msmarco.org}}
+    for passage ranking is used for this thesis,
+    due to its free availability for non-commercial research purposes.
+
+% Analysis machine-learning popularity
+An analysis from Horace He \cite{he:2019:state-of-ml-frameworks} shows that 
+    in 2019 the machine learning frameworks PyTorch and TensorFlow 
     are the most popular used ones.
 According to Horace He, TensorFlow is still the dominant framework
     in the industry by comparing job listings, for instance.
 However, he also studied research papers that either use PyTorch or
     TensorFlow and found PyTorch has gained traction since 2018 and
     actually holds the majority in the research community at the moment.
-    \cite{he:2019:state-of-ml-frameworks}
+    \cite{he:2019:state-of-ml-frameworks}\\
 The growing popularity of using PyTorch motivates the usage of the 
-    framework for the bachelor thesis.
+    framework for this bachelor thesis.
 
-The theoretical values of the bachelor thesis will be a comparison of 
-    the original SNRM and the ported SNRM, as well as an analysis 
-    of state of the art neural information retrieval models, 
-    like SNRM and NVSM.\\
-Concerning the practical part of the thesis, the first goal is to be able 
+% Overview theoretical values
+The theoretical values of the bachelor thesis is a comparison of the 
+    implementation design of the original SNRM and the migrated SNRM, 
+    as well as an analysis of state of the art neural information retrieval models,
+    like the Standalone Neural Ranking Model (SNRM) 
+    from Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking} 
+    and the Neural Vector Space Model (NVSM) 
+    from Van Gysel et al. \cite{van-gysel:2017:neural-vector-spaces}.
+
+% Overview-Detail practical values
+Concerning the practical part of the thesis, the first goal was to be able 
     to run the original SNRM.
-For training and evaluation of the IR model the 
-    Microsoft MAchine Reading COmprehension Dataset (MS MARCO 
-    \footnote{MS MARCO website \url{http://www.msmarco.org}}) 
-    for passage ranking (MSMARCO-Passage-Ranking) will be used.
-One of the first steps to approach this goal is to find compatible
-    versions for Python \footnote{Python website \url{https://www.python.org}}, 
-    TensorFlow and NumPy \footnote{NumPy website \url{https://www.numpy.org}},
+For training and evaluating the IR model the MS MARCO dataset
+    for passage ranking (MSMARCO-Passage-Ranking) is used.
+One of the first steps was to find compatible
+    versions for Python 
+    \footnote{Python website \url{https://www.python.org}}, 
+    TensorFlow and NumPy
+    \footnote{NumPy website \url{https://www.numpy.org}},
     because the originally used legacy package versions of the authors are not
     listed on the GitHub page of SNRM 
     \footnote{Hamed Zamani's SNRM github repository \url{https://github.com/hamed-zamani/snrm}}.
-Next up, will be the implementation of missing Python functions in the original SNRM code, 
+Next was the implementation of missing Python functions in the original SNRM code, 
     comprising among others the creation of an in-memory term dictionary, 
-    and the provision of training and evaluation batch data to the model.
-Afterwards, the original SNRM will be ported resp. migrated to SNRM-PyTorch, 
-    which will be a SNRM with up-to-date versions of Python, PyTorch and NumPy.
+    and an extension for provisioning of training and evaluation batch data from the 
+    MSMARCO dataset to the model.
+Model trainings and evaluations were carried out in the course of experiments 
+    in order to try to reproduce the proposed retrieval results by the authors of SNRM.\\
+Afterwards, the original SNRM was migrated to a PyTorch implementation,
+    which can be imagined as a SNRM with currently up-to-date versions of 
+    Python, PyTorch and NumPy.
+The PyTorch implementation was also accompanied by model evaluations and experiments.
 For version control of the source code a private GitHub repository, forked from 
-    the original SNRM, will be used.
-The design of the implementation and the source code will be available in the thesis
-    chapter Design and Implementation.
+    the original SNRM, was used.\\
+The design of the model implementations, as well as 
+    challenges that have arisen in accompanying experiments and associated results 
+    are available in the 
+    thesis chapter \nameref{chapter:design-and-implementation}.
 
-For the theoretical part, a comparison as well as an evaluation of the model 
-    training performance and ranking results of the original SNRM and SNRM-PyTorch 
-    with the MS MARCO dataset will be presented in the chapter Evaluation.
-
-The bachelor thesis chapter State of the Art will be a comparison of SNRM to other 
-    recent proposals of Neural Information Retrieval models, 
+% Overview-Detail practical values
+For the further theoretical part, a comparison, as well as an evaluation of the model's
+    training performance and its ranking results of the original SNRM and 
+    the PyTorch implementation with the MS MARCO dataset 
+    were planned. 
+However, these planned evaluations were revoked,
+    due to the encountered challenges during the implementation and the experiments.
+Instead, the challenges that arose during experiments 
+    and corresponding approaches to solving them are depicted in the thesis.\\
+Additionally, in this work's chapter
+    \nameref{chapter:state-of-the-art} 
+    is a comparison of the Standalone Neural Ranking Model to other 
+    recent proposals of neural information retrieval models,
     like the Neural Vector Space Model (NVSM).
 
-\todo{Enter your text here.}
+% Original Methodology / Plan according to thesis proposal
+Before working on the thesis, a thesis proposal was written for
+    defining the scope and the objectives of the work.
+The following list shows the original planned tasks of the thesis, 
+    which were approved by the advisor assistance.
+\begin{enumerate}
+    \item research and study literature
+    \item write and submit bachelor thesis proposal
+    \item extend original SNRM to run it with MS MARCO passage ranking dataset
+    \item study of PyTorch and TensorFlow
+    \item technical design of SNRM-PyTorch
+    \item implementation of SNRM-PyTorch
+    \item comparison and evaluation of SNRM implementations
+    \item write bachelor thesis
+    \item final design and code review of the implementation
+    \item final review of the evaluation
+    \item incorporation of final feedback of the thesis from the assistant
+    \item proof-read the thesis
+\end{enumerate}
+The current progress during the course of the work was continuously
+    shared and discussed with the advisor assistance.
+Helpful hints and feedback from the advisor assistance were gratefully 
+    incorporated in the work of the thesis.
+Through frequent information on the status of the implementation 
+    and the experiments, the initial objectives of the thesis were adapted, 
+    with regard to the comparison and evaluation of the SNRM implementations.
 
-% Read papers of SNRM, NVSM, An Introduction to Neural Information Retrieval,
-% first two weeks of Coursera Stanford Machine Learning Course \footnote{Coursera Stanford Machine Learning Course website \url{https://www.coursera.org/learn/machine-learning}}
-% useful for learning about an Introduction to machine learning, supervised and unsupervised learning, intuition of
-% cost function, gradient descent, linear regression, refresher course in linear algebra (matrices, vectors)
-% Python tutorial \footnote{Python tutorial website \url{https://docs.python.org/3.6/tutorial/}}
-
-% Book François Chollet - Deep Learning with Python
-
-% Understand SNRM Code and TensorFlow, NumPy, PyTorch
-% Gain experience in using pip and Conda for dependency resp. package management, as well as IDE Visual Studio Code.
-
-%  Implementation halted for writing the bachelor thesis proposal, composed of the thesis title, 
-% literature, thesis structure and the motivation, 
-% and planned goals of the thesis.
+Basic theoretical knowledge to work on this thesis was acquired among others 
+    through a university lecture course on Introduction to Information Retrieval,
+    and by reading papers
+    from Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking},
+    and Van Gysel et al. \cite{van-gysel:2017:neural-vector-spaces}, for instance.
+In addition, the paper from Mitra et al. on 
+    an Introduction to Neural Information Retrieval \cite{mitra:2018:introduction-neural-ir},
+    Coursera's Stanford Machine Learning Course
+    \footnote{Stanford's Machine Learning Course on Coursera's website \url{https://www.coursera.org/learn/machine-learning}},
+    and Chollet's book on Deep Learning with Python \cite{chollet:2017:deep-learning-with-python}
+    were helpful for getting started with the thesis.
