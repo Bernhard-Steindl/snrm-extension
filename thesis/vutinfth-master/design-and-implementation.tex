@@ -152,13 +152,13 @@ In the Google Colab Notebook, commands were used to setup the platform (NVIDIA C
 For reproducibility reasons, the Google Colab Notebook was added to the GitHub repository.
 Note that to run TensorFlow GPU-accelerated the package \verb|tensorflow-gpu| must also be installed,
     with \verb|pip| for instance.
-The following Conda and pip packages were installed in Google Colab.
-% TODO discuss if usage of verbatim is ok here
-\begin{verbatim}
-!conda install -q -y -c conda-forge python=3.6.9 \
-                tensorflow=1.4.0 nltk=3.4.5 numpy=1.16.4
-!pip install tensorflow-gpu==1.4
-\end{verbatim}
+Listing~\ref{installed-conda-pip-packages-colab-tensorflow} shows the Conda and pip packages that were installed in Google Colab.
+
+\begin{lstlisting}[language=bash,frame=single,breaklines=true,float=tbh,caption=Installed Conda and pip packages in Google Colab Notebook for SNRM TensorFlow implementation,label=installed-conda-pip-packages-colab-tensorflow]
+conda install -q -y -c conda-forge python=3.6.9 \
+        tensorflow=1.4.0 nltk=3.4.5 numpy=1.16.4
+pip install tensorflow-gpu==1.4
+\end{lstlisting}
 
 Due to the authors' use of a nowadays relatively old TensorFlow version 1.4.0, special effort had to be put in setting up
     NVIDIA cuDNN in version 6.0.21-1 and NVIDIA CUDA version 8.0.61-1, to be compatible with \verb|tensorflow_gpu-1.4.0|.
@@ -344,14 +344,12 @@ Varying the regularization term $\lambda$ in the authors' endorsed interval of $
     even trying non-destined values, like 0, 30, or 1,000, but also negative values, did not change the course 
     of the representations' sparsity significantly in Tensorboard.
 
-The following code shows a piece of the original SNRM model's cost function calculation.
+The code in Listing~\ref{tensorflow-cost-function-calc} shows a piece of the original SNRM model's cost function calculation.
 The cost function is basically composed of the hinge loss, a L1 regularization reduces the coefficients of queries and 
     tuples of positive and negative document passages, and additionally, the effect of the regularization is
     controlled by the \texttt{regularization\_term}.
 
-% TODO is this ok to use verbatim for code? or can we use something with syntax highlighting 
-% or must we use the pseudocode-formatting like in intro.tex with \begin{algorithm}?
-\begin{verbatim}
+\begin{lstlisting}[language=Python,frame=single,breaklines=true,float=tbh,caption=Cost function calculation in SNRM TensorFlow implementation,label=tensorflow-cost-function-calc]
 # the hinge loss function for training
 self.loss = tf.losses.hinge_loss(
                 logits=logits, 
@@ -362,7 +360,7 @@ self.loss = tf.losses.hinge_loss(
 # the l1 regularization for sparsity. Since we use ReLU as 
 # the activation function, all the outputs of the
 # network are non-negative and thus we do not need to get 
-the absolute value for computing the l1 loss.
+# the absolute value for computing the l1 loss.
 self.l1_regularization = tf.reduce_mean(
     tf.reduce_sum(
         tf.concat(
@@ -376,7 +374,7 @@ self.l1_regularization = tf.reduce_mean(
 self.cost = self.loss + 
     (tf.constant(self.regularization_term, dtype=tf.float32) * 
     self.l1_regularization)
-\end{verbatim}
+\end{lstlisting}
 
 Although, trying these stated different modifications to the neural network architecture, 
     embedding, hyperparameters, and other configuration values,
@@ -419,23 +417,23 @@ Originally, the logits were computed as a tensor multiplication (\texttt{tf.mult
     a positve and a negative representation's batch and a query representation's batch,
     followed by a sum computation (\texttt{tf.reduce\_sum}), 
     and a concatenation of the two tensors (\texttt{tf.concat}).
-The following code shows part of the original SNRM source code for the logits computation for the hinge loss.
+The code in Listing~\ref{tensorflow-logits-computation} shows part of the original SNRM source code for the logits computation for the hinge loss.
 
-% TODO is this ok to use verbatim for code? or can we use something with syntax highlighting 
-% or must we use the pseudocode-formatting like in intro.tex with \begin{algorithm}?
-\begin{verbatim}
-logits_d1 = tf.reduce_sum(tf.multiply(self.q_repr,self.d1_repr),
-                          axis=1, keep_dims=True)
-logits_d2 = tf.reduce_sum(tf.multiply(self.q_repr,self.d2_repr),
-                          axis=1, keep_dims=True)
+\begin{lstlisting}[language=Python,frame=single,breaklines=true,float=tbh,caption=Logits computation for loss in SNRM TensorFlow implementation,label=tensorflow-logits-computation]
+logits_d1 = tf.reduce_sum(
+                    tf.multiply(self.q_repr,self.d1_repr),
+                    axis=1, keep_dims=True)
+logits_d2 = tf.reduce_sum(
+                    tf.multiply(self.q_repr,self.d2_repr),
+                    axis=1, keep_dims=True)
 logits = tf.concat([logits_d1, logits_d2], axis=1)
 
 # the hinge loss function for training
 self.loss = tf.reduce_mean(tf.losses.hinge_loss(
-                                         logits=logits, 
-                                         labels=self.labels_pl, 
-                                         scope='hinge_loss'))
-\end{verbatim}
+                                        logits=logits, 
+                                        labels=self.labels_pl, 
+                                        scope='hinge_loss'))
+\end{lstlisting}
 
 In the course of this experiment, rather than using a sum reduction, it was tried to use
     a mean reduction (\texttt{tf.reduce\_mean}) instead for each document's logit computation.
@@ -513,13 +511,15 @@ Especially, the programming API and the way neural models are defined is conside
 
 A new and clean Conda environment for the SNRM PyTorch project was set-up,
     without any installed pip or Conda software packets. 
-Subsequently, the following packages were installed using Conda and pip.
-% TODO discuss if this is ok to use verbatim environment here
-\begin{verbatim}
-!conda install -qy -c pytorch pytorch=1.4.0 torchvision=0.5.0 \
-                              cudatoolkit=10.1.243 python=3.7.6
-!pip install allennlp==0.9.0 tensorboard==2.1.0
-\end{verbatim}
+Subsequently, the packages according to Listing~\ref{installed-conda-pip-packages-colab-pytorch} 
+    were installed using Conda and pip.
+
+\begin{lstlisting}[language=bash,frame=single,breaklines=true,float=tbh,caption=Installed Conda and pip packages in Google Colab Notebook for SNRM PyTorch implementation,label=installed-conda-pip-packages-colab-pytorch]
+conda install -qy -c pytorch pytorch=1.4.0 torchvision=0.5.0 \
+                           cudatoolkit=10.1.243 python=3.7.6
+pip install allennlp==0.9.0 tensorboard==2.1.0
+\end{lstlisting}
+
 Implicitely, the NumPy package (version 1.18.1) and other dependent packages were downloaded
     and installed automatically by these package managers. \\
 Just like before, the Google Colab platform was used and hence, previously 
@@ -546,9 +546,9 @@ An advantage of the application logger was to more easily trace the the applicat
 Originally in the SNRM code, hyperparameters and more general configuration values were defined using
     TensorFlow's flags implementation \texttt{tf.flags}.
 For instance, a \texttt{float} value for the parameter "learning rate" was configured and read with an 
-    invokation of the following code in the TensorFlow implementation.
-% TODO discuss if usage of verbatim is valid here! can we get syntax highlightning for Python?
-\begin{verbatim}
+    invokation of the code from Listing~\ref{flags-api-tensorflow} in the TensorFlow implementation.
+
+\begin{lstlisting}[language=Python,frame=single,breaklines=true,float=tbh,caption=Example definition of a parameter “learning\_rate” using TensorFlow's flag api,label=flags-api-tensorflow]
 import tensorflow as tf
 
 # define value and description for parameter "learning_rate":
@@ -560,7 +560,7 @@ FLAGS._parse_flags()
 
 # read and use parameter learning rate:
 learning_rate=FLAGS.learning_rate
-\end{verbatim}
+\end{lstlisting}
 
 Several of the examined PyTorch projects, did not use anything similar to TensorFlow's
     \texttt{tf.flags} api.
@@ -621,12 +621,13 @@ However, storing a document representation as a PyTorch tensor using NumPy's mem
 Therefore, before passing the representation's PyTorch tensor to NumPy, 
     it has to be detached from PyTorch's computational graph,
     moved from the GPU's to the CPU's memory, and finally transformed to a NumPy array.
-The following code line illustrates these steps for converting a PyTorch Tensor to a NumPy array.
-% TODO is it ok to use verbatim for code like this here?
-\begin{verbatim}
+The code line in Listing~\ref{conversion-pytorch-tensor-numpy-array} illustrates these steps 
+    for converting a PyTorch tensor to a NumPy array.
+
+\begin{lstlisting}[language=Python,frame=single,breaklines=true,float=tbh,caption=Conversion of a PyTorch tensor to a NumPy array to be usable for NumPy's memory mapping,label=conversion-pytorch-tensor-numpy-array]
 self._doc_repr_memmap[memmap_index_for_doc] = 
                 current_doc_repr.detach().cpu().numpy()
-\end{verbatim}
+\end{lstlisting}
 
 Admittedly, migrating the SNRM model (\texttt{"code/snrm.py"}) and the training procedure 
     (\texttt{"code/train.py"}) to be runnable with PyTorch was the most time-consuming phase.
@@ -688,10 +689,10 @@ After this, the two-dimensional convolutions are done, which returns a tensor of
 Finally, the representations of shape $(N, C_{out})$ for the input batch are obtained by 
     applying a mean tensor reduction to the 2\textsuperscript{nd} and 3\textsuperscript{rd} axis $(H_{out}, W_{out})$
     of the convolution's result tensor.
-The following code part illustrates the described steps inside the \texttt{forward} function resp. model inference, 
+The following code part in Listing~\ref{query-model-forward-pytorch} illustrates the described steps inside the \texttt{forward} function resp. model inference, 
     given a query input batch.
-% TODO is this ok to use verbatim environment for code here?
-\begin{verbatim}
+
+\begin{lstlisting}[language=Python,frame=single,breaklines=true,float=tbh,caption=Part of SNRM's \texttt{forward} function for model inference resp. representation generation for a query batch in the PyTorch implementation,label=query-model-forward-pytorch]
 # input is a N element batch of W token ids of e.g. a query
 # query shape: (N, W)
 query: torch.Tensor
@@ -714,24 +715,25 @@ query_num_token = query_embeddings.shape[1]
 emb_dim = 300
 
 # neural network input (Conv2d) should be 
-#     in shape: (N, C_in, H, W)
+# in shape: (N, C_in, H, W)
 # N := batch size, C_in := number of input_channels,    
 # H := height of input, W := width of input
 # transform query_embeddings to desired shape
 # query_embeddings_nchw shape: (N, C_in, H, W), where H=1
 query_embeddings_nchw = query_embeddings.view(-1, emb_dim, 1, 
-                                query_num_token)
+                                          query_num_token)
 
 # invoke model inference / convolution
-# q_repr shape: (N, C_out, H_out, W_out), where H_out=H, W_out=W
-# C_out := number of output_channels (representation vector length)
+# q_repr shape: (N, C_out, H_out, W_out)
+# where H_out=H=1, W_out=W
+# C_out := number of output_channels (repr. vector length)
 q_repr = self.convolution(query_embeddings_nchw)
 
 # apply mean reduction for 2nd and 3rd axis
 # q_repr shape: (N, C_out)
 reduction_dim = [2,3]
 q_repr = torch.mean(q_repr, reduction_dim)
-\end{verbatim}
+\end{lstlisting}
 
 The procedure of inference in the model's \texttt{forward} function is generally
     the same for query and document tensors.
@@ -773,9 +775,10 @@ Furthermore, in the original SNRM code a bias vector is added for every convolut
     initialization of zeros.
 A 2D convolution is used for every layer, and afterwards, the ReLu activation function is applied,
     followed by an optional dropout with a configurable dropout rate.
-The subsequent code part illustrates the neural network definition in the original SNRM TensorFlow code.
-% TODO is this ok to use verbatim here?
-\begin{verbatim}
+The subsequent code part in Listing~\ref{neural-network-architecture-tensorflow} illustrates the 
+    neural network definition in the original SNRM TensorFlow code.
+
+\begin{lstlisting}[language=Python,frame=single,breaklines=true,float=tbh,caption=Neural network architecture of SNRM TensorFlow implementation,label=neural-network-architecture-tensorflow]
 # a Tensor representing the output of embedding layer, 
 # which is the input of the neural ranking model.
 input_layer: obj
@@ -814,8 +817,7 @@ for i in range(len(weights)):
         layers[i + 1] = tf.nn.dropout(
                             tf.nn.relu(layers[i + 1]),
                             self.dropout_keep_prob)
-\end{verbatim}
-
+\end{lstlisting}
 
 After having understood SNRM's neural network and especially TensorFlows programming API,
     the next step was to migrate the neural network architecture to PyTorch.
@@ -834,12 +836,11 @@ Equally similar was adding a ReLu activation function and a dropout.
 Due to a different handling of weights, PyTorch does initialize weights automatically, 
     but the model weights can also be intialized in another way, like with the values of a 
     normal distribtution (\texttt{nn.init.normal\_}).
-The following PyTorch code shows the model architecture, comprising sequential 
+The PyTorch code in Listing~\ref{neural-network-architecture-pytorch} shows the model architecture, comprising sequential 
     2D convolution layers, an application of a ReLu activation function and dropout,
     and furthermore, a model weight initialization from the normal distribution.
 
-% TODO is this ok to compare original and new SNRM model code here with verbatim?
-\begin{verbatim}
+\begin{lstlisting}[language=Python,frame=single,breaklines=true,float=tbh,caption=Neural network architecture of SNRM PyTorch implementation,label=neural-network-architecture-pytorch]
 self.convolution = nn.Sequential()
 conv_layer_dict = OrderedDict()
 
@@ -875,7 +876,7 @@ dropout_probability = config.get('dropout_probability')
 # nn.Dropout(p=dropout_probability, inplace=False) 
 
 self.convolution = nn.Sequential(conv_layer_dict)
-\end{verbatim}
+\end{lstlisting}
 
 After the migration of the SNRM file, the next step was to adapt the file used for the 
     training procedure (\texttt{"code/train.py"}).
@@ -1007,10 +1008,10 @@ Whereas, the query L1 regularization is equal to the query representation batch,
     query regularization term $\lambda_{query}$.
 Then, the query and document L1 regularization tensors are summed up, a sum reduction is applied,
     and the L1 regularization is calculated by taking the mean.
-The following code shows the different calculation of the L1 regularization before the approach
+The code in Listing~\ref{comparison-l1-regularization-before-after} shows the different calculation of the L1 regularization before the approach
     of controlling the query and document sparsity separately, and how it is afterwards.
-% TODO is it ok to use verbatim here?
-\begin{verbatim}
+
+\begin{lstlisting}[language=Python,frame=single,breaklines=true,float=tbh,caption=Comparison of the L1 regularization calculation before and after separating it on query and documents,label=comparison-l1-regularization-before-after]
 ##### BEFORE #####
 
 l1_regularization = torch.mean(
@@ -1041,7 +1042,7 @@ l1_regularization = torch.mean(
             input=(l1_regularization_docs + 
                    l1_regularization_query), 
             dim=1))
-\end{verbatim}
+\end{lstlisting}
 
 Inspecting the model's TensorBoard diagrams after modifiying the L1 regularization showed,
     that the modification was not able to change the course of the sparsity significantly.
