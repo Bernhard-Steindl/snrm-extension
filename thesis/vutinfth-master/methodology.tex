@@ -56,14 +56,18 @@ One of the first steps was to find compatible
     listed on the GitHub page of SNRM 
     \footnote{Hamed Zamani's SNRM github repository \url{https://github.com/hamed-zamani/snrm}}.
 Next was the implementation of missing Python functions in the original SNRM code, 
-    comprising among others the creation of an in-memory term dictionary, 
+    comprising among others the creation of an in-memory term dictionary,
     and an extension for provisioning of training and evaluation batch data from the 
     MSMARCO dataset to the model.
+Additionally, the SNRM TensorFlow implementation was extended with the package NLTK
+    \footnote{NLTK (Natural Language Toolkit) website \url{https://www.nltk.org}},
+    for word tokenization and stopword removal.
 Model trainings and evaluations were carried out in the course of experiments 
     in order to try to reproduce the proposed retrieval results by the authors of SNRM.\\
 Afterwards, the original SNRM was migrated to a PyTorch implementation,
     which can be imagined as a SNRM with currently up-to-date versions of 
-    Python, PyTorch and NumPy.
+    Python, PyTorch, NumPy and AllenNLP
+    \footnote{AllenNLP website \url{https://allennlp.org}}.
 The PyTorch implementation was also accompanied by model evaluations and experiments.
 For version control of the source code a private GitHub repository, forked from 
     the original SNRM, was used.\\

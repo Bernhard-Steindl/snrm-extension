@@ -35,6 +35,7 @@ According to the SNRM paper of Zamani et al. \cite{zamani:2018:from-neural-reran
 However, the lack of these datasets led to the use of the MSMARCO datasets, 
     and due to its free availability for non-commercial research purposes.
 
+\subsection{Setup original SNRM implementation}
 At the beginning, the original TensorFlow implementation of SNRM was examined and studied,
     before setting the project up on an Apple MacBook Pro (Retina, 15-inch, Mid 2015).
 The first objective was to make the original SNRM application runnable on this local system.
@@ -54,6 +55,7 @@ It is even probable that a Python version below 3 was used, due the author's usa
 After finding potential suitable Python, TensorFlow and NumPy versions, runtime errors occured, likely due to 
     invokations of incompatible resp. obsolete api methods and attributes by the SNRM code.
 
+\subsection{Modification of dictionary for tokenization, stopword filter}
 SNRM's \texttt{code/dictionary.py} opens a file comprising tokens and generates two datastructures, one for mapping 
     from an id to a token, and vice versa.
 According to the original SNRM source code, the authors loaded vocabulary terms from the output of 
@@ -63,14 +65,14 @@ Hence, the file \verb|allen_vocab_lower_10/tokens.txt| from the Advanced Informa
     \footnote{Advanced IR course's excercise files \url{https://owncloud.tuwien.ac.at/index.php/s/QA4LEtxdBokqdNx}}
     was chosen and used as a token file and in this way the known vocabulary.
 The original implementation for loading the vocabulary tokens had to be adjusted due to a different format of the token file.
-It is worth to note, that the original SNRM implementation only used simple whitespace (\verb|" "|) tokenization, 
-    for demonstrating the concept of retrieval with two exemplary hard-coded queries (see \texttt{code/retrieval.py}).
+It is worth to note, that the original SNRM implementation only used simple whitespace (\verb|" "|) tokenization.
 Instead of retaining the simple whitespace tokenization, NLTK word tokenization was employed.
 NLTK in version 3.4.5, a Python dependency, was added for using the NLTK corpus' english stopwords and word tokenization.
-The file \texttt{code/dictionary.py} was edited and the function function \verb|get_term_id_list| was added as a 
+The file \texttt{code/dictionary.py} was edited and the function \verb|get_term_id_list| was added as a 
     replacement of the previous tokenization technique, for the means to generate a list of term-ids from 
     query and document text via word tokenization with regards to remove stop words, too.
 
+\subsection{Implementation of batch data provisioning}
 The paper's authors did not provide the function \verb|generate_batch| within the python file \verb|code/train.py|, 
     which is supposed to be used for generating a new batch of training data (resp. validating data), while 
     also remembering which data was already generated.
@@ -80,7 +82,8 @@ The batch data's query and document text have to be represented as term ids.
 As a consequence, the positve and negative document as well as the query texts had to be tokenized, stopwords had be removed,
     and the representations had to be trimmed or padded to have a common length.
 
-Concerning training and validation data, at first a processed (HOW?) subset of the MS MARCO dataset was used, 
+\todo{@Sebastian: Wie wurde das AIR triples.train.tsv file generiert? Sollen wir das erwähnen?}
+Concerning training and validation data, at first a processed subset of the MS MARCO dataset was used, 
     \verb|triples.train.tsv| (ca. 1.7 GB), which was downloaded from the Advanced IR course's exercise files.
 The triples file was split in two distinct files, namely one for training and the other for validation data.
 The format of the dataset is \verb|"query \t relevant-doc \t non-relevant-doc"|.
@@ -112,8 +115,9 @@ Probably, the code was too domain-specific or too closely tied to the chosen tra
     so it was not worth making it publicly available on GitHub.
 Nevertheless, for the reproduction of the SNRM's results it is necessary to add the lacking implementation details.
 
-As already stated, the Python script for the retrieval phase (\texttt{code/retrieval.py}) had only hard-coded two example queries,
-    and demonstrated the steps for obtaining the retrieval scores for documents, for a given query.
+\subsection{Customization of the retrieval and evaluation script}
+The authors' script for the retrieval phase (\texttt{code/retrieval.py}) had only hard-coded two example queries,
+    and demonstrated the steps resp. the concept for obtaining the retrieval scores for documents, for a given query.
 After mapping the query text to a list of token ids, generation of a latent query representation vector through model inference, 
     inverted index lookup for relevant documents with the latent representation's dimension, a document's retrieval score was
     calculated by summation over a document's latent term weigh and the coefficient of the corresponding latent query term dimension.
@@ -138,10 +142,12 @@ When grouping all queries by how much relevant documents a certain query has, as
     out of all queries, 6,590 queries have only one relevant document, resp. 331 queries have two, 
     51 queries have three and 8 queries have four relevant documents, accoding to the relevance judgements file.
 
+\subsection{Creation of a Google Colab notebook}
 Unfortunately, the own available personal computers lack the accessibility to a NVIDIA GPU.
 NVIDIA GPUs proved to be well equipped for improving model training performance and speed, compared to a CPU.
 Hence, after making the original SNRM code with stated modifications executable, a Google Colab notebook was created
-    with Google Colaboratory (Colab) \footnote{Google Colaboratory (Colab) website \url{https://colab.research.google.com}},
+    with Google Colaboratory (Colab) 
+    \footnote{Google Colaboratory (Colab) website \url{https://colab.research.google.com}},
     for executing the SNRM application phases in a Jupyter Notebook like environment, 
     but also utilizing a free NVIDIA GPU.
 In the Google Colab Notebook, commands were used to setup the platform (NVIDIA CUDA, NVIDIA cuDNN, Miniconda, pip, Python, etc.),
@@ -170,6 +176,7 @@ Google provides a table of tested build configurations on their TensorFlow websi
     after deleting the originally preinstalled packages.
 Unfortunately, the authors have not disclosed the used NVIDIA CUDA and cuDNN versions.
 
+\subsection{Implementation of an inverted index datastructure}
 After writing a Google Colab notebook for SNRM was done, the model training was run for several hours in Google Colab,
     followed by index construction.
 Evaluating the model's retrieval results showed that the inverted index was only created for a small document fraction.
@@ -207,13 +214,17 @@ Both of these Python dictionary datastructures are stored using the Python funct
 If only a certain section of the memory mapped file is requested, NumPy loads only that part into memory, rather than loading the 
     whole file from disk, which allows to index more documents and increases memory access.
 
+\subsection{Experiments, challenges and adaptions}
 After implementing the more sophisticated inverted index, the next challenge emerged.
 Several hours and days were spent in training the model, index construction, retrieval and evaluation.
 Indexing more than 1 Mio. documents was not feasible, because retrieval of documents for a single query sometimes took hours or 
     even longer, so retrieval had to be terminated, because an end was not in sight.
 The retrieval did not yield positive metrics for \verb|trec_eval| and manual observations showed that retrieval returned meaningless    
-    and irrelevant document passages.\\
-One attempt to cope with this issue was to write a new Python script \verb|code/generate_tokens.py| for generating a new token file, 
+    and irrelevant document passages.
+
+\subsubsection*{Generate new token file from collection}
+One attempt to cope with this issue was to write a new Python script for generating a 
+    new token file (see \texttt{"code/generate\_tokens.py"}), 
     containing all distinct tokens of the collection's documents in lower case, with an configurable occurence frequency 
     (e.g. token appears at least 10 times in the collection).
 An analysis of one of the generated token files (\verb|"data/tokens/tokens_lowered_2019-12-28_001150_min_10.txt"|) showed,
@@ -225,6 +236,7 @@ Training the model with the first 640,000 lines of the training dataset \verb|tr
     by using this newly generated token file, unfortunately, yielded no improvement of the evaluation
     metrics.
 
+\subsubsection*{Speed-up experiments with subset query and qrels file}
 To speed up evaluation two new Python scripts were written
     (\verb|code/qrels_subset.py|, \verb|code/query_subset_from_qrel.py|).
 One of them creates out of an existing qrel file (e.g. \verb|qrels.dev.small.tsv|)
@@ -237,6 +249,7 @@ For experimenation in this early stage, sometimes only a subset of the documents
     the retrieval of queries that only have relevant documents in the qrel file, which are non-indexed,
     is useless.
 
+\subsubsection*{Encountering challenges in representation sparsity}
 The model was configured for these runs with three hidden layers, with 100, 80 and 100 units,
     and an output layer with 5,000 units.
 After these unsuccessful attempts, another consideration was that potentially the model has not been trained
@@ -266,6 +279,7 @@ After discussing the issue with the thesis advisor assistance,
     lecture exercise, was chosen for experimentation.
 This document collection should have a better ratio between relevant and non-relevant documents,
     than the previously utilized one.
+\todo{@Sebastian: Sollen/Können wir das genauer beschreiben, wie das AIR collection.airsubset.tsv generiert wurde?}
 For evaluation, as a query file, resp. qrels file the files \verb|queries.air-subset.tsv| resp.
     \verb|qrel.air-subset.tsv| were also downloaded from the university's OwnCloud server 
     \footnote{Advanced IR lecture exercise files (collection, query, qrel) \url{https://owncloud.tuwien.ac.at/index.php/s/1MugXnkP607Qm8P}}.
@@ -293,6 +307,7 @@ Tensorboard Logging was extended with diagrams of the number of zeros in tensors
 Aside from that, validation runs between model training phases, were separated from the Tensorboard logging 
     of training runs.
 
+\subsubsection*{Variation and testing of different hyperparameters and configurations}
 Experiments over multiple weeks were executed, trying to find a way to cope with the representations' sparsity 
     as the key problem.
 Examination of the tests revealed, that the loss function approaches the value zero, 
@@ -323,8 +338,8 @@ Hidden layers are separated by a dash ("-")
 Rather than using only an output dimension of 5,000, experiments were tried with 10,000 output neurons, too.
 Unfortunately, the memory of the available local computers and on Google Colab was insufficient to create an inverted index
     with 10,000 dimensions.
-Instead of using just a 100-dimensional GloVe embedding ()\verb|glove.6B.100d.txt|), it was also tried to 
-    use a 300-dimensional word vectors (\verb|glove.42B.300d.txt|).
+Instead of using just a 100-dimensional GloVe embedding (\verb|"glove.6B.100d.txt"|), it was also tried to 
+    use a 300-dimensional word vectors (\verb|"glove.42B.300d.txt"|).
 Related to the chosen embedding, it was moreover tried to either set the embedding trainable or not.
 For configuring the query and document max length, a Python script was written to identify statistics of the 
     number of tokens per query and document passages in the training set and in the document collection, 
@@ -395,6 +410,7 @@ Further delays have happened, because sometimes Google refused the usage of a co
     and therefore enforcing the utilization of a non-GPU system, 
     or to wait until a GPU machine becomes available again.
 
+\subsubsection*{Changing loss computation and neural network architecture}
 In the original SNRM code the TensorFlow model was designed with two-dimensional convolution layers, 
     followed by a ReLu (Rectified Linear Unit) activation function.
 The authors used ReLu to increase the sparsity of the tensors by the nature of ReLu,
@@ -497,31 +513,19 @@ In this section the realization of the migration from the SNRM TensorFlow implem
 Additionally, observations and results of experiments are depicted, and
     challenges that have arisen and their respective attempts to solve them are presented.
 This practical part of the thesis was done after setting-up the original SNRM application,
-    and modifying it, to be runnable with the MSMRACO passage ranking dataset.\\
+    and modifying it, to be runnable with the MSMRACO passage ranking dataset.
 
+\subsection{Project setup and creation of Google Colab notebook}
 For migration of the SNRM code to PyTorch, a new Git branch (\texttt{extension-pytorch})
     was created based on the previous SNRM extension code (\texttt{extension} branch), 
     i.e. previous modifications were partly reused for SNRM with PyTorch.
 One of the first steps before moving on was to gain basic knowledge of PyTorch and AllenNLP
     and to take a few practical exercises and tutorials.
-% TODO where to add first footnote for AllenNLP? where to mention AllenNLP first?
-% \footnote{AllenNLP website \url{https://allennlp.org}
 Especially, the programming API and the way neural models are defined is considerable
-    different between PyTorch 1.4 and TensorFlow 1.4.\\
+    different between PyTorch 1.4 and TensorFlow 1.4.
 
 A new and clean Conda environment for the SNRM PyTorch project was set-up,
-    without any installed pip or Conda software packets. 
-Subsequently, the packages according to Listing~\ref{installed-conda-pip-packages-colab-pytorch} 
-    were installed using Conda and pip.
-
-\begin{lstlisting}[language=bash,frame=single,breaklines=true,float=tbh,caption=Installed Conda and pip packages in Google Colab Notebook for SNRM PyTorch implementation,label=installed-conda-pip-packages-colab-pytorch]
-conda install -qy -c pytorch pytorch=1.4.0 torchvision=0.5.0 \
-                           cudatoolkit=10.1.243 python=3.7.6
-pip install allennlp==0.9.0 tensorboard==2.1.0
-\end{lstlisting}
-
-Implicitely, the NumPy package (version 1.18.1) and other dependent packages were downloaded
-    and installed automatically by these package managers. \\
+    without any installed pip or Conda software packets.
 Just like before, the Google Colab platform was used and hence, previously 
     installed NVIDIA CUDA and cuDNN packages were uninstalled,
     and compatible versions for PyTorch were installed.
@@ -533,10 +537,23 @@ NVIDIA CUDA was downloaded from NVIDIA's CUDA Toolkit Archive
 For downloading NVIDIA cuDNN a NVIDIA Developer Program Membership is required to be able to
     download the software from NVIDIA's cuDNN Archive
     \footnote{NVIDIA Developer cuDNN Archive website \url{https://developer.nvidia.com/rdp/cudnn-archive}}.
-After installing the necessary and at that time current packages, the migration of the actual source code
-    was done.
+Subsequently, the packages according to Listing~\ref{installed-conda-pip-packages-colab-pytorch} 
+    were installed using Conda and pip on the local system and in the Google Colab Notebook.
+Implicitely, the NumPy package (version 1.18.1) and other dependent packages were downloaded
+    and installed automatically by these package managers.
 
-Unlike the original SNRM source code, a logger with an application wide logging 
+\begin{lstlisting}[language=bash,frame=single,breaklines=true,float=tbh,caption=Installed Conda and pip packages in Google Colab Notebook for SNRM PyTorch implementation,label=installed-conda-pip-packages-colab-pytorch]
+conda install -qy -c pytorch pytorch=1.4.0 torchvision=0.5.0 \
+                           cudatoolkit=10.1.243 python=3.7.6
+pip install allennlp==0.9.0 tensorboard==2.1.0
+\end{lstlisting}
+
+After installing the necessary and at that time current packages, the migration of the actual source code
+    was started.
+
+\subsection{Adding application logging and migrating the configuration}
+
+Unlike the original SNRM source code, a logger with an application-wide logging 
     configuration was setup (\texttt{code/app\_logger.py}),
     that not only writes log output to the console, but also to a rotating log file.
 An advantage of the application logger was to more easily trace the the application behaviour,
@@ -569,6 +586,7 @@ Hence, the configuration capability was redesigned for the SNRM PyTorch version,
     and a configuration Python class (\texttt{code/config.py}) simplifies
     reading and accessing the configuration.
 
+\subsection{Re-engineer data loading and processing}
 In the Tensorflow SNRM extension project, standard Python functions were used 
     to open, read, parse and process data from several files, 
     like tokens, word embeddings, training triples, document collection 
@@ -609,6 +627,7 @@ The dataset reader implementation and data handling was based on a provided neur
     \footnote{Neural IR exercise file \texttt{"src/train.py"} of Advanced IR lecture \url{https://github.com/sebastian-hofstaetter/teaching/blob/173ad0c8c1a8f9e91bb5a097d33eaf506ab6bff5/advanced-information-retrieval/neural-ir-exercise/src/train.py}}),
     and modified to be suitable for the SNRM PyTorch project.
 
+\subsection{Adjusting the inverted index datastructure}
 Hardly anything had to be changed in the Python class responsible for the inverted index datastructure 
     (\texttt{code/inverted\_index.py}).
 Access to the application configuration was adapted, that is, instead of using Tensorflow's flags api, the 
@@ -629,6 +648,7 @@ self._doc_repr_memmap[memmap_index_for_doc] =
                 current_doc_repr.detach().cpu().numpy()
 \end{lstlisting}
 
+\subsection{Migration of the SNRM model class}
 Admittedly, migrating the SNRM model (\texttt{"code/snrm.py"}) and the training procedure 
     (\texttt{"code/train.py"}) to be runnable with PyTorch was the most time-consuming phase.
 In the original TensorFlow SRNM code and in the extended SNRM code, the SNRM model file
@@ -878,6 +898,7 @@ dropout_probability = config.get('dropout_probability')
 self.convolution = nn.Sequential(conv_layer_dict)
 \end{lstlisting}
 
+\subsection{Adaption of the training script}
 After the migration of the SNRM file, the next step was to adapt the file used for the 
     training procedure (\texttt{"code/train.py"}).
 Under the responsibility of the migrated SNRM training file are, as the name suggests,
@@ -930,6 +951,7 @@ In addition, a PyTorch model must be set in training or validation mode,
 Also the model save functionality was migrated to PyTorch and extended to also save
     configuration and hyperparameter values as a JSON file.
 
+\subsection{Adjusting the script for the index construction phase}
 In the index construction phase, the Python file \texttt{"code/index\_construction.py"} is used.
 The script loads a saved model from the file system, generates representations from 
     documents of the document collection by model inference, and stores the representations in
@@ -942,6 +964,7 @@ However, in PyTorch just the model inference has to be invoked, by passing a bat
 Clearly, the loading and restoring of the model had to be modified to be compatible with PyTorch's 
     programming API.
 
+\subsection{Adaption of the retrieval script}
 Similarly, the retrieval file (\texttt{"code/retrieval.py"}) was updated.
 In this Python script, a batch of queries from an evaluation query file are used as model input,
     to obtain query representations.
@@ -955,9 +978,7 @@ Additionally, logging was added for the query representations's sparsity ratio a
     and further, for the query's number of positive latent term dimensions, 
     for the number of retrieved relevant documents, for the sake of model evaluation.
 
-
-
-
+\subsection{Experiments, challenges and adaptions}
 After finishing the migration of the SNRM's Tensorflow code to PyTorch,
     further evaluations of the model were carried out.
 Interestingly, when using ReLu only on the last convolution layer,
@@ -970,6 +991,8 @@ However, running the experiment with a ReLu activation function after each convo
     quick progression of the sparsity for both, query and document representations, to 1,
     without beeing able to control the sparsity.
 % TODO maybe add image: 2020-03-08 all-relu zu sparse Problem Tensorboard Diagramm.pdf"
+
+\subsubsection*{Training with different training datasets}
 After having discussed the work and the results, the model training was tried with two different
     training sets.
 As already previously used for the reproduction of the TensorFlow implementation of SNRM, the training 
@@ -979,22 +1002,26 @@ As already previously used for the reproduction of the TensorFlow implementation
 %       was heißt dass die Dokumente zumindest irgendwas mit dem positive doc zu tun haben 
 %       (und daher der unterschied kleiner ist). 
 Negative documents are sampled from the top 1,000 from BM25 for the \texttt{triples.train.tsv} training file.
+\todo{@Sebastian: Stimmt das in Bezug auf das AIR triples.train.tsv? Wie können wir es beschreiben? Wie kann ich mir das vorstellen, dass pos/neg docs was gemeinsam haben aufgrund v. sampling?}
 That means, that the negative documents might have something in common with the positive documents,
     resp. the semantic difference between a positve and negative document passage might be smaller.
 % TODO is this correctly written? :D should we add a link to the dataset or is description sufficient?
-    Therefore, two new training files, based on the MS MARCO dataset were generated, namely 
-    one with a 50\% bm25 and 50\% collection sampling, and the other is to 100\% sampled from the collection,
+Therefore, two new training files, based on the MS MARCO dataset were generated, namely 
+    one with a 50\% BM25 and 50\% collection sampling, and the other is to 100\% sampled from the collection,
     regarding the negative documents.
+\todo{@Sebastian: Wie kann ich mir das nochmal genauer vorstellen, wie diese beiden Datasets generiert/gesampled werden?}
 %       Aber er hat gesagt uniform sampling aus der Collection ist auch wichtig. 
 %       Also hab ich jetzt mal zwei neue trainingsversionen erstellt 
 %       (was das sampling der negativen docs betrifft):
 %       50% bm25 + 50% collection sampling https://owncloud.tuwien.ac.at/index.php/s/iF37s8DOzvFjRkd
 %       100% Collection sampling https://owncloud.tuwien.ac.at/index.php/s/Uk2n9pRxCigt6Dd
 % TODO link to owncloud is invalid now/deleted, should we mention it here anyway?
+\todo{@Sebastian: die zwei Datasets, die du generiert hast, sind mittlerweile nicht mehr auf OwnCloud, d.h. Verlinkung macht keinen Sinn. Reicht die Beschreibung bzgl. diesen Datasets?}
 When comparing the Tensorboard diagramms for the model training, the two new training sets,
     did not change the course of the sparsity, compared to using the \texttt{triples.train.tsv} dataset.
 % TODO maybe add image of 2020-03-10_tensorboard_log_uniform_and_50_50 (tensorboard file)
 
+\subsubsection*{Changing the L1 regularization with separated regularization terms}
 In another approach was tried to control the representation sparsity and to reach for documents a similar
     sparsity than for queries.
 Instead of calculating a L1 regularization together for a query, a positive and a negative document 
@@ -1052,20 +1079,23 @@ In some of those runs the cost function stayed on relatively large values (e.g. 
 When for the cost function only the L1 regularization without the hinge loss was used,
     the sparsity also did not change much.
 Rather than the cost function approaching the value 0, it settled down to a value
-    around 200.\\
+    around 200.
 % TODO maybe add image of 2020-03-17_tensorboard_snrm_only_l1_reg 2 (tensorboard file)    
+
+\subsubsection*{Adding a bias to convolution layers}
 After that, it was tried to use a bias vector for the convolution layers.
 In the original SNRM TensorFlow code a comment indicated, that they did not use biases,
     although they created variables for them, but did not use them.
-% TODO only write the following, if the snrm model definition will be part of the thesis:
 Note, that the SNRM PyTorch model definition above, shows already the \texttt{nn.Conv2d} 
     layer's argument \texttt{bias=True}.
 With a bias vector and by using for the cost function only the L1 regularization separated 
     for query and documents without the hinge loss,
     the course of the sparsity changed and approached the value 1 quickly after a few thousand 
     training steps.
-Also the cost function neared 0 after a few thousand training steps.\\
+Also the cost function neared 0 after a few thousand training steps.
 % TODO maybe add image of 2020-03-18_tensorboard_reduced_dims_bias 2 (tensorboard file)
+
+\subsubsection*{Attempt to control representation sparsity}
 With that result, it was tried to control the sparsity with different values for 
     the query and document's regularization terms $\lambda_{doc}$ and $\lambda_{query}$.
 The neural network's number of units per hidden layer was configured to 10, and three 
@@ -1076,19 +1106,20 @@ But even small changes in a L1 regularization term causes the sparsity to rise t
 Besides that, changes in one of the L1 regularization terms, e.g. $\lambda_{doc}$,
     also influences the sparsity of the other entity, i.e. the query.
 The cost functions during the experiments neared 0.5 after a few thousand steps and stayed 
-    there with few variations.
+    there with few variations.\\
 In these training runs, the sparsity varied, but it was possible to save a PyTorch model    
     with a sparsity of about 0.97, create an inverted index with it, and evaluate it.
 % TODO maybe add images of tensorboard_2020-04-06.zip (tensorboard file)
 An analysis of the inverted index showed there were 807,360 documents added.
 The minimum and maximum number of documents per latent term dimension was 
     1 document resp. 807,360 documents.
-That is, for at least one latent term dimension all document were relevent,
+That is, for at least one latent term dimension all document were relevant,
     and this although the stopwords were filtered.
 Further, the mean number of documents per latent term dimension was 13,772.70, 
     the median was 1013, and the 0.90-quantile 33,174.
+
 A retrieval of relevant documents for evaluation queries was not possible,
-    because of the large number of possiblly relevant documents for some 
+    because of the large number of possibly relevant documents for some 
     latent term dimensions.
 The retrieval script was modified in a way to skip latent term dimensions with
     a large amount of documents assigned.
@@ -1100,7 +1131,8 @@ Multiple evaluation query representations had postive coefficients
     for the same latent term dimensions, for which also all documents are relevant.
 The information retrieval metrics still were non-positive.
 Obviously, the model did not learn the specific of documents and queries, but general
-    concepts, that are suitable for many or all.\\
+    concepts, that are suitable for many or all.
+
 After this test and analysis, further model trainings and experiments were carried out.
 When modifying the neural network, to use variations of either two or three hidden layers 
     with 100 or 300 neurons each, 
@@ -1108,13 +1140,16 @@ When modifying the neural network, to use variations of either two or three hidd
     regularization term.
 Therefore, no L1 regularization would be necessary for such a neural network,
     and the sparsity was already too high after several ten-thousand training steps,
-    making the model training useless.\\
+    making the model training useless.
+
 Additionally, it was tried to switch to a different tokenizer resp. word splitter.
 Previously, the AllenNLP's \texttt{JustSpacesWordSplitter} was used,
     but it was also tried to use the AllenNLP \texttt{SpacyWordSplitter} with the 
     language model \texttt{en\_core\_web\_lg}.
 Despite changing the tokenizer, the sparsity progression was not significantly different
-    compared to previous runs. \\
+    compared to previous runs.
+
+\subsubsection*{Changing convolution layers' parameter initialization}
 Further, the already employed TensorBoard reporting was extended to create histograms
     of the model's weights and bias values during training, to investigate how the parameter
     values are distributed and vary.
@@ -1125,11 +1160,12 @@ The TensorBoard histograms of weight values looked bell-shaped and there mean di
 However, in the bias histograms an initial bell curve was dismantled, and the values 
     varyied and their values were more distributed.
 Looking only at the model's course of weight and bias changes, it seemed that the model
-    primarily adjusts its bias without changing the neurons' weights much.\\
+    primarily adjusts its bias without changing the neurons' weights much.
 % TODO should we add histograms of learned parameters?
 % "Bildschirmfoto 2020-04-11 um 15.56.06.png“ 
 % "Bildschirmfoto 2020-04-11 um 16.21.13.png“
 % or create new images from a new run...
+
 This insight led to thinking about different methods of parameter value initialization.
 Obviously, PyTorch does by default for convolution layers a 
     "He initialization" (\texttt{torch.nn.init.kaiming\_uniform\_}) for its weights,
@@ -1150,11 +1186,12 @@ However, the course of the sparsity behaved very differently than before, due to
 Also, the cost function does not start with such large values than before (e.g. 2e+6),
     but with values near 0.5.
 Though, the cost function varied between 0.5, there was no pattern showing that the function moves 
-    towards the value 0, despite training for about 400,000 training steps.\\
+    towards the value 0, despite training for about 400,000 training steps.
 % TODO maybe add image of after_train_2020-04-18_230538 (tensorboard file)
 %       sparsity, histograms?
 %       i.e. tf-log/2020-04-18-203850_snrm-ext-pytorch-run-1-draw-uniform-layers-300-100-300-10k-default-weight-init-l1-reg-2e-8-2e-12/train
 %            tf-log/2020-04-26-164458_snrm-ext-pytorch-run-1-train-triples-layers-300-100-300-1k-l1-reg-1e-8-1e-12/train
+
 Saving a model with a suitable sparsity ratio (e.g. 98\%) however showed that the information retrieval
     evaluation metrics still were non-positive.
 The same challenges as before remained, that is an improper sparsity ratio of evaluation queries and 
