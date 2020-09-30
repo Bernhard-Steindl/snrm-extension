@@ -1155,7 +1155,7 @@ Also, the diagrams visualize the large representation sparsity differences betwe
 On the other side, running the experiment with a ReLu activation function after each convolution layer
     and using the value 0 as the regularization term $\lambda$, leaded to a
     quick progression of the sparsity for both, query and document representations, to 1,
-    without beeing able to control the sparsity
+    without beeing able to control the sparsity.
 Two plots in Figure~\ref{fig:2020-03-08:relu-all:cost-fn-query-doc-repr-sparsity} illustrate
     that the sparsity reaches 1 just after a few thousand steps, but without using any
     L1 regularization, and hence, without any means of controlling the sparsity.
@@ -1291,14 +1291,60 @@ l1_regularization = torch.mean(
 
 Inspecting the model's TensorBoard diagrams after modifiying the L1 regularization showed,
     that the modification was not able to change the course of the sparsity significantly.
-In some of those runs the cost function stayed on relatively large values (e.g. 1e+6)
+In some of those runs the cost function stayed on relatively large values (e.g. 1e+5)
     and stayed there with a few variations.
-% TODO maybe add an image of tensorboard_snrm_2020-03-15.zip (tensorboard file)
 When for the cost function only the L1 regularization without the hinge loss was used,
     the sparsity also did not change much.
 Rather than the cost function approaching the value 0, it settled down to a value
-    around 200.
-% TODO maybe add image of 2020-03-17_tensorboard_snrm_only_l1_reg 2 (tensorboard file)    
+    around 400.\\
+In Figure~\ref{fig:2020-03-15:cost-fn-query-doc-repr-sparsity} 
+    the query and document representation sparsity for different values of the 
+    regularization terms $\lambda_{doc}$ and $\lambda_{query}$ is plotted --- 
+    highlighting the large difference in sparsity between document and query batches
+    and showing no significant change in the course of sparsity compared to
+    previous runs.
+Also, a diagramm of a cost functions is shown with different values of the 
+    regularization terms.
+Additionally, a cost function is plotted, where the model's loss is not computed
+    with the hinge loss, but only with the L1 regularization,
+    with the result that the cost function is equal to the L1 regularization.
+
+% image of tensorboard_snrm_2020-03-15.zip (tensorboard file)
+% image of 2020-03-17_tensorboard_snrm_only_l1_reg 2 (tensorboard file)    
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=30cm 29.5cm 54.8cm 20cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-15_1.png}}
+    \subcaption{Cost function of multiple runs with different values for the regularization terms $\lambda_{doc}$ and $\lambda_{query}$. The different runs settle down to different values, but do not approach 0.}
+    \label{fig:2020-03-15:cost-fn-different-regularization-terms}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=30cm 29.5cm 54.8cm 20cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-17_1.png}}
+    \subcaption{Costs settle down to a value around 400, where the model's loss is computed without the hinge loss, but the cost equals the l1 regularization.}
+    \label{fig:2020-03-17:cost-fn-only-l1-regularization-without-hinge-loss}
+\end{subfigure}
+\newline
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=78.2cm 23.4cm 6.8cm 26.8cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-15_2.png}}
+    \subcaption{Representation sparsity of multiple runs with different values of $\lambda_{doc}$ and $\lambda_{query}$ for query batches do not show much differences. The query sparsity is on average at about 0.45.}
+    \label{fig:2020-03-15:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=54.2cm 23.4cm 30.8cm 26.8cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-15_2.png}}
+    \subcaption{Representation sparsity of multiple runs with different values of $\lambda_{doc}$ and $\lambda_{query}$ for document batches do not show much differences. The sparsity is on average at about 0.08.}
+    \label{fig:2020-03-15:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Cost functions and sparsity of multiple runs with different values of the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ of a model comprising sum reduction for hinge loss' logits computation, no dropout and ReLu only after the last layer; Cost function where the model's loss is not computed with the hinge loss, but only with the L1 regularization]{A cost function and representation sparsity of query and document batches for multiple runs with different values for the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ of a model comprising no dropout, mean reduction instead of sum reduction for the hinge loss' logit computation and a ReLu activation function only after the last convolution layer is shown. Further, a cost funtion is plotted, where the model's loss is not computed with the hinge loss, but only with the L1 regularization.}
+\label{fig:2020-03-15:cost-fn-query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
 
 \subsubsection*{Adding a bias to convolution layers}
 After that, it was tried to use a bias vector for the convolution layers.
