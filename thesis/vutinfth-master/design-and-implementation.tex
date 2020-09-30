@@ -95,10 +95,6 @@ Different GloVe embeddings were used for experimenation, namely \verb|glove.42B.
     of corpora Common Crawl (42B tokens, 1.9M vocab, uncased, 300d vectors, 1.75 GB download), 
     and \verb|glove.6B.100d.txt|, of corpora Wikipedia 2014 + Gigaword 5 (6B tokens, 400K vocab, uncased, 100d vectors, 822 MB download).
 
-% google tensorboard
-% 'dict_file_name', 'data/tokens/tokens_lowered_2019-12-28_001150_min_10.txt
-% google-colab/SNRM_Extension_Steindl.ipynb 
-
 Similarly, the authors of the SNRM paper did not implement the \verb|generate_batch| function for the phase of index construction in 
     the file \verb|code/index_construction.py|. As a result, the function had to be implemented in such a way, that it returns a
     batch resp. matrix comprising of multiple document-id entries and assigning every document-id a list of the document token ids.
@@ -264,14 +260,22 @@ Subsequent to index construction of the last 1 Mio. documents from the collectio
     because the model inference returned for all query representations zero vectors.
 Obviously, the vector representations were much too sparse to be useful.
 
-% tensorboard diagramm siehe "2019-12-30 Tensorboard snrm-extension.pdf"
-% TODO maybe add picture of tensorboard cost function converging to zero
-
 Tensorboard was added for inspecting the model's training run.
 Therefore the Conda package tensorboard in version 0.4.0rc3 was added.
-According to one of the Tensorboard diagramms, the cost function during training
+According to the Tensorboard diagramm in Figure~\ref{fig:2019-12-30:cost-fn}, the cost function during training
     was approaching towards 0, but after about 22,000 training steps the model
-    swivel in to a value of 3 and stayed there.
+    swiveled in to a value of 3 and stayed there.
+
+% tensorboard diagramm siehe "2019-12-30 Tensorboard snrm-extension.pdf"
+% maybe add picture of tensorboard cost function converging to zero
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\frame{\includegraphics[trim=26.6cm 5cm 5cm 9cm,clip=true,width=0.96\textwidth]{Bildschirmfoto_2019-12-30_1.png}}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Cost function swiveling in to a value of 3]{Cost function approaching zero, but swiveled in to a value of 3 after about 22,000 training steps and stayed there} 
+\label{fig:2019-12-30:cost-fn} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
 
 After discussing the issue with the thesis advisor assistance, 
     a different document collection dataset (\verb|collection.air-subset.tsv|) 
@@ -394,6 +398,9 @@ self.cost = self.loss +
 Although, trying these stated different modifications to the neural network architecture, 
     embedding, hyperparameters, and other configuration values,
     the plots in Tensorboard still looked quite similar to previous experiments.
+Figure~\ref{fig:2020-01-15:cost-fn-query-doc-repr-sparsity} shows plots of the 
+    cost function and the representation sparsity of a query and document batch 
+    for multiple training runs with different configurations.
 The cost function was approaching the value 0 just after a few 10-thousand training steps.
 Still, the query and document representations are getting too sparse too fast.
 Especially, query representations tend to become more sparse earlier than document representations.
@@ -401,7 +408,34 @@ The latter is bad for retrieval, because no documents would be found for zero ve
     despite having true positve coefficients in document representation vectors.
 Therefore, the model training time was restricted due to the representations' rising sparsity,
     and as a result, the SNRM model could not deliver positive evaluation metrics.
-% TODO maybe add pictures of tensorboard diagramme 2020-01-15 Tensorboard snrm-extension.pdf 
+
+% pictures of tensorboard diagramme 2020-01-15 Tensorboard snrm-extension.pdf
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.96\textwidth}
+    \centering
+    % trim: left bottom right top
+    \frame{\includegraphics[trim=0.2cm 1cm 18.5cm 0cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-01-15_1.png}}
+    \subcaption{Cost function of multiple different runs approaching the value zero}
+    \label{fig:2020-01-15:cost-fn}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=0.8cm 1.5cm 0cm 4cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-01-15_2.png}}
+    \subcaption{Course of representation sparsity as a function of training steps for query batches and different runs}
+    \label{fig:2020-01-15:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=0.5cm 2cm 0cm 24.9cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-01-15_3.png}}
+    \subcaption{Course of representation sparsity as a function of training steps for document batches and different runs}
+    \label{fig:2020-01-15:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Costs function and course of representation sparsity for runs with different configurations and hyperparameters]{Cost function approaching 0 and representation sparsity of query and document batches nearing 1.0 after a few ten-thousand training steps for multiple training runs with different configurations and hyperparameter values}
+\label{fig:2020-01-15:cost-fn-query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
 
 A further challenge was, that Google Colab terminated sessions regulary, probably based on time spent or usage.
 The occurence of these timeouts, led to moving the index construction, retrieval and evaluation to the 
@@ -416,11 +450,49 @@ In the original SNRM code the TensorFlow model was designed with two-dimensional
 The authors used ReLu to increase the sparsity of the tensors by the nature of ReLu,
     which maps negative values to zero.
 If configured also a dropout could be added after the activation function.\\
-Since it was already tried in vain to use only the hinge loss without any regularization as the model's cost function,
-    as a further attempt the model was modified additionally to ommit the dropout
-    and to use only a ReLu activation layer on the last layer, i.e. on the output.
-That experiment leaded to a similar result regarding sparsity, albeit with more a bit more variation in the cost function.
-% TODO maybe add image of 2020-01-24 tensorboard diagramme
+Since it was already tried in vain to use only the hinge loss without any regularization as the 
+    model's cost function, as a further attempt the model was modified additionally 
+    to ommit the dropout and to use only a ReLu activation layer on the last layer, i.e. on the output.
+That experiment leaded to a similar result regarding sparsity, albeit with more a bit more variation 
+    in the cost function.
+Figure~\ref{fig:2020-01-24:cost-fn-query-doc-repr-sparsity} shows TensorBoard diagrams of 
+    the cost function and the representation sparsity of a query and document batch, where 
+    the orange color represents training and in blue are validation steps.
+In the plots, the cost function still swivels in at about the value 3, but oscillates more afterwards
+    compared to previous experiments.
+However, as the plot of the query and document representation sparsity show, the sparsity 
+    progresses too fast to 1 after about 20,000 steps.
+These plots originate from a model without any L1 regularization, that is its loss function equals 
+    the hinge loss, and further, no dropout was used and the ReLu activation function was only applied 
+    to the output convolution layer.
+
+% image of 2020-01-24 tensorboard diagramme
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.96\textwidth}
+    \centering
+    % trim: left bottom right top
+    \frame{\includegraphics[trim=0.2cm 0cm 1cm 0cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-01-24_1.png}}
+    \subcaption{Cost function during training and validation approaching 0, but with oscillations}
+    \label{fig:2020-01-24:cost-fn}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=0.5cm 0cm 24cm 19cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-01-24_2.png}}
+    \subcaption{Course of representation sparsity as a function of steps for query batches during training and validation}
+    \label{fig:2020-01-24:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=24.5cm 19cm 0cm 0cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-01-24_2.png}}
+    \subcaption{Course of representation sparsity as a function of steps for document batches during training and validation}
+    \label{fig:2020-01-24:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Costs function and representation sparsity for a run without L1 regularization, without dropout and ReLu only on the last layer]{Cost function approaching 0 and representation sparsity of query and document batches nearing 1.0 after about 20,000 training steps for a training (in orange) and validation (in blue) run with a model comprising as cost function no L1 regularization (i.e. only the hinge loss), no dropout and a ReLu activation function only on the last convolution layer}
+\label{fig:2020-01-24:cost-fn-query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
 
 The model experiments and results have been discussed with the advisor assistance, subsequentially.
 Another proposed try was to adjust the tensor operation on the logits for the hinge loss,
@@ -433,7 +505,8 @@ Originally, the logits were computed as a tensor multiplication (\texttt{tf.mult
     a positve and a negative representation's batch and a query representation's batch,
     followed by a sum computation (\texttt{tf.reduce\_sum}), 
     and a concatenation of the two tensors (\texttt{tf.concat}).
-The code in Listing~\ref{tensorflow-logits-computation} shows part of the original SNRM source code for the logits computation for the hinge loss.
+The code in Listing~\ref{tensorflow-logits-computation} shows part of the original SNRM source code for the 
+    logits computation for the hinge loss.
 
 \begin{lstlisting}[language=Python,frame=single,breaklines=true,float=tbh,caption=Logits computation for loss in SNRM TensorFlow implementation,label=tensorflow-logits-computation]
 logits_d1 = tf.reduce_sum(
@@ -463,13 +536,71 @@ Further experiments based on that were carried out, with the interest of adding 
 Surprisingly, it was possible to change the query and documentation sparsity during training runs
     with different values for $\lambda$.
 It was possible to increase the sparsity to a quite constant and desirable value of approx. 0.9.
-When compared to previous attempts, the sparsity had not been controllable.\\
-% TODO add images of 2020-02-07 tensorboard diagramme.pdf
+When compared to previous attempts, the sparsity had not been controllable.
+In Figure~\ref{fig:2020-02-07:relu-only-last:cost-fn-query-doc-repr-sparsity} 
+    the cost function and the representation sparsity as a function of training steps is shown
+    for multiple runs with different regularization term $\lambda$ values
+    and where the hinge loss' logits computation comprisses mean reduction instead of sum reduction
+    of a model with the ReLu activation function only on the output layer.
+
+%  images of 2020-02-07 tensorboard diagramme.pdf
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.96\textwidth}
+    \centering
+    % trim: left bottom right top
+    \frame{\includegraphics[trim=0.2cm 15cm 2cm 0.2cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-02-07_relu-only-last_1.png}}
+    \subcaption{Cost function of multiple runs with different regularization term $\lambda$ values}
+    \label{fig:2020-02-07:relu-only-last:cost-fn}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=0.5cm 15cm 32cm 0.2cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-02-07_relu-only-last_3.png}}
+    \subcaption{Multiple runs with different regularization term $\lambda$ values show a controllable course of representation sparsity for query batches}
+    \label{fig:2020-02-07:relu-only-last:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=0.5cm 14.7cm 31cm 0cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-02-07_relu-only-last_2.png}}
+    \subcaption{Multiple runs with different regularization term $\lambda$ values show a controllable course of sparsity for document batches}
+    \label{fig:2020-02-07:relu-only-last:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Costs function and controllable sparsity of multiple runs with different values of regularization term $\lambda$ of a model comprising sum reduction for hinge loss' logits computation, no dropout and ReLu only after the last layer]{Cost function approaching approx. 1.5 and controllable representation sparsity of query and document batches for multiple runs with different regularization term $\lambda$ values of a model comprising no dropout, mean reduction instead of sum reduction for the hinge loss' logit computation and a ReLu activation function only after the last convolution layer}
+\label{fig:2020-02-07:relu-only-last:cost-fn-query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
+
 Additionally, it was tried to add the ReLu activation function again for all layers, instead of 
     only for the last one, for this experiment design, but that leaded to even larger, undesired 
     differences in sparsity between document and query representations.
-Therefore, the Relu activation function was only utilized for the last layer for the most experiments.
-% TODO maybe add image of sparsity difference for relu-all? 2020-02-07 tensorboard diagramme relu all.pdf
+Therefore, the Relu activation function was only utilized after the last convolution layer for the
+    subsequent experiments.
+In Figure~\ref{fig:2020-02-07:relu-all:query-doc-repr-sparsity} the query and document representation
+    sparsity is shown as a comparison for a model with ReLu activation functions 
+    after all convolution layers, rather than only after the last convolution layer.
+
+% image of sparsity difference for relu-all 2020-02-07 tensorboard diagramme relu all.pdf
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=24.8cm 3.8cm 1.5cm 19.5cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-02-07_relu-all_1.png}}
+    \subcaption{Course of representation sparsity reaching about 0.76 at 200,000 steps for query batches}
+    \label{fig:2020-02-07:relu-all:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=24.8cm 22.7cm 1.5cm 0.5cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-02-07_relu-all_1.png}}
+    \subcaption{Course of representation sparsity reaching about 0.50 at 200,000 steps for document batches}
+    \label{fig:2020-02-07:relu-all:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Query and document batches' representation sparsity of a model comprising sum reduction for hinge loss' logits computation, no dropout and ReLu after all convolution layers]{Quite different representation sparsity for query and document batches of a model comprising no dropout, mean reduction instead of sum reduction for the hinge loss' logit computation and ReLu activation functions after all convolution layers}
+\label{fig:2020-02-07:relu-all:query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
 
 To illustrate the results of one of the training runs, where the sparsity was controllable, 
     here are a few document and query representation statistics for a model that has been 
