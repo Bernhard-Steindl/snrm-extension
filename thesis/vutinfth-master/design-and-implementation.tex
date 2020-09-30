@@ -1109,19 +1109,78 @@ Additionally, logging was added for the query representations's sparsity ratio a
     and further, for the query's number of positive latent term dimensions, 
     for the number of retrieved relevant documents, for the sake of model evaluation.
 
-\subsection{Experiments, challenges and adaptions}
+\subsection{Further experiments, challenges and adaptions}
 After finishing the migration of the SNRM's Tensorflow code to PyTorch,
     further evaluations of the model were carried out.
 Interestingly, when using ReLu only on the last convolution layer,
     the sparsity progression of the query was fairly different than the document one.
-After just a few thousand training steps, the sparsity of the query was near 1,
-    wheras for the documents the sparsity was varying a lot and near 0.1.
-% TODO maybe add image: "2020-03-08 Docs-Sparsity Problem Tensorboard Diagramm.pdf“
-However, running the experiment with a ReLu activation function after each convolution layer
+After just a few thousand training steps, the sparsity of the query was near 0.70,
+    whereas for the documents the sparsity was varying a lot and near about 0.05 on average.
+In Figure~\ref{fig:2020-03-08:relu-only-last:cost-fn-query-doc-repr-sparsity} the cost function and 
+    the representation sparsity of query and document batches is compared for two runs with a different regularization 
+    term $\lambda$.
+As the plots show, the sparsity is not controllable with different values for $\lambda$ with the model
+    under training, comprising no dropout, mean reduction for the hinge loss' logit computation
+    and a ReLu activation function only applied after the last convolution layer.
+Also, the diagrams visualize the large representation sparsity differences between query and document batches.
+
+% images: "2020-03-08 Docs-Sparsity Problem Tensorboard Diagramm.pdf" relu-only-last
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\begin{subfigure}[b]{0.96\textwidth}
+    \centering
+    \frame{\includegraphics[trim=0.5cm 5cm 1cm 0.5cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-08_relu-only-last_1.png}}
+    \subcaption{Cost function of two runs with different regularization term $\lambda$ values}
+    \label{fig:2020-03-08:relu-only-last:cost-fn}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=48.5cm 1cm 1.5cm 0.5cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-08_relu-only-last_2.png}}
+    \subcaption{Two runs with different regularization term $\lambda$ values show a non-controllable course of representation sparsity for query batches. After a few steps the query sparsity reaches about 0.70 and stayed there.}
+    \label{fig:2020-03-08:relu-only-last:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=24.5cm 1cm 25.5cm 0.5cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-08_relu-only-last_2.png}}
+    \subcaption{Two runs with different regularization term $\lambda$ values show a non-controllable course of sparsity for document batches. The document sparsity shows much variation and a quite lower value of about 0.05 on average.}
+    \label{fig:2020-03-08:relu-only-last:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Costs function and non-controllable sparsity of two runs with different values of regularization term $\lambda$ of a model comprising sum reduction for hinge loss' logits computation, no dropout and ReLu only after the last layer]{Cost function approaching approx. 1 and non-controllable representation sparsity of query and document batches for two runs with different regularization term $\lambda$ values of a model comprising no dropout, mean reduction instead of sum reduction for the hinge loss' logit computation and a ReLu activation function only after the last convolution layer}
+\label{fig:2020-03-08:relu-only-last:cost-fn-query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
+
+On the other side, running the experiment with a ReLu activation function after each convolution layer
     and using the value 0 as the regularization term $\lambda$, leaded to a
     quick progression of the sparsity for both, query and document representations, to 1,
-    without beeing able to control the sparsity.
-% TODO maybe add image: 2020-03-08 all-relu zu sparse Problem Tensorboard Diagramm.pdf"
+    without beeing able to control the sparsity
+Two plots in Figure~\ref{fig:2020-03-08:relu-all:cost-fn-query-doc-repr-sparsity} illustrate
+    that the sparsity reaches 1 just after a few thousand steps, but without using any
+    L1 regularization, and hence, without any means of controlling the sparsity.
+
+% image: 2020-03-08 all-relu zu sparse Problem Tensorboard Diagramm.pdf" all-relu
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=48.5cm 1.5cm 1cm 0.5cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-08_relu-all_2.png}}
+    \subcaption{The sparsity of query batches reaches 1 just after a few thousand steps, without beeing able to control the sparsity.}
+    \label{fig:2020-03-08:relu-all:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=24.5cm 1.5cm 25cm 0.5cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-08_relu-all_2.png}}
+    \subcaption{The sparsity of document batches reaches 1 just after a few thousand steps, without beeing able to control the sparsity.}
+    \label{fig:2020-03-08:relu-all:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Non-controllable sparsity of a model comprising sum reduction for hinge loss' logits computation, no dropout, no L1 regularization and ReLu after all convolution layers]{Non-controllable representation sparsity of query and document batches of a model comprising no dropout, mean reduction instead of sum reduction for the hinge loss' logit computation, no L1 regularization and a ReLu activation function after all convolution layers}
+\label{fig:2020-03-08:relu-all:cost-fn-query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
 
 \subsubsection*{Training with different training datasets}
 After having discussed the work and the results, the model training was tried with two different
@@ -1150,7 +1209,35 @@ Therefore, two new training files, based on the MS MARCO dataset were generated,
 \todo{@Sebastian: die zwei Datasets, die du generiert hast, sind mittlerweile nicht mehr auf OwnCloud, d.h. Verlinkung macht keinen Sinn. Reicht die Beschreibung bzgl. diesen Datasets?}
 When comparing the Tensorboard diagramms for the model training, the two new training sets,
     did not change the course of the sparsity, compared to using the \texttt{triples.train.tsv} dataset.
-% TODO maybe add image of 2020-03-10_tensorboard_log_uniform_and_50_50 (tensorboard file)
+A comparison of the query and document representation sparsity for a run without any L1 regularization
+    and with ReLu activation functions only on the last layer,
+    but with the two different training datasets
+    (50\% BM25 and 50\% collection sampling, 100\% collection sampling),
+    is plotted in Figure~\ref{fig:2020-03-10:relu-only-last:query-doc-repr-sparsity}.
+It is not difficult to recognize that the diagrams look very similar to the ones in 
+    Figure~\ref{fig:2020-03-08:relu-only-last:cost-fn-query-doc-repr-sparsity}.
+
+% image of 2020-03-10_tensorboard_log_uniform_and_50_50 (tensorboard file) ?
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=78.2cm 25cm 6.8cm 25cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-09-29_relu-only-last_1.png}}
+    \subcaption{Two runs with a different training dataset for query batches. After a few steps the query sparsity reaches about 0.60 and varied there a bit.}
+    \label{fig:2020-03-10:relu-only-last:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=54.2cm 25cm 30.8cm 25cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-09-29_relu-only-last_1.png}}
+    \subcaption{Two runs with a different training dataset for document batches. The document sparsity varies much and has an average sparsity of about 0.006.}
+    \label{fig:2020-03-10:relu-only-last:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Sparsity of two different runs with different training dataset (50\% BM25 and 50\% collection sampling, 100\% collection sampling) of a model comprising sum reduction for hinge loss' logits computation, no dropout, no L1 regularization and ReLu only after last convolution layer]{Course of sparsity of two runs with different training dataset (red is drawn 50\% from BM25 and 50\% collection sampling, blue is 100\% collection sampling) of query and document batches of a model comprising no dropout, mean reduction instead of sum reduction for the hinge loss' logit computation, no L1 regularization and a ReLu activation function only after the last convolution layer}
+\label{fig:2020-03-10:relu-only-last:query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
 
 \subsubsection*{Changing the L1 regularization with separated regularization terms}
 In another approach was tried to control the representation sparsity and to reach for documents a similar
