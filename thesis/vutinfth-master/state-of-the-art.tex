@@ -1,5 +1,26 @@
 \chapter{State of the Art} \label{chapter:state-of-the-art}
 
-theoretical comparison of NVSM and SNRM ... 
+In the chapter State of the Art theoretical aspects of current neural 
+    information retrieval models are examined.
+Particulary, this analysis focuses on the proposals of the
+    Neural Vector Space Model (NVSM) from
+    Van Gysel et al. \cite{van-gysel:2017:neural-vector-spaces}
+    and obviously due to the topic of the work on the
+    Standalone Neural Ranking Model (SNRM) from 
+    Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking}.
 
-\todo{Enter your text here.}
+Unlike other current neural information retrieval models that 
+    are employed for re-ranking the top documents retrieved by 
+    a first-stage ranker beforehand,
+    Zamani et al. propose a standalone neural ranker, that is
+    a model that is not dependent on a first-stage ranker.
+Their IR model uses neural approaches for learning sparse high-dimensional
+    latent vector representations of query and document text 
+    with the aim to capture semantic meaning.
+The authors emphasize the importance of the representations' sparseness
+    to allow an efficient inverted index construction and retrieval.
+A deep neural network is used for capturing semantic relationships between
+    queries and documents, and by rewarding sparsity in learned representations
+    the model's objective is to detect words' semantic meaning and 
+    relationships and to compress them to latent vector representations.
+\cite{zamani:2018:from-neural-reranking-to-neural-ranking}
