@@ -1357,7 +1357,38 @@ With a bias vector and by using for the cost function only the L1 regularization
     the course of the sparsity changed and approached the value 1 quickly after a few thousand 
     training steps.
 Also the cost function neared 0 after a few thousand training steps.
-% TODO maybe add image of 2020-03-18_tensorboard_reduced_dims_bias 2 (tensorboard file)
+In Figure~\ref{fig:2020-03-18:relu-only-last:cost-fn-query-doc-repr-sparsity}
+    TensorBoard diagrams of two runs, namely one with a convolution bias
+    and the other without a bias, show these outcomes.
+
+% image of 2020-03-18_tensorboard_reduced_dims_bias 2 (tensorboard file)
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\begin{subfigure}[b]{0.96\textwidth}
+    \centering
+    \frame{\includegraphics[trim=29.5cm 15.5cm 7cm 20cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-18_1.png}}
+    \subcaption{Cost function of a run with a convolution bias and one without a bias. The run without a bias settled down at around 100, whereas the other reached zero. Note that the cost equals the L1 regularization, because no hinge-loss was used for the loss computation for this experiment.}
+    \label{fig:2020-03-18:relu-only-last:cost-fn}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=78.2cm 23.4cm 6.8cm 26.8cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-18_2.png}}
+    \subcaption{Representation sparsity for query batches shows that the model with a convolution bias nears 1 just after a few steps, but the one without a bias varies around 0.40.}
+    \label{fig:2020-03-18:relu-only-last:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=54.2cm 23.4cm 30.8cm 26.8cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-03-18_2.png}}
+    \subcaption{Representation sparsity for document batches shows similar to the query sparsity, that the model with a convolution bias nears 1 after a few steps.}
+    \label{fig:2020-03-18:relu-only-last:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Costs function and sparsity of two runs either with a convolution bias or without a bias of a model comprising sum reduction for hinge loss' logits computation, no dropout, ReLu only after the last layer, and only using the L1 regularization for the loss computation]
+{Cost functions and representation sparsity of query and document batches for two runs with either a convolution bias (orange) or without a bias (blue) of a model comprising no dropout, mean reduction instead of sum reduction for the hinge loss' logit computation, a ReLu activation function only after the last convolution layer and only using the L1 regularization as loss (that is without using the hinge-loss. For both runs the regularization terms $\lambda_{doc}=0.9$ and $\lambda_{query}=0.0$ were used.)}
+\label{fig:2020-03-18:relu-only-last:cost-fn-query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
 
 \subsubsection*{Attempt to control representation sparsity}
 With that result, it was tried to control the sparsity with different values for 
@@ -1370,17 +1401,49 @@ But even small changes in a L1 regularization term causes the sparsity to rise t
 Besides that, changes in one of the L1 regularization terms, e.g. $\lambda_{doc}$,
     also influences the sparsity of the other entity, i.e. the query.
 The cost functions during the experiments neared 0.5 after a few thousand steps and stayed 
-    there with few variations.\\
+    there with few variations.
+Figure~\ref{fig:2020-04-06:relu-only-last:cost-fn-query-doc-repr-sparsity} illustrates 
+    the controllable sparsity for query and document representations for various
+    values of $\lambda_{doc}$ and $\lambda_{query}$.
 In these training runs, the sparsity varied, but it was possible to save a PyTorch model    
     with a sparsity of about 0.97, create an inverted index with it, and evaluate it.
-% TODO maybe add images of tensorboard_2020-04-06.zip (tensorboard file)
+
+% images of tensorboard_2020-04-06.zip (tensorboard file)
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\begin{subfigure}[b]{0.96\textwidth}
+    \centering
+    \frame{\includegraphics[trim=29.5cm 13.5cm 7cm 22cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-04-06_1.png}}
+    \subcaption{Cost function of multiple runs with different values for the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ show that the function nears 0.5.}
+    \label{fig:2020-04-06:relu-only-last:cost-fn}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=78.2cm 21.4cm 6.8cm 28.8cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-04-06_2.png}}
+    \subcaption{Multiple runs with different values for the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ show a controllable course of representation sparsity for query batches.}
+    \label{fig:2020-04-06:relu-only-last:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=54.2cm 21.4cm 30.8cm 28.8cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-04-06_2.png}}
+    \subcaption{Multiple runs with different values for the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ show a controllable course of representation sparsity for document batches.}
+    \label{fig:2020-04-06:relu-only-last:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Costs function and sparsity of multiple runs with different values of the regularization terms $\lambda_{doc}$ and $\lambda_{query}$  of a model comprising sum reduction for hinge loss' logits computation, no dropout, ReLu only after the last layer and a convolution bias]
+{Cost function and representation sparsity of query and document batches for multiple runs with different values of the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ of a model comprising no dropout, mean reduction instead of sum reduction for the hinge loss' logit computation, a ReLu activation function only after the last convolution layer and a convolution bias. For the red function $\lambda_{doc}=\lambda_{query}=0.0$ was used and for the others values in these intervals were selected $\lambda_{doc} = [1e-07, 4e-07]$ and $\lambda_{query} = [9e-13, 1e-11]$. The models under experiment had three hidden layers, each with 10 neurons, and 10,000 output units.}
+\label{fig:2020-04-06:relu-only-last:cost-fn-query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
+
 An analysis of the inverted index showed there were 807,360 documents added.
 The minimum and maximum number of documents per latent term dimension was 
     1 document resp. 807,360 documents.
 That is, for at least one latent term dimension all document were relevant,
     and this although the stopwords were filtered.
 Further, the mean number of documents per latent term dimension was 13,772.70, 
-    the median was 1013, and the 0.90-quantile 33,174.
+    the median was 1,013 and the 0.90-quantile 33,174.
 
 A retrieval of relevant documents for evaluation queries was not possible,
     because of the large number of possibly relevant documents for some 
@@ -1405,6 +1468,38 @@ When modifying the neural network, to use variations of either two or three hidd
 Therefore, no L1 regularization would be necessary for such a neural network,
     and the sparsity was already too high after several ten-thousand training steps,
     making the model training useless.
+Plots in Figure~\ref{fig:2020-04-11:relu-only-last:cost-fn-query-doc-repr-sparsity}
+    show the non-controllable representation sparsity for models with 100 to 300 units
+    per hidden layer, despite using different values of the regularization terms 
+    $\lambda_{doc}$ and $\lambda_{query}$.
+
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\begin{subfigure}[b]{0.96\textwidth}
+    \centering
+    \frame{\includegraphics[trim=29.5cm 15.5cm 7cm 20cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-04-11_1.png}}
+    \subcaption{Cost function of multiple runs with different values for the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ show that the function nears 0.5.}
+    \label{fig:2020-04-11:relu-only-last:cost-fn}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=78.2cm 23.4cm 6.8cm 26.8cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-04-11_2.png}}
+    \subcaption{Multiple runs with different values for the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ show a non-controllable course of representation sparsity for document batches. The sparsity progresses too fast to 1.}
+    \label{fig:2020-04-11:relu-only-last:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=54.2cm 23.4cm 30.8cm 26.8cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-04-11_2.png}}
+    \subcaption{Multiple runs with different values for the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ show a non-controllable course of representation sparsity for document batches. Just after a few steps the sparsity is 1.}
+    \label{fig:2020-04-11:relu-only-last:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Costs function and non-controllable sparsity of multiple runs with different values of the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ of a model comprising sum reduction for hinge loss' logits computation, no dropout, ReLu only after the last layer and a convolution bias]
+{Cost function and non-controllable representation sparsity of query and document batches for multiple runs with different values of the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ of a model comprising no dropout, mean reduction instead of sum reduction for the hinge loss' logit computation, a ReLu activation function only after the last convolution layer and a convolution bias. The models under experiment had two to three hidden layers, each with either 100 or 300 neurons, and 10,000 output units.}
+\label{fig:2020-04-11:relu-only-last:cost-fn-query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
 
 Additionally, it was tried to switch to a different tokenizer resp. word splitter.
 Previously, the AllenNLP's \texttt{JustSpacesWordSplitter} was used,
@@ -1425,48 +1520,137 @@ However, in the bias histograms an initial bell curve was dismantled, and the va
     varyied and their values were more distributed.
 Looking only at the model's course of weight and bias changes, it seemed that the model
     primarily adjusts its bias without changing the neurons' weights much.
-% TODO should we add histograms of learned parameters?
-% "Bildschirmfoto 2020-04-11 um 15.56.06.png“ 
-% "Bildschirmfoto 2020-04-11 um 16.21.13.png“
-% or create new images from a new run...
+Figure~\ref{fig:2020-09-29:histogram-parameter-normal-dist-init} shows histograms of a model's
+    weight and bias parameter values as a function of training steps, where the parameters
+    have been initialized with random values of a normal distributions, 
+    as in the original SNRM source code.
+% histograms of learned parameters - normal distribution initialization
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\frame{\includegraphics[trim=23cm 6cm 18.5cm 11cm,clip=true,width=0.96\textwidth]{Bildschirmfoto_2020-09-29_5.png}}
+\caption[Histogram of model parameter values as a function of training steps and initialization from a normal distribution]{Histograms of a model's weight and bias values as a function of training steps, where the parameters have been initialized with random values of the normal distribution}
+\label{fig:2020-09-29:histogram-parameter-normal-dist-init}
+\end{figure}
 
 This insight led to thinking about different methods of parameter value initialization.
 Obviously, PyTorch does by default for convolution layers a 
-    "He initialization" (\texttt{torch.nn.init.kaiming\_uniform\_}) for its weights,
+    “He initialization” (\texttt{torch.nn.init.kaiming\_uniform\_}) for its weights,
     and intializes the bias from a uniform distribution (\texttt{torch.nn.init.uniform\_}),
     according to the \texttt{conv.py} convolution class's function
     responsible for resetting parameters
     \footnote{PyTorch v1.4 code of convolution class with \texttt{reset\_parameters} function \url{https://github.com/pytorch/pytorch/blob/v1.4.0/torch/nn/modules/conv.py\#L49}}.\\
-Next, it was tried to use PyTorch's default initializatoin method for convolution layers,
+Next, it was tried to use PyTorch's default initialization method for convolution layers,
     and the MSMARCO passage ranking training data set \texttt{train.triples.small.tsv} from Microsoft's 
     GitHub respository
     \footnote{MSMARCO training dataset \texttt{train.triples.small.tsv} on GitHub \url{https://github.com/microsoft/MSMARCO-Passage-Ranking}},
     due to more available training data.
-Training with a neural network architecture with three hidden layers with 100 or 300 neurons per layer,
+In order to be able to compare the course of parameter values during training,
+    in Figure~\ref{fig:2020-09-29:histogram-parameter-default-init} histograms
+    of learned parameters are plotted for a model with PyTorch's default convolution
+    layer parameter initialization.
+
+% histograms of learned parameters - default pytoch convolution initialization 
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\frame{\includegraphics[trim=23cm 6cm 18.5cm 11cm,clip=true,width=0.96\textwidth]{Bildschirmfoto_2020-09-29_6.png}}
+\caption[Histogram of model parameter values as a function of training steps and initialization using PyTorch's default for convultion layers]{Histograms of a model's weight and bias values as a function of training steps, where the parameters have been initialized with PyTorch's default convolution layer initialization, that is for weights the “He initialization” and for the bias the uniform distribution}
+\label{fig:2020-09-29:histogram-parameter-default-init}
+\end{figure}
+
+Training with a neural network architecture with three or four hidden layers, each with 100 or 300 neurons per layer,
     and with 10,000 output neursons, showed that the sparsity was controllable again with 
     the query and document regularization terms $\lambda_{doc}$ and $\lambda_{query}$.
 However, the course of the sparsity behaved very differently than before, due to frequent variations,
     and a slower progression.
 Also, the cost function does not start with such large values than before (e.g. 2e+6),
     but with values near 0.5.
-Though, the cost function varied between 0.5, there was no pattern showing that the function moves 
+Though, the cost function varied around 0.5, there was no pattern showing that the function moves 
     towards the value 0, despite training for about 400,000 training steps.
-% TODO maybe add image of after_train_2020-04-18_230538 (tensorboard file)
-%       sparsity, histograms?
-%       i.e. tf-log/2020-04-18-203850_snrm-ext-pytorch-run-1-draw-uniform-layers-300-100-300-10k-default-weight-init-l1-reg-2e-8-2e-12/train
-%            tf-log/2020-04-26-164458_snrm-ext-pytorch-run-1-train-triples-layers-300-100-300-1k-l1-reg-1e-8-1e-12/train
+In Figure~\ref{fig:2020-09-30:cost-fn-l1-reg-query-doc-repr-sparsity} are shown multiple runs
+    with different values for $\lambda_{doc}$ and $\lambda_{query}$ for a model with PyTorch's 
+    default convolution layer parameter initialization and compared with a run where the model's
+    parameter values are initialized using a normal distribution as before.
+Further, in Figure~\ref{fig:2020-09-30:query-doc-mean-repr} is a comparison of the mean representation values
+    of query and document batches during training for the same model.
+
+% image of 2020-09-30 Tensorboard snrm-pytorch initialization (tensorboard file)
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=30.2cm 29.5cm 54.8cm 20cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-09-29_1.png}}
+    \subcaption{The orange cost function represents a model with parameter initializations of a normal distribution and no L1 regularization, whereas the others use PyTorch's default convolution layer parameter initialization. The cost function varies around 0.5.}
+    \label{fig:2020-09-30:cost-fn}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=78.2cm 29.5cm 6.8cm 20cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-09-29_1.png}}
+    \subcaption{The dark blue and orange function represent runs with no L1 regularization and therefore the L1 regularization is constantly 0, whereas the light blue and red L1 regularization functions use different non-zero L1 regularization terms.}
+    \label{fig:2020-09-30:l1-regularization}
+\end{subfigure}
+\newline
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=78.2cm 23.4cm 6.8cm 26.8cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-09-29_3.png}}
+    \subcaption{Query sparsity is controllable for default convolution layer initialization by the regularization terms, but the orange function with normal distribution parameter initialization reaches quite fast 1.}
+    \label{fig:2020-09-30:sparsity-query-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=54.2cm 23.4cm 30.8cm 26.8cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-09-29_3.png}}
+    \subcaption{Document sparsity is controllable for default convolution layer initialization by the regularization terms, but the orange function with normal distribution parameter initialization reaches quite fast 1.}
+    \label{fig:2020-09-30:sparsity-doc-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Costs function, L1 regularization and controllable respresentation sparsity of multiple runs with different values of the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ of a model comprising sum reduction for hinge loss' logits computation, no dropout, a ReLu only after the last layer, a convolution bias, and PyTorch's default convolution parameter initialization]
+{Cost function, L1 regularization and controllable sparsity of queries and documents for multiple runs with different values for $\lambda_{doc}$ and $\lambda_{query}$ of a model comprising no dropout, mean reduction instead of sum reduction for the hinge loss' logit computation, a ReLu activation function only after the last convolution layer, a convolution bias, and PyTorch's default convolution layer parameter initialization. The models under test have four hidden layers (with 100, 100, 100 resp. 300 units) and 10,000 output dimensions. Further, the dark blue functions represent a run where the regularization terms are zero. The residual runs (light blue and red) use as regularization terms $(\lambda_{doc}=3e-8$, $\lambda_{query}=2e-10)$ resp. $(\lambda_{doc}=1e-8$, $\lambda_{query}=1e-10)$. The orange functions represent a run with the same model properties, except for using the normal distribution for parameter initialization and no L1 regularization.}
+\label{fig:2020-09-30:cost-fn-l1-reg-query-doc-repr-sparsity} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
+
+% image of 2020-09-30 Tensorboard snrm-pytorch initialization (tensorboard file)
+% mean representation batch
+\begin{figure}[htbp]
+\centering
+% trim: left bottom right top
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=78.2cm 26.5cm 6.8cm 23.5cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-09-29_2.png}}
+    \subcaption{Mean representation values of query batches as a function of training steps. The orange function 
+    represents a model with parameter initializations of a normal distribution and no L1 regularization, 
+    whereas the others use PyTorch's default convolution layer parameter initialization.
+    }
+    \label{fig:2020-09-30:query-mean-repr}
+\end{subfigure}
+\hspace{0.042\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \frame{\includegraphics[trim=54.2cm 26.5cm 30.8cm 23.5cm,clip=true,width=\textwidth]{Bildschirmfoto_2020-09-29_2.png}}
+    \subcaption{Mean representation values of document batches as a function of training steps. The orange function 
+    represents a model with parameter initializations of a normal distribution and no L1 regularization, 
+    whereas the others use PyTorch's default convolution layer parameter initialization.}
+    \label{fig:2020-09-30:doc-mean-repr}
+\end{subfigure}
+% Remove the [...] argument if the original caption should be used in the figure list.
+\caption[Mean representation values of query and document baches for multiple runs with different values of the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ of a model comprising sum reduction for hinge loss' logits computation, no dropout, ReLu only after the last layer, a convolution bias and PyTorch's default convolution parameter initialization]
+{Mean representation values of query and document batches for multiple runs with different values for the regularization terms $\lambda_{doc}$ and $\lambda_{query}$ of a model comprising no dropout, mean reduction instead of sum reduction for the hinge loss' logit computation, a ReLu activation function only after the last convolution layer, a convolution bias and PyTorch's default convolution parameter initialization. The models under test have four hidden layers (with 100, 100, 100 resp. 300 units) and 10,000 output dimensions. Further, the dark blue functions represent a run where the regularization terms are zero. The residual runs (light blue and red) use as regularization terms $(\lambda_{doc}=3e-8$, $\lambda_{query}=2e-10)$ resp. $(\lambda_{doc}=1e-8$, $\lambda_{query}=1e-10)$. The orange functions represent a run with the same model properties, except for using the normal distribution for parameter initialization and no L1 regularization.}
+\label{fig:2020-09-30:query-doc-mean-repr} % \label has to be placed AFTER \caption (or \subcaption) to produce correct cross-references.
+\end{figure}
 
 Saving a model with a suitable sparsity ratio (e.g. 98\%) however showed that the information retrieval
     evaluation metrics still were non-positive.
 The same challenges as before remained, that is an improper sparsity ratio of evaluation queries and 
     a too large number of relevant documents per latent term dimension.
-Obviously, the model was not able to learn semantic word relationships and conecpts 
-    from the training dataset.\\
+    Obviously, the model was not able to learn semantic word relationships and conecpts 
+    from the training dataset.
+Also, it proved really difficult to choose values of the regularization terms per-hand, because 
+    even small changes lead to a too fast sparsity progression towards 1.\\
 These results concluded the practical part of the thesis, regarding the reproducibility of the 
     standalone neural ranking model (SNRM) of
     Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking}
     with the MSMARCO passage ranking dataset, 
     and the migration of SNRM from the Python library TensorFlow to PyTorch.
-
-% TODO which source code should be added to the implementation section? github reference enough?
-%      certain parts of model?
