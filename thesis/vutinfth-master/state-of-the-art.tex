@@ -79,14 +79,68 @@ That is, generaly the model's workflow is comprised of three phases,
 
 \subsection*{Training phase}
 
+During training the model tries to learn to generate high-dimensional 
+    sparse representation of queries and documents.
+A sliding window resp. convolution kernel of width $n$ (e.g. $n=5$)
+    in the first hidden layer of the neural network encodes 
+    sequences of word vectors as n-grams and tries to capture local 
+    relationships between words in the text.
+Then, these embedded n-grams are passed through the neural network's
+    fully-connected convolution layers to learn sparse representations.
+The network's design intends to use Rectified Linear Unit 
+    ($ReLU(x)=max\{0,x\}$) as an activation function after a convolution
+    layer, which ensures that all negative output values from its layer 
+    neurons are replaced with zero, and as a result increasing
+    sparsity in the output naturally.
+To obtain the final representation of a query or document,
+    the output of the neural network is aggregated using average pooling
+    \cite{zamani:2018:from-neural-reranking-to-neural-ranking}.
 
+Related to learning representations, the model's further objective is
+    to learn which document out of two is more relevant for a given query.
+The training of the model is done with batches of training data.
+A training data batch $T$ consist of $N$ training instances
+    formalized as a four-tuple, where
+    $q_i$ denotes a query, 
+    $d_{i,1}$ and $d_{i,2}$ two document candidates and
+    $y_i \in \{-1,1\}$ serves as a relevance label, indicating which document
+    is more relevant, for the the $i$\textsuperscript{th} training instance.
+\[
+T=\{ (q_1,d_{1,1},d_{1,2},y_1), \ldots, (q_N,d_{N,1},d_{N,2},y_N)\}
+\]
 
+Zamani et al. propose to add a hinge loss to the training procedure.
+In the following hinge loss equation 
+    $\phi_Q(q_i)$ denotes the vector representation of a query $q_i$,
+    $\phi_D(d_{i,1})$ and $\phi_D(d_{i,2})$ are document representations 
+    of the respective document $d_{i,1}$ and $d_{i,2}$ and
+    the matching function $\psi$ is the dot product function of a query and 
+    document representation.
+\[
+L_{h}(q_i, d_{i,1}, d_{i,2}, y_i) = max\bigl(0,1 - y_i * \bigl[ \psi(\phi_Q(q_i), \phi_D(d_{i,1})) - \psi(\phi_Q(q_i), \phi_D(d_{i,2})) \bigr] \bigr)
+\]
 
+Further, the SNRM should improve retrieval accuracy by increasing the representation 
+    sparsity.
+A vector's sparsity is the ratio between its number of zero values to 
+    the number of all coefficients in the vector.
+For maximizing the sparsity ratio of learned representations,
+    the authors suggest minimizing a vector's L1 norm.
+\[
+L_1(\vec{v}) = \sum_{i=1}^{\left |  \vec{v}\right |} \left |  \vec{v_i}\right |
+\]
 
+When combininig the hinge loss and the L1 norm, the model's final loss function 
+    for the $i$\textsuperscript{th} training instance is defined as follows,
+    where the regularization term $\lambda$ aims at controlling the sparsity
+    ratio and $||$ represents tensor concatenation.
+\[
+L = L_{h}(q_i, d_{i,1}, d_{i,2}, y_i) + \lambda * L_1(\phi_Q(q_i)||\phi_D(d_{i,1})||\phi_D(d_{i,2}))
+\]
 
-
-
-
+The training of the model is done by minimizing the loss function and therefore 
+    achieving the retrieval and sparsity objective
+    \cite{zamani:2018:from-neural-reranking-to-neural-ranking}.
 
 \subsection*{Inverted index construction phase}
 
