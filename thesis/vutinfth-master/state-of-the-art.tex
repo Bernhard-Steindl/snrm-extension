@@ -25,11 +25,11 @@ The authors emphasize the importance of the representations' sparseness
 A deep neural network is used for capturing semantic relationships between
     queries and documents, and by rewarding sparsity in learned representations
     the model's objective is to detect words' semantic meaning and 
-    relationships and to compress them to latent vector representations.
-The model takes n-grams of either query or document text,
+    relationships and to compress them to latent vector representations.\\
+During training, the model takes n-grams of query and document text,
     and then obtains the corresponding word vectors 
     either from a pre-trained embedding, such as GloVe, or 
-    from a learned embedding matrix during model training. 
+    from a learned embedding matrix. 
 Subsequently, these embedded n-grams resp. sequence of word vectors 
     are mapped by a fully connected neural network 
     to low-dimensional dense representations,
@@ -37,7 +37,7 @@ Subsequently, these embedded n-grams resp. sequence of word vectors
     for dimensionality reduction and for data compression.
 Then, SNRM's neural network learns a function to transform 
     these low-dimensional dense representations to 
-    high-dimensional sparse vector representations.
+    high-dimensional sparse vector representations.\\
 Concerning the neural network's architecture, the model's 
     stack of layers looks like an hourglass or like an autoencoder
     regarding its layer dimensions.
@@ -70,7 +70,7 @@ Then, a query representation's positive dimensions determine
     which documents of the inverted index are returned.
 Afterwards, a matching function calculates a retrieval score for each
     returned document of a query. 
-That is, generaly the model's workflow is comprised of three phases,
+That is, generally the model's workflow is comprised of three phases,
     namely of training a model to learn high-dimensional sparse 
     representations of documents and queries,
     to create an inverted index from the document collection
@@ -144,8 +144,42 @@ The training of the model is done by minimizing the loss function and therefore
 
 \subsection*{Inverted index construction phase}
 
+After finishing the SNRM's training, an inverted index is constructed
+    from the document collection.
+Each document is served as an input to the trained model, to retrieve
+    the respective high-dimensional document representation.
+That is, the tokenized document text is translated to word vectors
+    using an embedding layer, and then passes the trained 
+    neural network.
+Every index resp. latent term of a representation that is non-zero
+    is considered as a latent topic or concept that this document describes.
+An inverted index saves for all latent terms, that is for all dimensions
+    of a representation, those documents that are considered relevant.
+So, if a document representation's index $i$ has a positve value,
+    this document is added to the inverted index at index $i$.
+The memory efficiency of a constructed inverted index depends on the
+    sparsity of the obtained document representations
+    \cite{zamani:2018:from-neural-reranking-to-neural-ranking}.
+
 \subsection*{Retrieval phase}
 
+Subsequently, for retrieval an embedded query text is fed into the trained
+    model to obtain its corresponding query representation.
+For every non-zero coefficient in the query representation the
+    documents in the inverted index are fetched with the corresponding
+    representation index.
+Then, a retrieval score for a query and a document is calculated,
+    by multiplying every non-zero coefficient of the query with the corresponding
+    document respresentation coefficient, followed by a summation
+    \cite{zamani:2018:from-neural-reranking-to-neural-ranking}.
+\[
+Retrieval\_score(\vec{q}, \vec{d}) = \sum_{\vec{q_i} > 0} \vec{q_i} * \vec{d_i}
+\]
 
+After having obtained the retrieval scores for all document candidates,
+    the top documents sorted by the retrieval score are returned as 
+    answer to a given query.
+
+\section{Neural Vector Space Model (NVSM)}
 
 
