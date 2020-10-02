@@ -9,10 +9,13 @@ Particulary, this analysis focuses on the proposals of the
     Standalone Neural Ranking Model (SNRM) from 
     Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking}.
 
+\section{Standalone Neural Ranking Model (SNRM)}
+
 Unlike other current neural information retrieval models that 
     are employed for re-ranking the top documents retrieved by 
     a first-stage ranker beforehand,
-    Zamani et al. propose a standalone neural ranker, that is
+    Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking} 
+    propose a standalone neural ranker, that is
     a model that is not dependent on a first-stage ranker.
 Their IR model uses neural approaches for learning sparse high-dimensional
     latent vector representations of query and document text 
@@ -23,4 +26,72 @@ A deep neural network is used for capturing semantic relationships between
     queries and documents, and by rewarding sparsity in learned representations
     the model's objective is to detect words' semantic meaning and 
     relationships and to compress them to latent vector representations.
-\cite{zamani:2018:from-neural-reranking-to-neural-ranking}
+The model takes n-grams of either query or document text,
+    and then obtains the corresponding word vectors 
+    either from a pre-trained embedding, such as GloVe, or 
+    from a learned embedding matrix during model training. 
+Subsequently, these embedded n-grams resp. sequence of word vectors 
+    are mapped by a fully connected neural network 
+    to low-dimensional dense representations,
+    aiming to extract semantic meaning of words, 
+    for dimensionality reduction and for data compression.
+Then, SNRM's neural network learns a function to transform 
+    these low-dimensional dense representations to 
+    high-dimensional sparse vector representations.
+Concerning the neural network's architecture, the model's 
+    stack of layers looks like an hourglass or like an autoencoder
+    regarding its layer dimensions.
+The networks input neurons resp. input channels is equal to the
+    embedding dimensions (e.g. 300-dimensional).
+These input neurons are then connected with three to four 
+    fully-connected hidden layers, with decreasing units in the middle 
+    layers (e.g. 100 dimensions), and with increasing neurons in 
+    the upper layers.
+For obtaining high-dimensional representations the network's output 
+    layer has a high number of neurons (e.g. 10,000 units).\\
+After the model has been trained, latent representations are generated
+    by model inference using either a query or a document text.
+Under the assumption of sufficient representation sparseness, 
+    the authors suggest to be able to efficiently construct an 
+    inverted index and to retrieve documents for a given query 
+    with the model.
+The index can be imagined as a dictionary of 
+    the learned representations' dimensions resp. latent terms, 
+    where those documents of the collection are assigned to a 
+    latent term which seem to be relevant.
+That is, the inverted index stores for every latent term a posting list 
+    of relevant documents.
+A document seems relevant for a certain latent term, if its
+    corresponding representation's dimension is positive.\\
+During the retrieval phase, a query's respective high-dimensional 
+    sparse representation is obtained by model inference.
+Then, a query representation's positive dimensions determine
+    the latent terms to consider and
+    which documents of the inverted index are returned.
+Afterwards, a matching function calculates a retrieval score for each
+    returned document of a query. 
+That is, generaly the model's workflow is comprised of three phases,
+    namely of training a model to learn high-dimensional sparse 
+    representations of documents and queries,
+    to create an inverted index from the document collection
+    and subsequently to retrieve documents for a given query.
+    \cite{zamani:2018:from-neural-reranking-to-neural-ranking}
+
+\subsection*{Training phase}
+
+
+
+
+
+
+
+
+
+
+\subsection*{Inverted index construction phase}
+
+\subsection*{Retrieval phase}
+
+
+
+
