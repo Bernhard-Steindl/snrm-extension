@@ -200,16 +200,16 @@ Although the model operates in latent vector space,
 Hence, a transformation function between these vector spaces
     is also learned by the model.\\
 Van Gysel et al. emphasize that their model learns based on
-    three fundamental regularities, which are part of the
-    model's optimization objectives.
+    three fundamental information retrieval regularities, 
+    which are part of the model's optimization objectives.
 Firstly, words that occur in many documents are non-discriminative
-    and should therefore be neglected.
+    and should therefore be neglected (referred as term specificity).
 Further, document representations in latent space that have 
     other representations nearby, tend to describe
-    similar or related concepts.
+    similar or related concepts (cluster hypothesis).
 Lastly, word phrases carry more semantic
     meaning than single words, and therefore representations
-    are learned with sequences of words.\\
+    are learned with sequences of words (semantic matching).\\
 During document retrieval, a query's text is mapped
     from the word representation space to the document feature
     space and in theory the cosine similarity is used 
@@ -218,8 +218,64 @@ During document retrieval, a query's text is mapped
 However, the authors suggest that in practice this ranking 
     metric can be formulated as an approximate nearest neigbor 
     search problem, so that not all documents of the collection
-    have to be ranked.
+    have to be ranked. \cite{van-gysel:2017:neural-vector-spaces}
 
+\subsection*{Model design}
+
+A document consists of a sequence of words,
+    which represent and characterize a document's content and topic.
+It is therefore appropriate to make use of word phrases
+    for learning representations.\\
+For the NVSM's training process, documents from the collection are
+    sampled.
+For each document a n-gram, that is a word phrase of $n$ 
+    contigous words, is added
+    along with with the respective document $d$ as
+    training instance $(w_1, \ldots, w_n; d)$ to a batch.
+These n-gram/document pairs in the batch are used
+    as an input for learning the model's parameters.
+The NVSM learns word and document representations,
+    which are embedded in matrices $R_V \in \mathbb{R}^{|V| \times k_w}$
+    and $R_D \in \mathbb{R}^{|D| \times k_d}$, where 
+    $|V|$ and $|D|$ is the size of the vocabulary resp. document collection,
+    $k_w$ is the dimension the vector representation of a word and
+    $k_d$ the dimesion of a document
+Because a word representation $\vec{R}_V^{(w_i)}$,
+    and a document representation $\vec{R}_D^{(d_j)}$ are of different
+    dimensionality, the neural network also learns a linear
+    tranformation $f \colon \mathbb{R}^{k_w} \to \mathbb{R}^{k_d}$ 
+    from the word feature space to the document feature space,
+    where $W$ is a $k_d \times k_w$ parameter matrix, that is 
+    also learned simulateneously by the model.
+\[
+f(\vec{x}) = W\vec{x}
+\]
+
+A learning objective of NVSM is, that n-gram representations are projected
+    nearby those document representations, that contain the n-gram.
+As stated by the cluster hypothesis, representations tend to be 
+    more similar, if they are closer to each other in the feature space.
+Van Gysel et al. propose to compose a n-gram word representation by
+    averaging its individual word representations as follows:
+\[
+g(w_1, \ldots, w_n) = \frac{1}{n} \sum_{i+1}^{n} \vec{R}_V^{(w_i)}
+\]
+
+The authors illustrate the projection of a query $q$ to the document
+    feature space by function composition of $f$ and $g$: $(f \circ g)(q)$.
+They suggest to use the resulting n-gram query representation in the document 
+    feature space for calculating a certain document's matching score
+    with the cosine similarity or for using approximate 
+    nearest neighbor search to find close documents in the 
+    feature space, in practice.\cite{van-gysel:2017:neural-vector-spaces}
+
+\subsection*{Model objectives}
+
+In order for the NVSM to fufill the three above-mentioned regularities,
+    term specificity, cluster hypothesis and semantic matching,
+    the authors explain in their paper how they optimized 
+    the model with respect to these objectives.
+    \cite{van-gysel:2017:neural-vector-spaces}
 
 
 % training data batch B
