@@ -182,4 +182,49 @@ After having obtained the retrieval scores for all document candidates,
 
 \section{Neural Vector Space Model (NVSM)}
 
+As the name of the model suggests, NVSM is also an information
+    retrieval model that makes use of a shallow neural network.
+Unlike SNRM, which utilizes supervised learning, the 
+    Neural Vector Space Model learns latent representations
+    of words and documents and a
+    transformation function between their corresponding 
+    vector spaces
+    in an unsupervised manner.
+That is, the model learns from the documents in the document 
+    collection without any query-document relevance labels, 
+    without feature engineering and
+    without using a pre-trained word embedding.
+Although the model operates in latent vector space,
+    the dimensionality of the learned word and document
+    repsentations is differeent.
+Hence, a transformation function between these vector spaces
+    is also learned by the model.\\
+Van Gysel et al. emphasize that their model learns based on
+    three fundamental regularities, which are part of the
+    model's optimization objectives.
+Firstly, words that occur in many documents are non-discriminative
+    and should therefore be neglected.
+Further, document representations in latent space that have 
+    other representations nearby, tend to describe
+    similar or related concepts.
+Lastly, word phrases carry more semantic
+    meaning than single words, and therefore representations
+    are learned with sequences of words.\\
+During document retrieval, a query's text is mapped
+    from the word representation space to the document feature
+    space and in theory the cosine similarity is used 
+    for calculating a retrieval score between a query and
+    a document.
+However, the authors suggest that in practice this ranking 
+    metric can be formulated as an approximate nearest neigbor 
+    search problem, so that not all documents of the collection
+    have to be ranked.
+
+
+
+% training data batch B
+% m instances, phrase-document pairs (w_1,\ldots,w_n; d)
+% B_i is $i$\textsuperscript{th} training instance
+% B_i^(p), B_i^{d} n-gram/document-pair 
+
 
