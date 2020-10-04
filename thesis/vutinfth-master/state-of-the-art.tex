@@ -113,17 +113,17 @@ Zamani et al. propose to add a hinge loss to the training procedure.
 In the following hinge loss equation 
     $\phi_Q(q_i)$ denotes the vector representation of a query $q_i$,
     $\phi_D(d_{i,1})$ and $\phi_D(d_{i,2})$ are document representations 
-    of the respective document $d_{i,1}$ and $d_{i,2}$ and
+    of the respective documents $d_{i,1}$ and $d_{i,2}$ and
     the matching function $\psi$ is the dot product function of a query and 
     document representation.
 \[
-L_{h}(q_i, d_{i,1}, d_{i,2}, y_i) = max\bigl(0,1 - y_i * \bigl[ \psi(\phi_Q(q_i), \phi_D(d_{i,1})) - \psi(\phi_Q(q_i), \phi_D(d_{i,2})) \bigr] \bigr)
+L_{h}(q_i, d_{i,1}, d_{i,2}, y_i) = max\Big(0,1 - y_i \cdot \Big[ \psi\big(\phi_Q(q_i), \phi_D(d_{i,1})) - \psi(\phi_Q(q_i), \phi_D(d_{i,2})\big) \Big] \Big)
 \]
 
 Further, the SNRM should improve retrieval accuracy by increasing the representation 
     sparsity.
 A vector's sparsity is the ratio between its number of zero values to 
-    the number of all coefficients in the vector.
+    the number of all elements in the vector.
 For maximizing the sparsity ratio of learned representations,
     the authors suggest minimizing a vector's L1 norm.
 \[
@@ -135,7 +135,7 @@ When combininig the hinge loss and the L1 norm, the model's final loss function
     where the regularization term $\lambda$ aims at controlling the sparsity
     ratio and $||$ represents tensor concatenation.
 \[
-L = L_{h}(q_i, d_{i,1}, d_{i,2}, y_i) + \lambda * L_1(\phi_Q(q_i)||\phi_D(d_{i,1})||\phi_D(d_{i,2}))
+L = L_{h}\big(q_i, d_{i,1}, d_{i,2}, y_i\big) + \lambda \cdot L_1\big(\phi_Q(q_i) || \phi_D(d_{i,1}) || \phi_D(d_{i,2})\big)
 \]
 
 The training of the model is done by minimizing the loss function and therefore 
@@ -166,14 +166,14 @@ The memory efficiency of a constructed inverted index depends on the
 Subsequently, for retrieval an embedded query text is fed into the trained
     model to obtain its corresponding query representation.
 For every non-zero coefficient in the query representation the
-    documents in the inverted index are fetched with the corresponding
+    documents in the inverted index are fetched with the respective
     representation index.
 Then, a retrieval score for a query and a document is calculated,
     by multiplying every non-zero coefficient of the query with the corresponding
     document respresentation coefficient, followed by a summation
     \cite{zamani:2018:from-neural-reranking-to-neural-ranking}.
 \[
-Retrieval\_score(\vec{q}, \vec{d}) = \sum_{\vec{q_i} > 0} \vec{q_i} * \vec{d_i}
+Retrieval\_score(\vec{q}, \vec{d}) = \sum_{\vec{q_i} > 0} \vec{q_i} \cdot \vec{d_i}
 \]
 
 After having obtained the retrieval scores for all document candidates,
@@ -238,9 +238,9 @@ The NVSM learns word and document representations,
     which are embedded in matrices $R_V \in \mathbb{R}^{|V| \times k_w}$
     and $R_D \in \mathbb{R}^{|D| \times k_d}$, where 
     $|V|$ and $|D|$ is the size of the vocabulary resp. document collection,
-    $k_w$ is the dimension the vector representation of a word and
-    $k_d$ the dimesion of a document
-Because a word representation $\vec{R}_V^{(w_i)}$,
+    $k_w$ is the dimensionality of a words's vector representation and
+    $k_d$ the dimension of a document representation.
+Because a word representation $\vec{R}_V^{(w_i)}$
     and a document representation $\vec{R}_D^{(d_j)}$ are of different
     dimensionality, the neural network also learns a linear
     tranformation $f \colon \mathbb{R}^{k_w} \to \mathbb{R}^{k_d}$ 
@@ -248,17 +248,17 @@ Because a word representation $\vec{R}_V^{(w_i)}$,
     where $W$ is a $k_d \times k_w$ parameter matrix, that is 
     also learned simulateneously by the model.
 \[
-f(\vec{x}) = W\vec{x}
+f(\vec{x}) = W \cdot \vec{x}
 \]
 
-A learning objective of NVSM is, that n-gram representations are projected
+A learning objective of NVSM is that n-gram representations are projected
     nearby those document representations, that contain the n-gram.
 As stated by the cluster hypothesis, representations tend to be 
     more similar, if they are closer to each other in the feature space.
 Van Gysel et al. propose to compose a n-gram word representation by
     averaging its individual word representations as follows:
 \[
-g(w_1, \ldots, w_n) = \frac{1}{n} \sum_{i+1}^{n} \vec{R}_V^{(w_i)}
+g(w_1, \ldots, w_n) = \frac{1}{n} \sum_{i=1}^{n} \vec{R}_V^{(w_i)}
 \]
 
 The authors illustrate the projection of a query $q$ to the document
@@ -296,7 +296,7 @@ Because ranking is done using nearest neighbor search,
     documents of similar topics should cluster together in feature space.
 In addition, n-gram representations should be projected near those 
     documents that contain the respective n-grams for retrieval.
-Let $B_i^{(p)}$ denote the n-gram and $B_i^{(d)}$ the respective document 
+Let $B_i^{(p)}$ denote a document's n-gram and $B_i^{(d)}$ the respective document 
     of the $i$\textsuperscript{th} batch instance.
 The projection of a word sequence into the $k_d$ dimensional document
     feature space is further enhanced with the L2 normalization.
@@ -328,8 +328,7 @@ According to Van Gysel et al., the third objective,
 The authors of NVSM's paper formulate the model's objectives and
     the parameter estimation using a loss function 
     that is optimized with stochastic gradient descent (SGD)
-    and the Adam.
-    \cite{van-gysel:2017:neural-vector-spaces}
+    and Adam. \cite{van-gysel:2017:neural-vector-spaces}
 
 
 
