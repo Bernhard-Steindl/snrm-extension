@@ -202,7 +202,7 @@ Hence, a transformation function between these vector spaces
 Van Gysel et al. emphasize that their model learns based on
     three fundamental information retrieval regularities, 
     which are part of the model's optimization objectives.
-Firstly, words that occur in many documents are non-discriminative
+Firstly, words that occur in many documents are not discriminatory
     and should therefore be neglected (referred as term specificity).
 Further, document representations in latent space that have 
     other representations nearby, tend to describe
@@ -271,16 +271,65 @@ They suggest to use the resulting n-gram query representation in the document
 
 \subsection*{Model objectives}
 
-In order for the NVSM to fufill the three above-mentioned regularities,
+In order for the NVSM to fufill the three above-mentioned regularities
     term specificity, cluster hypothesis and semantic matching,
-    the authors explain in their paper how they optimized 
+    the authors explain in their paper in detail how they optimized 
     the model with respect to these objectives.
+
+Regarding semantic matching, the authors use the prior defined function $g$, 
+    for generating n-gram word representations,
+    so that the model learns similarity and semantic relations
+    between an unordered sequence of words.
+Word phrases that are specific and more descriptive of a document's concepts, 
+    should also be more reflected in the n-gram represenation.
+Otherwise, more frequent words in documents should have smaller effect on 
+    representations.
+They address term specificity in the model's objectives by using the 
+    function $g$ together with the L2 normalization 
+    of the n-gram representation vector, which is supposed to 
+    emphasize word specificity in the representations.
+\[
+norm(\vec{x}) = \frac{\vec{x}}{\|\vec{x}\|}
+\]
+
+Because ranking is done using nearest neighbor search, 
+    documents of similar topics should cluster together in feature space.
+In addition, n-gram representations should be projected near those 
+    documents that contain the respective n-grams for retrieval.
+Let $B_i^{(p)}$ denote the n-gram and $B_i^{(d)}$ the respective document 
+    of the $i$\textsuperscript{th} batch instance.
+The projection of a word sequence into the $k_d$ dimensional document
+    feature space is further enhanced with the L2 normalization.
+Van Gysel et al. also standardize the projection, add a bias vector parameter
+    and make use of an activation function to map the projection to a different 
+    range.
+However, for reasons of simplicity the non-standardized variant is used in the 
+    following for illustrating the projection of a n-gram into the document 
+    feature space.
+\[
+\widetilde{T}\Big(B_i^{(p)}\Big) = (f \circ norm \circ g) \Big(B_i^{(p)} \Big)
+\]
+
+According to Van Gysel et al., the third objective, 
+    namely that n-grams are projected near related document representations 
+    in the document feature space, is achieved by maximizing the similarity between 
+    the projection of the n-gram $B_i^{(p)}$ and the learned 
+    document representation of the respective document $B_i^{(d)}$,
+    that is to
+    \[
+    \textrm{maximize similarity of }\widetilde{T}\Big(B_i^{(p)}\Big) \textrm{ and } \vec{R}_D^{\big(B_i^{(d)}\big)}
+    \]
+    while minimizing the similarity between the projected n-gram representation
+    \[
+    \widetilde{T}\Big(B_i^{(p)}\Big)
+    \]
+    and the representation of other documents.
+
+The authors of NVSM's paper formulate the model's objectives and
+    the parameter estimation using a loss function 
+    that is optimized with stochastic gradient descent (SGD)
+    and the Adam.
     \cite{van-gysel:2017:neural-vector-spaces}
 
-
-% training data batch B
-% m instances, phrase-document pairs (w_1,\ldots,w_n; d)
-% B_i is $i$\textsuperscript{th} training instance
-% B_i^(p), B_i^{d} n-gram/document-pair 
 
 
