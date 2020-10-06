@@ -2,12 +2,12 @@
 
 The design and implementation chapter documents the practical part of the thesis.
 It is comprised of two sections, namely the extension of the original standalone neural
-    ranking model to be usable with the MSMARCO passage ranking dataset,
+    ranking model to be usable with the MS MARCO passage ranking dataset,
     as well as the migration of the SNRM's source code from the Python library TensorFlow 
     to PyTorch.
 The reproduction of the original work from 
     Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking}
-    using the MSMARCO dataset represents also a primary objective.
+    using the MS MARCO dataset represents also a primary objective.
 Each of these sections describes in chronological order the realized
     design and implementation tasks, encountered challenges, 
     carried out experiments and also their results.\\
@@ -28,11 +28,11 @@ Secondly, the branch \texttt{"extension-pytorch"} comprises the realization of t
 
 \section{SNRM reproducibility and extension}
 This section describes the taken steps to set-up the original standalone neural ranking model of Zamani et al.
-    and to extend and modify the project to be able to use the MSMARCO passage ranking dataset.
+    and to extend and modify the project to be able to use the MS MARCO passage ranking dataset.
 According to the SNRM paper of Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking} 
     datasets of Robust (TREC), ClueWeb, and AOL query logs, as well as a Wikipedia dump was used
     in their work.
-However, the lack of these datasets led to the use of the MSMARCO datasets, 
+However, the lack of these datasets led to the use of the MS MARCO datasets, 
     and due to its free availability for non-commercial research purposes.
 
 \subsection{Setup original SNRM implementation}
@@ -287,8 +287,8 @@ This document collection should have a better ratio between relevant and non-rel
 For evaluation, as a query file, resp. qrels file the files \verb|queries.air-subset.tsv| resp.
     \verb|qrel.air-subset.tsv| were also downloaded from the university's OwnCloud server 
     \footnote{Advanced IR lecture exercise files (collection, query, qrel) \url{https://owncloud.tuwien.ac.at/index.php/s/1MugXnkP607Qm8P}}.
-It was also tried to use as training dataset the MSMARCO \verb|triples.train.small.tsv| (27 GB)
-    \footnote{MSMARCO passage ranking training set triples.train.small.tsv download link \url{https://msmarco.blob.core.windows.net/msmarcoranking/triples.train.small.tar.gz}}.
+It was also tried to use as training dataset the MS MARCO \verb|triples.train.small.tsv| (27 GB)
+    \footnote{MS MARCO passage ranking training set triples.train.small.tsv download link \url{https://msmarco.blob.core.windows.net/msmarcoranking/triples.train.small.tar.gz}}.
 Due to Google Colab's hardware constraints of ca. free 30 GB disk space, rather than using the whole training,
     a smaller proportion of training triples (e.g. 6 GB) were used.
 
@@ -633,7 +633,7 @@ Summarized, the document representation sparsity is for this model still too low
     too many document would be classified relevant, and the query representations' sparsity might be too big.
 
 These results have concluded the experimentations regarding the SNRM model with extensions and modifications
-    for running it with the MSMARCO passage ranking dataset.
+    for running it with the MS MARCO passage ranking dataset.
 The next steps in the practical part of the thesis was the migration of SNRM to PyTorch.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1540,9 +1540,9 @@ Obviously, PyTorch does by default for convolution layers a
     responsible for resetting parameters
     \footnote{PyTorch v1.4 code of convolution class with \texttt{reset\_parameters} function \url{https://github.com/pytorch/pytorch/blob/v1.4.0/torch/nn/modules/conv.py\#L49}}.\\
 Next, it was tried to use PyTorch's default initialization method for convolution layers,
-    and the MSMARCO passage ranking training data set \texttt{train.triples.small.tsv} from Microsoft's 
+    and the MS MARCO passage ranking training data set \texttt{train.triples.small.tsv} from Microsoft's 
     GitHub respository
-    \footnote{MSMARCO training dataset \texttt{train.triples.small.tsv} on GitHub \url{https://github.com/microsoft/MSMARCO-Passage-Ranking}},
+    \footnote{MS MARCO training dataset \texttt{train.triples.small.tsv} on GitHub \url{https://github.com/microsoft/MSMARCO-Passage-Ranking}},
     due to more available training data.
 In order to be able to compare the course of parameter values during training,
     in Figure~\ref{fig:2020-09-29:histogram-parameter-default-init} histograms
@@ -1651,5 +1651,5 @@ Also, it proved really difficult to choose values of the regularization terms pe
 These results concluded the practical part of the thesis, regarding the reproducibility of the 
     standalone neural ranking model (SNRM) of
     Zamani et al. \cite{zamani:2018:from-neural-reranking-to-neural-ranking}
-    with the MSMARCO passage ranking dataset, 
+    with the MS MARCO passage ranking dataset, 
     and the migration of SNRM from the Python library TensorFlow to PyTorch.
