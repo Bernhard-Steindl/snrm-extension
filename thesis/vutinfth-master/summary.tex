@@ -2,13 +2,60 @@
 
 % Conclusion
 
-What are my findings? results of practical part summarized
+In this bachelor thesis the need of neural information retrieval models was 
+    depicted.
+This work highlights theoretic aspects and objectives of
+    two IR models that use different neural approaches.
+The thesis' first theoretic part was dedicated to 
+    the Neural Vector Space Model (NVSM) from Van Gysel et al.,
+    that uses unsupervised learning to learn low-dimensional representations 
+    of words and documents, and to learn a transformation function between
+    a word and document feature space.
+Besides that, the Standalone Neural Ranking Model (SNRM) from Zamani et al.
+    was examined,
+    that utilizes supervised learning to generate high-dimensional sparse
+    represenations out of query and document text with the intention 
+    to construct an inverted index for ranking.
 
-\todo{Enter your text here.}
+Further, the practical focus was first to implement missing but necessary
+    functionality in the original SNRM source code and to  
+    extend the SNRM to work with
+    Microsoft's MS MARCO passage ranking dataset.
+In the next step, the original and extended version of the SNRM was
+    migrated from TensorFlow version 1 to a
+    version of PyTorch that was the most recent at the time of 
+    implementation.
+In the bachelor thesis the challenges and problems in experiments and 
+    in reproducting the results of Zamani et al. were described in detail.
+Unfortunately, the original SNRM source code and the paper lack 
+    information concerning reproduction of the results.
+Despite, making assumptions of originally used sofware versions,
+    implementation details,
+    chosen hyper parameters and configurations, it was neither possible
+    with the extended TensorFlow nor with the PyTorch implementation of the SNRM 
+    to reproduce the same or similar results of the authors 
+    with the MS MARCO dataset.
+Primarily, it was difficult to control the sparsity of
+    learned representations, so that they are just sparse enough for
+    efficient inverted index construction.
+By adjusting the neural network architecture, 
+    trying different configurations and adapting the loss computation
+    among others,
+    it was possible to generate a model with roughly sufficient sparsity,
+    however the trained model was never able to learn semantic relations 
+    between words in retrieval experiments, 
+    and therefore an evaluation of the model's retrieval performance could not 
+    be presented.
+Due to the lack of a personal NVIDIA GPU for GPU-accelerated model training 
+    and the limitations of Google Colaboratory, experiments were further 
+    constrainted.
 
-% Outlook
-
-What could be potential experiments in the future?
-What can be helfpul for reproducibility of a project for others?
-
-\todo{Enter your text here.}
+The migrated PyTorch implementation of the SNRM serves as a starting point
+    to make it easier to keep up to date with future versions of PyTorch
+    and to support those who are familiar with PyTorch but not with TensorFlow
+    to reproduce the SNRM's results.
+Further experiments with a different training dataset are imagineable.
+Possibly, the SNRM was not able to learn semantic meaning and word relations,
+    since passage text's are naturally much shorter than document texts.
+It may therefore be worth considering the use of a different training dataset 
+    containing longer document texts.
