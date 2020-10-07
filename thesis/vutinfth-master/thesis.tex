@@ -143,14 +143,93 @@ Furthermore, I would like to thank Univ. Prof. Dr. Allan Hanbury
 \end{acknowledgements*}
 
 \begin{kurzfassung}
-\todo{Ihr Text hier.}
+Traditionelle „Information Retrieval“ (IR) Modelle, wie TF-IDF, verwenden Algorithmen, 
+    die nur solche Dokumente berücksichtigen die eine exakte Übereinstimmung der 
+    Wörter einer Suchanfrage enthalten, 
+    um die Relevanz von Dokumenten für eine bestimmte Suchanfrage abzuschätzen.
+Es ist jedoch möglich, dass Benutzer, die nach einem bestimmten Thema suchen, 
+    ihr Suchinteresse nicht mit den gleichen Wörtern ausdrücken, 
+    die in relevanten Dokumenten verwendet werden.
+Infolgedessen sind die Benutzer möglicherweise nicht in der Lage, die Dokumente abzurufen, 
+    die ihren Bedarf an Informationen decken.\\
+Die aktuelle Forschung versucht, die Unterschiede im Vokabular zu kompensieren, 
+    indem sie neuronale Netze in ihren „Information Retrieval“ Modellen einsetzt.
+Neuronale „Information Retrieval“ Modelle könnten in der Lage sein, semantische Bedeutung 
+    und Zusammenhänge zwischen Wörtern im Text zu erfassen und sind daher von Interesse.
+
+In dieser Arbeit werden theoretische Aspekte zweier verschiedener Modelle, die 
+    neuronale Netze verwenden, zusammengefasst und vorgestellt, 
+    nämlich das „Neural Vector Space Model“ (NVSM) von Van Gysel et al. 
+    \cite{van-gysel:2017:neural-vector-spaces} und 
+    das „Standalone Neural Ranking Model“ (SNRM) von Zamani et al.
+    \cite{zamani:2018:from-neural-reranking-to-neural-ranking}.\\
+Der primäre Beitrag dieser Arbeit ist zum einen die Erweiterung und die
+    Implementierung fehlender Funktionalität im originalen Quellcode von SNRM, 
+    um die MS MARCO „Passage-Ranking“ Datensätzen von Microsoft
+    für das Trainieren des Modells, für das Erstellen eines invertierten Index 
+    und für das Abrufen von Dokumenten zu verwenden.
+Darüber hinaus ist der zweite praktische Teil der Arbeit die Migration der 
+    ursprünglichen bzw. erweiterten SNRM-Implementierung 
+    von TensorFlow Version 1 zu einer aktuellen Version von PyTorch.\\
+Im Laufe der Implementierung wurden Experimente durchgeführt mit der Absicht, 
+    zu versuchen, die Ergebnisse der Abfrageevaluierung der Autoren zu reproduzieren.
+Diese Bachelorarbeit beschreibt im Detail die Herausforderungen, 
+    die sich ergeben haben, gewählte Lösungsansätze und Ergebnisse.
+Trotz diverser Experimente, Anpassungen am neuronalen Netz der SNRM Architektur, 
+    Variation von Hyperparametern und Konfigurationsparametern,
+    zeigen die Ergebnisse, dass es schwierig ist, die 
+    Spärlichkeit von erlernten Repräsentationen zu kontrollieren, 
+    was die Effizienz bei der Erstellung eines invertierten Index einschränkt.
+Leider war das „Standalone Neural Ranking Model“ nicht in der Lage 
+    in den durchgeführten Experimenten semantische Beziehungen zwischen Wörtern lernen.
 \end{kurzfassung}
 
 
-% Abstract: Write your abstract in German and English in a length of half a page to a full page and present the following aspects briefly and concisely: 
-% the context of the work/task, the research question, the scientific method(s)/procedure(s) used and the central results.
+% Abstract: Write your abstract in German and English in a length of half a page to 
+% a full page and present the following aspects briefly and concisely: 
+% the context of the work/task, the research question, the scientific method(s)/procedure(s) used 
+% and the central results.
 \begin{abstract}
-\todo{Enter your text here.}
+
+Traditional information retrieval (IR) models such as TF-IDF use algorithms that 
+    consider only those documents that contain an exact match of the words
+    of a search query to 
+    estimate the relevance of documents to a particular search query.
+However, users searching for a specific topic might not express their 
+    search interest with the same words used in relevant documents.
+As a result, users might not be able to retrieve documents that satisfy
+    their information needs.
+Current research tries to bridge the vocabulary gap,
+    by using neural networks in information retrieval models.
+Neural information retrieval models might be able to capture semantic meaning and 
+    relations between words in text and are therefore of interest.
+
+This work summarizes and presents theoretic aspects of 
+    two different neural network models, namely 
+    the Neural Vector Space Model (NVSM) from Van Gysel et al. 
+    \cite{van-gysel:2017:neural-vector-spaces}
+    and 
+    the Standalone Neural Ranking Model (SNRM) from Zamani et al.
+    \cite{zamani:2018:from-neural-reranking-to-neural-ranking}. \\
+The primary contribution of this work is on the one hand 
+    the extension of and the implementation of missing functionality
+    in the original SNRM's source code to be able to use
+    Microsoft's MS MARCO passage ranking dataset for model training, for 
+    creating an inverted index and for retrieval.
+Additonally, the second practical part of the thesis is the 
+    migration of the original resp. extended SNRM implementation
+    from TensorFlow version 1 to an up-to-date version of PyTorch.\\
+In the course of the implementation, experiments are carried out with
+    the intention of trying to reproduce the authors' evaluation results.
+This thesis describes in detail the challenges that have emerged,
+    chosen solution approaches and results.
+Despite diverse experiments, adjustments to the SNRM's neural network 
+    architecture, variation of hyper parameters and configuration parameters,
+    the results show, that it is difficult to control the sparsity of 
+    the SNRM's learned representations, which limits the 
+    efficiency of creating an inverted index.
+Unfortunately, the Standalone Neural Ranking Model was not able to 
+    learn semantic relations between words in the conducted experiments.
 \end{abstract}
 
 % Select the language of the thesis, e.g., english or naustrian.
@@ -171,13 +250,8 @@ Furthermore, I would like to thank Univ. Prof. Dr. Allan Hanbury
 % State of the Art
 \input{state-of-the-art.tex}
 
-
 % Design and Implementation
 \input{design-and-implementation.tex}
-
-% Evaluation
-% TODO should there be an evaluation? what topic?
-% \input{evaluation.tex}
 
 % Conclusion and Outlook
 \input{summary.tex}
