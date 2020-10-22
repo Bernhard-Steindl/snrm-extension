@@ -82,7 +82,6 @@ The batch data's query and document text have to be represented as term ids.
 As a consequence, the positve and negative document as well as the query texts had to be tokenized, stopwords had be removed,
     and the representations had to be trimmed or padded to have a common length.
 
-\todo{@Sebastian: Wie wurde das AIR triples.train.tsv file generiert? Sollen wir das erwähnen?}
 Concerning training and validation data, at first a processed subset of the MS MARCO dataset was used, 
     \verb|triples.train.tsv| (ca. 1.7 GB), which was downloaded from the Advanced IR course's exercise files.
 The triples file was split in two distinct files, namely one for training and the other for validation data.
@@ -283,7 +282,6 @@ After discussing the issue with the thesis advisor assistance,
     lecture exercise, was chosen for experimentation.
 This document collection should have a better ratio between relevant and non-relevant documents,
     than the previously utilized one.
-\todo{@Sebastian: Sollen/Können wir das genauer beschreiben, wie das AIR collection.airsubset.tsv generiert wurde?}
 For evaluation, as a query file, resp. qrels file the files \verb|queries.air-subset.tsv| resp.
     \verb|qrel.air-subset.tsv| were also downloaded from the university's OwnCloud server 
     \footnote{Advanced IR lecture exercise files (collection, query, qrel) \url{https://owncloud.tuwien.ac.at/index.php/s/1MugXnkP607Qm8P}}.
@@ -1192,20 +1190,18 @@ As already previously used for the reproduction of the TensorFlow implementation
 %       was heißt dass die Dokumente zumindest irgendwas mit dem positive doc zu tun haben 
 %       (und daher der unterschied kleiner ist). 
 Negative documents are sampled from the top 1,000 from BM25 for the \texttt{triples.train.tsv} training file.
-\todo{@Sebastian: Stimmt das bzgl. AIR triples.train.tsv? Sollen wir es anders beschreiben?}
 That means, that the negative documents might have something in common with the positive documents,
     resp. the semantic difference between a positve and negative document passage might be smaller.\\
 % TODO is this correctly written? :D should we add a link to the dataset or is description sufficient?
 Therefore, two new training files, based on the MS MARCO dataset were generated, namely 
     one with a 50\% BM25 and 50\% collection sampling, and the other is to 100\% sampled from the collection,
     regarding the negative documents.
-\todo{@Sebastian: Sollen wir erklären wie diese Datasets generiert/gesampled wurden? Files s. nicht mehr auf OwnCloud, reicht Beschreibung?}
 %       Aber er hat gesagt uniform sampling aus der Collection ist auch wichtig. 
 %       Also hab ich jetzt mal zwei neue trainingsversionen erstellt 
 %       (was das sampling der negativen docs betrifft):
 %       50% bm25 + 50% collection sampling https://owncloud.tuwien.ac.at/index.php/s/iF37s8DOzvFjRkd
 %       100% Collection sampling https://owncloud.tuwien.ac.at/index.php/s/Uk2n9pRxCigt6Dd
-% TODO link to owncloud is invalid now/deleted, should we mention it here anyway?
+% link to owncloud is invalid now/deleted, should we mention it here anyway?
 When comparing the Tensorboard diagramms for the model training, the two new training sets,
     did not change the course of the sparsity, compared to using the \texttt{triples.train.tsv} dataset.
 A comparison of the query and document representation sparsity for a run without any L1 regularization
