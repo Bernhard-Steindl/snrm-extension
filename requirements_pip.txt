@@ -60,7 +60,7 @@ pluggy==0.13.1
 preshed==2.0.1
 protobuf==3.18.3
 psutil==5.6.7
-py==1.8.1
+py==1.10.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 Pygments==2.5.2
